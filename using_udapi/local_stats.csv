@@ -1,0 +1,9 @@
+pair_index,event,count_headline,count_canonical,chi2,p_value,cramers_v,odds_ratio,odds_ratio_direction,log_likelihood_ratio
+0,tokens_added,0,4,nan,nan,nan,nan,,nan
+0,tokens_deleted,0,0,nan,nan,nan,nan,,nan
+0,tokens_reordered,4,4,nan,nan,nan,nan,,nan
+0,form_changes,2,2,0.046875,0.8285930752186466,0.0625,3.0,headline,0.7338002806950117
+0,lemma_changes,1,1,0.0,1.0,0.0,2.3333333333333335,headline,0.2864652757378572
+0,pos_changes,1,1,0.0,1.0,0.0,2.3333333333333335,headline,0.2864652757378572
+0,feat_changes,1,1,0.0,1.0,0.0,2.3333333333333335,headline,0.2864652757378572
+0,dep_changes,2,2,0.046875,0.8285930752186466,0.0625,3.0,headline,0.7338002806950117
