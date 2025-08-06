@@ -1,0 +1,6 @@
+event,count_headline,count_canonical,chi2,p_value,fisher_odds_ratio,fisher_p_value,direction
+words_added,0,7504,9567.055531296697,0.0,0.0,0.0,canonical
+words_removed,2888,0,9475.6506394318,0.0,inf,0.0,headline
+pos_changes,346,346,153.79641027337985,2.565792138118308e-35,2.598337950138504,1.5265368319378273e-32,headline
+constituents_added,0,14842,nan,nan,nan,nan,canonical
+constituents_removed,12339,0,nan,nan,nan,nan,canonical
