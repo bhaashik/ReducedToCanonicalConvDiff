@@ -1,0 +1,290 @@
+{
+  "name": "reducedtocanonicalconvdiff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhaashik/ReducedToCanonicalConvDiff.git"
+  },
+  "private": true,
+  "diff-schema": {
+    "features": [
+      {
+        "name": "Function Word Deletion",
+        "mnemonic_code": "FW-DEL",
+        "description": "Deletion of function words from the reduced register relative to the canonical.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "determiner deletion",
+          "auxiliary deletion",
+          "preposition deletion",
+          "coordinating conjunction deletion",
+          "subordinating conjunction deletion",
+          "pronoun deletion"
+        ],
+        "value_mnemonics": {
+          "determiner deletion": "DET-DEL",
+          "auxiliary deletion": "AUX-DEL",
+          "preposition deletion": "ADP-DEL",
+          "coordinating conjunction deletion": "CCONJ-DEL",
+          "subordinating conjunction deletion": "SCONJ-DEL",
+          "pronoun deletion": "PRON-DEL"
+        },
+        "extra": ["deleted_wordform", "pos", "position"]
+      },
+      {
+        "name": "Function Word Addition",
+        "mnemonic_code": "FW-ADD",
+        "description": "Addition of function words in canonical relative to headline.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "determiner addition",
+          "auxiliary addition",
+          "preposition addition",
+          "coordinating conjunction addition",
+          "subordinating conjunction addition",
+          "pronoun addition"
+        ],
+        "value_mnemonics": {
+          "determiner addition": "DET-ADD",
+          "auxiliary addition": "AUX-ADD",
+          "preposition addition": "ADP-ADD",
+          "coordinating conjunction addition": "CCONJ-ADD",
+          "subordinating conjunction addition": "SCONJ-ADD",
+          "pronoun addition": "PRON-ADD"
+        },
+        "extra": ["added_wordform", "pos", "position"]
+      },
+      {
+        "name": "Content Word Deletion",
+        "mnemonic_code": "C-DEL",
+        "description": "Deletion of content words such as nouns, main verbs, adjectives, adverbs from reduced register.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "noun deletion",
+          "verb deletion",
+          "adjective deletion",
+          "adverb deletion"
+        ],
+        "value_mnemonics": {
+          "noun deletion": "NOUN-DEL",
+          "verb deletion": "VERB-DEL",
+          "adjective deletion": "ADJ-DEL",
+          "adverb deletion": "ADV-DEL"
+        },
+        "extra": ["deleted_wordform", "pos", "position"]
+      },
+      {
+        "name": "Content Word Addition",
+        "mnemonic_code": "C-ADD",
+        "description": "Addition of content words in canonical relative to headline.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "noun addition",
+          "verb addition",
+          "adjective addition",
+          "adverb addition"
+        ],
+        "value_mnemonics": {
+          "noun addition": "NOUN-ADD",
+          "verb addition": "VERB-ADD",
+          "adjective addition": "ADJ-ADD",
+          "adverb addition": "ADV-ADD"
+        },
+        "extra": ["added_wordform", "pos", "position"]
+      },
+      {
+        "name": "Part of Speech Change",
+        "mnemonic_code": "POS-CHG",
+        "description": "Part-of-speech category changes between headline and canonical forms.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "noun to verb",
+          "verb to noun",
+          "adjective to noun",
+          "noun to adjective",
+          "verb to adjective",
+          "adjective to verb"
+        ],
+        "value_mnemonics": {
+          "noun to verb": "N2V",
+          "verb to noun": "V2N",
+          "adjective to noun": "ADJ2N",
+          "noun to adjective": "N2ADJ",
+          "verb to adjective": "V2ADJ",
+          "adjective to verb": "ADJ2V"
+        },
+        "extra": ["source_pos", "target_pos", "wordform"]
+      },
+      {
+        "name": "Lemma Change",
+        "mnemonic_code": "LEMMA-CHG",
+        "description": "Differences in lemma form of aligned tokens.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["any lemma change"],
+        "value_mnemonics": {
+          "any lemma change": "LEM-CHG"
+        },
+        "extra": ["source_lemma", "target_lemma", "pos"]
+      },
+      {
+        "name": "Surface Form Change",
+        "mnemonic_code": "FORM-CHG",
+        "description": "Differences in word form (orthographic/inflectional changes).",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["any form change"],
+        "value_mnemonics": {
+          "any form change": "FORM-CHG"
+        },
+        "extra": ["source_form", "target_form", "lemma", "pos"]
+      },
+      {
+        "name": "Morphological Feature Change",
+        "mnemonic_code": "FEAT-CHG",
+        "description": "Differences in morphological features such as tense, number, aspect, voice, mood.",
+        "category": "morphological",
+        "parse_types": ["dependency"],
+        "values": [
+          "tense change",
+          "number change",
+          "aspect change",
+          "voice change",
+          "mood change"
+        ],
+        "value_mnemonics": {
+          "tense change": "TENSE-CHG",
+          "number change": "NUM-CHG",
+          "aspect change": "ASP-CHG",
+          "voice change": "VOICE-CHG",
+          "mood change": "MOOD-CHG"
+        },
+        "extra": ["source_feats", "target_feats"]
+      },
+      {
+        "name": "Dependency Relation Change",
+        "mnemonic_code": "DEP-REL-CHG",
+        "description": "Changes in dependency label assignment and possibly heads.",
+        "category": "syntactic",
+        "parse_types": ["dependency"],
+        "values": [
+          "nsubj to obl",
+          "obl to advmod",
+          "advmod to obl",
+          "obj to nsubj",
+          "other"
+        ],
+        "value_mnemonics": {
+          "nsubj to obl": "NSUBJ2OBL",
+          "obl to advmod": "OBL2ADVMOD",
+          "advmod to obl": "ADVMOD2OBL",
+          "obj to nsubj": "OBJ2NSUBJ",
+          "other": "DEP-MISC"
+        },
+        "extra": ["source_deprel", "target_deprel", "head_word"]
+      },
+      {
+        "name": "Token Reordering",
+        "mnemonic_code": "TOKEN-REORDER",
+        "description": "Changes in linear token sequence between headline and canonical.",
+        "category": "word-order",
+        "parse_types": ["dependency"],
+        "values": [
+          "fronting",
+          "postposing",
+          "local swap",
+          "long-distance move"
+        ],
+        "value_mnemonics": {
+          "fronting": "FRONT",
+          "postposing": "POST",
+          "local swap": "LSWAP",
+          "long-distance move": "LD-MOVE"
+        },
+        "extra": ["old_position", "new_position", "wordform"]
+      },
+      {
+        "name": "Constituent Removal",
+        "mnemonic_code": "CONST-REM",
+        "description": "Removal of constituents from reduced register.",
+        "category": "syntactic",
+        "parse_types": ["constituency"],
+        "values": [
+          "NP removal",
+          "PP removal",
+          "SBAR removal",
+          "ADJP removal",
+          "VP removal",
+          "CP removal"
+        ],
+        "value_mnemonics": {
+          "NP removal": "NP-REM",
+          "PP removal": "PP-REM",
+          "SBAR removal": "SBAR-REM",
+          "ADJP removal": "ADJP-REM",
+          "VP removal": "VP-REM",
+          "CP removal": "CP-REM"
+        },
+        "extra": ["removed_label", "removed_words", "start_end_span"]
+      },
+      {
+        "name": "Constituent Addition",
+        "mnemonic_code": "CONST-ADD",
+        "description": "Addition of constituents in canonical relative to headline.",
+        "category": "syntactic",
+        "parse_types": ["constituency"],
+        "values": [
+          "NP addition",
+          "PP addition",
+          "SBAR addition",
+          "ADJP addition",
+          "VP addition",
+          "CP addition"
+        ],
+        "value_mnemonics": {
+          "NP addition": "NP-ADD",
+          "PP addition": "PP-ADD",
+          "SBAR addition": "SBAR-ADD",
+          "ADJP addition": "ADJP-ADD",
+          "VP addition": "VP-ADD",
+          "CP addition": "CP-ADD"
+        },
+        "extra": ["added_label", "added_words", "start_end_span"]
+      },
+      {
+        "name": "Tree Edit Distance",
+        "mnemonic_code": "TED",
+        "description": "Tree edit distance between constituency parses of headline and canonical.",
+        "category": "structural",
+        "parse_types": ["constituency"],
+        "values": ["numeric"],
+        "value_mnemonics": {
+          "numeric": "TED"
+        },
+        "extra": ["operation_list"]
+      },
+      {
+        "name": "Sentence Length Change",
+        "mnemonic_code": "LENGTH-CHG",
+        "description": "Difference in total tokens or constituents between forms.",
+        "category": "statistical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["numeric"],
+        "value_mnemonics": {
+          "numeric": "LEN-DIFF"
+        },
+        "extra": ["headline_length", "canonical_length"]
+      }
+    ]
+  }
+}
