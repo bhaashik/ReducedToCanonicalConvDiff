@@ -203,20 +203,20 @@ class StatsRunner:
             results.append(res)
         return pd.DataFrame(results)
 
-# Usage:
-
-#from stats import StatsRunner
-import pandas as pd
-
-# Suppose we have feature counts:
-data = [
-    {"feature_id": "FV001", "count_a": 15, "total_a": 100, "count_b": 5, "total_b": 100},
-    {"feature_id": "FV002", "count_a": 40, "total_a": 100, "count_b": 60, "total_b": 100},
-]
-
-df = pd.DataFrame(data)
-
-stats_runner = StatsRunner()
-results_df = stats_runner.run_for_dataframe(df, "canonical", "headlines")
-
-print(results_df)
+# # Usage:
+#
+# #from stats import StatsRunner
+# import pandas as pd
+#
+# # Suppose we have feature counts:
+# data = [
+#     {"feature_id": "FV001", "count_a": 15, "total_a": 100, "count_b": 5, "total_b": 100},
+#     {"feature_id": "FV002", "count_a": 40, "total_a": 100, "count_b": 60, "total_b": 100},
+# ]
+#
+# df = pd.DataFrame(data)
+#
+# stats_runner = StatsRunner()
+# results_df = stats_runner.run_for_dataframe(df, "canonical", "headlines")
+#
+# print(results_df)

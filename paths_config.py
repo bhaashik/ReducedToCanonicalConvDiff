@@ -66,9 +66,10 @@
 # Version 2
 
 from pathlib import Path
+from config import BASE_DIR
 
 # Base data directory (adjust if needed)
-BASE_DIR = Path(__file__).resolve().parent / "data"
+# BASE_DIR = Path(__file__).resolve().parent / "data"
 
 # Feature schema path
 SCHEMA_PATH = BASE_DIR / "diff-ontology-ver-3.0.json"

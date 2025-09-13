@@ -132,37 +132,37 @@ class Visualizer:
 
     # You can add more visualization functions here for structural differences etc.
 
-# Usage:
-
-from pathlib import Path
-from visualizer import Visualizer
-# from register_comparison.outputs.output_creator import OutputCreator
-from register_comparison.meta_data.schema import FeatureSchema as schema
-# from register_comparison.aggregators.aggregator import Aggregator
-
-output_dir = Path("results")
-outputs = Outputs(output_dir, schema)
-visualizer = Visualizer(output_dir)
-from register_comparison.aggregators.aggregator import Aggregator as aggregator
-
-# Save feature frequency CSV
-feature_counts = aggregator.global_counts()
-outputs.save_feature_matrix_csv(feature_counts, "feature_freq_global.csv")
-
-# Save detailed event table CSV
-outputs.save_events_csv(aggregator.global_events, "events_global.csv")
-
-# # Save summary statistics CSV (suppose from stats.py)
-# outputs.save_summary_stats_csv(summary_stats_df, "summary_stats_global.csv")
-
-# Generate LaTeX and Markdown summaries
-outputs.generate_latex_summary("summary_features.tex")
-outputs.generate_markdown_summary("summary_features.md")
-
-# Save interpretive notes (prepare as string beforehand)
-# outputs.save_interpretive_notes(notes_text, "interpretive_notes.txt")
-
-# Create visualization plots
-visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", "feature_freq_global.png")
-
-# Similarly for newspapers or parse-types, pass their counts to plotting functions
+# # Usage:
+#
+# from pathlib import Path
+# from visualizer import Visualizer
+# # from register_comparison.outputs.output_creator import OutputCreator
+# from register_comparison.meta_data.schema import FeatureSchema as schema
+# # from register_comparison.aggregators.aggregator import Aggregator
+#
+# output_dir = Path("results")
+# outputs = Outputs(output_dir, schema)
+# visualizer = Visualizer(output_dir)
+# from register_comparison.aggregators.aggregator import Aggregator as aggregator
+#
+# # Save feature frequency CSV
+# feature_counts = aggregator.global_counts()
+# outputs.save_feature_matrix_csv(feature_counts, "feature_freq_global.csv")
+#
+# # Save detailed event table CSV
+# outputs.save_events_csv(aggregator.global_events, "events_global.csv")
+#
+# # # Save summary statistics CSV (suppose from stats.py)
+# # outputs.save_summary_stats_csv(summary_stats_df, "summary_stats_global.csv")
+#
+# # Generate LaTeX and Markdown summaries
+# outputs.generate_latex_summary("summary_features.tex")
+# outputs.generate_markdown_summary("summary_features.md")
+#
+# # Save interpretive notes (prepare as string beforehand)
+# # outputs.save_interpretive_notes(notes_text, "interpretive_notes.txt")
+#
+# # Create visualization plots
+# visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", "feature_freq_global.png")
+#
+# # Similarly for newspapers or parse-types, pass their counts to plotting functions

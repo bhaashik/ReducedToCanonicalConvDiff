@@ -65,11 +65,11 @@ class Aggregator:
         """
         return [ev.to_dict() for ev in events]
 
-from register_comparison.meta_data.schema import FeatureSchema
-from register_comparison.comparators.comparator import Comparator
-from aggregator import Aggregator
-from register_comparison.extractors.extractor import FeatureExtractor
-from register_comparison.aligners.aligner import Aligner
+# from register_comparison.meta_data.schema import FeatureSchema
+# from register_comparison.comparators.comparator import Comparator
+# from aggregator import Aggregator
+# from register_comparison.extractors.extractor import FeatureExtractor
+# from register_comparison.aligners.aligner import Aligner
 
 # Usage:
 
@@ -174,65 +174,65 @@ class Aggregator:
         return [ev.to_dict() for ev in events]
 
 
-# Usage:
-
+# # Usage:
+#
+# # from register_comparison.meta_data.schema import FeatureSchema
+# # from register_comparison.comparators.comparator import Comparator
+# # from aggregator import Aggregator
+# # from register_comparison.extractors.extractor import FeatureExtractor
+# # from register_comparison.aligners.aligner import Aligner
+#
 # from register_comparison.meta_data.schema import FeatureSchema
 # from register_comparison.comparators.comparator import Comparator
 # from aggregator import Aggregator
 # from register_comparison.extractors.extractor import FeatureExtractor
 # from register_comparison.aligners.aligner import Aligner
-
-from register_comparison.meta_data.schema import FeatureSchema
-from register_comparison.comparators.comparator import Comparator
-from aggregator import Aggregator
-from register_comparison.extractors.extractor import FeatureExtractor
-from register_comparison.aligners.aligner import Aligner
-from register_comparison.aligners.aligner import AlignedSentencePair
-
-
+# from register_comparison.aligners.aligner import AlignedSentencePair
+#
+#
+# # aligner = Aligner(
+# #     texts_canonical=schema.canon_text_list,
+# #     texts_headlines=head_text_list,
+# #     deps_canonical=canon_dep_list,
+# #     deps_headlines=head_dep_list,
+# #     consts_canonical=canon_const_list,
+# #     consts_headlines=head_const_list,
+# #     newspaper_name="Times-of-India"
+# # )
+# #
+# # pairs = aligner.align()
+#
+#
+#
+# # 1. Load schema
+# schema = FeatureSchema("data/diff-ontology-ver-3.0.json")
+# schema.load_schema()
+#
+# # 2. Prepare aligner and get pairs (example, one newspaper setup)
 # aligner = Aligner(
 #     texts_canonical=schema.canon_text_list,
-#     texts_headlines=head_text_list,
-#     deps_canonical=canon_dep_list,
-#     deps_headlines=head_dep_list,
-#     consts_canonical=canon_const_list,
-#     consts_headlines=head_const_list,
+#     texts_headlines=schema.head_text_list,
+#     deps_canonical=schema.canon_dep_list,
+#     deps_headlines=schema.head_dep_list,
+#     consts_canonical=schema.canon_const_list,
+#     consts_headlines=schema.head_const_list,
 #     newspaper_name="Times-of-India"
 # )
-#
 # pairs = aligner.align()
-
-
-
-# 1. Load schema
-schema = FeatureSchema("data/diff-ontology-ver-3.0.json")
-schema.load_schema()
-
-# 2. Prepare aligner and get pairs (example, one newspaper setup)
-aligner = Aligner(
-    texts_canonical=schema.canon_text_list,
-    texts_headlines=schema.head_text_list,
-    deps_canonical=schema.canon_dep_list,
-    deps_headlines=schema.head_dep_list,
-    consts_canonical=schema.canon_const_list,
-    consts_headlines=schema.head_const_list,
-    newspaper_name="Times-of-India"
-)
-pairs = aligner.align()
-
-# 3. Extract features
-extractor = FeatureExtractor(schema)
-comparator = Comparator(schema)
-aggregator = Aggregator()
-
-for pair in pairs:
-    features = extractor.extract_features(pair)
-    events = comparator.compare_pair(pair, features)
-    aggregator.add_events(events)
-
-# 4. Check counts
-print("Global counts:", aggregator.global_counts())
-print("Counts per newspaper:", aggregator.per_newspaper_counts())
-
-# 5. Convert to matrix for DataFrame/CSV
-matrix = aggregator.to_matrix(aggregator.global_events)
+#
+# # 3. Extract features
+# extractor = FeatureExtractor(schema)
+# comparator = Comparator(schema)
+# aggregator = Aggregator()
+#
+# for pair in pairs:
+#     features = extractor.extract_features(pair)
+#     events = comparator.compare_pair(pair, features)
+#     aggregator.add_events(events)
+#
+# # 4. Check counts
+# print("Global counts:", aggregator.global_counts())
+# print("Counts per newspaper:", aggregator.per_newspaper_counts())
+#
+# # 5. Convert to matrix for DataFrame/CSV
+# matrix = aggregator.to_matrix(aggregator.global_events)

@@ -3,29 +3,35 @@ from typing import List
 from conllu import parse_incr
 from nltk.tree import Tree
 import pandas as pd
+import os
+from config import BASE_DIR
+# import paths_config
+from pathlib import Path
+from paths_config import (
+    SCHEMA_PATH,
+    NEWSPAPERS,
+    REGISTERS,
+    TEXT_FILES,
+    CONLLU_FILES,
+    CONST_FILES
+)
+
+print("===========================")
+print(os.getcwd())
+print("===========================")
+print(BASE_DIR)
+print("===========================")
 
 from register_comparison.meta_data.schema import FeatureSchema
-from aligners.aligner import Aligner
+from register_comparison.aligners.aligner import Aligner
 from register_comparison.aggregators.aggregator import Aggregator
 from register_comparison.outputs.output_creators import Outputs
 from register_comparison.stat_runners.stats import StatsRunner
+from register_comparison.extractors.extractor import FeatureExtractor
+from register_comparison.comparators.comparator import Comparator
 from register_comparison.visualizers.visualizer import Visualizer
 
-# from pathlib import Path
-from register_comparison.meta_data.schema import FeatureSchema
-from register_comparison.aggregators.aggregator import Aggregator as aggregator, Aggregator
-
-# from stat_runners.stats import StatsRunner
-# from register_comparison.outputs.output_creator import OutputCreator
-from register_comparison.meta_data.schema import FeatureSchema as schema
-# from register_comparison.aggregators.aggregator import Aggregator
-
 # readers.py: Load the plain text parallel data of registers
-
-# from pathlib import Path
-# from typing import List
-# from conllu import parse_incr
-# from nltk.tree import Tree
 
 def read_plain_text(path: Path) -> List[str]:
     """Reads a plain text file and returns a list of sentences (stripped)."""
@@ -51,158 +57,156 @@ def read_constituency(path: Path) -> List[Tree]:
 
 # config.py: Load the parallel data of registers
 
-from pathlib import Path
-
 # Base data directory (adjust if needed)
-BASE_DIR = Path(__file__).resolve().parent / "data"
+# BASE_DIR = Path(__file__).resolve().parent / "data"
 
-# Feature schema path
-SCHEMA_PATH = BASE_DIR / "diff-ontology-ver-3.0.json"
-
-# Newspaper names
-NEWSPAPERS = ["Hindustan-Times", "The-Hindu", "Times-of-India"]
-
-# Registers
-REGISTERS = {
-    "canonical": "canonical",
-    "headlines": "headlines"
-}
-
-# File mapping for plain texts
-TEXT_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "Hindustan-Times-canonical.txt",
-        "headlines": BASE_DIR / "Hindustan-Times-headlines.txt"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "The-Hindu-corrected-canonical.txt",
-        "headlines": BASE_DIR / "The-Hindu-corrected-headlines.txt"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "Times-of-India-corrected-canonical.txt",
-        "headlines": BASE_DIR / "Times-of-India-corrected-headlines.txt"
-    }
-}
-
-# File mapping for CoNLL-U dependency parses
-CONLLU_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "Hindustan-Times-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "Hindustan-Times-headlines-stanza-parsed-deps.conllu"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "The-Hindu-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "The-Hindu-headlines-stanza-parsed-deps.conllu"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "Times-of-India-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "Times-of-India-headlines-stanza-parsed-deps.conllu"
-    }
-}
-
-# File mapping for constituency parses (bracketed format)
-CONST_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "Hindustan-Times-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "Hindustan-Times-headlines-stanza-parsed-constituency.txt"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "The-Hindu-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "The-Hindu-headlines-stanza-parsed-constituency.txt"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "Times-of-India-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "Times-of-India-headlines-stanza-parsed-constituency.txt"
-    }
-}
+# # Feature schema path
+# SCHEMA_PATH = BASE_DIR / "diff-ontology-ver-3.0.json"
+#
+# # Newspaper names
+# NEWSPAPERS = ["Hindustan-Times", "The-Hindu", "Times-of-India"]
+#
+# # Registers
+# REGISTERS = {
+#     "canonical": "canonical",
+#     "headlines": "headlines"
+# }
+#
+# # File mapping for plain texts
+# TEXT_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "Hindustan-Times-canonical.txt",
+#         "headlines": BASE_DIR / "Hindustan-Times-headlines.txt"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "The-Hindu-corrected-canonical.txt",
+#         "headlines": BASE_DIR / "The-Hindu-corrected-headlines.txt"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "Times-of-India-corrected-canonical.txt",
+#         "headlines": BASE_DIR / "Times-of-India-corrected-headlines.txt"
+#     }
+# }
+#
+# # File mapping for CoNLL-U dependency parses
+# CONLLU_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "Hindustan-Times-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "Hindustan-Times-headlines-stanza-parsed-deps.conllu"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "The-Hindu-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "The-Hindu-headlines-stanza-parsed-deps.conllu"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "Times-of-India-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "Times-of-India-headlines-stanza-parsed-deps.conllu"
+#     }
+# }
+#
+# # File mapping for constituency parses (bracketed format)
+# CONST_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "Hindustan-Times-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "Hindustan-Times-headlines-stanza-parsed-constituency.txt"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "The-Hindu-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "The-Hindu-headlines-stanza-parsed-constituency.txt"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "Times-of-India-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "Times-of-India-headlines-stanza-parsed-constituency.txt"
+#     }
+# }
 
 # schema.py: Load the Schema file(s)
 
 # from pathlib import Path
 # from schema import FeatureSchema
 
-schema = FeatureSchema(Path("data/diff-ontology-ver-3.0.json"))
+# schema = FeatureSchema(Path(BASE_DIR / "data/diff-ontology-ver-3.0.json"))
+schema = FeatureSchema(SCHEMA_PATH)
 schema.load_schema()
 
 # Number of features
 print(schema)
 
 # Access by ID
-feat = schema.get_feature_by_id("FV001")
-print(feat.id, feat.mnemonic, feat.name, feat.description)
+feat = schema.get_feature_by_mnemonic("FW-DEL")
+print(feat.mnemonic_code, feat.name, feat.description)
 
 # List its possible values
 for val in feat.values:
-    print(val.code, "-", val.desc)
+    print(val.mnemonic, "-", val.value)
 
 # Access specific value description
-print(feat.get_value_by_code("1").desc)
-
+print(feat.get_value_by_mnemonic("ART-DEL").value)
 
 # from pathlib import Path
 
 # Base data directory (adjust if needed)
-BASE_DIR = Path(__file__).resolve().parent / "data"
+# BASE_DIR = Path(__file__).resolve().parent / "data"
 
 # Feature schema path
-SCHEMA_PATH = BASE_DIR / "diff-ontology-ver-3.0.json"
+# SCHEMA_PATH = BASE_DIR / "diff-ontology-ver-3.0.json"
 
 # Newspaper names
 # NEWSPAPERS = ["Hindustan-Times", "The-Hindu", "Times-of-India"]
 
 # Registers
-REGISTERS = {
-    "canonical": "canonical",
-    "headlines": "headlines"
-}
-
-# File mapping for plain texts
-TEXT_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "input/input-single-line-break/Hindustan-Times-canonical.txt",
-        "headlines": BASE_DIR / "input/input-single-line-break/Hindustan-Times-headlines.txt"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "input/input-single-line-break/The-Hindu-corrected-canonical.txt",
-        "headlines": BASE_DIR / "input/input-single-line-break/The-Hindu-corrected-headlines.txt"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "input/input-single-line-break/Times-of-India-corrected-canonical.txt",
-        "headlines": BASE_DIR / "input/input-single-line-break/Times-of-India-corrected-headlines.txt"
-    }
-}
-
-# File mapping for CoNLL-U dependency parses
-CONLLU_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "data/input/dependecy-parsed/Hindustan-Times-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "data/input/dependecy-parsed/Hindustan-Times-headlines-stanza-parsed-deps.conllu"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "data/input/dependecy-parsed/The-Hindu-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "data/input/dependecy-parsed/The-Hindu-headlines-stanza-parsed-deps.conllu"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "data/input/dependecy-parsed/Times-of-India-canonical-stanza-parsed-deps.conllu",
-        "headlines": BASE_DIR / "data/input/dependecy-parsed/Times-of-India-headlines-stanza-parsed-deps.conllu"
-    }
-}
-
-# File mapping for constituency parses (bracketed format)
-CONST_FILES = {
-    "Hindustan-Times": {
-        "canonical": BASE_DIR / "data/input/constituency-parsed/Hindustan-Times-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "data/input/constituency-parsed/Hindustan-Times-headlines-stanza-parsed-constituency.txt"
-    },
-    "The-Hindu": {
-        "canonical": BASE_DIR / "data/input/constituency-parsed/The-Hindu-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "data/input/constituency-parsed/The-Hindu-headlines-stanza-parsed-constituency.txt"
-    },
-    "Times-of-India": {
-        "canonical": BASE_DIR / "data/input/constituency-parsed/Times-of-India-canonical-stanza-parsed-constituency.txt",
-        "headlines": BASE_DIR / "data/input/constituency-parsed/Times-of-India-headlines-stanza-parsed-constituency.txt"
-    }
-}
+# REGISTERS = {
+#     "canonical": "canonical",
+#     "headlines": "headlines"
+# }
+#
+# # File mapping for plain texts
+# TEXT_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "input/input-single-line-break/Hindustan-Times-canonical.txt",
+#         "headlines": BASE_DIR / "input/input-single-line-break/Hindustan-Times-headlines.txt"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "input/input-single-line-break/The-Hindu-corrected-canonical.txt",
+#         "headlines": BASE_DIR / "input/input-single-line-break/The-Hindu-corrected-headlines.txt"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "input/input-single-line-break/Times-of-India-corrected-canonical.txt",
+#         "headlines": BASE_DIR / "input/input-single-line-break/Times-of-India-corrected-headlines.txt"
+#     }
+# }
+#
+# # File mapping for CoNLL-U dependency parses
+# CONLLU_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "data/input/dependecy-parsed/Hindustan-Times-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "data/input/dependecy-parsed/Hindustan-Times-headlines-stanza-parsed-deps.conllu"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "data/input/dependecy-parsed/The-Hindu-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "data/input/dependecy-parsed/The-Hindu-headlines-stanza-parsed-deps.conllu"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "data/input/dependecy-parsed/Times-of-India-canonical-stanza-parsed-deps.conllu",
+#         "headlines": BASE_DIR / "data/input/dependecy-parsed/Times-of-India-headlines-stanza-parsed-deps.conllu"
+#     }
+# }
+#
+# # File mapping for constituency parses (bracketed format)
+# CONST_FILES = {
+#     "Hindustan-Times": {
+#         "canonical": BASE_DIR / "data/input/constituency-parsed/Hindustan-Times-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "data/input/constituency-parsed/Hindustan-Times-headlines-stanza-parsed-constituency.txt"
+#     },
+#     "The-Hindu": {
+#         "canonical": BASE_DIR / "data/input/constituency-parsed/The-Hindu-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "data/input/constituency-parsed/The-Hindu-headlines-stanza-parsed-constituency.txt"
+#     },
+#     "Times-of-India": {
+#         "canonical": BASE_DIR / "data/input/constituency-parsed/Times-of-India-canonical-stanza-parsed-constituency.txt",
+#         "headlines": BASE_DIR / "data/input/constituency-parsed/Times-of-India-headlines-stanza-parsed-constituency.txt"
+#     }
+# }
 
 # aligner.py: Align the sentence pairs of the parallel data
 
@@ -213,8 +217,8 @@ CONST_FILES = {
 # aggregator.py: Aggretate all the compared features for the registers
 
 # 1. Load schema
-schema = FeatureSchema("data/diff-ontology-ver-3.0.json")
-schema.load_schema()
+# schema = FeatureSchema(Path("data/diff-ontology-ver-3.0.json")
+# schema.load_schema()
 
 current_news_paper_name = "Times-of-India"
 
