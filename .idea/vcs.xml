@@ -2,7 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/tmp/reduced-canonical-comparison-data-and-output/dependable" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/tmp/reduced-canonical-comparison-data-and-output/textalign" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/older-code/tmp/reduced-canonical-comparison-data-and-output/dependable" vcs="" />
+    <mapping directory="$PROJECT_DIR$/older-code/tmp/reduced-canonical-comparison-data-and-output/textalign" vcs="" />
   </component>
 </project>

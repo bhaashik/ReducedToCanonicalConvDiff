@@ -1,3 +1,0 @@
-Processing 1148 sentence pairs ...
-Canonical lemmas (15): ['the', 'government', 'will', 'confer', 'four', 'padma', 'vibhushan', 'and', 'fourteen', 'padma', 'bhushan', 'award', 'this', 'year', '.']
-Headline lemmas (13): ['govt', 'to', 'confer', '4', 'padma', 'vibhushan', ',', '14', 'padma', 'bhushan', 'award', 'this', 'year']
