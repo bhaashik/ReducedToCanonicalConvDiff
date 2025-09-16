@@ -49,11 +49,34 @@ def read_constituency(path: Path) -> List[Tree]:
     """Reads bracketed constituency parse strings into NLTK Tree objects."""
     trees = []
     with open(path, 'r', encoding='utf-8') as f:
+        current_tree_lines = []
+
         for line in f:
             line = line.strip()
             if not line:
                 continue
-            trees.append(Tree.fromstring(line))
+
+            # Skip sentence ID lines that start with (sentence
+            if line.startswith('(sentence'):
+                continue
+
+            # If we encounter a line starting with (ROOT, start collecting lines for this tree
+            if line.startswith('(ROOT'):
+                # If we have a previous tree, parse it
+                if current_tree_lines:
+                    tree_str = '\n'.join(current_tree_lines)
+                    trees.append(Tree.fromstring(tree_str))
+                # Start new tree
+                current_tree_lines = [line]
+            else:
+                # Continue collecting lines for the current tree
+                current_tree_lines.append(line)
+
+        # Don't forget the last tree
+        if current_tree_lines:
+            tree_str = '\n'.join(current_tree_lines)
+            trees.append(Tree.fromstring(tree_str))
+
     return trees
 
 # Version 2

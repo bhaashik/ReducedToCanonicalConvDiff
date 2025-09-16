@@ -75,7 +75,10 @@ class Comparator:
 
                 # Only record if values differ
                 if can_val != head_val:
-                    feat_obj = self.schema.get_feature_by_id(feat_id)
+                    # OLD VERSION - INCORRECT: get_feature_by_id doesn't exist
+                    # feat_obj = self.schema.get_feature_by_id(feat_id)
+                    # NEW VERSION - CORRECTED: use get_feature_by_mnemonic
+                    feat_obj = self.schema.get_feature_by_mnemonic(feat_id)
                     events.append(
                         DifferenceEvent(
                             newspaper=aligned_pair.newspaper,
@@ -168,7 +171,10 @@ class Comparator:
 
                 # Only record if values differ
                 if can_val != head_val:
-                    feat_obj = self.schema.get_feature_by_id(feat_id)
+                    # OLD VERSION - INCORRECT: get_feature_by_id doesn't exist
+                    # feat_obj = self.schema.get_feature_by_id(feat_id)
+                    # NEW VERSION - CORRECTED: use get_feature_by_mnemonic
+                    feat_obj = self.schema.get_feature_by_mnemonic(feat_id)
                     events.append(
                         DifferenceEvent(
                             newspaper=aligned_pair.newspaper,

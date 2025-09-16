@@ -3,7 +3,12 @@ from typing import List
 from conllu import parse_incr
 from nltk.tree import Tree
 import pandas as pd
+# OLD VERSION - INCORRECT: config module not in path when running from subdirectory
+# from config import BASE_DIR
+# NEW VERSION - CORRECTED: import from parent directory
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from config import BASE_DIR
 # import paths_config
 from pathlib import Path
@@ -28,32 +33,37 @@ from register_comparison.aggregators.aggregator import Aggregator
 from register_comparison.outputs.output_creators import Outputs
 from register_comparison.stat_runners.stats import StatsRunner
 from register_comparison.extractors.extractor import FeatureExtractor
-from register_comparison.comparators.comparator import Comparator
+# OLD VERSION - BROKEN: comparator doesn't detect schema features
+# from register_comparison.comparators.comparator import Comparator
+# NEW VERSION - FIXED: use schema-based comparator
+from register_comparison.comparators.schema_comparator import SchemaBasedComparator as Comparator
 from register_comparison.visualizers.visualizer import Visualizer
 
 # readers.py: Load the plain text parallel data of registers
+# OLD VERSION - DUPLICATE FUNCTIONS: These are now handled by readers.py module
+# def read_plain_text(path: Path) -> List[str]:
+#     """Reads a plain text file and returns a list of sentences (stripped)."""
+#     with open(path, 'r', encoding='utf-8') as f:
+#         return [line.strip() for line in f if line.strip()]
+#
+# def read_conllu(path: Path):
+#     """Reads a CoNLL-U file and yields TokenList objects for each sentence."""
+#     with open(path, 'r', encoding='utf-8') as f:
+#         for tokenlist in parse_incr(f):
+#             yield tokenlist
+#
+# def read_constituency(path: Path) -> List[Tree]:
+#     """Reads bracketed constituency parse strings into NLTK Tree objects."""
+#     trees = []
+#     with open(path, 'r', encoding='utf-8') as f:
+#         for line in f:
+#             line = line.strip()
+#             if not line:
+#                 continue
+#             trees.append(Tree.fromstring(line))
+#     return trees
 
-def read_plain_text(path: Path) -> List[str]:
-    """Reads a plain text file and returns a list of sentences (stripped)."""
-    with open(path, 'r', encoding='utf-8') as f:
-        return [line.strip() for line in f if line.strip()]
-
-def read_conllu(path: Path):
-    """Reads a CoNLL-U file and yields TokenList objects for each sentence."""
-    with open(path, 'r', encoding='utf-8') as f:
-        for tokenlist in parse_incr(f):
-            yield tokenlist
-
-def read_constituency(path: Path) -> List[Tree]:
-    """Reads bracketed constituency parse strings into NLTK Tree objects."""
-    trees = []
-    with open(path, 'r', encoding='utf-8') as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            trees.append(Tree.fromstring(line))
-    return trees
+# NEW VERSION - CORRECTED: Reader functions now in register_comparison.readers.readers module
 
 # config.py: Load the parallel data of registers
 
@@ -223,15 +233,32 @@ print(feat.get_value_by_mnemonic("ART-DEL").value)
 current_news_paper_name = "Times-of-India"
 
 # 2. Prepare aligner and get pairs (example, one newspaper setup)
+# OLD VERSION - INCORRECT: schema doesn't have data lists
+# aligner = Aligner(
+#     texts_canonical=schema.canon_text_list,
+#     texts_headlines=schema.head_text_list,
+#     deps_canonical=schema.canon_dep_list,
+#     deps_headlines=schema.head_dep_list,
+#     consts_canonical=schema.canon_const_list,
+#     consts_headlines=schema.head_const_list,
+#     newspaper_name = current_news_paper_name
+# )
+
+# NEW VERSION - CORRECTED: use loaded_data module
+from data.loaded_data import loaded_data
+
+# Load data for the newspaper
+loaded_data.load_newspaper_data(current_news_paper_name)
+
+# Prepare aligner with loaded data
 aligner = Aligner(
-    texts_canonical=schema.canon_text_list,
-    texts_headlines=schema.head_text_list,
-    deps_canonical=schema.canon_dep_list,
-    deps_headlines=schema.head_dep_list,
-    consts_canonical=schema.canon_const_list,
-    consts_headlines=schema.head_const_list,
-    # newspaper_name="Times-of-India"
-    newspaper_name = current_news_paper_name
+    texts_canonical=loaded_data.get_canonical_text(current_news_paper_name),
+    texts_headlines=loaded_data.get_headlines_text(current_news_paper_name),
+    deps_canonical=loaded_data.get_canonical_deps(current_news_paper_name),
+    deps_headlines=loaded_data.get_headlines_deps(current_news_paper_name),
+    consts_canonical=loaded_data.get_canonical_const(current_news_paper_name),
+    consts_headlines=loaded_data.get_headlines_const(current_news_paper_name),
+    newspaper_name=current_news_paper_name
 )
 pairs = aligner.align()
 
@@ -269,10 +296,26 @@ matrix = aggregator.to_matrix(aggregator.global_events)
 
 df = pd.DataFrame(matrix)
 
+# FIXED VERSION: Use proper data format for StatsRunner
+print("Running statistical significance testing...")
 stats_runner = StatsRunner()
-summary_stats_df = stats_runner.run_for_dataframe(df, "canonical", "headlines")
 
-print(summary_stats_df)
+# Get data in format expected by StatsRunner
+stats_data = aggregator.to_stats_runner_format()
+stats_df = pd.DataFrame(stats_data)
+
+print(f"Statistical testing data shape: {stats_df.shape}")
+print("Statistical testing columns:", stats_df.columns.tolist())
+
+if not stats_df.empty:
+    # Run statistical tests
+    summary_stats_df = stats_runner.run_for_dataframe(stats_df, "canonical", "headlines")
+    print(f"Statistical tests completed for {len(summary_stats_df)} features")
+    print("Sample statistical results:")
+    print(summary_stats_df[['feature_id', 'chi2', 'chi_p', 'fisher_p', 'odds_ratio']].head())
+else:
+    print("No data available for statistical testing")
+    summary_stats_df = pd.DataFrame()
 
 # visualizer.py: Visualize the statistics and statistical etc. for the registers
 
@@ -293,26 +336,141 @@ visualizer = Visualizer(output_dir)
 
 # Save feature frequency CSV
 feature_counts = aggregator.global_counts()
-outputs.save_feature_matrix_csv(feature_counts, output_dir / "feature_freq_global.csv")
+# OLD VERSION - INCORRECT: passing Path object instead of filename string
+# outputs.save_feature_matrix_csv(feature_counts, output_dir / "feature_freq_global.csv")
+# NEW VERSION - CORRECTED: pass just the filename string
+outputs.save_feature_matrix_csv(feature_counts, "feature_freq_global.csv")
 
 # Save detailed event table CSV
-outputs.save_events_csv(aggregator.global_events, "output_dir / events_global.csv")
+# OLD VERSION - INCORRECT: passing string literal instead of filename
+# outputs.save_events_csv(aggregator.global_events, "output_dir / events_global.csv")
+# NEW VERSION - CORRECTED: pass just the filename string
+outputs.save_events_csv(aggregator.global_events, "events_global.csv")
 
 # Save summary statistics CSV (suppose from stats.py)
 # outputs.save_summary_stats_csv(summary_stats_df, "summary_stats_global.csv")
-outputs.save_summary_stats_csv(summary_stats_df, "output_dir / summary_stats_global.csv")
+# OLD VERSION - INCORRECT: passing string literal instead of filename
+# outputs.save_summary_stats_csv(summary_stats_df, "output_dir / summary_stats_global.csv")
+# NEW VERSION - CORRECTED: pass just the filename string
+outputs.save_summary_stats_csv(summary_stats_df, "summary_stats_global.csv")
 
-# Generate LaTeX and Markdown summaries
-outputs.generate_latex_summary("output_dir / summary_features.tex")
-outputs.generate_markdown_summary("output_dir / summary_features.md")
+# Generate basic summaries (for backward compatibility)
+print("Generating basic LaTeX and Markdown summaries...")
+outputs.generate_latex_summary("summary_features.tex")
+outputs.generate_markdown_summary("summary_features.md")
 
 # # Save interpretive notes (prepare as string beforehand)
 # outputs.save_interpretive_notes(notes_text, "interpretive_notes.txt")
 
-# Create visualization plots
-visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", output_dir / "feature_freq_global.png")
+# ========================================
+# COMPREHENSIVE MULTI-DIMENSIONAL ANALYSIS
+# ========================================
 
-# Similarly for newspapers or parse-types, pass their counts to plotting functions
+print("\n" + "="*60)
+print("COMPREHENSIVE MULTI-DIMENSIONAL ANALYSIS")
+print("="*60)
+
+# Generate comprehensive analysis
+print("Generating comprehensive analysis...")
+comprehensive_analysis = aggregator.get_comprehensive_analysis()
+statistical_summary = aggregator.get_statistical_summary()
+
+print(f"Analysis completed:")
+print(f"  - Total events analyzed: {comprehensive_analysis['global']['total_events']}")
+print(f"  - Unique features detected: {len(comprehensive_analysis['global']['feature_counts'])}")
+print(f"  - Newspapers analyzed: {len(comprehensive_analysis['by_newspaper'])}")
+print(f"  - Parse types analyzed: {len(comprehensive_analysis['by_parse_type'])}")
+
+# Save comprehensive analysis to JSON and multiple CSV files
+print("\nSaving comprehensive analysis files...")
+outputs.save_comprehensive_analysis(comprehensive_analysis, "comprehensive_analysis")
+
+# Save feature-value pairs analysis
+print("Saving feature-value pairs analysis...")
+outputs.save_feature_value_pairs(comprehensive_analysis, "feature_value_pairs")
+
+# Save statistical summary
+print("Saving statistical summary...")
+outputs.save_statistical_summary(statistical_summary, "statistical_summary")
+
+# ========================================
+# COMPREHENSIVE VISUALIZATIONS
+# ========================================
+
+print("\n" + "="*60)
+print("GENERATING FEATURE-VALUE ANALYSIS")
+print("="*60)
+
+# Generate comprehensive feature-value analysis
+print("Generating feature-value analysis...")
+feature_value_analysis = aggregator.get_feature_value_analysis()
+print(f"Feature-value analysis completed for {len(feature_value_analysis['global_feature_values'])} features")
+
+# Save feature-value analysis
+print("Saving feature-value analysis...")
+outputs.save_feature_value_analysis(feature_value_analysis, "feature_value_analysis")
+
+print("\n" + "="*60)
+print("GENERATING COMPREHENSIVE VISUALIZATIONS")
+print("="*60)
+
+# Generate all visualizations
+print("Creating comprehensive visualizations...")
+visualizer.create_comprehensive_visualizations(comprehensive_analysis, statistical_summary)
+
+# Generate additional statistical summary visualizations
+print("Creating statistical summary visualizations...")
+visualizer.create_statistical_summary_visualizations(comprehensive_analysis, statistical_summary)
+
+# Generate feature-value visualizations
+print("Creating feature-value visualizations...")
+visualizer.create_feature_value_visualizations(feature_value_analysis)
+
+# Also keep the original simple visualization
+print("Creating additional basic visualizations...")
+visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", "feature_freq_global.png")
+
+# ========================================
+# ENHANCED REPORT GENERATION
+# ========================================
+
+print("\n" + "="*60)
+print("GENERATING COMPREHENSIVE REPORTS")
+print("="*60)
+
+# Generate comprehensive reports
+print("Generating comprehensive LaTeX report...")
+outputs.generate_comprehensive_latex_report(comprehensive_analysis, statistical_summary, "comprehensive_report.tex")
+
+print("Generating comprehensive Markdown report...")
+outputs.generate_comprehensive_markdown_report(comprehensive_analysis, statistical_summary, "comprehensive_report.md")
+
+print("\n" + "="*60)
+print("COMPREHENSIVE FEATURE-VALUE ANALYSIS COMPLETED!")
+print("="*60)
+print(f"✅ Generated {len(comprehensive_analysis['global']['feature_counts'])} feature analyses")
+print(f"✅ Created comprehensive visualizations")
+print(f"✅ Saved detailed CSV and JSON exports")
+print(f"✅ Generated comprehensive reports")
+print(f"✅ Total linguistic difference events: {comprehensive_analysis['global']['total_events']:,}")
+print("✅ Feature-value transformations analysis completed")
+
+# Count total unique transformations
+total_transformations = sum(
+    len(transforms) for transforms in feature_value_analysis['global_feature_values'].values()
+)
+print(f"✅ Total unique transformation types: {total_transformations:,}")
+
+# Show most active features
+most_active = sorted(
+    [(f, len(t)) for f, t in feature_value_analysis['global_feature_values'].items()],
+    key=lambda x: x[1], reverse=True
+)[:5]
+print("✅ Most transformation-diverse features:")
+for feature_id, count in most_active:
+    print(f"   - {feature_id}: {count} unique transformation types")
+
+print("="*60)
 
 
 
