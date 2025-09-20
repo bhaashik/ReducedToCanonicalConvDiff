@@ -331,7 +331,7 @@ else:
 output_dir = BASE_DIR / "output" / current_news_paper_name
 
 outputs = Outputs(output_dir, schema)
-visualizer = Visualizer(output_dir)
+visualizer = Visualizer(output_dir, schema)
 # from register_comparison.aggregators.aggregator import Aggregator as aggregator, Aggregator
 
 # Save feature frequency CSV

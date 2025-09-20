@@ -95,41 +95,171 @@ from register_comparison.outputs.output_creators import Outputs as output_creato
 
 
 class Visualizer:
-    def __init__(self, output_dir: Path):
+    def __init__(self, output_dir: Path, schema=None):
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.schema = schema
+        self._create_mnemonic_mappings()
+
+    def _create_mnemonic_mappings(self):
+        """Create mappings from feature IDs to readable names using schema mnemonics."""
+        self.feature_labels = {}
+        self.value_labels = {}
+
+        if self.schema:
+            for feature in self.schema.features:
+                # Check if feature is a string or Feature object
+                if isinstance(feature, str):
+                    # If it's a string, just use it as the ID
+                    feature_id = feature
+                    readable_name = f"{feature}\n(Feature)"
+                    self.feature_labels[feature_id] = readable_name
+                else:
+                    # If it's a Feature object, use its properties
+                    feature_id = feature.mnemonic_code
+                    readable_name = f"{feature.mnemonic_code}\n({feature.name})"
+                    self.feature_labels[feature_id] = readable_name
+
+                    # Map values to mnemonics
+                    if hasattr(feature, 'values'):
+                        for value in feature.values:
+                            value_id = value.value
+                            value_mnemonic = value.mnemonic
+                            self.value_labels[value_id] = value_mnemonic
+
+        # Fallback for common abbreviations
+        default_labels = {
+            'FW-DEL': 'FW-DEL\n(Function Word\nDeletion)',
+            'FW-ADD': 'FW-ADD\n(Function Word\nAddition)',
+            'C-DEL': 'C-DEL\n(Content Word\nDeletion)',
+            'C-ADD': 'C-ADD\n(Content Word\nAddition)',
+            'POS-CHG': 'POS-CHG\n(POS Change)',
+            'LEMMA-CHG': 'LEMMA-CHG\n(Lemma Change)',
+            'FORM-CHG': 'FORM-CHG\n(Surface Form\nChange)',
+            'DEP-REL-CHG': 'DEP-REL-CHG\n(Dependency\nRelation Change)',
+            'HEAD-CHG': 'HEAD-CHG\n(Dependency\nHead Change)',
+            'FEAT-CHG': 'FEAT-CHG\n(Morphological\nFeature Change)',
+            'VERB-FORM-CHG': 'VERB-FORM-CHG\n(Verb Form\nChange)',
+            'LENGTH-CHG': 'LENGTH-CHG\n(Sentence Length\nChange)',
+            'CONST-ADD': 'CONST-ADD\n(Constituent\nAddition)',
+            'CONST-REM': 'CONST-REM\n(Constituent\nRemoval)',
+            'CONST-MOV': 'CONST-MOV\n(Constituent\nMovement)',
+            'CLAUSE-TYPE-CHG': 'CLAUSE-TYPE-CHG\n(Clause Type\nChange)',
+            'TOKEN-REORDER': 'TOKEN-REORDER\n(Token\nReordering)',
+            'TED': 'TED\n(Token Edit\nDistance)'
+        }
+
+        # Use default labels for any missing mappings
+        for key, label in default_labels.items():
+            if key not in self.feature_labels:
+                self.feature_labels[key] = label
+
+    def _get_feature_label(self, feature_id):
+        """Get readable label for feature ID."""
+        return self.feature_labels.get(feature_id, feature_id)
+
+    def _get_value_label(self, value_id):
+        """Get readable label for value ID."""
+        return self.value_labels.get(value_id, value_id)
 
     def plot_feature_frequencies(self, feature_counts: Dict[str, int], title: str, filename: str):
         """
-        Generate a bar chart of feature frequencies.
+        Generate a bar chart of feature frequencies with improved clarity using mnemonics.
         """
         keys = list(feature_counts.keys())
         values = [feature_counts[k] for k in keys]
 
-        plt.figure(figsize=(10,6))
-        sns.barplot(x=keys, y=values, color='skyblue')
-        plt.title(title)
-        plt.xlabel("Feature ID")
-        plt.ylabel("Frequency")
-        plt.xticks(rotation=45, ha="right")
+        # Sort by frequency for better readability
+        sorted_pairs = sorted(zip(keys, values), key=lambda x: x[1], reverse=True)
+        keys, values = zip(*sorted_pairs) if sorted_pairs else ([], [])
+
+        plt.figure(figsize=(16, 10))
+
+        # Create color palette for better distinction
+        colors = sns.color_palette("Set3", len(keys))
+        bars = plt.bar(range(len(keys)), values, color=colors, edgecolor='black', linewidth=0.8)
+
+        # Enhanced title and labels with mnemonics
+        plt.title(title, fontsize=18, fontweight='bold', pad=25)
+        plt.xlabel("Linguistic Features (Mnemonics)", fontsize=14, fontweight='bold')
+        plt.ylabel("Frequency (Number of Occurrences)", fontsize=14, fontweight='bold')
+
+        # Use mnemonic labels for x-axis
+        readable_labels = [self._get_feature_label(key) for key in keys]
+        plt.xticks(range(len(keys)), readable_labels, rotation=45, ha="right", fontsize=10)
+        plt.yticks(fontsize=12)
+
+        # Add value labels on bars for clarity
+        for i, (bar, value) in enumerate(zip(bars, values)):
+            if value > 0:  # Only show non-zero values
+                plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(values)*0.015,
+                        f'{value:,}', ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+        # Improve axis scaling when values are close
+        if values and max(values) > 0:
+            y_range = max(values) - min(values)
+            if y_range < max(values) * 0.1:  # If range is small relative to max
+                y_min = max(0, min(values) - y_range * 0.1)
+                y_max = max(values) + y_range * 0.2
+                plt.ylim(y_min, y_max)
+            else:
+                # Standard scaling with some padding
+                plt.ylim(0, max(values) * 1.1)
+
+        # Add grid for better readability
+        plt.grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.5)
+
+        # Add legend with feature counts for clarity
+        legend_text = f"Total Features: {len(keys)}\nTotal Events: {sum(values):,}"
+        plt.text(0.98, 0.98, legend_text, transform=plt.gca().transAxes,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8),
+                verticalalignment='top', horizontalalignment='right', fontsize=10)
+
         plt.tight_layout()
-        plt.savefig(self.output_dir / filename)
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
         print(f"Saved feature frequency plot to {filename}")
 
     def plot_histogram(self, data, bins: int, title: str, xlabel: str, filename: str):
         """
-        Generic histogram plot.
+        Enhanced histogram plot with improved formatting.
         """
-        plt.figure(figsize=(8,5))
-        plt.hist(data, bins=bins, color="green", edgecolor="black")
-        plt.title(title)
-        plt.xlabel(xlabel)
-        plt.ylabel("Count")
+        plt.figure(figsize=(12, 8))
+
+        # Create histogram with better styling
+        n, bins_edges, patches = plt.hist(data, bins=bins, color="steelblue",
+                                         edgecolor="black", linewidth=0.7, alpha=0.8)
+
+        # Enhanced titles and labels
+        plt.title(title, fontsize=16, fontweight='bold', pad=20)
+        plt.xlabel(xlabel, fontsize=14, fontweight='bold')
+        plt.ylabel("Frequency (Count)", fontsize=14, fontweight='bold')
+
+        # Improve axis formatting
+        plt.xticks(fontsize=12)
+        plt.yticks(fontsize=12)
+
+        # Add value labels on bars for clarity
+        for i, (patch, count) in enumerate(zip(patches, n)):
+            if count > 0:  # Only show non-zero values
+                plt.text(patch.get_x() + patch.get_width()/2, patch.get_height() + max(n)*0.01,
+                        f'{int(count)}', ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+        # Add statistics text
+        mean_val = np.mean(data) if len(data) > 0 else 0
+        std_val = np.std(data) if len(data) > 0 else 0
+        stats_text = f"Mean: {mean_val:.2f}\nStd: {std_val:.2f}\nN: {len(data)}"
+        plt.text(0.98, 0.98, stats_text, transform=plt.gca().transAxes,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8),
+                verticalalignment='top', horizontalalignment='right', fontsize=10)
+
+        # Add grid for better readability
+        plt.grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.5)
+
         plt.tight_layout()
-        plt.savefig(self.output_dir / filename)
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"Saved histogram to {filename}")
+        print(f"Saved enhanced histogram to {filename}")
 
     def create_comprehensive_visualizations(self, analysis: Dict, summary: Dict):
         """
@@ -186,7 +316,7 @@ class Visualizer:
         )
 
     def plot_parse_type_comparison(self, parse_type_data: Dict, title: str, filename: str):
-        """Create side-by-side comparison of features across parse types."""
+        """Create enhanced side-by-side comparison of features across parse types with mnemonics."""
         import pandas as pd
 
         # Prepare data for plotting
@@ -204,39 +334,50 @@ class Visualizer:
 
         df = pd.DataFrame(plot_data)
 
-        # Create figure with subplots
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+        # Create figure with enhanced subplots
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
+        fig.suptitle(title, fontsize=18, fontweight='bold')
 
-        # Plot 1: Grouped bar chart for top features
-        top_features = df.groupby('feature_id')['count'].sum().nlargest(10).index
+        # Plot 1: Grouped bar chart for top features with mnemonics
+        top_features = df.groupby('feature_id')['count'].sum().nlargest(12).index
         df_top = df[df['feature_id'].isin(top_features)]
 
         df_pivot = df_top.pivot(index='feature_id', columns='parse_type', values='count').fillna(0)
-        df_pivot.plot(kind='bar', ax=ax1)
-        ax1.set_title("Top 10 Features by Parse Type")
-        ax1.set_xlabel("Feature ID")
-        ax1.set_ylabel("Count")
-        ax1.tick_params(axis='x', rotation=45)
-        ax1.legend(title="Parse Type")
+
+        # Use mnemonic labels for x-axis
+        readable_labels = [self._get_feature_label(feat).replace('\n', ' ') for feat in df_pivot.index]
+
+        bars = df_pivot.plot(kind='bar', ax=ax1, width=0.8, edgecolor='black', linewidth=0.5)
+        ax1.set_title("Top 12 Features by Parse Type", fontweight='bold', fontsize=14)
+        ax1.set_xlabel("Linguistic Features (Mnemonics)", fontweight='bold', fontsize=12)
+        ax1.set_ylabel("Event Count", fontweight='bold', fontsize=12)
+        ax1.set_xticklabels(readable_labels, rotation=45, ha='right', fontsize=10)
+        ax1.legend(title="Parse Type", fontsize=11, title_fontsize=12)
+        ax1.grid(axis='y', alpha=0.3, linestyle='--')
 
         # Plot 2: Stacked bar chart showing proportions
         df_props = df.groupby(['parse_type', 'feature_id'])['count'].sum().unstack().fillna(0)
         df_props_pct = df_props.div(df_props.sum(axis=1), axis=0) * 100
 
-        df_props_pct.T.plot(kind='bar', stacked=True, ax=ax2)
-        ax2.set_title("Feature Distribution Proportions")
-        ax2.set_xlabel("Feature ID")
-        ax2.set_ylabel("Percentage")
-        ax2.tick_params(axis='x', rotation=45)
-        ax2.legend(title="Parse Type")
+        bars2 = df_props_pct.T.plot(kind='bar', stacked=True, ax=ax2, width=0.8, edgecolor='black', linewidth=0.5)
+        ax2.set_title("Feature Distribution Proportions by Parse Type", fontweight='bold', fontsize=14)
+        ax2.set_xlabel("Linguistic Features (Mnemonics)", fontweight='bold', fontsize=12)
+        ax2.set_ylabel("Percentage of Total Events (%)", fontweight='bold', fontsize=12)
+
+        # Use mnemonic labels for second plot
+        readable_labels_2 = [self._get_feature_label(feat).replace('\n', ' ') for feat in df_props_pct.index]
+        ax2.set_xticks(range(len(df_props_pct.index)))
+        ax2.set_xticklabels(readable_labels_2, rotation=45, ha='right', fontsize=10)
+        ax2.legend(title="Parse Type", fontsize=11, title_fontsize=12)
+        ax2.grid(axis='y', alpha=0.3, linestyle='--')
 
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"Saved parse type comparison to {filename}")
+        print(f"Saved enhanced parse type comparison to {filename}")
 
     def plot_newspaper_comparison(self, newspaper_data: Dict, title: str, filename: str):
-        """Create comparison visualization across newspapers."""
+        """Create enhanced comparison visualization across newspapers with mnemonics."""
         import pandas as pd
 
         plot_data = []
@@ -253,19 +394,43 @@ class Visualizer:
 
         df = pd.DataFrame(plot_data)
 
-        # Create grouped bar chart for top features
-        top_features = df.groupby('feature_id')['count'].sum().nlargest(12).index
+        # Create enhanced grouped bar chart for top features
+        top_features = df.groupby('feature_id')['count'].sum().nlargest(15).index
         df_top = df[df['feature_id'].isin(top_features)]
 
-        plt.figure(figsize=(14, 8))
+        plt.figure(figsize=(18, 10))
         df_pivot = df_top.pivot(index='feature_id', columns='newspaper', values='count').fillna(0)
-        df_pivot.plot(kind='bar', width=0.8)
 
-        plt.title(title)
-        plt.xlabel("Feature ID")
-        plt.ylabel("Count")
-        plt.xticks(rotation=45, ha='right')
-        plt.legend(title="Newspaper")
+        # Use mnemonic labels for x-axis
+        readable_labels = [self._get_feature_label(feat).replace('\n', ' ') for feat in df_pivot.index]
+
+        # Create enhanced bar plot
+        ax = df_pivot.plot(kind='bar', width=0.8, edgecolor='black', linewidth=0.5,
+                          colormap='Set2', figsize=(18, 10))
+
+        plt.title(title, fontsize=18, fontweight='bold', pad=25)
+        plt.xlabel("Linguistic Features (Mnemonics)", fontsize=14, fontweight='bold')
+        plt.ylabel("Event Count", fontsize=14, fontweight='bold')
+
+        # Enhanced axis formatting
+        plt.xticks(range(len(readable_labels)), readable_labels, rotation=45, ha='right', fontsize=11)
+        plt.yticks(fontsize=12)
+
+        # Enhanced legend
+        plt.legend(title="Newspaper", fontsize=12, title_fontsize=13,
+                  bbox_to_anchor=(1.05, 1), loc='upper left')
+
+        # Add grid and statistics
+        plt.grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.5)
+
+        # Add summary statistics
+        total_events = df['count'].sum()
+        n_newspapers = len(newspaper_data)
+        stats_text = f"Total Events: {total_events:,}\nNewspapers: {n_newspapers}\nTop Features: {len(top_features)}"
+        plt.text(0.02, 0.98, stats_text, transform=plt.gca().transAxes,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightblue", alpha=0.8),
+                verticalalignment='top', horizontalalignment='left', fontsize=10)
+
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
@@ -304,49 +469,80 @@ class Visualizer:
         combined_matrix = np.vstack([newspaper_matrix, parse_type_matrix])
         combined_labels = newspaper_labels + parse_type_labels
 
-        # Create heatmap
-        plt.figure(figsize=(16, 8))
-        sns.heatmap(combined_matrix,
-                   xticklabels=all_features,
-                   yticklabels=combined_labels,
-                   annot=False,
-                   cmap='YlOrRd',
-                   cbar_kws={'label': 'Feature Count'})
+        # Create heatmap with improved formatting
+        plt.figure(figsize=(20, 10))
 
-        plt.title(title)
-        plt.xlabel("Features")
-        plt.ylabel("Dimensions")
-        plt.xticks(rotation=45, ha='right')
+        # Use feature mnemonics for better readability
+        readable_features = [self._get_feature_label(feat).replace('\n', ' ') for feat in all_features]
+
+        # Create heatmap with better styling
+        ax = sns.heatmap(combined_matrix,
+                        xticklabels=readable_features,
+                        yticklabels=combined_labels,
+                        annot=True,  # Show values for clarity
+                        fmt='d',     # Integer format
+                        cmap='YlOrRd',
+                        cbar_kws={'label': 'Feature Count (Number of Events)', 'shrink': 0.8})
+
+        plt.title(title, fontsize=18, fontweight='bold', pad=20)
+        plt.xlabel("Linguistic Features (Mnemonics)", fontsize=14, fontweight='bold')
+        plt.ylabel("Analysis Dimensions", fontsize=14, fontweight='bold')
+
+        # Improve axis formatting
+        plt.xticks(rotation=45, ha='right', fontsize=10)
+        plt.yticks(rotation=0, fontsize=12)
+
+        # Add border around heatmap
+        for spine in ax.spines.values():
+            spine.set_visible(True)
+            spine.set_linewidth(1)
+
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
         print(f"Saved feature coverage heatmap to {filename}")
 
     def plot_top_features_analysis(self, feature_stats: Dict, title: str, filename: str):
-        """Create detailed analysis of top features."""
+        """Create detailed analysis of top features with improved clarity."""
         # Sort features by occurrence
         sorted_features = sorted(feature_stats.items(),
                                key=lambda x: x[1]['total_occurrences'],
                                reverse=True)[:15]
 
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(18, 14))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
 
-        # Plot 1: Top features by count
+        # Plot 1: Top features by count with mnemonic labels
         feature_ids = [item[0] for item in sorted_features]
         counts = [item[1]['total_occurrences'] for item in sorted_features]
+        readable_labels = [self._get_feature_label(fid).replace('\n', ' ') for fid in feature_ids]
 
-        ax1.bar(range(len(feature_ids)), counts, color='steelblue')
-        ax1.set_xlabel("Features")
-        ax1.set_ylabel("Count")
-        ax1.set_title("Top 15 Features by Count")
+        bars1 = ax1.bar(range(len(feature_ids)), counts, color='steelblue', edgecolor='black', linewidth=0.5)
+        ax1.set_xlabel("Linguistic Features (Mnemonics)", fontweight='bold')
+        ax1.set_ylabel("Event Count", fontweight='bold')
+        ax1.set_title("Top 15 Features by Count", fontweight='bold')
         ax1.set_xticks(range(len(feature_ids)))
-        ax1.set_xticklabels(feature_ids, rotation=45, ha='right')
+        ax1.set_xticklabels(readable_labels, rotation=45, ha='right', fontsize=9)
+
+        # Add value labels on bars
+        for bar, count in zip(bars1, counts):
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(counts)*0.01,
+                    f'{count:,}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+
+        # Improve y-axis scaling
+        if counts:
+            y_range = max(counts) - min(counts)
+            if y_range < max(counts) * 0.1:
+                y_min = max(0, min(counts) - y_range * 0.1)
+                ax1.set_ylim(y_min, max(counts) * 1.15)
+
+        ax1.grid(axis='y', alpha=0.3, linestyle='--')
 
         # Plot 2: Percentage distribution
         percentages = [item[1]['percentage_of_total'] for item in sorted_features]
-        ax2.bar(range(len(feature_ids)), percentages, color='lightcoral')
-        ax2.set_xlabel("Features")
-        ax2.set_ylabel("Percentage of Total")
+        bars2 = ax2.bar(range(len(feature_ids)), percentages, color='lightcoral', edgecolor='black', linewidth=0.5)
+        ax2.set_xlabel("Linguistic Features (Mnemonics)", fontweight='bold')
+        ax2.set_ylabel("Percentage of Total Events (%)", fontweight='bold')
         ax2.set_title("Feature Distribution (%)")
         ax2.set_xticks(range(len(feature_ids)))
         ax2.set_xticklabels(feature_ids, rotation=45, ha='right')
@@ -375,7 +571,7 @@ class Visualizer:
         print(f"Saved top features analysis to {filename}")
 
     def plot_cross_dimensional_analysis(self, cross_data: Dict, title: str, filename: str):
-        """Create visualization of cross-dimensional analysis."""
+        """Create enhanced visualization of cross-dimensional analysis with mnemonics."""
         if not cross_data:
             return
 
@@ -398,14 +594,16 @@ class Visualizer:
         import pandas as pd
         df = pd.DataFrame(plot_data)
 
-        # Create subplot for each newspaper-parse_type combination
+        # Create enhanced subplot layout for each newspaper-parse_type combination
         combinations = df['combination'].unique()
         n_combinations = len(combinations)
 
         if n_combinations <= 2:
-            fig, axes = plt.subplots(1, n_combinations, figsize=(8 * n_combinations, 6))
+            fig, axes = plt.subplots(1, n_combinations, figsize=(12 * n_combinations, 8))
         else:
-            fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+            fig, axes = plt.subplots(2, 2, figsize=(20, 16))
+
+        fig.suptitle(title, fontsize=18, fontweight='bold', y=0.98)
 
         if n_combinations == 1:
             axes = [axes]
@@ -421,18 +619,39 @@ class Visualizer:
             combo_data = df[df['combination'] == combination]
             top_features = combo_data.nlargest(10, 'count')
 
-            axes[i].bar(range(len(top_features)), top_features['count'], color=f'C{i}')
-            axes[i].set_title(f"{combination}")
-            axes[i].set_xlabel("Top Features")
-            axes[i].set_ylabel("Count")
-            axes[i].set_xticks(range(len(top_features)))
-            axes[i].set_xticklabels(top_features['feature_id'], rotation=45, ha='right')
+            # Enhanced styling for each subplot
+            colors = sns.color_palette("Set2", len(top_features))
+            bars = axes[i].bar(range(len(top_features)), top_features['count'],
+                              color=colors, edgecolor='black', linewidth=0.5)
 
-        plt.suptitle(title)
+            # Enhanced titles and labels with mnemonics
+            axes[i].set_title(f"{combination.replace('_', ' + ')}", fontweight='bold', fontsize=12)
+            axes[i].set_xlabel("Top Linguistic Features", fontweight='bold', fontsize=10)
+            axes[i].set_ylabel("Event Count", fontweight='bold', fontsize=10)
+
+            # Use mnemonic labels
+            readable_labels = [self._get_feature_label(feat).replace('\n', ' ')
+                             for feat in top_features['feature_id']]
+            axes[i].set_xticks(range(len(top_features)))
+            axes[i].set_xticklabels(readable_labels, rotation=45, ha='right', fontsize=9)
+
+            # Add value labels on bars
+            for bar, count in zip(bars, top_features['count']):
+                axes[i].text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(top_features['count'])*0.01,
+                           f'{count:,}', ha='center', va='bottom', fontsize=8, fontweight='bold')
+
+            # Add grid for better readability
+            axes[i].grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.5)
+
+        # Hide unused subplots
+        for j in range(len(combinations), len(axes)):
+            if j < len(axes):
+                axes[j].set_visible(False)
+
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"Saved cross-dimensional analysis to {filename}")
+        print(f"Saved enhanced cross-dimensional analysis to {filename}")
 
     def plot_feature_category_distribution(self, feature_stats: Dict, title: str, filename: str):
         """Create visualization showing distribution by feature categories."""
@@ -458,28 +677,60 @@ class Visualizer:
             category_counts[category] = total_count
             category_percentages[category] = total_percentage
 
-        # Create pie chart and bar chart
-        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+        # Create enhanced pie chart and bar chart
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
 
-        # Pie chart
-        ax1.pie(category_counts.values(),
-               labels=category_counts.keys(),
-               autopct='%1.1f%%',
-               startangle=90)
-        ax1.set_title("Distribution by Feature Category (Counts)")
+        # Enhanced pie chart with better colors and formatting
+        colors = ['steelblue', 'lightcoral', 'mediumseagreen', 'gold', 'mediumpurple', 'orange']
+        wedges, texts, autotexts = ax1.pie(category_counts.values(),
+                                          labels=category_counts.keys(),
+                                          autopct='%1.1f%%',
+                                          startangle=90,
+                                          colors=colors,
+                                          explode=[0.05] * len(category_counts),  # Small separation
+                                          shadow=True)
 
-        # Bar chart
-        ax2.bar(category_counts.keys(), category_counts.values(),
-               color=['steelblue', 'lightcoral', 'mediumseagreen', 'gold', 'mediumpurple', 'orange'])
-        ax2.set_title("Feature Category Frequencies")
-        ax2.set_xlabel("Category")
-        ax2.set_ylabel("Count")
-        ax2.tick_params(axis='x', rotation=45)
+        # Enhance text formatting
+        for autotext in autotexts:
+            autotext.set_color('white')
+            autotext.set_fontweight('bold')
+            autotext.set_fontsize(10)
+
+        for text in texts:
+            text.set_fontsize(11)
+            text.set_fontweight('bold')
+
+        ax1.set_title("Distribution by Feature Category (Counts)", fontweight='bold', fontsize=12)
+
+        # Enhanced bar chart
+        bars = ax2.bar(category_counts.keys(), category_counts.values(),
+                      color=colors, edgecolor='black', linewidth=0.8)
+        ax2.set_title("Feature Category Frequencies", fontweight='bold', fontsize=12)
+        ax2.set_xlabel("Linguistic Category", fontweight='bold', fontsize=11)
+        ax2.set_ylabel("Total Event Count", fontweight='bold', fontsize=11)
+        ax2.tick_params(axis='x', rotation=45, labelsize=10)
+        ax2.tick_params(axis='y', labelsize=10)
+
+        # Add value labels on bars
+        for bar, count in zip(bars, category_counts.values()):
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(category_counts.values())*0.01,
+                    f'{count:,}', ha='center', va='bottom', fontsize=9, fontweight='bold')
+
+        # Add grid for better readability
+        ax2.grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.5)
+
+        # Add summary statistics
+        total_events = sum(category_counts.values())
+        stats_text = f"Total Events: {total_events:,}\nCategories: {len(category_counts)}"
+        ax2.text(0.98, 0.98, stats_text, transform=ax2.transAxes,
+                bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8),
+                verticalalignment='top', horizontalalignment='right', fontsize=10)
 
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
-        print(f"Saved feature category distribution to {filename}")
+        print(f"Saved enhanced feature category distribution to {filename}")
 
     def create_statistical_summary_visualizations(self, analysis: Dict, summary: Dict):
         """Create comprehensive statistical summary visualizations for all dimensional combinations."""
@@ -538,19 +789,30 @@ class Visualizer:
         print("Statistical summary visualizations completed!")
 
     def plot_newspaper_statistical_comparison(self, newspaper_data: Dict, newspaper_summary: Dict, title: str, filename: str):
-        """Create statistical comparison charts across newspapers."""
-        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+        """Create enhanced statistical comparison charts across newspapers with improved formatting."""
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(18, 14))
+        fig.suptitle(title, fontsize=18, fontweight='bold')
 
         newspapers = list(newspaper_data.keys())
+        colors = sns.color_palette("Set2", len(newspapers))
 
-        # 1. Total events comparison
+        # 1. Enhanced total events comparison
         total_events = [newspaper_data[np]['total_events'] for np in newspapers]
-        ax1.bar(newspapers, total_events, color=['steelblue', 'lightcoral', 'mediumseagreen'])
-        ax1.set_title("Total Events by Newspaper")
-        ax1.set_ylabel("Number of Events")
-        ax1.tick_params(axis='x', rotation=45)
+        bars1 = ax1.bar(newspapers, total_events, color=colors, edgecolor='black', linewidth=0.8)
+        ax1.set_title("Total Events by Newspaper", fontweight='bold', fontsize=14)
+        ax1.set_xlabel("Newspaper", fontweight='bold', fontsize=12)
+        ax1.set_ylabel("Number of Events", fontweight='bold', fontsize=12)
+        ax1.tick_params(axis='x', rotation=45, labelsize=11)
+        ax1.tick_params(axis='y', labelsize=11)
 
-        # 2. Average events per sentence
+        # Add value labels on bars
+        for bar, count in zip(bars1, total_events):
+            ax1.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(total_events)*0.01,
+                    f'{count:,}', ha='center', va='bottom', fontsize=10, fontweight='bold')
+
+        ax1.grid(axis='y', alpha=0.3, linestyle='--')
+
+        # 2. Enhanced average events per sentence
         avg_events = []
         for np in newspapers:
             total = newspaper_data[np]['total_events']
@@ -558,16 +820,26 @@ class Visualizer:
             estimated_sentences = max(1, total // 10)  # Rough estimate
             avg_events.append(total / estimated_sentences)
 
-        ax2.bar(newspapers, avg_events, color=['orange', 'purple', 'brown'])
-        ax2.set_title("Average Events per Sentence")
-        ax2.set_ylabel("Events/Sentence")
-        ax2.tick_params(axis='x', rotation=45)
+        bars2 = ax2.bar(newspapers, avg_events, color=colors, edgecolor='black', linewidth=0.8)
+        ax2.set_title("Average Events per Sentence", fontweight='bold', fontsize=14)
+        ax2.set_xlabel("Newspaper", fontweight='bold', fontsize=12)
+        ax2.set_ylabel("Events/Sentence (Estimated)", fontweight='bold', fontsize=12)
+        ax2.tick_params(axis='x', rotation=45, labelsize=11)
+        ax2.tick_params(axis='y', labelsize=11)
 
-        # 3. Feature diversity (unique features per newspaper)
+        # Add value labels
+        for bar, avg in zip(bars2, avg_events):
+            ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(avg_events)*0.01,
+                    f'{avg:.1f}', ha='center', va='bottom', fontsize=10, fontweight='bold')
+
+        ax2.grid(axis='y', alpha=0.3, linestyle='--')
+
+        # 3. Enhanced feature diversity (unique features per newspaper)
         feature_diversity = [len(newspaper_data[np]['feature_counts']) for np in newspapers]
-        ax3.bar(newspapers, feature_diversity, color=['teal', 'coral', 'gold'])
-        ax3.set_title("Feature Diversity by Newspaper")
-        ax3.set_ylabel("Number of Unique Features")
+        bars3 = ax3.bar(newspapers, feature_diversity, color=colors, edgecolor='black', linewidth=0.8)
+        ax3.set_title("Feature Diversity by Newspaper", fontweight='bold', fontsize=14)
+        ax3.set_xlabel("Newspaper", fontweight='bold', fontsize=12)
+        ax3.set_ylabel("Number of Unique Features", fontweight='bold', fontsize=12)
         ax3.tick_params(axis='x', rotation=45)
 
         # 4. Top feature comparison

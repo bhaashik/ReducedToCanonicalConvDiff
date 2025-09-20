@@ -1,0 +1,19 @@
+feature_id,feature_name,total_occurrences,percentage_of_total,newspapers_found_in,parse_types_found_in
+CONST-MOV,Constituent Movement,5705,31.752657650136364,1,1
+DEP-REL-CHG,Dependency Relation Change,5284,29.40947292258029,1,1
+FW-DEL,Function Word Deletion,1661,9.244726442923138,1,1
+CLAUSE-TYPE-CHG,Clause Type Change,1500,8.348639171814993,1,1
+LENGTH-CHG,Sentence Length Change,1117,6.216953303278232,1,1
+TED,Tree Edit Distance,1058,5.888573495853509,1,1
+C-DEL,Content Word Deletion,447,2.487894473200868,1,1
+CONST-REM,Constituent Removal,278,1.5472811265097122,1,1
+C-ADD,Content Word Addition,200,1.1131518895753325,1,1
+HEAD-CHG,Dependency Head Change,198,1.1020203706795793,1,1
+FORM-CHG,Surface Form Change,158,0.8793899927645127,1,1
+FEAT-CHG,Morphological Feature Change,95,0.528747147548283,1,1
+CONST-ADD,Constituent Addition,91,0.5064841097567764,1,1
+POS-CHG,Part of Speech Change,83,0.461958034173763,1,1
+FW-ADD,Function Word Addition,49,0.27272221294595644,1,1
+LEMMA-CHG,Lemma Change,26,0.14470974564479322,1,1
+VERB-FORM-CHG,Verb Form Change,11,0.0612233539266433,1,1
+TOKEN-REORDER,Token Reordering,6,0.03339455668725998,1,1

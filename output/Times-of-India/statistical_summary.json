@@ -1,0 +1,154 @@
+{
+  "overview": {
+    "total_events": 30847,
+    "unique_features": 18,
+    "newspapers": [
+      "Times-of-India"
+    ],
+    "parse_types": [
+      "dependency",
+      "constituency"
+    ]
+  },
+  "feature_statistics": {
+    "FW-DEL": {
+      "total_occurrences": 2241,
+      "percentage_of_total": 7.264887995591144,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "DEP-REL-CHG": {
+      "total_occurrences": 9892,
+      "percentage_of_total": 32.0679482607709,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "LENGTH-CHG": {
+      "total_occurrences": 1022,
+      "percentage_of_total": 3.3131260738483483,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-REM": {
+      "total_occurrences": 254,
+      "percentage_of_total": 0.8234188089603528,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-MOV": {
+      "total_occurrences": 11485,
+      "percentage_of_total": 37.2321457516128,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CLAUSE-TYPE-CHG": {
+      "total_occurrences": 2728,
+      "percentage_of_total": 8.843647680487567,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TED": {
+      "total_occurrences": 1034,
+      "percentage_of_total": 3.3520277498622235,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "HEAD-CHG": {
+      "total_occurrences": 282,
+      "percentage_of_total": 0.9141893863260608,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "C-DEL": {
+      "total_occurrences": 720,
+      "percentage_of_total": 2.334100560832496,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "C-ADD": {
+      "total_occurrences": 540,
+      "percentage_of_total": 1.7505754206243718,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "POS-CHG": {
+      "total_occurrences": 89,
+      "percentage_of_total": 0.2885207637695724,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FORM-CHG": {
+      "total_occurrences": 89,
+      "percentage_of_total": 0.2885207637695724,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FEAT-CHG": {
+      "total_occurrences": 129,
+      "percentage_of_total": 0.41819301714915547,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-ADD": {
+      "total_occurrences": 124,
+      "percentage_of_total": 0.40198398547670766,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FW-ADD": {
+      "total_occurrences": 170,
+      "percentage_of_total": 0.5511070768632281,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "LEMMA-CHG": {
+      "total_occurrences": 22,
+      "percentage_of_total": 0.0713197393587707,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "VERB-FORM-CHG": {
+      "total_occurrences": 14,
+      "percentage_of_total": 0.04538528868285409,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TOKEN-REORDER": {
+      "total_occurrences": 12,
+      "percentage_of_total": 0.03890167601387493,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    }
+  },
+  "newspaper_statistics": {
+    "Times-of-India": {
+      "total_events": 30847,
+      "percentage_of_global": 100.0,
+      "unique_features": 18,
+      "most_frequent_feature": [
+        "CONST-MOV",
+        11485
+      ]
+    }
+  },
+  "parse_type_statistics": {
+    "dependency": {
+      "total_events": 15222,
+      "percentage_of_global": 49.346776023600356,
+      "unique_features": 13,
+      "most_frequent_feature": [
+        "DEP-REL-CHG",
+        9892
+      ]
+    },
+    "constituency": {
+      "total_events": 15625,
+      "percentage_of_global": 50.65322397639965,
+      "unique_features": 5,
+      "most_frequent_feature": [
+        "CONST-MOV",
+        11485
+      ]
+    }
+  }
+}

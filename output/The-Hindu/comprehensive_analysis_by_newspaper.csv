@@ -1,0 +1,19 @@
+newspaper,feature_id,feature_name,count,percentage_of_newspaper
+The-Hindu,FW-DEL,Function Word Deletion,1661,9.244726442923138
+The-Hindu,C-ADD,Content Word Addition,200,1.1131518895753325
+The-Hindu,POS-CHG,Part of Speech Change,83,0.461958034173763
+The-Hindu,FORM-CHG,Surface Form Change,158,0.8793899927645127
+The-Hindu,DEP-REL-CHG,Dependency Relation Change,5284,29.40947292258029
+The-Hindu,FEAT-CHG,Morphological Feature Change,95,0.528747147548283
+The-Hindu,LENGTH-CHG,Sentence Length Change,1117,6.216953303278232
+The-Hindu,CONST-MOV,Constituent Movement,5705,31.752657650136364
+The-Hindu,CLAUSE-TYPE-CHG,Clause Type Change,1500,8.348639171814993
+The-Hindu,TED,Tree Edit Distance,1058,5.888573495853509
+The-Hindu,CONST-ADD,Constituent Addition,91,0.5064841097567764
+The-Hindu,C-DEL,Content Word Deletion,447,2.487894473200868
+The-Hindu,CONST-REM,Constituent Removal,278,1.5472811265097122
+The-Hindu,HEAD-CHG,Dependency Head Change,198,1.1020203706795793
+The-Hindu,FW-ADD,Function Word Addition,49,0.27272221294595644
+The-Hindu,VERB-FORM-CHG,Verb Form Change,11,0.0612233539266433
+The-Hindu,TOKEN-REORDER,Token Reordering,6,0.03339455668725998
+The-Hindu,LEMMA-CHG,Lemma Change,26,0.14470974564479322

@@ -1,0 +1,16 @@
+# Core data processing libraries
+conllu>=4.0
+nltk>=3.8
+pandas>=1.5.0
+
+# Statistical analysis
+scipy>=1.9.0
+numpy>=1.21.0
+
+# Visualization
+matplotlib>=3.5.0
+seaborn>=0.11.0
+
+# Path and file handling (pathlib is built-in for Python 3.4+)
+# Additional utilities
+typing_extensions>=4.0.0

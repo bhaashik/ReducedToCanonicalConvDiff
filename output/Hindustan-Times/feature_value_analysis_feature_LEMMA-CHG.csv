@@ -1,0 +1,16 @@
+feature_id,canonical_value,headline_value,transformation,count,percentage
+LEMMA-CHG,Reliance,reliance,Reliance→reliance,2,11.76470588235294
+LEMMA-CHG,ceo,CEO,ceo→CEO,2,11.76470588235294
+LEMMA-CHG,Day,day,Day→day,1,5.88235294117647
+LEMMA-CHG,Entertainment,entertainment,Entertainment→entertainment,1,5.88235294117647
+LEMMA-CHG,new,New,new→New,1,5.88235294117647
+LEMMA-CHG,driving,drive,driving→drive,1,5.88235294117647
+LEMMA-CHG,intelligence,Intelligence,intelligence→Intelligence,1,5.88235294117647
+LEMMA-CHG,Emerging,emerge,Emerging→emerge,1,5.88235294117647
+LEMMA-CHG,be,'s,be→'s,1,5.88235294117647
+LEMMA-CHG,Boo,boo,Boo→boo,1,5.88235294117647
+LEMMA-CHG,Industries,industry,Industries→industry,1,5.88235294117647
+LEMMA-CHG,world,World,world→World,1,5.88235294117647
+LEMMA-CHG,Twinkle,twinkle,Twinkle→twinkle,1,5.88235294117647
+LEMMA-CHG,police,Police,police→Police,1,5.88235294117647
+LEMMA-CHG,IT,it,IT→it,1,5.88235294117647

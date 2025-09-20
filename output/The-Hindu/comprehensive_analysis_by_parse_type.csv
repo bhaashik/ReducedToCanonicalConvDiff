@@ -1,0 +1,19 @@
+parse_type,feature_id,feature_name,count,percentage_of_parse_type
+dependency,FW-DEL,Function Word Deletion,1661,17.79325120514194
+dependency,C-ADD,Content Word Addition,200,2.1424745581146225
+dependency,POS-CHG,Part of Speech Change,83,0.8891269416175682
+dependency,FORM-CHG,Surface Form Change,158,1.6925549009105516
+dependency,DEP-REL-CHG,Dependency Relation Change,5284,56.60417782538833
+dependency,FEAT-CHG,Morphological Feature Change,95,1.0176754151044456
+dependency,LENGTH-CHG,Sentence Length Change,1117,11.965720407070165
+dependency,C-DEL,Content Word Deletion,447,4.788430637386181
+dependency,HEAD-CHG,Dependency Head Change,198,2.1210498125334762
+dependency,FW-ADD,Function Word Addition,49,0.5249062667380825
+dependency,VERB-FORM-CHG,Verb Form Change,11,0.11783610069630424
+dependency,TOKEN-REORDER,Token Reordering,6,0.06427423674343867
+dependency,LEMMA-CHG,Lemma Change,26,0.2785216925549009
+constituency,CONST-MOV,Constituent Movement,5705,66.09128822984245
+constituency,CLAUSE-TYPE-CHG,Clause Type Change,1500,17.377201112140874
+constituency,TED,Tree Edit Distance,1058,12.256719184430027
+constituency,CONST-ADD,Constituent Addition,91,1.0542168674698795
+constituency,CONST-REM,Constituent Removal,278,3.2205746061167746
