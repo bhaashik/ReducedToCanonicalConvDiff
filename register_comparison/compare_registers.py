@@ -262,15 +262,22 @@ aligner = Aligner(
 )
 pairs = aligner.align()
 
-# 3. Extract features
+# 3. Extract features and compare with TED analysis
 extractor = FeatureExtractor(schema)
-comparator = Comparator(schema)
+# Import and configure TED algorithms for comprehensive tree edit distance analysis
+from register_comparison.ted_config import TEDConfig
+ted_config = TEDConfig.default()  # Uses all four TED algorithms
+comparator = Comparator(schema, ted_config)
 aggregator = Aggregator()
 
 for pair in pairs:
     features = extractor.extract_features(pair)
     events = comparator.compare_pair(pair, features)
     aggregator.add_events(events)
+
+# Collect sentence-level TED scores for distribution analysis
+sentence_ted_scores = comparator.get_sentence_level_ted_scores()
+print(f"Collected {len(sentence_ted_scores)} sentence-level TED scores")
 
 # 4. Check counts
 print("Global counts:", aggregator.global_counts())
@@ -374,6 +381,10 @@ print("="*60)
 print("Generating comprehensive analysis...")
 comprehensive_analysis = aggregator.get_comprehensive_analysis()
 statistical_summary = aggregator.get_statistical_summary()
+
+# Add sentence-level TED scores to comprehensive analysis
+print(f"Adding {len(sentence_ted_scores)} sentence-level TED scores to analysis...")
+comprehensive_analysis['sentence_level_ted_scores'] = sentence_ted_scores
 
 print(f"Analysis completed:")
 print(f"  - Total events analyzed: {comprehensive_analysis['global']['total_events']}")

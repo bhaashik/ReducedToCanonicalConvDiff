@@ -29,6 +29,7 @@ sys.path.insert(0, str(project_root))
 from register_comparison.meta_data.schema import FeatureSchema
 from data.loaded_data import LoadedData
 from register_comparison.comparators.schema_comparator import SchemaBasedComparator as Comparator
+from register_comparison.ted_config import TEDConfig
 from register_comparison.aligners.aligner import Aligner
 from register_comparison.extractors.extractor import FeatureExtractor
 from register_comparison.aggregators.aggregator import Aggregator
@@ -46,6 +47,7 @@ class ModularAnalysisRunner:
         self.schema = None
         self.global_aggregator = Aggregator()  # For multi-newspaper aggregation
         self.newspaper_aggregators = {}  # Individual newspaper aggregators
+        self.sentence_level_ted_data = {}  # Store sentence-level TED scores
 
     def load_schema(self):
         """Load the feature schema."""
@@ -93,7 +95,9 @@ class ModularAnalysisRunner:
             # Run comparison
             try:
                 extractor = FeatureExtractor(self.schema)
-                comparator = Comparator(self.schema)
+                # Create TED configuration for comprehensive tree edit distance analysis
+                ted_config = TEDConfig.default()  # Uses all four TED algorithms
+                comparator = Comparator(self.schema, ted_config)
                 events = []
 
                 for pair in pairs:
@@ -102,6 +106,13 @@ class ModularAnalysisRunner:
                     events.extend(pair_events)
 
                 print(f"  ✅ Generated {len(events)} difference events")
+
+                # Collect sentence-level TED scores
+                sentence_ted_scores = comparator.get_sentence_level_ted_scores()
+                if newspaper not in self.sentence_level_ted_data:
+                    self.sentence_level_ted_data[newspaper] = []
+                self.sentence_level_ted_data[newspaper].extend(sentence_ted_scores)
+
             except Exception as e:
                 print(f"  ❌ Error in comparison for {newspaper}: {e}")
                 continue
@@ -151,6 +162,10 @@ class ModularAnalysisRunner:
             comprehensive_analysis = aggregator.get_comprehensive_analysis()
             statistical_summary = aggregator.get_statistical_summary()
 
+            # Add sentence-level TED data to analysis
+            if newspaper in self.sentence_level_ted_data:
+                comprehensive_analysis['sentence_level_ted_scores'] = self.sentence_level_ted_data[newspaper]
+
             # Save comprehensive outputs
             outputs.save_comprehensive_analysis(comprehensive_analysis, "comprehensive_analysis")
             outputs.save_statistical_summary(statistical_summary, "statistical_summary")
@@ -198,6 +213,12 @@ class ModularAnalysisRunner:
         # Global comprehensive analysis
         comprehensive_analysis = self.global_aggregator.get_comprehensive_analysis()
         statistical_summary = self.global_aggregator.get_statistical_summary()
+
+        # Add combined sentence-level TED data from all newspapers
+        all_sentence_ted_scores = []
+        for newspaper_scores in self.sentence_level_ted_data.values():
+            all_sentence_ted_scores.extend(newspaper_scores)
+        comprehensive_analysis['sentence_level_ted_scores'] = all_sentence_ted_scores
 
         # Save global outputs
         outputs.save_comprehensive_analysis(comprehensive_analysis, "global_comprehensive_analysis")

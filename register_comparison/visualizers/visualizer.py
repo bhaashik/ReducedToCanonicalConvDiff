@@ -89,7 +89,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from typing import Dict, Any
+from typing import Dict, Any, List
 from pathlib import Path
 from register_comparison.outputs.output_creators import Outputs as output_creator, Outputs
 
@@ -314,6 +314,12 @@ class Visualizer:
             "Distribution by Feature Category",
             "feature_categories.png"
         )
+
+        # 8. Tree Edit Distance (TED) analysis visualizations
+        self.create_ted_visualizations(analysis, summary)
+
+        # 9. Sentence-level TED distribution analysis
+        self.create_ted_sentence_level_visualizations(analysis, summary)
 
     def plot_parse_type_comparison(self, parse_type_data: Dict, title: str, filename: str):
         """Create enhanced side-by-side comparison of features across parse types with mnemonics."""
@@ -1522,6 +1528,1064 @@ class Visualizer:
         ax4.axis('off')
 
         plt.suptitle(f"Detailed Analysis: {feature_id}")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def create_ted_visualizations(self, analysis: Dict, summary: Dict):
+        """Create comprehensive visualizations for Tree Edit Distance algorithms focusing on complementary structural perspectives."""
+        print("Creating TED algorithm structural analysis visualizations...")
+
+        # Extract TED-specific data
+        ted_data = self._extract_ted_data(analysis)
+
+        if not ted_data:
+            print("No TED data found for visualization")
+            return
+
+        # 1. Combined register difference analysis (KEY VISUALIZATION)
+        self.plot_ted_register_differences_combined(ted_data,
+                                                  "Tree Edit Distance: Register Differences Across Algorithms",
+                                                  "ted_register_differences_combined.png")
+
+        # 2. Algorithm agreement analysis
+        self.plot_ted_algorithm_agreement(ted_data,
+                                        "TED Algorithm Agreement in Detecting Register Differences",
+                                        "ted_algorithm_agreement.png")
+
+        # 3. Complementary structural perspectives
+        self.plot_ted_complementary_analysis(ted_data,
+                                           "TED Algorithms: Complementary Structural Perspectives",
+                                           "ted_complementary_analysis.png")
+
+        # 4. Newspaper-specific register patterns
+        self.plot_ted_newspaper_register_patterns(ted_data,
+                                                "Register Patterns by Newspaper (TED Analysis)",
+                                                "ted_newspaper_register_patterns.png")
+
+        # 5. Structural sensitivity analysis
+        self.plot_ted_structural_sensitivity(ted_data,
+                                           "TED Algorithm Structural Sensitivity Analysis",
+                                           "ted_structural_sensitivity.png")
+
+        print("TED structural analysis visualizations completed!")
+
+    def _extract_ted_data(self, analysis: Dict) -> Dict:
+        """Extract TED-specific data from analysis results."""
+        ted_data = {
+            'by_newspaper': {},
+            'by_algorithm': {},
+            'global_total': 0,
+            'algorithm_names': {
+                'TED-SIMPLE': 'String-based Approximation',
+                'TED-ZHANG-SHASHA': 'Zhang-Shasha (Formal TED)',
+                'TED-KLEIN': 'Klein (Pattern Recognition)',
+                'TED-RTED': 'RTED (Adaptive Structure)'
+            }
+        }
+
+        # Extract from global analysis
+        if 'global' in analysis:
+            global_data = analysis['global']
+            for feature_id, count in global_data.items():
+                if feature_id.startswith('TED-'):
+                    ted_data['by_algorithm'][feature_id] = count
+                    ted_data['global_total'] += count
+
+        # Extract from newspaper analysis
+        if 'by_newspaper' in analysis:
+            for newspaper, newspaper_data in analysis['by_newspaper'].items():
+                ted_data['by_newspaper'][newspaper] = {}
+                for feature_id, count in newspaper_data.items():
+                    if feature_id.startswith('TED-'):
+                        ted_data['by_newspaper'][newspaper][feature_id] = count
+
+        return ted_data
+
+    def plot_ted_register_differences_combined(self, ted_data: Dict, title: str, filename: str):
+        """KEY VISUALIZATION: Combined register differences showing algorithm agreement and newspaper patterns."""
+        fig = plt.figure(figsize=(20, 14))
+
+        # Create a complex grid layout
+        gs = fig.add_gridspec(3, 4, height_ratios=[1, 1, 0.8], width_ratios=[1, 1, 1, 0.8])
+
+        fig.suptitle(title, fontsize=18, fontweight='bold', y=0.98)
+
+        # 1. MAIN VISUALIZATION: All newspapers combined (top left)
+        ax_main = fig.add_subplot(gs[0, :3])
+
+        if ted_data['by_algorithm']:
+            algorithms = list(ted_data['by_algorithm'].keys())
+            algorithm_labels = [ted_data['algorithm_names'].get(alg, alg) for alg in algorithms]
+            counts = list(ted_data['by_algorithm'].values())
+
+            # Create enhanced bar chart
+            colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'][:len(algorithms)]
+            bars = ax_main.bar(algorithm_labels, counts, color=colors,
+                              edgecolor='black', linewidth=1.5, alpha=0.8)
+
+            ax_main.set_title("Combined Register Differences: All Newspapers",
+                             fontsize=14, fontweight='bold', pad=20)
+            ax_main.set_ylabel("Structural Difference Events", fontsize=12, fontweight='bold')
+            ax_main.tick_params(axis='x', rotation=15, labelsize=10)
+
+            # Add value labels and percentages
+            total = sum(counts)
+            for bar, count in zip(bars, counts):
+                percentage = (count / total * 100) if total > 0 else 0
+                ax_main.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(counts)*0.02,
+                           f'{count:,}\n({percentage:.1f}%)', ha='center', va='bottom',
+                           fontweight='bold', fontsize=10)
+
+            # Add grid for better readability
+            ax_main.grid(axis='y', alpha=0.3, linestyle='--')
+            ax_main.set_axisbelow(True)
+
+        # 2. Algorithm Agreement Heatmap (top right)
+        ax_agreement = fig.add_subplot(gs[0, 3])
+
+        if ted_data['by_newspaper'] and len(ted_data['by_algorithm']) > 1:
+            newspapers = list(ted_data['by_newspaper'].keys())
+            algorithms = list(ted_data['by_algorithm'].keys())
+
+            # Create agreement matrix (normalized by newspaper)
+            agreement_matrix = []
+            for newspaper in newspapers:
+                newspaper_data = ted_data['by_newspaper'][newspaper]
+                total_newspaper = sum(newspaper_data.values()) if newspaper_data.values() else 1
+                row = [newspaper_data.get(alg, 0) / total_newspaper * 100 for alg in algorithms]
+                agreement_matrix.append(row)
+
+            im = ax_agreement.imshow(agreement_matrix, cmap='RdYlBu_r', aspect='auto')
+            ax_agreement.set_title("Algorithm Agreement\n(% by Newspaper)", fontsize=11, fontweight='bold')
+            ax_agreement.set_xticks(range(len(algorithms)))
+            ax_agreement.set_xticklabels([alg.replace('TED-', '') for alg in algorithms], rotation=45, fontsize=8)
+            ax_agreement.set_yticks(range(len(newspapers)))
+            ax_agreement.set_yticklabels(newspapers, fontsize=9)
+
+            # Add percentage annotations
+            for i in range(len(newspapers)):
+                for j in range(len(algorithms)):
+                    value = agreement_matrix[i][j]
+                    color = 'white' if value > 50 else 'black'
+                    ax_agreement.text(j, i, f'{value:.1f}%', ha='center', va='center',
+                                    color=color, fontsize=8, fontweight='bold')
+
+        # 3. Individual newspaper comparisons (middle row)
+        newspapers = list(ted_data['by_newspaper'].keys()) if ted_data['by_newspaper'] else []
+
+        for i, newspaper in enumerate(newspapers[:3]):  # Limit to 3 newspapers
+            ax_news = fig.add_subplot(gs[1, i])
+
+            newspaper_data = ted_data['by_newspaper'][newspaper]
+            if newspaper_data:
+                alg_names = [ted_data['algorithm_names'].get(alg, alg) for alg in newspaper_data.keys()]
+                alg_counts = list(newspaper_data.values())
+
+                # Create newspaper-specific bars
+                bars = ax_news.bar(range(len(alg_names)), alg_counts,
+                                  color=colors[:len(alg_names)], alpha=0.7,
+                                  edgecolor='black', linewidth=1.0)
+
+                ax_news.set_title(f"{newspaper}\nRegister Differences", fontsize=11, fontweight='bold')
+                ax_news.set_xticks(range(len(alg_names)))
+                ax_news.set_xticklabels([name.split()[0] for name in alg_names], rotation=45, fontsize=9)
+                ax_news.set_ylabel("Events", fontsize=10, fontweight='bold')
+
+                # Add value labels
+                for bar, count in zip(bars, alg_counts):
+                    if count > 0:
+                        ax_news.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(alg_counts)*0.02,
+                                   f'{count}', ha='center', va='bottom', fontweight='bold', fontsize=9)
+
+                ax_news.grid(axis='y', alpha=0.3, linestyle='--')
+
+        # 4. Algorithm Consensus Analysis (bottom left, spanning 2 columns)
+        ax_consensus = fig.add_subplot(gs[2, :2])
+
+        if ted_data['by_algorithm'] and len(ted_data['by_algorithm']) > 1:
+            algorithms = list(ted_data['by_algorithm'].keys())
+            counts = list(ted_data['by_algorithm'].values())
+
+            # Calculate consensus metrics
+            max_count = max(counts)
+            min_count = min(counts)
+            consensus_ratio = min_count / max_count if max_count > 0 else 0
+
+            # Create consensus visualization
+            normalized_counts = [count / max_count for count in counts]
+
+            bars = ax_consensus.barh(range(len(algorithms)), normalized_counts,
+                                   color=['#ff4444' if nc < 0.5 else '#44ff44' if nc > 0.8 else '#ffaa44'
+                                         for nc in normalized_counts],
+                                   edgecolor='black', linewidth=1.0, alpha=0.8)
+
+            ax_consensus.set_title("Algorithm Consensus in Register Detection", fontsize=12, fontweight='bold')
+            ax_consensus.set_yticks(range(len(algorithms)))
+            ax_consensus.set_yticklabels([alg.replace('TED-', '') for alg in algorithms], fontsize=10)
+            ax_consensus.set_xlabel("Relative Detection Strength", fontsize=11, fontweight='bold')
+
+            # Add consensus interpretation
+            for i, (bar, count, norm_count) in enumerate(zip(bars, counts, normalized_counts)):
+                label = f'{count:,} ({norm_count:.2f})'
+                ax_consensus.text(norm_count + 0.02, bar.get_y() + bar.get_height()/2,
+                                label, va='center', fontweight='bold', fontsize=9)
+
+            # Add vertical lines for consensus thresholds
+            ax_consensus.axvline(x=0.5, color='red', linestyle='--', alpha=0.7, label='Low Agreement')
+            ax_consensus.axvline(x=0.8, color='green', linestyle='--', alpha=0.7, label='High Agreement')
+            ax_consensus.legend(loc='lower right', fontsize=9)
+
+        # 5. Summary Statistics (bottom right)
+        ax_summary = fig.add_subplot(gs[2, 2:])
+
+        # Calculate comprehensive statistics
+        total_events = ted_data['global_total']
+        num_algorithms = len(ted_data['by_algorithm'])
+        num_newspapers = len(ted_data['by_newspaper'])
+
+        summary_stats = [
+            f"REGISTER DIFFERENCE ANALYSIS",
+            f"",
+            f"Total Structural Events: {total_events:,}",
+            f"TED Algorithms: {num_algorithms}",
+            f"Newspapers Analyzed: {num_newspapers}",
+            f""
+        ]
+
+        if ted_data['by_algorithm']:
+            counts = list(ted_data['by_algorithm'].values())
+            dominant_alg = max(ted_data['by_algorithm'].items(), key=lambda x: x[1])
+            summary_stats.extend([
+                f"Dominant Algorithm:",
+                f"  {ted_data['algorithm_names'].get(dominant_alg[0], dominant_alg[0])}",
+                f"  ({dominant_alg[1]:,} events)",
+                f"",
+                f"Algorithm Agreement:",
+                f"  Range: {min(counts):,} - {max(counts):,}",
+                f"  Ratio: {min(counts)/max(counts):.3f}" if max(counts) > 0 else "  Ratio: N/A"
+            ])
+
+        ax_summary.text(0.05, 0.95, '\n'.join(summary_stats),
+                       transform=ax_summary.transAxes, fontsize=10,
+                       verticalalignment='top', fontfamily='monospace',
+                       bbox=dict(boxstyle="round,pad=0.3", facecolor="lightgray", alpha=0.8))
+        ax_summary.set_title("Analysis Summary", fontsize=12, fontweight='bold')
+        ax_summary.axis('off')
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_algorithm_agreement(self, ted_data: Dict, title: str, filename: str):
+        """Analyze agreement between TED algorithms in detecting register differences."""
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        if not ted_data['by_algorithm']:
+            for ax in axes.flatten():
+                ax.text(0.5, 0.5, 'No TED data available', ha='center', va='center',
+                       transform=ax.transAxes, fontsize=14)
+            plt.tight_layout()
+            plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+            plt.close()
+            return
+
+        algorithms = list(ted_data['by_algorithm'].keys())
+        algorithm_labels = [ted_data['algorithm_names'].get(alg, alg) for alg in algorithms]
+        counts = list(ted_data['by_algorithm'].values())
+
+        # 1. Agreement strength visualization
+        if len(counts) > 1:
+            max_count = max(counts)
+            agreement_scores = [count / max_count for count in counts]
+
+            colors = ['#ff4444' if score < 0.3 else '#ffaa44' if score < 0.7 else '#44ff44'
+                     for score in agreement_scores]
+
+            bars = axes[0, 0].bar(algorithm_labels, agreement_scores, color=colors,
+                                edgecolor='black', linewidth=1.2, alpha=0.8)
+            axes[0, 0].set_title("Algorithm Agreement Strength", fontweight='bold')
+            axes[0, 0].set_ylabel("Relative Agreement (0-1)", fontweight='bold')
+            axes[0, 0].tick_params(axis='x', rotation=30)
+            axes[0, 0].set_ylim(0, 1.1)
+
+            # Add agreement zones
+            axes[0, 0].axhline(y=0.3, color='red', linestyle='--', alpha=0.5, label='Low Agreement')
+            axes[0, 0].axhline(y=0.7, color='orange', linestyle='--', alpha=0.5, label='Moderate Agreement')
+            axes[0, 0].legend()
+
+            for bar, score in zip(bars, agreement_scores):
+                axes[0, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                               f'{score:.3f}', ha='center', va='bottom', fontweight='bold')
+
+        # 2. Pairwise algorithm comparison
+        if len(algorithms) > 1:
+            comparison_data = []
+            comparison_labels = []
+
+            for i in range(len(algorithms)):
+                for j in range(i+1, len(algorithms)):
+                    ratio = min(counts[i], counts[j]) / max(counts[i], counts[j]) if max(counts[i], counts[j]) > 0 else 0
+                    comparison_data.append(ratio)
+                    alg1_short = algorithms[i].replace('TED-', '')
+                    alg2_short = algorithms[j].replace('TED-', '')
+                    comparison_labels.append(f"{alg1_short}\nvs\n{alg2_short}")
+
+            bars = axes[0, 1].bar(range(len(comparison_data)), comparison_data,
+                                color=sns.color_palette("viridis", len(comparison_data)),
+                                edgecolor='black', linewidth=1.0)
+            axes[0, 1].set_title("Pairwise Algorithm Agreement", fontweight='bold')
+            axes[0, 1].set_ylabel("Agreement Ratio", fontweight='bold')
+            axes[0, 1].set_xticks(range(len(comparison_data)))
+            axes[0, 1].set_xticklabels(comparison_labels, fontsize=9)
+
+            for bar, ratio in zip(bars, comparison_data):
+                axes[0, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.02,
+                               f'{ratio:.3f}', ha='center', va='bottom', fontweight='bold', fontsize=9)
+
+        # 3. Newspaper consistency analysis
+        if ted_data['by_newspaper']:
+            newspapers = list(ted_data['by_newspaper'].keys())
+
+            # Calculate coefficient of variation for each newspaper
+            cv_data = []
+            for newspaper in newspapers:
+                newspaper_data = ted_data['by_newspaper'][newspaper]
+                if newspaper_data:
+                    newspaper_counts = [newspaper_data.get(alg, 0) for alg in algorithms]
+                    mean_count = np.mean(newspaper_counts)
+                    std_count = np.std(newspaper_counts)
+                    cv = std_count / mean_count if mean_count > 0 else 0
+                    cv_data.append(cv)
+                else:
+                    cv_data.append(0)
+
+            bars = axes[1, 0].bar(newspapers, cv_data,
+                                color=sns.color_palette("plasma", len(newspapers)),
+                                edgecolor='black', linewidth=1.0)
+            axes[1, 0].set_title("Algorithm Consistency by Newspaper", fontweight='bold')
+            axes[1, 0].set_ylabel("Coefficient of Variation", fontweight='bold')
+            axes[1, 0].tick_params(axis='x', rotation=45)
+
+            for bar, cv in zip(bars, cv_data):
+                consistency = "High" if cv < 0.5 else "Medium" if cv < 1.0 else "Low"
+                axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(cv_data)*0.02,
+                               f'{cv:.2f}\n({consistency})', ha='center', va='bottom',
+                               fontweight='bold', fontsize=9)
+
+        # 4. Overall agreement summary
+        agreement_summary = []
+        if len(counts) > 1:
+            overall_cv = np.std(counts) / np.mean(counts) if np.mean(counts) > 0 else 0
+            min_max_ratio = min(counts) / max(counts) if max(counts) > 0 else 0
+
+            agreement_summary = [
+                "ALGORITHM AGREEMENT ANALYSIS",
+                "",
+                f"Total Algorithms: {len(algorithms)}",
+                f"Event Range: {min(counts):,} - {max(counts):,}",
+                f"Overall CV: {overall_cv:.3f}",
+                f"Min/Max Ratio: {min_max_ratio:.3f}",
+                "",
+                "INTERPRETATION:",
+                f"• CV < 0.5: High Agreement" + (" ✓" if overall_cv < 0.5 else ""),
+                f"• CV 0.5-1.0: Moderate Agreement" + (" ✓" if 0.5 <= overall_cv < 1.0 else ""),
+                f"• CV > 1.0: Low Agreement" + (" ✓" if overall_cv >= 1.0 else ""),
+                "",
+                "This indicates algorithms detect",
+                "different structural aspects of",
+                "register differences (complementary)"
+            ]
+
+        axes[1, 1].text(0.05, 0.95, '\n'.join(agreement_summary),
+                       transform=axes[1, 1].transAxes, fontsize=10,
+                       verticalalignment='top', fontfamily='monospace')
+        axes[1, 1].set_title("Agreement Summary", fontweight='bold')
+        axes[1, 1].axis('off')
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_complementary_analysis(self, ted_data: Dict, title: str, filename: str):
+        """Analyze how TED algorithms provide complementary structural perspectives."""
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        if not ted_data['by_algorithm']:
+            for ax in axes.flatten():
+                ax.text(0.5, 0.5, 'No TED data available', ha='center', va='center',
+                       transform=ax.transAxes, fontsize=14)
+            plt.tight_layout()
+            plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+            plt.close()
+            return
+
+        algorithms = list(ted_data['by_algorithm'].keys())
+        algorithm_labels = [ted_data['algorithm_names'].get(alg, alg) for alg in algorithms]
+        counts = list(ted_data['by_algorithm'].values())
+
+        # 1. Structural sensitivity radar chart
+        categories = ['String Similarity', 'Tree Operations', 'Pattern Recognition', 'Adaptive Detection']
+
+        # Map algorithms to sensitivity scores (0-1) for each category
+        sensitivity_mapping = {
+            'TED-SIMPLE': [1.0, 0.2, 0.1, 0.3],
+            'TED-ZHANG-SHASHA': [0.3, 1.0, 0.5, 0.4],
+            'TED-KLEIN': [0.4, 0.8, 1.0, 0.6],
+            'TED-RTED': [0.5, 0.9, 0.7, 1.0]
+        }
+
+        # Create radar chart
+        angles = np.linspace(0, 2 * np.pi, len(categories), endpoint=False).tolist()
+        angles += angles[:1]  # Complete the circle
+
+        ax_radar = plt.subplot(2, 2, 1, projection='polar')
+        ax_radar.set_theta_offset(np.pi / 2)
+        ax_radar.set_theta_direction(-1)
+
+        colors_radar = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+        for i, algorithm in enumerate(algorithms[:4]):  # Limit to 4 algorithms
+            if algorithm in sensitivity_mapping:
+                values = sensitivity_mapping[algorithm]
+                values += values[:1]  # Complete the circle
+
+                ax_radar.plot(angles, values, 'o-', linewidth=2,
+                            label=algorithm.replace('TED-', ''), color=colors_radar[i])
+                ax_radar.fill(angles, values, alpha=0.25, color=colors_radar[i])
+
+        ax_radar.set_xticks(angles[:-1])
+        ax_radar.set_xticklabels(categories, fontsize=9)
+        ax_radar.set_ylim(0, 1)
+        ax_radar.set_title("Algorithm Structural Sensitivity", fontweight='bold', pad=20)
+        ax_radar.legend(loc='upper right', bbox_to_anchor=(1.3, 1.0), fontsize=9)
+
+        # 2. Complementarity matrix
+        if len(algorithms) > 1:
+            # Calculate complementarity scores (how different algorithms are)
+            complement_matrix = np.zeros((len(algorithms), len(algorithms)))
+
+            for i in range(len(algorithms)):
+                for j in range(len(algorithms)):
+                    if i != j and algorithms[i] in sensitivity_mapping and algorithms[j] in sensitivity_mapping:
+                        sens_i = np.array(sensitivity_mapping[algorithms[i]])
+                        sens_j = np.array(sensitivity_mapping[algorithms[j]])
+                        # Calculate complementarity as 1 - correlation
+                        correlation = np.corrcoef(sens_i, sens_j)[0, 1]
+                        complement_matrix[i, j] = 1 - abs(correlation) if not np.isnan(correlation) else 0.5
+                    elif i == j:
+                        complement_matrix[i, j] = 0
+
+            im = axes[0, 1].imshow(complement_matrix, cmap='RdYlGn', vmin=0, vmax=1)
+            axes[0, 1].set_title("Algorithm Complementarity Matrix", fontweight='bold')
+            axes[0, 1].set_xticks(range(len(algorithms)))
+            axes[0, 1].set_xticklabels([alg.replace('TED-', '') for alg in algorithms], rotation=45, fontsize=9)
+            axes[0, 1].set_yticks(range(len(algorithms)))
+            axes[0, 1].set_yticklabels([alg.replace('TED-', '') for alg in algorithms], fontsize=9)
+
+            # Add complementarity values
+            for i in range(len(algorithms)):
+                for j in range(len(algorithms)):
+                    value = complement_matrix[i, j]
+                    color = 'white' if value > 0.5 else 'black'
+                    axes[0, 1].text(j, i, f'{value:.2f}', ha='center', va='center',
+                                   color=color, fontweight='bold', fontsize=9)
+
+            plt.colorbar(im, ax=axes[0, 1], label='Complementarity Score (0=Same, 1=Opposite)')
+
+        # 3. Structural aspect coverage
+        structural_aspects = {
+            'Character-level changes': {'TED-SIMPLE': 0.9, 'TED-ZHANG-SHASHA': 0.3, 'TED-KLEIN': 0.4, 'TED-RTED': 0.5},
+            'Node operations': {'TED-SIMPLE': 0.2, 'TED-ZHANG-SHASHA': 0.95, 'TED-KLEIN': 0.8, 'TED-RTED': 0.9},
+            'Subtree patterns': {'TED-SIMPLE': 0.1, 'TED-ZHANG-SHASHA': 0.5, 'TED-KLEIN': 0.9, 'TED-RTED': 0.7},
+            'Adaptive strategies': {'TED-SIMPLE': 0.0, 'TED-ZHANG-SHASHA': 0.3, 'TED-KLEIN': 0.6, 'TED-RTED': 1.0}
+        }
+
+        aspect_names = list(structural_aspects.keys())
+        x_pos = np.arange(len(aspect_names))
+        bar_width = 0.2
+
+        for i, algorithm in enumerate(algorithms[:4]):
+            if algorithm in structural_aspects[aspect_names[0]]:
+                values = [structural_aspects[aspect][algorithm] for aspect in aspect_names]
+                axes[1, 0].bar(x_pos + i * bar_width, values, bar_width,
+                             label=algorithm.replace('TED-', ''), color=colors_radar[i], alpha=0.8)
+
+        axes[1, 0].set_title("Structural Aspect Coverage", fontweight='bold')
+        axes[1, 0].set_xlabel("Structural Aspects", fontweight='bold')
+        axes[1, 0].set_ylabel("Coverage Score (0-1)", fontweight='bold')
+        axes[1, 0].set_xticks(x_pos + bar_width * 1.5)
+        axes[1, 0].set_xticklabels(aspect_names, rotation=45, ha='right', fontsize=9)
+        axes[1, 0].legend(fontsize=9)
+        axes[1, 0].grid(axis='y', alpha=0.3)
+
+        # 4. Algorithm interpretation guide
+        interpretation_text = [
+            "COMPLEMENTARY ALGORITHM PERSPECTIVES:",
+            "",
+            "String-based (SIMPLE):",
+            "• Fast approximation via character similarity",
+            "• Captures surface-level textual changes",
+            "• Best for: Quick screening, large datasets",
+            "",
+            "Zhang-Shasha (ZSHA):",
+            "• Formal tree edit distance operations",
+            "• Precise structural transformation costs",
+            "• Best for: Academic rigor, exact comparisons",
+            "",
+            "Klein (KLEN):",
+            "• Pattern recognition with memoization",
+            "• Efficient for repeated structures",
+            "• Best for: Similar trees, common patterns",
+            "",
+            "RTED (RTED):",
+            "• Adaptive strategy selection",
+            "• Optimized for tree characteristics",
+            "• Best for: Mixed datasets, general use"
+        ]
+
+        axes[1, 1].text(0.05, 0.95, '\n'.join(interpretation_text),
+                       transform=axes[1, 1].transAxes, fontsize=9,
+                       verticalalignment='top', fontfamily='monospace')
+        axes[1, 1].set_title("Algorithm Interpretation Guide", fontweight='bold')
+        axes[1, 1].axis('off')
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_newspaper_register_patterns(self, ted_data: Dict, title: str, filename: str):
+        """Plot newspaper-specific register patterns using TED analysis."""
+        if not ted_data['by_newspaper']:
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.text(0.5, 0.5, 'No newspaper-specific TED data available',
+                   ha='center', va='center', transform=ax.transAxes, fontsize=14)
+            ax.set_title(title)
+            plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+            plt.close()
+            return
+
+        newspapers = list(ted_data['by_newspaper'].keys())
+        n_newspapers = len(newspapers)
+
+        fig, axes = plt.subplots(2, max(2, (n_newspapers + 1) // 2),
+                               figsize=(6 * max(2, (n_newspapers + 1) // 2), 12))
+        if n_newspapers <= 2:
+            axes = axes.reshape(2, -1)
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        algorithms = list(ted_data['by_algorithm'].keys()) if ted_data['by_algorithm'] else []
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'][:len(algorithms)]
+
+        for i, newspaper in enumerate(newspapers):
+            row = i // axes.shape[1]
+            col = i % axes.shape[1]
+
+            if row >= axes.shape[0] or col >= axes.shape[1]:
+                break
+
+            newspaper_data = ted_data['by_newspaper'][newspaper]
+
+            # Top row: Algorithm distribution
+            if newspaper_data:
+                alg_names = [ted_data['algorithm_names'].get(alg, alg) for alg in algorithms
+                           if alg in newspaper_data]
+                alg_counts = [newspaper_data.get(alg, 0) for alg in algorithms
+                            if alg in newspaper_data]
+                alg_colors = colors[:len(alg_names)]
+
+                if alg_counts and any(count > 0 for count in alg_counts):
+                    # Bar chart
+                    bars = axes[0, col].bar(range(len(alg_names)), alg_counts,
+                                          color=alg_colors, alpha=0.8,
+                                          edgecolor='black', linewidth=1.0)
+                    axes[0, col].set_title(f"{newspaper}\nAlgorithm Distribution", fontweight='bold')
+                    axes[0, col].set_xticks(range(len(alg_names)))
+                    axes[0, col].set_xticklabels([name.split()[0] for name in alg_names],
+                                               rotation=45, fontsize=9)
+                    axes[0, col].set_ylabel("Register Difference Events", fontweight='bold')
+
+                    # Add value labels
+                    for bar, count in zip(bars, alg_counts):
+                        if count > 0:
+                            axes[0, col].text(bar.get_x() + bar.get_width()/2,
+                                            bar.get_height() + max(alg_counts)*0.02,
+                                            f'{count}', ha='center', va='bottom',
+                                            fontweight='bold', fontsize=10)
+
+                    axes[0, col].grid(axis='y', alpha=0.3, linestyle='--')
+
+                    # Bottom row: Pie chart with percentages
+                    total = sum(alg_counts)
+                    if total > 0:
+                        wedges, texts, autotexts = axes[1, col].pie(
+                            alg_counts, labels=[name.split()[0] for name in alg_names],
+                            colors=alg_colors, autopct='%1.1f%%', startangle=90,
+                            textprops={'fontsize': 9, 'fontweight': 'bold'})
+                        axes[1, col].set_title(f"{newspaper}\nAlgorithm Proportions", fontweight='bold')
+
+                        # Add count annotations
+                        for autotext, count in zip(autotexts, alg_counts):
+                            autotext.set_text(f'{autotext.get_text()}\n({count})')
+
+            else:
+                axes[0, col].text(0.5, 0.5, 'No data', ha='center', va='center',
+                                transform=axes[0, col].transAxes, fontsize=12)
+                axes[0, col].set_title(f"{newspaper}\nNo TED Data", fontweight='bold')
+                axes[1, col].text(0.5, 0.5, 'No data', ha='center', va='center',
+                                transform=axes[1, col].transAxes, fontsize=12)
+                axes[1, col].set_title(f"{newspaper}\nNo Proportions", fontweight='bold')
+
+        # Hide unused subplots
+        for i in range(len(newspapers), axes.shape[0] * axes.shape[1]):
+            row = i // axes.shape[1]
+            col = i % axes.shape[1]
+            if row < axes.shape[0] and col < axes.shape[1]:
+                axes[row, col].set_visible(False)
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_structural_sensitivity(self, ted_data: Dict, title: str, filename: str):
+        """Plot structural sensitivity analysis of TED algorithms."""
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        if not ted_data['by_algorithm']:
+            for ax in axes.flatten():
+                ax.text(0.5, 0.5, 'No TED data available', ha='center', va='center',
+                       transform=ax.transAxes, fontsize=14)
+            plt.tight_layout()
+            plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+            plt.close()
+            return
+
+        algorithms = list(ted_data['by_algorithm'].keys())
+        counts = list(ted_data['by_algorithm'].values())
+
+        # 1. Sensitivity ranking
+        algorithm_sensitivity = sorted(zip(algorithms, counts), key=lambda x: x[1], reverse=True)
+        ranked_algorithms = [alg.replace('TED-', '') for alg, _ in algorithm_sensitivity]
+        ranked_counts = [count for _, count in algorithm_sensitivity]
+
+        # Color coding by sensitivity level
+        max_count = max(ranked_counts) if ranked_counts else 1
+        colors = []
+        for count in ranked_counts:
+            ratio = count / max_count
+            if ratio > 0.8:
+                colors.append('#d62728')  # High sensitivity - red
+            elif ratio > 0.5:
+                colors.append('#ff7f0e')  # Medium sensitivity - orange
+            elif ratio > 0.2:
+                colors.append('#2ca02c')  # Low sensitivity - green
+            else:
+                colors.append('#1f77b4')  # Very low sensitivity - blue
+
+        bars = axes[0, 0].bar(range(len(ranked_algorithms)), ranked_counts, color=colors,
+                            edgecolor='black', linewidth=1.2, alpha=0.8)
+        axes[0, 0].set_title("Algorithm Sensitivity Ranking", fontweight='bold')
+        axes[0, 0].set_ylabel("Structural Events Detected", fontweight='bold')
+        axes[0, 0].set_xticks(range(len(ranked_algorithms)))
+        axes[0, 0].set_xticklabels(ranked_algorithms, rotation=45)
+
+        # Add sensitivity labels
+        for i, (bar, count) in enumerate(zip(bars, ranked_counts)):
+            sensitivity_level = "High" if count/max_count > 0.8 else "Med" if count/max_count > 0.5 else "Low"
+            axes[0, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(ranked_counts)*0.02,
+                           f'{count:,}\n({sensitivity_level})', ha='center', va='bottom',
+                           fontweight='bold', fontsize=9)
+
+        # 2. Relative sensitivity analysis
+        if len(counts) > 1:
+            baseline = min(counts)
+            relative_sensitivity = [(count - baseline) / baseline * 100 if baseline > 0 else 0 for count in counts]
+
+            bars2 = axes[0, 1].bar([alg.replace('TED-', '') for alg in algorithms], relative_sensitivity,
+                                 color=sns.color_palette("viridis", len(algorithms)),
+                                 edgecolor='black', linewidth=1.0)
+            axes[0, 1].set_title("Relative Sensitivity (% above baseline)", fontweight='bold')
+            axes[0, 1].set_ylabel("Relative Increase (%)", fontweight='bold')
+            axes[0, 1].tick_params(axis='x', rotation=45)
+
+            for bar, rel_sens in zip(bars2, relative_sensitivity):
+                axes[0, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(relative_sensitivity)*0.02,
+                               f'{rel_sens:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=9)
+
+        # 3. Cross-newspaper sensitivity variation
+        if ted_data['by_newspaper']:
+            newspapers = list(ted_data['by_newspaper'].keys())
+
+            # Calculate sensitivity variation across newspapers for each algorithm
+            algorithm_variations = {}
+            for algorithm in algorithms:
+                newspaper_counts = [ted_data['by_newspaper'][newspaper].get(algorithm, 0)
+                                  for newspaper in newspapers]
+                if newspaper_counts:
+                    variation = np.std(newspaper_counts) / np.mean(newspaper_counts) if np.mean(newspaper_counts) > 0 else 0
+                    algorithm_variations[algorithm] = variation
+
+            if algorithm_variations:
+                alg_names = [alg.replace('TED-', '') for alg in algorithm_variations.keys()]
+                variations = list(algorithm_variations.values())
+
+                bars3 = axes[1, 0].bar(alg_names, variations,
+                                     color=sns.color_palette("plasma", len(alg_names)),
+                                     edgecolor='black', linewidth=1.0)
+                axes[1, 0].set_title("Cross-Newspaper Sensitivity Variation", fontweight='bold')
+                axes[1, 0].set_ylabel("Coefficient of Variation", fontweight='bold')
+                axes[1, 0].tick_params(axis='x', rotation=45)
+
+                for bar, var in zip(bars3, variations):
+                    stability = "Stable" if var < 0.5 else "Variable" if var < 1.0 else "Highly Variable"
+                    axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(variations)*0.02,
+                                   f'{var:.2f}\n({stability})', ha='center', va='bottom',
+                                   fontweight='bold', fontsize=9)
+
+        # 4. Sensitivity interpretation and recommendations
+        sensitivity_analysis = []
+        if ted_data['by_algorithm']:
+            dominant_alg = max(ted_data['by_algorithm'].items(), key=lambda x: x[1])
+            weakest_alg = min(ted_data['by_algorithm'].items(), key=lambda x: x[1])
+
+            sensitivity_analysis = [
+                "STRUCTURAL SENSITIVITY ANALYSIS",
+                "",
+                f"Most Sensitive Algorithm:",
+                f"  {ted_data['algorithm_names'].get(dominant_alg[0], dominant_alg[0])}",
+                f"  {dominant_alg[1]:,} structural events detected",
+                "",
+                f"Least Sensitive Algorithm:",
+                f"  {ted_data['algorithm_names'].get(weakest_alg[0], weakest_alg[0])}",
+                f"  {weakest_alg[1]:,} structural events detected",
+                "",
+                f"Sensitivity Ratio: {dominant_alg[1]/weakest_alg[1]:.2f}:1" if weakest_alg[1] > 0 else "Sensitivity Ratio: ∞",
+                "",
+                "RECOMMENDATIONS:",
+                "• High sensitivity = detects subtle changes",
+                "• Low sensitivity = focuses on major changes",
+                "• Use multiple algorithms for comprehensive",
+                "  analysis of register differences",
+                "• Complementary perspectives provide",
+                "  more complete structural understanding"
+            ]
+
+        axes[1, 1].text(0.05, 0.95, '\n'.join(sensitivity_analysis),
+                       transform=axes[1, 1].transAxes, fontsize=10,
+                       verticalalignment='top', fontfamily='monospace')
+        axes[1, 1].set_title("Sensitivity Analysis Summary", fontweight='bold')
+        axes[1, 1].axis('off')
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def create_ted_sentence_level_visualizations(self, analysis: Dict, summary: Dict):
+        """Create sentence-level TED distribution visualizations."""
+        print("Creating sentence-level TED distribution visualizations...")
+
+        # This requires access to sentence-level scores, which would need to be passed
+        # from the comparator. For now, create placeholder that can be populated later.
+
+        # Check if sentence-level data is available in analysis
+        if 'sentence_level_ted_scores' in analysis:
+            sentence_scores = analysis['sentence_level_ted_scores']
+
+            # 1. TED score distributions by algorithm
+            self.plot_ted_score_distributions(sentence_scores,
+                                            "TED Score Distributions by Algorithm",
+                                            "ted_score_distributions.png")
+
+            # 2. TED score distributions by newspaper
+            self.plot_ted_score_distributions_by_newspaper(sentence_scores,
+                                                          "TED Score Distributions by Newspaper",
+                                                          "ted_score_distributions_by_newspaper.png")
+
+            # 3. Sentence-pair analysis
+            self.plot_ted_sentence_pair_analysis(sentence_scores,
+                                                "Individual Sentence-Pair TED Analysis",
+                                                "ted_sentence_pair_analysis.png")
+
+            # 4. TED score correlation analysis
+            self.plot_ted_score_correlations(sentence_scores,
+                                           "TED Algorithm Score Correlations",
+                                           "ted_score_correlations.png")
+
+            # 5. Tree size vs TED score analysis
+            self.plot_ted_tree_size_analysis(sentence_scores,
+                                           "Tree Size vs TED Score Analysis",
+                                           "ted_tree_size_analysis.png")
+
+            print("Sentence-level TED visualizations completed!")
+        else:
+            print("No sentence-level TED data available for visualization")
+
+    def plot_ted_score_distributions(self, sentence_scores: List[Dict], title: str, filename: str):
+        """Plot TED score distributions by algorithm."""
+        import pandas as pd
+
+        if not sentence_scores:
+            return
+
+        # Convert to DataFrame
+        df = pd.DataFrame(sentence_scores)
+
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        algorithms = df['algorithm'].unique()
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'][:len(algorithms)]
+
+        # 1. Histograms by algorithm
+        for i, algorithm in enumerate(algorithms):
+            row, col = i // 2, i % 2
+            if row < 2 and col < 2:
+                alg_data = df[df['algorithm'] == algorithm]['ted_score']
+
+                axes[row, col].hist(alg_data, bins=20, color=colors[i], alpha=0.7,
+                                  edgecolor='black', linewidth=1.0)
+                axes[row, col].set_title(f"TED Score Distribution\n{algorithm.replace('_', '-').upper()}",
+                                       fontweight='bold')
+                axes[row, col].set_xlabel("TED Score", fontweight='bold')
+                axes[row, col].set_ylabel("Frequency", fontweight='bold')
+                axes[row, col].grid(alpha=0.3)
+
+                # Add statistics
+                mean_score = alg_data.mean()
+                std_score = alg_data.std()
+                axes[row, col].axvline(mean_score, color='red', linestyle='--', alpha=0.8,
+                                     label=f'Mean: {mean_score:.2f}')
+                axes[row, col].legend()
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_score_distributions_by_newspaper(self, sentence_scores: List[Dict], title: str, filename: str):
+        """Plot TED score distributions by newspaper."""
+        import pandas as pd
+
+        if not sentence_scores:
+            return
+
+        df = pd.DataFrame(sentence_scores)
+        newspapers = df['newspaper'].unique()
+        algorithms = df['algorithm'].unique()
+
+        fig, axes = plt.subplots(len(newspapers), len(algorithms),
+                               figsize=(5*len(algorithms), 4*len(newspapers)))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        if len(newspapers) == 1:
+            axes = axes.reshape(1, -1)
+
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+
+        for i, newspaper in enumerate(newspapers):
+            for j, algorithm in enumerate(algorithms):
+                data = df[(df['newspaper'] == newspaper) & (df['algorithm'] == algorithm)]['ted_score']
+
+                if len(data) > 0:
+                    axes[i, j].hist(data, bins=15, color=colors[j], alpha=0.7,
+                                  edgecolor='black', linewidth=0.8)
+                    axes[i, j].set_title(f"{newspaper}\n{algorithm.replace('_', '-').upper()}",
+                                       fontweight='bold', fontsize=10)
+                    axes[i, j].set_xlabel("TED Score", fontsize=9)
+                    axes[i, j].set_ylabel("Frequency", fontsize=9)
+                    axes[i, j].grid(alpha=0.3)
+
+                    # Add statistics
+                    if len(data) > 1:
+                        mean_score = data.mean()
+                        axes[i, j].axvline(mean_score, color='red', linestyle='--', alpha=0.8)
+                        axes[i, j].text(0.7, 0.8, f'μ={mean_score:.2f}',
+                                       transform=axes[i, j].transAxes,
+                                       bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_sentence_pair_analysis(self, sentence_scores: List[Dict], title: str, filename: str):
+        """Plot analysis of individual sentence pairs."""
+        import pandas as pd
+
+        if not sentence_scores:
+            return
+
+        df = pd.DataFrame(sentence_scores)
+
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        # 1. Top scoring sentence pairs
+        algorithms = df['algorithm'].unique()
+
+        # Get top 10 sentence pairs for first algorithm
+        first_alg = algorithms[0]
+        top_pairs = df[df['algorithm'] == first_alg].nlargest(10, 'ted_score')
+
+        if len(top_pairs) > 0:
+            bars = axes[0, 0].barh(range(len(top_pairs)), top_pairs['ted_score'],
+                                 color='skyblue', edgecolor='black', linewidth=0.8)
+            axes[0, 0].set_title(f"Top 10 Sentence Pairs by TED Score\n({first_alg.replace('_', '-').upper()})",
+                               fontweight='bold')
+            axes[0, 0].set_xlabel("TED Score", fontweight='bold')
+            axes[0, 0].set_yticks(range(len(top_pairs)))
+            axes[0, 0].set_yticklabels([f"Sent {sid}" for sid in top_pairs['sent_id']], fontsize=9)
+
+            # Add values
+            for i, (bar, score) in enumerate(zip(bars, top_pairs['ted_score'])):
+                axes[0, 0].text(bar.get_width() + max(top_pairs['ted_score'])*0.01, bar.get_y() + bar.get_height()/2,
+                               f'{score:.1f}', va='center', fontweight='bold', fontsize=9)
+
+        # 2. TED score vs sentence length
+        sentence_lengths = df['canonical_text'].str.len() + df['headline_text'].str.len()
+
+        for i, algorithm in enumerate(algorithms[:3]):  # Limit to 3 algorithms
+            alg_data = df[df['algorithm'] == algorithm]
+            alg_lengths = alg_data['canonical_text'].str.len() + alg_data['headline_text'].str.len()
+
+            scatter_ax = axes[0, 1] if i == 0 else axes[1, 0] if i == 1 else axes[1, 1]
+            scatter_ax.scatter(alg_lengths, alg_data['ted_score'], alpha=0.6, s=30,
+                             color=['#1f77b4', '#ff7f0e', '#2ca02c'][i])
+            scatter_ax.set_title(f"TED Score vs Text Length\n{algorithm.replace('_', '-').upper()}",
+                                fontweight='bold')
+            scatter_ax.set_xlabel("Combined Text Length (chars)", fontweight='bold')
+            scatter_ax.set_ylabel("TED Score", fontweight='bold')
+            scatter_ax.grid(alpha=0.3)
+
+            # Add correlation coefficient
+            if len(alg_lengths) > 1:
+                correlation = alg_lengths.corr(alg_data['ted_score'])
+                scatter_ax.text(0.05, 0.95, f'r = {correlation:.3f}',
+                               transform=scatter_ax.transAxes,
+                               bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_score_correlations(self, sentence_scores: List[Dict], title: str, filename: str):
+        """Plot correlations between different TED algorithms."""
+        import pandas as pd
+
+        if not sentence_scores:
+            return
+
+        df = pd.DataFrame(sentence_scores)
+
+        # Pivot to get algorithms as columns
+        pivot_df = df.pivot_table(index=['newspaper', 'sent_id'],
+                                columns='algorithm',
+                                values='ted_score',
+                                fill_value=0)
+
+        if pivot_df.empty:
+            return
+
+        fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        # 1. Correlation matrix
+        corr_matrix = pivot_df.corr()
+        im = axes[0].imshow(corr_matrix, cmap='RdBu_r', vmin=-1, vmax=1)
+        axes[0].set_title("TED Algorithm Correlation Matrix", fontweight='bold')
+
+        algorithms = list(corr_matrix.columns)
+        axes[0].set_xticks(range(len(algorithms)))
+        axes[0].set_xticklabels([alg.replace('_', '-').upper() for alg in algorithms], rotation=45)
+        axes[0].set_yticks(range(len(algorithms)))
+        axes[0].set_yticklabels([alg.replace('_', '-').upper() for alg in algorithms])
+
+        # Add correlation values
+        for i in range(len(algorithms)):
+            for j in range(len(algorithms)):
+                value = corr_matrix.iloc[i, j]
+                color = 'white' if abs(value) > 0.5 else 'black'
+                axes[0].text(j, i, f'{value:.2f}', ha='center', va='center',
+                           color=color, fontweight='bold')
+
+        plt.colorbar(im, ax=axes[0], label='Correlation Coefficient')
+
+        # 2. Scatter plot of two most different algorithms
+        if len(algorithms) >= 2:
+            # Find the pair with lowest correlation
+            min_corr_pair = None
+            min_corr_value = 1.0
+
+            for i in range(len(algorithms)):
+                for j in range(i+1, len(algorithms)):
+                    corr_val = corr_matrix.iloc[i, j]
+                    if corr_val < min_corr_value:
+                        min_corr_value = corr_val
+                        min_corr_pair = (algorithms[i], algorithms[j])
+
+            if min_corr_pair:
+                alg1, alg2 = min_corr_pair
+                x_data = pivot_df[alg1]
+                y_data = pivot_df[alg2]
+
+                axes[1].scatter(x_data, y_data, alpha=0.6, s=30, color='purple')
+                axes[1].set_title(f"Least Correlated Algorithms\n{alg1.replace('_', '-').upper()} vs {alg2.replace('_', '-').upper()}",
+                                fontweight='bold')
+                axes[1].set_xlabel(f"{alg1.replace('_', '-').upper()} TED Score", fontweight='bold')
+                axes[1].set_ylabel(f"{alg2.replace('_', '-').upper()} TED Score", fontweight='bold')
+                axes[1].grid(alpha=0.3)
+
+                # Add correlation line
+                z = np.polyfit(x_data, y_data, 1)
+                p = np.poly1d(z)
+                axes[1].plot(x_data, p(x_data), "r--", alpha=0.8)
+                axes[1].text(0.05, 0.95, f'r = {min_corr_value:.3f}',
+                           transform=axes[1].transAxes,
+                           bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
+        plt.close()
+
+    def plot_ted_tree_size_analysis(self, sentence_scores: List[Dict], title: str, filename: str):
+        """Plot analysis of TED scores vs tree sizes."""
+        import pandas as pd
+
+        if not sentence_scores:
+            return
+
+        df = pd.DataFrame(sentence_scores)
+
+        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        algorithms = df['algorithm'].unique()
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
+
+        # 1. TED score vs max tree size
+        for i, algorithm in enumerate(algorithms[:4]):
+            row, col = i // 2, i % 2
+            alg_data = df[df['algorithm'] == algorithm]
+            max_tree_sizes = alg_data[['tree1_size', 'tree2_size']].max(axis=1)
+
+            axes[row, col].scatter(max_tree_sizes, alg_data['ted_score'],
+                                 alpha=0.6, s=30, color=colors[i])
+            axes[row, col].set_title(f"TED Score vs Max Tree Size\n{algorithm.replace('_', '-').upper()}",
+                                   fontweight='bold')
+            axes[row, col].set_xlabel("Maximum Tree Size (nodes)", fontweight='bold')
+            axes[row, col].set_ylabel("TED Score", fontweight='bold')
+            axes[row, col].grid(alpha=0.3)
+
+            # Add correlation and trend line
+            if len(max_tree_sizes) > 1:
+                correlation = max_tree_sizes.corr(alg_data['ted_score'])
+                z = np.polyfit(max_tree_sizes, alg_data['ted_score'], 1)
+                p = np.poly1d(z)
+                axes[row, col].plot(max_tree_sizes, p(max_tree_sizes), "r--", alpha=0.8)
+                axes[row, col].text(0.05, 0.95, f'r = {correlation:.3f}',
+                                   transform=axes[row, col].transAxes,
+                                   bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
         plt.close()
