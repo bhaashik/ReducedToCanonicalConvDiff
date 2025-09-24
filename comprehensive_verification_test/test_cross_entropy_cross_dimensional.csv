@@ -1,0 +1,7 @@
+newspaper,parse_type,dimension,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,total_events
+The-Hindu,dependency,The-Hindu_dependency,33.21928094907362,33.21928094907362,66.43856189814724,32.21928094907362,0.0,2
+Times-of-India,constituency,Times-of-India_constituency,33.219280948873624,33.219280948873624,66.43856189774725,33.219280948873624,0.0,1
+Hindustan-Times,dependency,Hindustan-Times_dependency,33.219280948873624,33.219280948873624,66.43856189774725,33.219280948873624,0.0,1
+The-Hindu,constituency,The-Hindu_constituency,33.219280948873624,33.219280948873624,66.43856189774725,33.219280948873624,0.0,1
+Hindustan-Times,constituency,Hindustan-Times_constituency,33.219280948873624,33.219280948873624,66.43856189774725,33.219280948873624,0.0,1
+Times-of-India,dependency,Times-of-India_dependency,12.129735316930473,12.129735316930475,24.25947063386095,10.544772816209317,0.5,3

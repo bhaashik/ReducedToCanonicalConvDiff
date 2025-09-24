@@ -1,0 +1,8 @@
+feature_id,unique_transformations
+FW-DEL,2
+C-ADD,1
+POS-CHG,2
+FW-SUB,1
+C-DEL,1
+C-SUB,1
+FW-ADD,1

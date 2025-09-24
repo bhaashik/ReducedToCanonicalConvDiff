@@ -1,0 +1,293 @@
+{
+  "global_feature_values": {
+    "FW-DEL": {
+      "the→": 1,
+      "is→": 1
+    },
+    "C-ADD": {
+      "→quickly": 1
+    },
+    "POS-CHG": {
+      "NOUN→VERB": 1,
+      "ADJ→ADV": 1
+    },
+    "FW-SUB": {
+      "a→the": 1
+    },
+    "C-DEL": {
+      "very→": 1
+    },
+    "C-SUB": {
+      "big→large": 1
+    },
+    "FW-ADD": {
+      "→will": 1
+    }
+  },
+  "by_newspaper_feature_values": {
+    "Times-of-India": {
+      "FW-DEL": {
+        "the→": 1
+      },
+      "C-ADD": {
+        "→quickly": 1
+      },
+      "POS-CHG": {
+        "NOUN→VERB": 1
+      },
+      "FW-SUB": {
+        "a→the": 1
+      }
+    },
+    "The-Hindu": {
+      "FW-DEL": {
+        "is→": 1
+      },
+      "C-DEL": {
+        "very→": 1
+      },
+      "POS-CHG": {
+        "ADJ→ADV": 1
+      }
+    },
+    "Hindustan-Times": {
+      "C-SUB": {
+        "big→large": 1
+      },
+      "FW-ADD": {
+        "→will": 1
+      }
+    }
+  },
+  "by_parse_type_feature_values": {
+    "dependency": {
+      "FW-DEL": {
+        "the→": 1
+      },
+      "C-ADD": {
+        "→quickly": 1
+      },
+      "FW-SUB": {
+        "a→the": 1
+      },
+      "C-DEL": {
+        "very→": 1
+      },
+      "POS-CHG": {
+        "ADJ→ADV": 1
+      },
+      "FW-ADD": {
+        "→will": 1
+      }
+    },
+    "constituency": {
+      "POS-CHG": {
+        "NOUN→VERB": 1
+      },
+      "FW-DEL": {
+        "is→": 1
+      },
+      "C-SUB": {
+        "big→large": 1
+      }
+    }
+  },
+  "cross_feature_values": {
+    "Times-of-India_dependency": {
+      "FW-DEL": {
+        "the→": 1
+      },
+      "C-ADD": {
+        "→quickly": 1
+      },
+      "FW-SUB": {
+        "a→the": 1
+      }
+    },
+    "Times-of-India_constituency": {
+      "POS-CHG": {
+        "NOUN→VERB": 1
+      }
+    },
+    "The-Hindu_dependency": {
+      "C-DEL": {
+        "very→": 1
+      },
+      "POS-CHG": {
+        "ADJ→ADV": 1
+      }
+    },
+    "The-Hindu_constituency": {
+      "FW-DEL": {
+        "is→": 1
+      }
+    },
+    "Hindustan-Times_dependency": {
+      "FW-ADD": {
+        "→will": 1
+      }
+    },
+    "Hindustan-Times_constituency": {
+      "C-SUB": {
+        "big→large": 1
+      }
+    }
+  },
+  "transformation_patterns": {
+    "most_common_transformations": {
+      "FW-DEL": [
+        [
+          "the→",
+          1
+        ],
+        [
+          "is→",
+          1
+        ]
+      ],
+      "C-ADD": [
+        [
+          "→quickly",
+          1
+        ]
+      ],
+      "POS-CHG": [
+        [
+          "NOUN→VERB",
+          1
+        ],
+        [
+          "ADJ→ADV",
+          1
+        ]
+      ],
+      "FW-SUB": [
+        [
+          "a→the",
+          1
+        ]
+      ],
+      "C-DEL": [
+        [
+          "very→",
+          1
+        ]
+      ],
+      "C-SUB": [
+        [
+          "big→large",
+          1
+        ]
+      ],
+      "FW-ADD": [
+        [
+          "→will",
+          1
+        ]
+      ]
+    },
+    "transformation_types": {
+      "deletions": {},
+      "additions": {},
+      "changes": {
+        "the→": 1,
+        "is→": 1,
+        "→quickly": 1,
+        "NOUN→VERB": 1,
+        "ADJ→ADV": 1,
+        "a→the": 1,
+        "very→": 1,
+        "big→large": 1,
+        "→will": 1
+      },
+      "null_changes": {}
+    },
+    "bidirectional_changes": {}
+  },
+  "value_statistics": {
+    "FW-DEL": {
+      "total_transformations": 2,
+      "unique_transformation_types": 2,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "the→",
+        1
+      ],
+      "transformation_entropy": 1.0
+    },
+    "C-ADD": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "→quickly",
+        1
+      ],
+      "transformation_entropy": 0.0
+    },
+    "POS-CHG": {
+      "total_transformations": 2,
+      "unique_transformation_types": 2,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 2,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "NOUN→VERB",
+        1
+      ],
+      "transformation_entropy": 1.0
+    },
+    "FW-SUB": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "a→the",
+        1
+      ],
+      "transformation_entropy": 0.0
+    },
+    "C-DEL": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "very→",
+        1
+      ],
+      "transformation_entropy": 0.0
+    },
+    "C-SUB": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "big→large",
+        1
+      ],
+      "transformation_entropy": 0.0
+    },
+    "FW-ADD": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "→will",
+        1
+      ],
+      "transformation_entropy": 0.0
+    }
+  }
+}

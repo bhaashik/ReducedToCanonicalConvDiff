@@ -1,0 +1,311 @@
+{
+  "global_cross_entropy": {
+    "canonical_to_headline_cross_entropy": 22.850615078932332,
+    "headline_to_canonical_cross_entropy": 19.530678307472776,
+    "bidirectional_cross_entropy_sum": 42.381293386405105,
+    "canonical_entropy": 2.94770277922009,
+    "headline_entropy": 2.6416041678685933,
+    "kl_canonical_to_headline": 19.90291229971224,
+    "kl_headline_to_canonical": 16.889074139604183,
+    "kl_divergence_sum": 36.791986439316425,
+    "jensen_shannon_divergence": 18.395993219658212,
+    "total_events": 9,
+    "unique_canonical_values": 8,
+    "unique_headline_values": 7,
+    "unique_combined_values": 13,
+    "register_overlap_ratio": 0.15384615384615385
+  },
+  "by_newspaper_cross_entropy": {
+    "Times-of-India": {
+      "canonical_to_headline_cross_entropy": 17.609640474836812,
+      "headline_to_canonical_cross_entropy": 17.609640474836812,
+      "bidirectional_cross_entropy_sum": 35.219280949673625,
+      "canonical_entropy": 2.0,
+      "headline_entropy": 2.0,
+      "kl_canonical_to_headline": 15.609640474836812,
+      "kl_headline_to_canonical": 15.609640474836812,
+      "kl_divergence_sum": 31.219280949673625,
+      "jensen_shannon_divergence": 15.609640474836812,
+      "total_events": 4,
+      "unique_canonical_values": 4,
+      "unique_headline_values": 4,
+      "unique_combined_values": 6,
+      "register_overlap_ratio": 0.3333333333333333
+    },
+    "The-Hindu": {
+      "canonical_to_headline_cross_entropy": 33.21928094909061,
+      "headline_to_canonical_cross_entropy": 33.219280949349105,
+      "bidirectional_cross_entropy_sum": 66.43856189843972,
+      "canonical_entropy": 1.584962500721156,
+      "headline_entropy": 0.9182958340544896,
+      "kl_canonical_to_headline": 31.634318448369456,
+      "kl_headline_to_canonical": 32.300985115294615,
+      "kl_divergence_sum": 63.93530356366407,
+      "jensen_shannon_divergence": 31.967651781832036,
+      "total_events": 3,
+      "unique_canonical_values": 3,
+      "unique_headline_values": 2,
+      "unique_combined_values": 5,
+      "register_overlap_ratio": 0.0
+    },
+    "Hindustan-Times": {
+      "canonical_to_headline_cross_entropy": 33.21928094907362,
+      "headline_to_canonical_cross_entropy": 33.21928094907362,
+      "bidirectional_cross_entropy_sum": 66.43856189814724,
+      "canonical_entropy": 1.0,
+      "headline_entropy": 1.0,
+      "kl_canonical_to_headline": 32.21928094907362,
+      "kl_headline_to_canonical": 32.21928094907362,
+      "kl_divergence_sum": 64.43856189814724,
+      "jensen_shannon_divergence": 32.21928094907362,
+      "total_events": 2,
+      "unique_canonical_values": 2,
+      "unique_headline_values": 2,
+      "unique_combined_values": 4,
+      "register_overlap_ratio": 0.0
+    }
+  },
+  "by_parse_type_cross_entropy": {
+    "dependency": {
+      "canonical_to_headline_cross_entropy": 17.56878839223954,
+      "headline_to_canonical_cross_entropy": 17.568788392239544,
+      "bidirectional_cross_entropy_sum": 35.13757678447908,
+      "canonical_entropy": 2.2516291673878226,
+      "headline_entropy": 2.2516291673878226,
+      "kl_canonical_to_headline": 15.317159224851718,
+      "kl_headline_to_canonical": 15.317159224851721,
+      "kl_divergence_sum": 30.63431844970344,
+      "jensen_shannon_divergence": 15.31715922485172,
+      "total_events": 6,
+      "unique_canonical_values": 5,
+      "unique_headline_values": 5,
+      "unique_combined_values": 8,
+      "register_overlap_ratio": 0.25
+    },
+    "constituency": {
+      "canonical_to_headline_cross_entropy": 33.21928094934911,
+      "headline_to_canonical_cross_entropy": 33.219280949349105,
+      "bidirectional_cross_entropy_sum": 66.43856189869823,
+      "canonical_entropy": 1.584962500721156,
+      "headline_entropy": 1.584962500721156,
+      "kl_canonical_to_headline": 31.63431844862796,
+      "kl_headline_to_canonical": 31.63431844862795,
+      "kl_divergence_sum": 63.26863689725591,
+      "jensen_shannon_divergence": 31.634318448627955,
+      "total_events": 3,
+      "unique_canonical_values": 3,
+      "unique_headline_values": 3,
+      "unique_combined_values": 6,
+      "register_overlap_ratio": 0.0
+    }
+  },
+  "cross_dimensional_cross_entropy": {
+    "Times-of-India_dependency": {
+      "canonical_to_headline_cross_entropy": 12.129735316930473,
+      "headline_to_canonical_cross_entropy": 12.129735316930475,
+      "bidirectional_cross_entropy_sum": 24.25947063386095,
+      "canonical_entropy": 1.584962500721156,
+      "headline_entropy": 1.584962500721156,
+      "kl_canonical_to_headline": 10.544772816209317,
+      "kl_headline_to_canonical": 10.544772816209319,
+      "kl_divergence_sum": 21.089545632418634,
+      "jensen_shannon_divergence": 10.544772816209317,
+      "total_events": 3,
+      "unique_canonical_values": 3,
+      "unique_headline_values": 3,
+      "unique_combined_values": 4,
+      "register_overlap_ratio": 0.5
+    },
+    "Times-of-India_constituency": {
+      "canonical_to_headline_cross_entropy": 33.219280948873624,
+      "headline_to_canonical_cross_entropy": 33.219280948873624,
+      "bidirectional_cross_entropy_sum": 66.43856189774725,
+      "canonical_entropy": -0.0,
+      "headline_entropy": -0.0,
+      "kl_canonical_to_headline": 33.219280948873624,
+      "kl_headline_to_canonical": 33.219280948873624,
+      "kl_divergence_sum": 66.43856189774725,
+      "jensen_shannon_divergence": 33.219280948873624,
+      "total_events": 1,
+      "unique_canonical_values": 1,
+      "unique_headline_values": 1,
+      "unique_combined_values": 2,
+      "register_overlap_ratio": 0.0
+    },
+    "The-Hindu_dependency": {
+      "canonical_to_headline_cross_entropy": 33.21928094907362,
+      "headline_to_canonical_cross_entropy": 33.21928094907362,
+      "bidirectional_cross_entropy_sum": 66.43856189814724,
+      "canonical_entropy": 1.0,
+      "headline_entropy": 1.0,
+      "kl_canonical_to_headline": 32.21928094907362,
+      "kl_headline_to_canonical": 32.21928094907362,
+      "kl_divergence_sum": 64.43856189814724,
+      "jensen_shannon_divergence": 32.21928094907362,
+      "total_events": 2,
+      "unique_canonical_values": 2,
+      "unique_headline_values": 2,
+      "unique_combined_values": 4,
+      "register_overlap_ratio": 0.0
+    },
+    "The-Hindu_constituency": {
+      "canonical_to_headline_cross_entropy": 33.219280948873624,
+      "headline_to_canonical_cross_entropy": 33.219280948873624,
+      "bidirectional_cross_entropy_sum": 66.43856189774725,
+      "canonical_entropy": -0.0,
+      "headline_entropy": -0.0,
+      "kl_canonical_to_headline": 33.219280948873624,
+      "kl_headline_to_canonical": 33.219280948873624,
+      "kl_divergence_sum": 66.43856189774725,
+      "jensen_shannon_divergence": 33.219280948873624,
+      "total_events": 1,
+      "unique_canonical_values": 1,
+      "unique_headline_values": 1,
+      "unique_combined_values": 2,
+      "register_overlap_ratio": 0.0
+    },
+    "Hindustan-Times_dependency": {
+      "canonical_to_headline_cross_entropy": 33.219280948873624,
+      "headline_to_canonical_cross_entropy": 33.219280948873624,
+      "bidirectional_cross_entropy_sum": 66.43856189774725,
+      "canonical_entropy": -0.0,
+      "headline_entropy": -0.0,
+      "kl_canonical_to_headline": 33.219280948873624,
+      "kl_headline_to_canonical": 33.219280948873624,
+      "kl_divergence_sum": 66.43856189774725,
+      "jensen_shannon_divergence": 33.219280948873624,
+      "total_events": 1,
+      "unique_canonical_values": 1,
+      "unique_headline_values": 1,
+      "unique_combined_values": 2,
+      "register_overlap_ratio": 0.0
+    },
+    "Hindustan-Times_constituency": {
+      "canonical_to_headline_cross_entropy": 33.219280948873624,
+      "headline_to_canonical_cross_entropy": 33.219280948873624,
+      "bidirectional_cross_entropy_sum": 66.43856189774725,
+      "canonical_entropy": -0.0,
+      "headline_entropy": -0.0,
+      "kl_canonical_to_headline": 33.219280948873624,
+      "kl_headline_to_canonical": 33.219280948873624,
+      "kl_divergence_sum": 66.43856189774725,
+      "jensen_shannon_divergence": 33.219280948873624,
+      "total_events": 1,
+      "unique_canonical_values": 1,
+      "unique_headline_values": 1,
+      "unique_combined_values": 2,
+      "register_overlap_ratio": 0.0
+    }
+  },
+  "cross_entropy_statistics": {
+    "newspaper_comparison": {
+      "ranked_newspapers": [
+        {
+          "newspaper": "The-Hindu",
+          "bidirectional_sum": 66.43856189843972,
+          "canonical_to_headline": 33.21928094909061,
+          "headline_to_canonical": 33.219280949349105,
+          "jensen_shannon": 31.967651781832036,
+          "register_overlap": 0.0
+        },
+        {
+          "newspaper": "Hindustan-Times",
+          "bidirectional_sum": 66.43856189814724,
+          "canonical_to_headline": 33.21928094907362,
+          "headline_to_canonical": 33.21928094907362,
+          "jensen_shannon": 32.21928094907362,
+          "register_overlap": 0.0
+        },
+        {
+          "newspaper": "Times-of-India",
+          "bidirectional_sum": 35.219280949673625,
+          "canonical_to_headline": 17.609640474836812,
+          "headline_to_canonical": 17.609640474836812,
+          "jensen_shannon": 15.609640474836812,
+          "register_overlap": 0.3333333333333333
+        }
+      ],
+      "most_divergent": "The-Hindu",
+      "least_divergent": "Times-of-India",
+      "average_bidirectional_ce": 56.03213491542019
+    },
+    "parse_type_comparison": {
+      "ranked_parse_types": [
+        {
+          "parse_type": "constituency",
+          "bidirectional_sum": 66.43856189869823,
+          "jensen_shannon": 31.634318448627955,
+          "register_overlap": 0.0
+        },
+        {
+          "parse_type": "dependency",
+          "bidirectional_sum": 35.13757678447908,
+          "jensen_shannon": 15.31715922485172,
+          "register_overlap": 0.25
+        }
+      ],
+      "most_divergent_parse_type": "constituency"
+    },
+    "feature_ranking": {
+      "ranked_features": [
+        {
+          "feature_id": "POS-CHG",
+          "bidirectional_sum": 66.43856189814724,
+          "jensen_shannon": 32.21928094907362,
+          "total_events": 2,
+          "register_overlap": 0.0
+        },
+        {
+          "feature_id": "FW-DEL",
+          "bidirectional_sum": 66.43856189794725,
+          "jensen_shannon": 32.719280948973626,
+          "total_events": 2,
+          "register_overlap": 0.0
+        }
+      ],
+      "most_divergent_feature": "POS-CHG",
+      "least_divergent_feature": "FW-DEL"
+    },
+    "overall_metrics": {
+      "global_bidirectional_sum": 42.381293386405105,
+      "global_jensen_shannon": 18.395993219658212,
+      "global_register_overlap": 0.15384615384615385,
+      "information_asymmetry": 3.319936771459556,
+      "total_unique_values": 13
+    }
+  },
+  "feature_level_cross_entropy": {
+    "FW-DEL": {
+      "canonical_to_headline_cross_entropy": 33.219280948873624,
+      "headline_to_canonical_cross_entropy": 33.21928094907363,
+      "bidirectional_cross_entropy_sum": 66.43856189794725,
+      "canonical_entropy": 1.0,
+      "headline_entropy": -0.0,
+      "kl_canonical_to_headline": 32.219280948873624,
+      "kl_headline_to_canonical": 33.21928094907363,
+      "kl_divergence_sum": 65.43856189794725,
+      "jensen_shannon_divergence": 32.719280948973626,
+      "total_events": 2,
+      "unique_canonical_values": 2,
+      "unique_headline_values": 1,
+      "unique_combined_values": 3,
+      "register_overlap_ratio": 0.0
+    },
+    "POS-CHG": {
+      "canonical_to_headline_cross_entropy": 33.21928094907362,
+      "headline_to_canonical_cross_entropy": 33.21928094907363,
+      "bidirectional_cross_entropy_sum": 66.43856189814724,
+      "canonical_entropy": 1.0,
+      "headline_entropy": 1.0,
+      "kl_canonical_to_headline": 32.21928094907362,
+      "kl_headline_to_canonical": 32.21928094907363,
+      "kl_divergence_sum": 64.43856189814724,
+      "jensen_shannon_divergence": 32.21928094907362,
+      "total_events": 2,
+      "unique_canonical_values": 2,
+      "unique_headline_values": 2,
+      "unique_combined_values": 4,
+      "register_overlap_ratio": 0.0
+    }
+  }
+}

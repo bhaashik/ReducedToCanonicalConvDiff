@@ -1,0 +1,12 @@
+newspaper,feature_id,feature_name,count,percentage_of_newspaper
+Times-of-India,FW-DEL,Function Word Deletion,8,8.080808080808081
+Times-of-India,DEP-REL-CHG,Dependency Relation Change,28,28.28282828282828
+Times-of-India,LENGTH-CHG,Sentence Length Change,3,3.0303030303030303
+Times-of-India,CONST-REM,Constituent Removal,2,2.0202020202020203
+Times-of-India,CONST-MOV,Constituent Movement,33,33.33333333333333
+Times-of-India,CLAUSE-TYPE-CHG,Clause Type Change,14,14.14141414141414
+Times-of-India,TED-SIMPLE,TED-SIMPLE,3,3.0303030303030303
+Times-of-India,TED-RTED,TED-RTED,3,3.0303030303030303
+Times-of-India,HEAD-CHG,Dependency Head Change,1,1.0101010101010102
+Times-of-India,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,2,2.0202020202020203
+Times-of-India,TED-KLEIN,TED-KLEIN,2,2.0202020202020203

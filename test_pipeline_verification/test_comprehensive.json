@@ -1,0 +1,469 @@
+{
+  "global": {
+    "total_events": 99,
+    "feature_counts": {
+      "FW-DEL": 8,
+      "DEP-REL-CHG": 28,
+      "LENGTH-CHG": 3,
+      "CONST-REM": 2,
+      "CONST-MOV": 33,
+      "CLAUSE-TYPE-CHG": 14,
+      "TED-SIMPLE": 3,
+      "TED-RTED": 3,
+      "HEAD-CHG": 1,
+      "TED-ZHANG-SHASHA": 2,
+      "TED-KLEIN": 2
+    },
+    "parse_type_breakdown": {
+      "dependency": {
+        "FW-DEL": 8,
+        "DEP-REL-CHG": 28,
+        "LENGTH-CHG": 3,
+        "HEAD-CHG": 1
+      },
+      "constituency": {
+        "CONST-REM": 2,
+        "CONST-MOV": 33,
+        "CLAUSE-TYPE-CHG": 14,
+        "TED-SIMPLE": 3,
+        "TED-RTED": 3,
+        "TED-ZHANG-SHASHA": 2,
+        "TED-KLEIN": 2
+      }
+    }
+  },
+  "by_newspaper": {
+    "Times-of-India": {
+      "total_events": 99,
+      "feature_counts": {
+        "FW-DEL": 8,
+        "DEP-REL-CHG": 28,
+        "LENGTH-CHG": 3,
+        "CONST-REM": 2,
+        "CONST-MOV": 33,
+        "CLAUSE-TYPE-CHG": 14,
+        "TED-SIMPLE": 3,
+        "TED-RTED": 3,
+        "HEAD-CHG": 1,
+        "TED-ZHANG-SHASHA": 2,
+        "TED-KLEIN": 2
+      },
+      "parse_type_breakdown": {
+        "dependency": {
+          "FW-DEL": 8,
+          "DEP-REL-CHG": 28,
+          "LENGTH-CHG": 3,
+          "HEAD-CHG": 1
+        },
+        "constituency": {
+          "CONST-REM": 2,
+          "CONST-MOV": 33,
+          "CLAUSE-TYPE-CHG": 14,
+          "TED-SIMPLE": 3,
+          "TED-RTED": 3,
+          "TED-ZHANG-SHASHA": 2,
+          "TED-KLEIN": 2
+        }
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "SCONJ-DEL→ABSENT": 1,
+          "ART-DEL→ABSENT": 3,
+          "AUX-DEL→ABSENT": 3,
+          "PRON-PERS-DEL→ABSENT": 1
+        },
+        "DEP-REL-CHG": {
+          "det→xcomp": 1,
+          "nsubj→compound": 1,
+          "ccomp→obj": 1,
+          "mark→cc": 1,
+          "xcomp→nsubj": 1,
+          "det→acl": 1,
+          "compound→obj": 1,
+          "obj→conj": 1,
+          "cc→nsubj": 1,
+          "cop→root": 1,
+          "root→mark": 1,
+          "mark→advcl": 1,
+          "advcl→amod": 1,
+          "det→advmod": 1,
+          "amod→obj": 1,
+          "advmod→case": 1,
+          "obj→det": 1,
+          "case→amod": 1,
+          "det→nmod": 1,
+          "det→amod": 1,
+          "amod→nsubj": 1,
+          "nsubj→root": 1,
+          "root→nmod:poss": 1,
+          "nmod:poss→obj": 1,
+          "obj→xcomp": 1,
+          "nsubj:pass→case": 1,
+          "aux:pass→compound": 1,
+          "acl:relcl→obl": 1
+        },
+        "LENGTH-CHG": {
+          "18→12": 1,
+          "14→11": 1,
+          "14→9": 1
+        },
+        "CONST-REM": {
+          "SBAR-REM→ABSENT": 2
+        },
+        "CONST-MOV": {
+          "CONST-POST→CONST-POST": 2,
+          "CONST-FRONT→CONST-FRONT": 31
+        },
+        "CLAUSE-TYPE-CHG": {
+          "Fin→Inf": 3,
+          "Fin→Ger": 3,
+          "Inf→Fin": 2,
+          "Part→Fin": 3,
+          "Fin→Part": 3
+        },
+        "TED-SIMPLE": {
+          "10→10": 3
+        },
+        "TED-RTED": {
+          "26→26": 1,
+          "13→13": 1,
+          "17→17": 1
+        },
+        "HEAD-CHG": {
+          "3→2": 1
+        },
+        "TED-ZHANG-SHASHA": {
+          "10→10": 1,
+          "17→17": 1
+        },
+        "TED-KLEIN": {
+          "11→11": 1,
+          "16→16": 1
+        }
+      }
+    }
+  },
+  "by_parse_type": {
+    "dependency": {
+      "total_events": 40,
+      "feature_counts": {
+        "FW-DEL": 8,
+        "DEP-REL-CHG": 28,
+        "LENGTH-CHG": 3,
+        "HEAD-CHG": 1
+      },
+      "newspaper_breakdown": {
+        "Times-of-India": {
+          "FW-DEL": 8,
+          "DEP-REL-CHG": 28,
+          "LENGTH-CHG": 3,
+          "HEAD-CHG": 1
+        }
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "SCONJ-DEL→ABSENT": 1,
+          "ART-DEL→ABSENT": 3,
+          "AUX-DEL→ABSENT": 3,
+          "PRON-PERS-DEL→ABSENT": 1
+        },
+        "DEP-REL-CHG": {
+          "det→xcomp": 1,
+          "nsubj→compound": 1,
+          "ccomp→obj": 1,
+          "mark→cc": 1,
+          "xcomp→nsubj": 1,
+          "det→acl": 1,
+          "compound→obj": 1,
+          "obj→conj": 1,
+          "cc→nsubj": 1,
+          "cop→root": 1,
+          "root→mark": 1,
+          "mark→advcl": 1,
+          "advcl→amod": 1,
+          "det→advmod": 1,
+          "amod→obj": 1,
+          "advmod→case": 1,
+          "obj→det": 1,
+          "case→amod": 1,
+          "det→nmod": 1,
+          "det→amod": 1,
+          "amod→nsubj": 1,
+          "nsubj→root": 1,
+          "root→nmod:poss": 1,
+          "nmod:poss→obj": 1,
+          "obj→xcomp": 1,
+          "nsubj:pass→case": 1,
+          "aux:pass→compound": 1,
+          "acl:relcl→obl": 1
+        },
+        "LENGTH-CHG": {
+          "18→12": 1,
+          "14→11": 1,
+          "14→9": 1
+        },
+        "HEAD-CHG": {
+          "3→2": 1
+        }
+      }
+    },
+    "constituency": {
+      "total_events": 59,
+      "feature_counts": {
+        "CONST-REM": 2,
+        "CONST-MOV": 33,
+        "CLAUSE-TYPE-CHG": 14,
+        "TED-SIMPLE": 3,
+        "TED-RTED": 3,
+        "TED-ZHANG-SHASHA": 2,
+        "TED-KLEIN": 2
+      },
+      "newspaper_breakdown": {
+        "Times-of-India": {
+          "CONST-REM": 2,
+          "CONST-MOV": 33,
+          "CLAUSE-TYPE-CHG": 14,
+          "TED-SIMPLE": 3,
+          "TED-RTED": 3,
+          "TED-ZHANG-SHASHA": 2,
+          "TED-KLEIN": 2
+        }
+      },
+      "feature_value_pairs": {
+        "CONST-REM": {
+          "SBAR-REM→ABSENT": 2
+        },
+        "CONST-MOV": {
+          "CONST-POST→CONST-POST": 2,
+          "CONST-FRONT→CONST-FRONT": 31
+        },
+        "CLAUSE-TYPE-CHG": {
+          "Fin→Inf": 3,
+          "Fin→Ger": 3,
+          "Inf→Fin": 2,
+          "Part→Fin": 3,
+          "Fin→Part": 3
+        },
+        "TED-SIMPLE": {
+          "10→10": 3
+        },
+        "TED-RTED": {
+          "26→26": 1,
+          "13→13": 1,
+          "17→17": 1
+        },
+        "TED-ZHANG-SHASHA": {
+          "10→10": 1,
+          "17→17": 1
+        },
+        "TED-KLEIN": {
+          "11→11": 1,
+          "16→16": 1
+        }
+      }
+    }
+  },
+  "cross_analysis": {
+    "Times-of-India_dependency": {
+      "total_events": 40,
+      "feature_counts": {
+        "FW-DEL": 8,
+        "DEP-REL-CHG": 28,
+        "LENGTH-CHG": 3,
+        "HEAD-CHG": 1
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "SCONJ-DEL→ABSENT": 1,
+          "ART-DEL→ABSENT": 3,
+          "AUX-DEL→ABSENT": 3,
+          "PRON-PERS-DEL→ABSENT": 1
+        },
+        "DEP-REL-CHG": {
+          "det→xcomp": 1,
+          "nsubj→compound": 1,
+          "ccomp→obj": 1,
+          "mark→cc": 1,
+          "xcomp→nsubj": 1,
+          "det→acl": 1,
+          "compound→obj": 1,
+          "obj→conj": 1,
+          "cc→nsubj": 1,
+          "cop→root": 1,
+          "root→mark": 1,
+          "mark→advcl": 1,
+          "advcl→amod": 1,
+          "det→advmod": 1,
+          "amod→obj": 1,
+          "advmod→case": 1,
+          "obj→det": 1,
+          "case→amod": 1,
+          "det→nmod": 1,
+          "det→amod": 1,
+          "amod→nsubj": 1,
+          "nsubj→root": 1,
+          "root→nmod:poss": 1,
+          "nmod:poss→obj": 1,
+          "obj→xcomp": 1,
+          "nsubj:pass→case": 1,
+          "aux:pass→compound": 1,
+          "acl:relcl→obl": 1
+        },
+        "LENGTH-CHG": {
+          "18→12": 1,
+          "14→11": 1,
+          "14→9": 1
+        },
+        "HEAD-CHG": {
+          "3→2": 1
+        }
+      }
+    },
+    "Times-of-India_constituency": {
+      "total_events": 59,
+      "feature_counts": {
+        "CONST-REM": 2,
+        "CONST-MOV": 33,
+        "CLAUSE-TYPE-CHG": 14,
+        "TED-SIMPLE": 3,
+        "TED-RTED": 3,
+        "TED-ZHANG-SHASHA": 2,
+        "TED-KLEIN": 2
+      },
+      "feature_value_pairs": {
+        "CONST-REM": {
+          "SBAR-REM→ABSENT": 2
+        },
+        "CONST-MOV": {
+          "CONST-POST→CONST-POST": 2,
+          "CONST-FRONT→CONST-FRONT": 31
+        },
+        "CLAUSE-TYPE-CHG": {
+          "Fin→Inf": 3,
+          "Fin→Ger": 3,
+          "Inf→Fin": 2,
+          "Part→Fin": 3,
+          "Fin→Part": 3
+        },
+        "TED-SIMPLE": {
+          "10→10": 3
+        },
+        "TED-RTED": {
+          "26→26": 1,
+          "13→13": 1,
+          "17→17": 1
+        },
+        "TED-ZHANG-SHASHA": {
+          "10→10": 1,
+          "17→17": 1
+        },
+        "TED-KLEIN": {
+          "11→11": 1,
+          "16→16": 1
+        }
+      }
+    }
+  },
+  "sentence_level_ted_scores": [
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 1,
+      "algorithm": "simple",
+      "ted_score": 10,
+      "canonical_text": "Shah said that the BJP wants to make the Ram mandir but the Congress is creating hurdles.",
+      "headline_text": "BJP wants to make Ram mandir but Congress creating hurdles says Shah",
+      "tree1_size": 54,
+      "tree2_size": 40
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 1,
+      "algorithm": "rted",
+      "ted_score": 26,
+      "canonical_text": "Shah said that the BJP wants to make the Ram mandir but the Congress is creating hurdles.",
+      "headline_text": "BJP wants to make Ram mandir but Congress creating hurdles says Shah",
+      "tree1_size": 54,
+      "tree2_size": 40
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 2,
+      "algorithm": "simple",
+      "ted_score": 10,
+      "canonical_text": "Scientists are close to observing the first ever photo of a black hole.",
+      "headline_text": "Scientists close to observing first ever photo of a black hole",
+      "tree1_size": 40,
+      "tree2_size": 34
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 2,
+      "algorithm": "zhang_shasha",
+      "ted_score": 10,
+      "canonical_text": "Scientists are close to observing the first ever photo of a black hole.",
+      "headline_text": "Scientists close to observing first ever photo of a black hole",
+      "tree1_size": 40,
+      "tree2_size": 34
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 2,
+      "algorithm": "klein",
+      "ted_score": 11,
+      "canonical_text": "Scientists are close to observing the first ever photo of a black hole.",
+      "headline_text": "Scientists close to observing first ever photo of a black hole",
+      "tree1_size": 40,
+      "tree2_size": 34
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 2,
+      "algorithm": "rted",
+      "ted_score": 13,
+      "canonical_text": "Scientists are close to observing the first ever photo of a black hole.",
+      "headline_text": "Scientists close to observing first ever photo of a black hole",
+      "tree1_size": 40,
+      "tree2_size": 34
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 3,
+      "algorithm": "simple",
+      "ted_score": 10,
+      "canonical_text": "A drunk man killed his daughter who was diagnosed with a heart problem.",
+      "headline_text": "Drunk man kills his daughter diagnosed with heart problem",
+      "tree1_size": 41,
+      "tree2_size": 27
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 3,
+      "algorithm": "zhang_shasha",
+      "ted_score": 17,
+      "canonical_text": "A drunk man killed his daughter who was diagnosed with a heart problem.",
+      "headline_text": "Drunk man kills his daughter diagnosed with heart problem",
+      "tree1_size": 41,
+      "tree2_size": 27
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 3,
+      "algorithm": "klein",
+      "ted_score": 16,
+      "canonical_text": "A drunk man killed his daughter who was diagnosed with a heart problem.",
+      "headline_text": "Drunk man kills his daughter diagnosed with heart problem",
+      "tree1_size": 41,
+      "tree2_size": 27
+    },
+    {
+      "newspaper": "Times-of-India",
+      "sent_id": 3,
+      "algorithm": "rted",
+      "ted_score": 17,
+      "canonical_text": "A drunk man killed his daughter who was diagnosed with a heart problem.",
+      "headline_text": "Drunk man kills his daughter diagnosed with heart problem",
+      "tree1_size": 41,
+      "tree2_size": 27
+    }
+  ]
+}

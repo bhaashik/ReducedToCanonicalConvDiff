@@ -1,0 +1,3 @@
+newspaper,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,kl_divergence_sum,total_events,unique_canonical_values,unique_headline_values
+The-Hindu,33.21928094907362,33.21928094907362,66.43856189814724,32.21928094907362,0.0,64.43856189814724,2,2,2
+Times-of-India,17.10964047453681,17.10964047453681,34.21928094907362,16.10964047453681,0.3333333333333333,32.21928094907362,2,2,2

@@ -1,0 +1,8 @@
+feature_id,feature_name,total_count,percentage
+FW-DEL,Function Word Deletion,2,22.22222222222222
+POS-CHG,Part of Speech Change,2,22.22222222222222
+C-ADD,Content Word Addition,1,11.11111111111111
+FW-SUB,FW-SUB,1,11.11111111111111
+C-DEL,Content Word Deletion,1,11.11111111111111
+C-SUB,C-SUB,1,11.11111111111111
+FW-ADD,Function Word Addition,1,11.11111111111111

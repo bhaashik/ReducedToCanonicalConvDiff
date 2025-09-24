@@ -20,9 +20,14 @@ import matplotlib.patches as mpatches
 class EnhancedVisualizer:
     """Enhanced visualizer for detailed value→value transformation analysis."""
 
-    def __init__(self, output_dir: Path):
+    def __init__(self, output_dir: Path, feature_labels: Dict[str, str] = None):
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.feature_labels = feature_labels or {}
+
+    def _get_feature_label(self, feature_id: str) -> str:
+        """Get readable label for feature ID."""
+        return self.feature_labels.get(feature_id, feature_id)
 
     def create_value_to_value_transformations(self, feature_value_analysis: Dict[str, Any]):
         """Create detailed value→value transformation visualizations for each feature."""
@@ -95,7 +100,8 @@ class EnhancedVisualizer:
                         ax=ax,
                         cbar_kws={'label': cbar_label})
 
-        ax.set_title(f"{feature_id}: Canonical → Headline Value Transformations")
+        feature_label = self._get_feature_label(feature_id)
+        ax.set_title(f"{feature_label}: Canonical → Headline Value Transformations")
         ax.set_xlabel("Headline Values")
         ax.set_ylabel("Canonical Values")
 
@@ -165,7 +171,8 @@ class EnhancedVisualizer:
 
         ax.set_xlim(0, 1)
         ax.set_ylim(-0.5, max(len(canonical_values), len(headline_values)) - 0.5)
-        ax.set_title(f"{feature_id}: Value Transformation Flow\\n(Canonical → Headline)", fontsize=14, fontweight='bold')
+        feature_label = self._get_feature_label(feature_id)
+        ax.set_title(f"{feature_label}: Value Transformation Flow\\n(Canonical → Headline)", fontsize=14, fontweight='bold')
         ax.axis('off')
 
         # Add legend
@@ -210,7 +217,8 @@ class EnhancedVisualizer:
         ax1.set_yticks(y_positions)
         ax1.set_yticklabels(transformation_labels, fontsize=10)
         ax1.set_xlabel('Count')
-        ax1.set_title(f'Top Transformations: {feature_id}')
+        feature_label = self._get_feature_label(feature_id)
+        ax1.set_title(f'Top Transformations: {feature_label}')
         ax1.grid(axis='x', alpha=0.3)
 
         # Right panel: Transformation statistics
@@ -368,7 +376,8 @@ class EnhancedVisualizer:
         edge_labels = {(u, v): str(d['weight']) for u, v, d in G.edges(data=True) if d['weight'] >= 10}
         nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=8)
 
-        ax.set_title(f"{feature_id}: Transformation Network\\n(Node size and edge width represent frequency)",
+        feature_label = self._get_feature_label(feature_id)
+        ax.set_title(f"{feature_label}: Transformation Network\\n(Node size and edge width represent frequency)",
                     fontsize=14, fontweight='bold')
         ax.axis('off')
         ax.legend()

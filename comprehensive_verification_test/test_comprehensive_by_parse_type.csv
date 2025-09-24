@@ -1,0 +1,10 @@
+parse_type,feature_id,feature_name,count,percentage_of_parse_type
+dependency,FW-DEL,Function Word Deletion,1,16.666666666666664
+dependency,C-ADD,Content Word Addition,1,16.666666666666664
+dependency,FW-SUB,FW-SUB,1,16.666666666666664
+dependency,C-DEL,Content Word Deletion,1,16.666666666666664
+dependency,POS-CHG,Part of Speech Change,1,16.666666666666664
+dependency,FW-ADD,Function Word Addition,1,16.666666666666664
+constituency,POS-CHG,Part of Speech Change,1,33.33333333333333
+constituency,FW-DEL,Function Word Deletion,1,33.33333333333333
+constituency,C-SUB,C-SUB,1,33.33333333333333

@@ -1,0 +1,160 @@
+{
+  "global": {
+    "total_events": 3,
+    "feature_counts": {
+      "FW-DEL": 1,
+      "C-ADD": 1,
+      "POS-CHG": 1
+    },
+    "parse_type_breakdown": {
+      "dependency": {
+        "FW-DEL": 1,
+        "POS-CHG": 1
+      },
+      "constituency": {
+        "C-ADD": 1
+      }
+    }
+  },
+  "by_newspaper": {
+    "Times-of-India": {
+      "total_events": 1,
+      "feature_counts": {
+        "FW-DEL": 1
+      },
+      "parse_type_breakdown": {
+        "dependency": {
+          "FW-DEL": 1
+        }
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "the→": 1
+        }
+      }
+    },
+    "The-Hindu": {
+      "total_events": 1,
+      "feature_counts": {
+        "C-ADD": 1
+      },
+      "parse_type_breakdown": {
+        "constituency": {
+          "C-ADD": 1
+        }
+      },
+      "feature_value_pairs": {
+        "C-ADD": {
+          "→big": 1
+        }
+      }
+    },
+    "Hindustan-Times": {
+      "total_events": 1,
+      "feature_counts": {
+        "POS-CHG": 1
+      },
+      "parse_type_breakdown": {
+        "dependency": {
+          "POS-CHG": 1
+        }
+      },
+      "feature_value_pairs": {
+        "POS-CHG": {
+          "NOUN→VERB": 1
+        }
+      }
+    }
+  },
+  "by_parse_type": {
+    "dependency": {
+      "total_events": 2,
+      "feature_counts": {
+        "FW-DEL": 1,
+        "POS-CHG": 1
+      },
+      "newspaper_breakdown": {
+        "Times-of-India": {
+          "FW-DEL": 1
+        },
+        "Hindustan-Times": {
+          "POS-CHG": 1
+        }
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "the→": 1
+        },
+        "POS-CHG": {
+          "NOUN→VERB": 1
+        }
+      }
+    },
+    "constituency": {
+      "total_events": 1,
+      "feature_counts": {
+        "C-ADD": 1
+      },
+      "newspaper_breakdown": {
+        "The-Hindu": {
+          "C-ADD": 1
+        }
+      },
+      "feature_value_pairs": {
+        "C-ADD": {
+          "→big": 1
+        }
+      }
+    }
+  },
+  "cross_analysis": {
+    "Times-of-India_dependency": {
+      "total_events": 1,
+      "feature_counts": {
+        "FW-DEL": 1
+      },
+      "feature_value_pairs": {
+        "FW-DEL": {
+          "the→": 1
+        }
+      }
+    },
+    "Times-of-India_constituency": {
+      "total_events": 0,
+      "feature_counts": {},
+      "feature_value_pairs": {}
+    },
+    "The-Hindu_dependency": {
+      "total_events": 0,
+      "feature_counts": {},
+      "feature_value_pairs": {}
+    },
+    "The-Hindu_constituency": {
+      "total_events": 1,
+      "feature_counts": {
+        "C-ADD": 1
+      },
+      "feature_value_pairs": {
+        "C-ADD": {
+          "→big": 1
+        }
+      }
+    },
+    "Hindustan-Times_dependency": {
+      "total_events": 1,
+      "feature_counts": {
+        "POS-CHG": 1
+      },
+      "feature_value_pairs": {
+        "POS-CHG": {
+          "NOUN→VERB": 1
+        }
+      }
+    },
+    "Hindustan-Times_constituency": {
+      "total_events": 0,
+      "feature_counts": {},
+      "feature_value_pairs": {}
+    }
+  }
+}

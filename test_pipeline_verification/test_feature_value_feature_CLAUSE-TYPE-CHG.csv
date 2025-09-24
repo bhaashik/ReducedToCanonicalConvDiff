@@ -1,0 +1,6 @@
+feature_id,canonical_value,headline_value,transformation,count,percentage
+CLAUSE-TYPE-CHG,Fin,Inf,Fin→Inf,3,21.428571428571427
+CLAUSE-TYPE-CHG,Fin,Ger,Fin→Ger,3,21.428571428571427
+CLAUSE-TYPE-CHG,Part,Fin,Part→Fin,3,21.428571428571427
+CLAUSE-TYPE-CHG,Fin,Part,Fin→Part,3,21.428571428571427
+CLAUSE-TYPE-CHG,Inf,Fin,Inf→Fin,2,14.285714285714285

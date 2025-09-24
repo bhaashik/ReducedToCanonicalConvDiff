@@ -437,6 +437,30 @@ visualizer.create_statistical_summary_visualizations(comprehensive_analysis, sta
 print("Creating feature-value visualizations...")
 visualizer.create_feature_value_visualizations(feature_value_analysis)
 
+# Generate feature-value pair analysis (treating pairs as atomic units)
+print("Generating feature-value pair analysis...")
+feature_value_pair_analysis = aggregator.get_feature_value_pair_analysis()
+
+# Save feature-value pair analysis
+print("Saving feature-value pair analysis...")
+outputs.save_feature_value_pair_analysis(feature_value_pair_analysis, "feature_value_pair_analysis")
+
+# Generate feature-value pair visualizations
+print("Creating feature-value pair visualizations...")
+visualizer.create_feature_value_pair_visualizations(feature_value_pair_analysis)
+
+# Generate bidirectional cross-entropy analysis
+print("Generating bidirectional cross-entropy analysis...")
+cross_entropy_analysis = aggregator.get_bidirectional_cross_entropy_analysis()
+
+# Save cross-entropy analysis
+print("Saving bidirectional cross-entropy analysis...")
+outputs.save_bidirectional_cross_entropy_analysis(cross_entropy_analysis, "bidirectional_cross_entropy_analysis")
+
+# Generate cross-entropy visualizations
+print("Creating bidirectional cross-entropy visualizations...")
+visualizer.create_bidirectional_cross_entropy_visualizations(cross_entropy_analysis)
+
 # Also keep the original simple visualization
 print("Creating additional basic visualizations...")
 visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", "feature_freq_global.png")

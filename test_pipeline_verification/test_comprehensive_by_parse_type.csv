@@ -1,0 +1,12 @@
+parse_type,feature_id,feature_name,count,percentage_of_parse_type
+dependency,FW-DEL,Function Word Deletion,8,20.0
+dependency,DEP-REL-CHG,Dependency Relation Change,28,70.0
+dependency,LENGTH-CHG,Sentence Length Change,3,7.5
+dependency,HEAD-CHG,Dependency Head Change,1,2.5
+constituency,CONST-REM,Constituent Removal,2,3.389830508474576
+constituency,CONST-MOV,Constituent Movement,33,55.932203389830505
+constituency,CLAUSE-TYPE-CHG,Clause Type Change,14,23.728813559322035
+constituency,TED-SIMPLE,TED-SIMPLE,3,5.084745762711865
+constituency,TED-RTED,TED-RTED,3,5.084745762711865
+constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,2,3.389830508474576
+constituency,TED-KLEIN,TED-KLEIN,2,3.389830508474576

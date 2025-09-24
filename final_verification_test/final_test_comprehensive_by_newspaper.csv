@@ -1,0 +1,4 @@
+newspaper,feature_id,feature_name,count,percentage_of_newspaper
+Times-of-India,FW-DEL,Function Word Deletion,1,100.0
+The-Hindu,C-ADD,Content Word Addition,1,100.0
+Hindustan-Times,POS-CHG,Part of Speech Change,1,100.0

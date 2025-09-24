@@ -1,0 +1,331 @@
+{
+  "global_feature_value_pairs": {
+    "FW-DEL:SCONJ-DEL\u2192ABSENT": 1,
+    "FW-DEL:ART-DEL\u2192ABSENT": 3,
+    "FW-DEL:AUX-DEL\u2192ABSENT": 3,
+    "DEP-REL-CHG:det\u2192xcomp": 1,
+    "DEP-REL-CHG:nsubj\u2192compound": 1,
+    "DEP-REL-CHG:ccomp\u2192obj": 1,
+    "DEP-REL-CHG:mark\u2192cc": 1,
+    "DEP-REL-CHG:xcomp\u2192nsubj": 1,
+    "DEP-REL-CHG:det\u2192acl": 1,
+    "DEP-REL-CHG:compound\u2192obj": 1,
+    "DEP-REL-CHG:obj\u2192conj": 1,
+    "DEP-REL-CHG:cc\u2192nsubj": 1,
+    "LENGTH-CHG:18\u219212": 1,
+    "CONST-REM:SBAR-REM\u2192ABSENT": 2,
+    "CONST-MOV:CONST-POST\u2192CONST-POST": 2,
+    "CONST-MOV:CONST-FRONT\u2192CONST-FRONT": 31,
+    "CLAUSE-TYPE-CHG:Fin\u2192Inf": 3,
+    "CLAUSE-TYPE-CHG:Fin\u2192Ger": 3,
+    "CLAUSE-TYPE-CHG:Inf\u2192Fin": 2,
+    "CLAUSE-TYPE-CHG:Part\u2192Fin": 3,
+    "TED-SIMPLE:10\u219210": 3,
+    "TED-RTED:26\u219226": 1,
+    "DEP-REL-CHG:cop\u2192root": 1,
+    "DEP-REL-CHG:root\u2192mark": 1,
+    "DEP-REL-CHG:mark\u2192advcl": 1,
+    "DEP-REL-CHG:advcl\u2192amod": 1,
+    "DEP-REL-CHG:det\u2192advmod": 1,
+    "DEP-REL-CHG:amod\u2192obj": 1,
+    "DEP-REL-CHG:advmod\u2192case": 1,
+    "DEP-REL-CHG:obj\u2192det": 1,
+    "DEP-REL-CHG:case\u2192amod": 1,
+    "DEP-REL-CHG:det\u2192nmod": 1,
+    "HEAD-CHG:3\u21922": 1,
+    "LENGTH-CHG:14\u219211": 1,
+    "CLAUSE-TYPE-CHG:Fin\u2192Part": 3,
+    "TED-ZHANG-SHASHA:10\u219210": 1,
+    "TED-KLEIN:11\u219211": 1,
+    "TED-RTED:13\u219213": 1,
+    "FW-DEL:PRON-PERS-DEL\u2192ABSENT": 1,
+    "DEP-REL-CHG:det\u2192amod": 1,
+    "DEP-REL-CHG:amod\u2192nsubj": 1,
+    "DEP-REL-CHG:nsubj\u2192root": 1,
+    "DEP-REL-CHG:root\u2192nmod:poss": 1,
+    "DEP-REL-CHG:nmod:poss\u2192obj": 1,
+    "DEP-REL-CHG:obj\u2192xcomp": 1,
+    "DEP-REL-CHG:nsubj:pass\u2192case": 1,
+    "DEP-REL-CHG:aux:pass\u2192compound": 1,
+    "DEP-REL-CHG:acl:relcl\u2192obl": 1,
+    "LENGTH-CHG:14\u21929": 1,
+    "TED-ZHANG-SHASHA:17\u219217": 1,
+    "TED-KLEIN:16\u219216": 1,
+    "TED-RTED:17\u219217": 1
+  },
+  "by_newspaper_feature_value_pairs": {
+    "Times-of-India": {
+      "FW-DEL:SCONJ-DEL\u2192ABSENT": 1,
+      "FW-DEL:ART-DEL\u2192ABSENT": 3,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 3,
+      "DEP-REL-CHG:det\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj\u2192compound": 1,
+      "DEP-REL-CHG:ccomp\u2192obj": 1,
+      "DEP-REL-CHG:mark\u2192cc": 1,
+      "DEP-REL-CHG:xcomp\u2192nsubj": 1,
+      "DEP-REL-CHG:det\u2192acl": 1,
+      "DEP-REL-CHG:compound\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192conj": 1,
+      "DEP-REL-CHG:cc\u2192nsubj": 1,
+      "LENGTH-CHG:18\u219212": 1,
+      "CONST-REM:SBAR-REM\u2192ABSENT": 2,
+      "CONST-MOV:CONST-POST\u2192CONST-POST": 2,
+      "CONST-MOV:CONST-FRONT\u2192CONST-FRONT": 31,
+      "CLAUSE-TYPE-CHG:Fin\u2192Inf": 3,
+      "CLAUSE-TYPE-CHG:Fin\u2192Ger": 3,
+      "CLAUSE-TYPE-CHG:Inf\u2192Fin": 2,
+      "CLAUSE-TYPE-CHG:Part\u2192Fin": 3,
+      "TED-SIMPLE:10\u219210": 3,
+      "TED-RTED:26\u219226": 1,
+      "DEP-REL-CHG:cop\u2192root": 1,
+      "DEP-REL-CHG:root\u2192mark": 1,
+      "DEP-REL-CHG:mark\u2192advcl": 1,
+      "DEP-REL-CHG:advcl\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192advmod": 1,
+      "DEP-REL-CHG:amod\u2192obj": 1,
+      "DEP-REL-CHG:advmod\u2192case": 1,
+      "DEP-REL-CHG:obj\u2192det": 1,
+      "DEP-REL-CHG:case\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192nmod": 1,
+      "HEAD-CHG:3\u21922": 1,
+      "LENGTH-CHG:14\u219211": 1,
+      "CLAUSE-TYPE-CHG:Fin\u2192Part": 3,
+      "TED-ZHANG-SHASHA:10\u219210": 1,
+      "TED-KLEIN:11\u219211": 1,
+      "TED-RTED:13\u219213": 1,
+      "FW-DEL:PRON-PERS-DEL\u2192ABSENT": 1,
+      "DEP-REL-CHG:det\u2192amod": 1,
+      "DEP-REL-CHG:amod\u2192nsubj": 1,
+      "DEP-REL-CHG:nsubj\u2192root": 1,
+      "DEP-REL-CHG:root\u2192nmod:poss": 1,
+      "DEP-REL-CHG:nmod:poss\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj:pass\u2192case": 1,
+      "DEP-REL-CHG:aux:pass\u2192compound": 1,
+      "DEP-REL-CHG:acl:relcl\u2192obl": 1,
+      "LENGTH-CHG:14\u21929": 1,
+      "TED-ZHANG-SHASHA:17\u219217": 1,
+      "TED-KLEIN:16\u219216": 1,
+      "TED-RTED:17\u219217": 1
+    }
+  },
+  "by_parse_type_feature_value_pairs": {
+    "dependency": {
+      "FW-DEL:SCONJ-DEL\u2192ABSENT": 1,
+      "FW-DEL:ART-DEL\u2192ABSENT": 3,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 3,
+      "DEP-REL-CHG:det\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj\u2192compound": 1,
+      "DEP-REL-CHG:ccomp\u2192obj": 1,
+      "DEP-REL-CHG:mark\u2192cc": 1,
+      "DEP-REL-CHG:xcomp\u2192nsubj": 1,
+      "DEP-REL-CHG:det\u2192acl": 1,
+      "DEP-REL-CHG:compound\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192conj": 1,
+      "DEP-REL-CHG:cc\u2192nsubj": 1,
+      "LENGTH-CHG:18\u219212": 1,
+      "DEP-REL-CHG:cop\u2192root": 1,
+      "DEP-REL-CHG:root\u2192mark": 1,
+      "DEP-REL-CHG:mark\u2192advcl": 1,
+      "DEP-REL-CHG:advcl\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192advmod": 1,
+      "DEP-REL-CHG:amod\u2192obj": 1,
+      "DEP-REL-CHG:advmod\u2192case": 1,
+      "DEP-REL-CHG:obj\u2192det": 1,
+      "DEP-REL-CHG:case\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192nmod": 1,
+      "HEAD-CHG:3\u21922": 1,
+      "LENGTH-CHG:14\u219211": 1,
+      "FW-DEL:PRON-PERS-DEL\u2192ABSENT": 1,
+      "DEP-REL-CHG:det\u2192amod": 1,
+      "DEP-REL-CHG:amod\u2192nsubj": 1,
+      "DEP-REL-CHG:nsubj\u2192root": 1,
+      "DEP-REL-CHG:root\u2192nmod:poss": 1,
+      "DEP-REL-CHG:nmod:poss\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj:pass\u2192case": 1,
+      "DEP-REL-CHG:aux:pass\u2192compound": 1,
+      "DEP-REL-CHG:acl:relcl\u2192obl": 1,
+      "LENGTH-CHG:14\u21929": 1
+    },
+    "constituency": {
+      "CONST-REM:SBAR-REM\u2192ABSENT": 2,
+      "CONST-MOV:CONST-POST\u2192CONST-POST": 2,
+      "CONST-MOV:CONST-FRONT\u2192CONST-FRONT": 31,
+      "CLAUSE-TYPE-CHG:Fin\u2192Inf": 3,
+      "CLAUSE-TYPE-CHG:Fin\u2192Ger": 3,
+      "CLAUSE-TYPE-CHG:Inf\u2192Fin": 2,
+      "CLAUSE-TYPE-CHG:Part\u2192Fin": 3,
+      "TED-SIMPLE:10\u219210": 3,
+      "TED-RTED:26\u219226": 1,
+      "CLAUSE-TYPE-CHG:Fin\u2192Part": 3,
+      "TED-ZHANG-SHASHA:10\u219210": 1,
+      "TED-KLEIN:11\u219211": 1,
+      "TED-RTED:13\u219213": 1,
+      "TED-ZHANG-SHASHA:17\u219217": 1,
+      "TED-KLEIN:16\u219216": 1,
+      "TED-RTED:17\u219217": 1
+    }
+  },
+  "cross_feature_value_pairs": {
+    "Times-of-India_dependency": {
+      "FW-DEL:SCONJ-DEL\u2192ABSENT": 1,
+      "FW-DEL:ART-DEL\u2192ABSENT": 3,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 3,
+      "DEP-REL-CHG:det\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj\u2192compound": 1,
+      "DEP-REL-CHG:ccomp\u2192obj": 1,
+      "DEP-REL-CHG:mark\u2192cc": 1,
+      "DEP-REL-CHG:xcomp\u2192nsubj": 1,
+      "DEP-REL-CHG:det\u2192acl": 1,
+      "DEP-REL-CHG:compound\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192conj": 1,
+      "DEP-REL-CHG:cc\u2192nsubj": 1,
+      "LENGTH-CHG:18\u219212": 1,
+      "DEP-REL-CHG:cop\u2192root": 1,
+      "DEP-REL-CHG:root\u2192mark": 1,
+      "DEP-REL-CHG:mark\u2192advcl": 1,
+      "DEP-REL-CHG:advcl\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192advmod": 1,
+      "DEP-REL-CHG:amod\u2192obj": 1,
+      "DEP-REL-CHG:advmod\u2192case": 1,
+      "DEP-REL-CHG:obj\u2192det": 1,
+      "DEP-REL-CHG:case\u2192amod": 1,
+      "DEP-REL-CHG:det\u2192nmod": 1,
+      "HEAD-CHG:3\u21922": 1,
+      "LENGTH-CHG:14\u219211": 1,
+      "FW-DEL:PRON-PERS-DEL\u2192ABSENT": 1,
+      "DEP-REL-CHG:det\u2192amod": 1,
+      "DEP-REL-CHG:amod\u2192nsubj": 1,
+      "DEP-REL-CHG:nsubj\u2192root": 1,
+      "DEP-REL-CHG:root\u2192nmod:poss": 1,
+      "DEP-REL-CHG:nmod:poss\u2192obj": 1,
+      "DEP-REL-CHG:obj\u2192xcomp": 1,
+      "DEP-REL-CHG:nsubj:pass\u2192case": 1,
+      "DEP-REL-CHG:aux:pass\u2192compound": 1,
+      "DEP-REL-CHG:acl:relcl\u2192obl": 1,
+      "LENGTH-CHG:14\u21929": 1
+    },
+    "Times-of-India_constituency": {
+      "CONST-REM:SBAR-REM\u2192ABSENT": 2,
+      "CONST-MOV:CONST-POST\u2192CONST-POST": 2,
+      "CONST-MOV:CONST-FRONT\u2192CONST-FRONT": 31,
+      "CLAUSE-TYPE-CHG:Fin\u2192Inf": 3,
+      "CLAUSE-TYPE-CHG:Fin\u2192Ger": 3,
+      "CLAUSE-TYPE-CHG:Inf\u2192Fin": 2,
+      "CLAUSE-TYPE-CHG:Part\u2192Fin": 3,
+      "TED-SIMPLE:10\u219210": 3,
+      "TED-RTED:26\u219226": 1,
+      "CLAUSE-TYPE-CHG:Fin\u2192Part": 3,
+      "TED-ZHANG-SHASHA:10\u219210": 1,
+      "TED-KLEIN:11\u219211": 1,
+      "TED-RTED:13\u219213": 1,
+      "TED-ZHANG-SHASHA:17\u219217": 1,
+      "TED-KLEIN:16\u219216": 1,
+      "TED-RTED:17\u219217": 1
+    }
+  },
+  "pair_statistics": {
+    "total_unique_pairs": 52,
+    "most_frequent_pairs": [
+      [
+        "CONST-MOV:CONST-FRONT\u2192CONST-FRONT",
+        31
+      ],
+      [
+        "FW-DEL:ART-DEL\u2192ABSENT",
+        3
+      ],
+      [
+        "FW-DEL:AUX-DEL\u2192ABSENT",
+        3
+      ],
+      [
+        "CLAUSE-TYPE-CHG:Fin\u2192Inf",
+        3
+      ],
+      [
+        "CLAUSE-TYPE-CHG:Fin\u2192Ger",
+        3
+      ],
+      [
+        "CLAUSE-TYPE-CHG:Part\u2192Fin",
+        3
+      ],
+      [
+        "TED-SIMPLE:10\u219210",
+        3
+      ],
+      [
+        "CLAUSE-TYPE-CHG:Fin\u2192Part",
+        3
+      ],
+      [
+        "CONST-REM:SBAR-REM\u2192ABSENT",
+        2
+      ],
+      [
+        "CONST-MOV:CONST-POST\u2192CONST-POST",
+        2
+      ]
+    ],
+    "pair_frequency_distribution": {},
+    "average_pair_frequency": 1.9038461538461537,
+    "pair_concentration_metrics": {
+      "total_pair_occurrences": 99,
+      "entropy": 4.681232396472162,
+      "concentration_ratio": 0.43434343434343436
+    }
+  },
+  "pair_diversity_metrics": {
+    "newspaper_pair_diversity": {
+      "Times-of-India": {
+        "unique_pairs": 52,
+        "total_occurrences": 99,
+        "diversity_index": 3.2447830371605506
+      }
+    },
+    "parse_type_pair_diversity": {
+      "dependency": {
+        "unique_pairs": 36,
+        "total_occurrences": 40,
+        "diversity_index": 3.5240876108137233
+      },
+      "constituency": {
+        "unique_pairs": 16,
+        "total_occurrences": 59,
+        "diversity_index": 1.923441329457908
+      }
+    },
+    "cross_dimension_diversity": {}
+  },
+  "transformation_pair_patterns": {
+    "feature_transformation_counts": {
+      "FW-DEL": 8,
+      "DEP-REL-CHG": 28,
+      "LENGTH-CHG": 3,
+      "CONST-REM": 2,
+      "CONST-MOV": 33,
+      "CLAUSE-TYPE-CHG": 14,
+      "TED-SIMPLE": 3,
+      "TED-RTED": 3,
+      "HEAD-CHG": 1,
+      "TED-ZHANG-SHASHA": 2,
+      "TED-KLEIN": 2
+    },
+    "bidirectional_transformations": [],
+    "transformation_complexity": {
+      "FW-DEL": 4,
+      "DEP-REL-CHG": 28,
+      "LENGTH-CHG": 3,
+      "CONST-REM": 1,
+      "CONST-MOV": 2,
+      "CLAUSE-TYPE-CHG": 5,
+      "TED-SIMPLE": 1,
+      "TED-RTED": 3,
+      "HEAD-CHG": 1,
+      "TED-ZHANG-SHASHA": 2,
+      "TED-KLEIN": 2
+    }
+  }
+}

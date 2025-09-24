@@ -1,0 +1,10 @@
+feature_id,canonical_value,headline_value,transformation,count
+C-ADD,,quickly,→quickly,1
+C-DEL,very,,very→,1
+C-SUB,big,large,big→large,1
+FW-ADD,,will,→will,1
+FW-DEL,the,,the→,1
+FW-DEL,is,,is→,1
+FW-SUB,a,the,a→the,1
+POS-CHG,NOUN,VERB,NOUN→VERB,1
+POS-CHG,ADJ,ADV,ADJ→ADV,1

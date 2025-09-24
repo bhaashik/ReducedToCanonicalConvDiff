@@ -1,0 +1,9 @@
+feature_id,rank,transformation,count,pattern_type
+,0,→new,1,changes
+NOUN,0,NOUN→VERB,1,changes
+a,0,a→,1,changes
+the,0,the→,1,changes
+C-ADD,1,→new,1,most_common
+FW-DEL,1,the→,1,most_common
+FW-DEL,2,a→,1,most_common
+POS-CHG,1,NOUN→VERB,1,most_common
