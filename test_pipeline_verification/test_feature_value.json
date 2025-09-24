@@ -1,0 +1,672 @@
+{
+  "global_feature_values": {
+    "FW-DEL": {
+      "SCONJ-DEL→ABSENT": 1,
+      "ART-DEL→ABSENT": 3,
+      "AUX-DEL→ABSENT": 3,
+      "PRON-PERS-DEL→ABSENT": 1
+    },
+    "DEP-REL-CHG": {
+      "det→xcomp": 1,
+      "nsubj→compound": 1,
+      "ccomp→obj": 1,
+      "mark→cc": 1,
+      "xcomp→nsubj": 1,
+      "det→acl": 1,
+      "compound→obj": 1,
+      "obj→conj": 1,
+      "cc→nsubj": 1,
+      "cop→root": 1,
+      "root→mark": 1,
+      "mark→advcl": 1,
+      "advcl→amod": 1,
+      "det→advmod": 1,
+      "amod→obj": 1,
+      "advmod→case": 1,
+      "obj→det": 1,
+      "case→amod": 1,
+      "det→nmod": 1,
+      "det→amod": 1,
+      "amod→nsubj": 1,
+      "nsubj→root": 1,
+      "root→nmod:poss": 1,
+      "nmod:poss→obj": 1,
+      "obj→xcomp": 1,
+      "nsubj:pass→case": 1,
+      "aux:pass→compound": 1,
+      "acl:relcl→obl": 1
+    },
+    "LENGTH-CHG": {
+      "18→12": 1,
+      "14→11": 1,
+      "14→9": 1
+    },
+    "CONST-REM": {
+      "SBAR-REM→ABSENT": 2
+    },
+    "CONST-MOV": {
+      "CONST-POST→CONST-POST": 2,
+      "CONST-FRONT→CONST-FRONT": 31
+    },
+    "CLAUSE-TYPE-CHG": {
+      "Fin→Inf": 3,
+      "Fin→Ger": 3,
+      "Inf→Fin": 2,
+      "Part→Fin": 3,
+      "Fin→Part": 3
+    },
+    "TED-SIMPLE": {
+      "10→10": 3
+    },
+    "TED-RTED": {
+      "26→26": 1,
+      "13→13": 1,
+      "17→17": 1
+    },
+    "HEAD-CHG": {
+      "3→2": 1
+    },
+    "TED-ZHANG-SHASHA": {
+      "10→10": 1,
+      "17→17": 1
+    },
+    "TED-KLEIN": {
+      "11→11": 1,
+      "16→16": 1
+    }
+  },
+  "by_newspaper_feature_values": {
+    "Times-of-India": {
+      "FW-DEL": {
+        "SCONJ-DEL→ABSENT": 1,
+        "ART-DEL→ABSENT": 3,
+        "AUX-DEL→ABSENT": 3,
+        "PRON-PERS-DEL→ABSENT": 1
+      },
+      "DEP-REL-CHG": {
+        "det→xcomp": 1,
+        "nsubj→compound": 1,
+        "ccomp→obj": 1,
+        "mark→cc": 1,
+        "xcomp→nsubj": 1,
+        "det→acl": 1,
+        "compound→obj": 1,
+        "obj→conj": 1,
+        "cc→nsubj": 1,
+        "cop→root": 1,
+        "root→mark": 1,
+        "mark→advcl": 1,
+        "advcl→amod": 1,
+        "det→advmod": 1,
+        "amod→obj": 1,
+        "advmod→case": 1,
+        "obj→det": 1,
+        "case→amod": 1,
+        "det→nmod": 1,
+        "det→amod": 1,
+        "amod→nsubj": 1,
+        "nsubj→root": 1,
+        "root→nmod:poss": 1,
+        "nmod:poss→obj": 1,
+        "obj→xcomp": 1,
+        "nsubj:pass→case": 1,
+        "aux:pass→compound": 1,
+        "acl:relcl→obl": 1
+      },
+      "LENGTH-CHG": {
+        "18→12": 1,
+        "14→11": 1,
+        "14→9": 1
+      },
+      "CONST-REM": {
+        "SBAR-REM→ABSENT": 2
+      },
+      "CONST-MOV": {
+        "CONST-POST→CONST-POST": 2,
+        "CONST-FRONT→CONST-FRONT": 31
+      },
+      "CLAUSE-TYPE-CHG": {
+        "Fin→Inf": 3,
+        "Fin→Ger": 3,
+        "Inf→Fin": 2,
+        "Part→Fin": 3,
+        "Fin→Part": 3
+      },
+      "TED-SIMPLE": {
+        "10→10": 3
+      },
+      "TED-RTED": {
+        "26→26": 1,
+        "13→13": 1,
+        "17→17": 1
+      },
+      "HEAD-CHG": {
+        "3→2": 1
+      },
+      "TED-ZHANG-SHASHA": {
+        "10→10": 1,
+        "17→17": 1
+      },
+      "TED-KLEIN": {
+        "11→11": 1,
+        "16→16": 1
+      }
+    }
+  },
+  "by_parse_type_feature_values": {
+    "dependency": {
+      "FW-DEL": {
+        "SCONJ-DEL→ABSENT": 1,
+        "ART-DEL→ABSENT": 3,
+        "AUX-DEL→ABSENT": 3,
+        "PRON-PERS-DEL→ABSENT": 1
+      },
+      "DEP-REL-CHG": {
+        "det→xcomp": 1,
+        "nsubj→compound": 1,
+        "ccomp→obj": 1,
+        "mark→cc": 1,
+        "xcomp→nsubj": 1,
+        "det→acl": 1,
+        "compound→obj": 1,
+        "obj→conj": 1,
+        "cc→nsubj": 1,
+        "cop→root": 1,
+        "root→mark": 1,
+        "mark→advcl": 1,
+        "advcl→amod": 1,
+        "det→advmod": 1,
+        "amod→obj": 1,
+        "advmod→case": 1,
+        "obj→det": 1,
+        "case→amod": 1,
+        "det→nmod": 1,
+        "det→amod": 1,
+        "amod→nsubj": 1,
+        "nsubj→root": 1,
+        "root→nmod:poss": 1,
+        "nmod:poss→obj": 1,
+        "obj→xcomp": 1,
+        "nsubj:pass→case": 1,
+        "aux:pass→compound": 1,
+        "acl:relcl→obl": 1
+      },
+      "LENGTH-CHG": {
+        "18→12": 1,
+        "14→11": 1,
+        "14→9": 1
+      },
+      "HEAD-CHG": {
+        "3→2": 1
+      }
+    },
+    "constituency": {
+      "CONST-REM": {
+        "SBAR-REM→ABSENT": 2
+      },
+      "CONST-MOV": {
+        "CONST-POST→CONST-POST": 2,
+        "CONST-FRONT→CONST-FRONT": 31
+      },
+      "CLAUSE-TYPE-CHG": {
+        "Fin→Inf": 3,
+        "Fin→Ger": 3,
+        "Inf→Fin": 2,
+        "Part→Fin": 3,
+        "Fin→Part": 3
+      },
+      "TED-SIMPLE": {
+        "10→10": 3
+      },
+      "TED-RTED": {
+        "26→26": 1,
+        "13→13": 1,
+        "17→17": 1
+      },
+      "TED-ZHANG-SHASHA": {
+        "10→10": 1,
+        "17→17": 1
+      },
+      "TED-KLEIN": {
+        "11→11": 1,
+        "16→16": 1
+      }
+    }
+  },
+  "cross_feature_values": {
+    "Times-of-India_dependency": {
+      "FW-DEL": {
+        "SCONJ-DEL→ABSENT": 1,
+        "ART-DEL→ABSENT": 3,
+        "AUX-DEL→ABSENT": 3,
+        "PRON-PERS-DEL→ABSENT": 1
+      },
+      "DEP-REL-CHG": {
+        "det→xcomp": 1,
+        "nsubj→compound": 1,
+        "ccomp→obj": 1,
+        "mark→cc": 1,
+        "xcomp→nsubj": 1,
+        "det→acl": 1,
+        "compound→obj": 1,
+        "obj→conj": 1,
+        "cc→nsubj": 1,
+        "cop→root": 1,
+        "root→mark": 1,
+        "mark→advcl": 1,
+        "advcl→amod": 1,
+        "det→advmod": 1,
+        "amod→obj": 1,
+        "advmod→case": 1,
+        "obj→det": 1,
+        "case→amod": 1,
+        "det→nmod": 1,
+        "det→amod": 1,
+        "amod→nsubj": 1,
+        "nsubj→root": 1,
+        "root→nmod:poss": 1,
+        "nmod:poss→obj": 1,
+        "obj→xcomp": 1,
+        "nsubj:pass→case": 1,
+        "aux:pass→compound": 1,
+        "acl:relcl→obl": 1
+      },
+      "LENGTH-CHG": {
+        "18→12": 1,
+        "14→11": 1,
+        "14→9": 1
+      },
+      "HEAD-CHG": {
+        "3→2": 1
+      }
+    },
+    "Times-of-India_constituency": {
+      "CONST-REM": {
+        "SBAR-REM→ABSENT": 2
+      },
+      "CONST-MOV": {
+        "CONST-POST→CONST-POST": 2,
+        "CONST-FRONT→CONST-FRONT": 31
+      },
+      "CLAUSE-TYPE-CHG": {
+        "Fin→Inf": 3,
+        "Fin→Ger": 3,
+        "Inf→Fin": 2,
+        "Part→Fin": 3,
+        "Fin→Part": 3
+      },
+      "TED-SIMPLE": {
+        "10→10": 3
+      },
+      "TED-RTED": {
+        "26→26": 1,
+        "13→13": 1,
+        "17→17": 1
+      },
+      "TED-ZHANG-SHASHA": {
+        "10→10": 1,
+        "17→17": 1
+      },
+      "TED-KLEIN": {
+        "11→11": 1,
+        "16→16": 1
+      }
+    }
+  },
+  "transformation_patterns": {
+    "most_common_transformations": {
+      "FW-DEL": [
+        [
+          "ART-DEL→ABSENT",
+          3
+        ],
+        [
+          "AUX-DEL→ABSENT",
+          3
+        ],
+        [
+          "SCONJ-DEL→ABSENT",
+          1
+        ],
+        [
+          "PRON-PERS-DEL→ABSENT",
+          1
+        ]
+      ],
+      "DEP-REL-CHG": [
+        [
+          "det→xcomp",
+          1
+        ],
+        [
+          "nsubj→compound",
+          1
+        ],
+        [
+          "ccomp→obj",
+          1
+        ],
+        [
+          "mark→cc",
+          1
+        ],
+        [
+          "xcomp→nsubj",
+          1
+        ],
+        [
+          "det→acl",
+          1
+        ],
+        [
+          "compound→obj",
+          1
+        ],
+        [
+          "obj→conj",
+          1
+        ],
+        [
+          "cc→nsubj",
+          1
+        ],
+        [
+          "cop→root",
+          1
+        ]
+      ],
+      "LENGTH-CHG": [
+        [
+          "18→12",
+          1
+        ],
+        [
+          "14→11",
+          1
+        ],
+        [
+          "14→9",
+          1
+        ]
+      ],
+      "CONST-REM": [
+        [
+          "SBAR-REM→ABSENT",
+          2
+        ]
+      ],
+      "CONST-MOV": [
+        [
+          "CONST-FRONT→CONST-FRONT",
+          31
+        ],
+        [
+          "CONST-POST→CONST-POST",
+          2
+        ]
+      ],
+      "CLAUSE-TYPE-CHG": [
+        [
+          "Fin→Inf",
+          3
+        ],
+        [
+          "Fin→Ger",
+          3
+        ],
+        [
+          "Part→Fin",
+          3
+        ],
+        [
+          "Fin→Part",
+          3
+        ],
+        [
+          "Inf→Fin",
+          2
+        ]
+      ],
+      "TED-SIMPLE": [
+        [
+          "10→10",
+          3
+        ]
+      ],
+      "TED-RTED": [
+        [
+          "26→26",
+          1
+        ],
+        [
+          "13→13",
+          1
+        ],
+        [
+          "17→17",
+          1
+        ]
+      ],
+      "HEAD-CHG": [
+        [
+          "3→2",
+          1
+        ]
+      ],
+      "TED-ZHANG-SHASHA": [
+        [
+          "10→10",
+          1
+        ],
+        [
+          "17→17",
+          1
+        ]
+      ],
+      "TED-KLEIN": [
+        [
+          "11→11",
+          1
+        ],
+        [
+          "16→16",
+          1
+        ]
+      ]
+    },
+    "transformation_types": {
+      "deletions": {
+        "SCONJ-DEL→ABSENT": 1,
+        "ART-DEL→ABSENT": 3,
+        "AUX-DEL→ABSENT": 3,
+        "PRON-PERS-DEL→ABSENT": 1,
+        "SBAR-REM→ABSENT": 2
+      },
+      "additions": {},
+      "changes": {
+        "det→xcomp": 1,
+        "nsubj→compound": 1,
+        "ccomp→obj": 1,
+        "mark→cc": 1,
+        "xcomp→nsubj": 1,
+        "det→acl": 1,
+        "compound→obj": 1,
+        "obj→conj": 1,
+        "cc→nsubj": 1,
+        "cop→root": 1,
+        "root→mark": 1,
+        "mark→advcl": 1,
+        "advcl→amod": 1,
+        "det→advmod": 1,
+        "amod→obj": 1,
+        "advmod→case": 1,
+        "obj→det": 1,
+        "case→amod": 1,
+        "det→nmod": 1,
+        "det→amod": 1,
+        "amod→nsubj": 1,
+        "nsubj→root": 1,
+        "root→nmod:poss": 1,
+        "nmod:poss→obj": 1,
+        "obj→xcomp": 1,
+        "nsubj:pass→case": 1,
+        "aux:pass→compound": 1,
+        "acl:relcl→obl": 1,
+        "18→12": 1,
+        "14→11": 1,
+        "14→9": 1,
+        "Fin→Inf": 3,
+        "Fin→Ger": 3,
+        "Inf→Fin": 2,
+        "Part→Fin": 3,
+        "Fin→Part": 3,
+        "3→2": 1
+      },
+      "null_changes": {
+        "CONST-POST→CONST-POST": 2,
+        "CONST-FRONT→CONST-FRONT": 31,
+        "10→10": 1,
+        "26→26": 1,
+        "13→13": 1,
+        "17→17": 1,
+        "11→11": 1,
+        "16→16": 1
+      }
+    },
+    "bidirectional_changes": {}
+  },
+  "value_statistics": {
+    "FW-DEL": {
+      "total_transformations": 8,
+      "unique_transformation_types": 4,
+      "canonical_value_diversity": 4,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 0.875,
+      "most_frequent_transformation": [
+        "ART-DEL→ABSENT",
+        3
+      ],
+      "transformation_entropy": 1.811278124459133
+    },
+    "DEP-REL-CHG": {
+      "total_transformations": 28,
+      "unique_transformation_types": 28,
+      "canonical_value_diversity": 18,
+      "headline_value_diversity": 17,
+      "top3_concentration_ratio": 0.10714285714285714,
+      "most_frequent_transformation": [
+        "det→xcomp",
+        1
+      ],
+      "transformation_entropy": 4.807354922057606
+    },
+    "LENGTH-CHG": {
+      "total_transformations": 3,
+      "unique_transformation_types": 3,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 3,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "18→12",
+        1
+      ],
+      "transformation_entropy": 1.584962500721156
+    },
+    "CONST-REM": {
+      "total_transformations": 2,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "SBAR-REM→ABSENT",
+        2
+      ],
+      "transformation_entropy": 0.0
+    },
+    "CONST-MOV": {
+      "total_transformations": 33,
+      "unique_transformation_types": 2,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 2,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "CONST-FRONT→CONST-FRONT",
+        31
+      ],
+      "transformation_entropy": 0.32984607020714635
+    },
+    "CLAUSE-TYPE-CHG": {
+      "total_transformations": 14,
+      "unique_transformation_types": 5,
+      "canonical_value_diversity": 3,
+      "headline_value_diversity": 4,
+      "top3_concentration_ratio": 0.6428571428571429,
+      "most_frequent_transformation": [
+        "Fin→Inf",
+        3
+      ],
+      "transformation_entropy": 2.305958492868042
+    },
+    "TED-SIMPLE": {
+      "total_transformations": 3,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "10→10",
+        3
+      ],
+      "transformation_entropy": 0.0
+    },
+    "TED-RTED": {
+      "total_transformations": 3,
+      "unique_transformation_types": 3,
+      "canonical_value_diversity": 3,
+      "headline_value_diversity": 3,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "26→26",
+        1
+      ],
+      "transformation_entropy": 1.584962500721156
+    },
+    "HEAD-CHG": {
+      "total_transformations": 1,
+      "unique_transformation_types": 1,
+      "canonical_value_diversity": 1,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "3→2",
+        1
+      ],
+      "transformation_entropy": 0.0
+    },
+    "TED-ZHANG-SHASHA": {
+      "total_transformations": 2,
+      "unique_transformation_types": 2,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 2,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "10→10",
+        1
+      ],
+      "transformation_entropy": 1.0
+    },
+    "TED-KLEIN": {
+      "total_transformations": 2,
+      "unique_transformation_types": 2,
+      "canonical_value_diversity": 2,
+      "headline_value_diversity": 2,
+      "top3_concentration_ratio": 1.0,
+      "most_frequent_transformation": [
+        "11→11",
+        1
+      ],
+      "transformation_entropy": 1.0
+    }
+  }
+}

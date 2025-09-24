@@ -1,0 +1,108 @@
+{
+  "global_feature_value_pairs": {
+    "FW-DEL:the\u2192": 1,
+    "C-ADD:\u2192new": 1,
+    "POS-CHG:NOUN\u2192VERB": 1,
+    "FW-DEL:a\u2192": 1
+  },
+  "by_newspaper_feature_value_pairs": {
+    "Times-of-India": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192new": 1
+    },
+    "The-Hindu": {
+      "POS-CHG:NOUN\u2192VERB": 1,
+      "FW-DEL:a\u2192": 1
+    }
+  },
+  "by_parse_type_feature_value_pairs": {
+    "dependency": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192new": 1,
+      "FW-DEL:a\u2192": 1
+    },
+    "constituency": {
+      "POS-CHG:NOUN\u2192VERB": 1
+    }
+  },
+  "cross_feature_value_pairs": {
+    "Times-of-India_dependency": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192new": 1
+    },
+    "The-Hindu_dependency": {
+      "FW-DEL:a\u2192": 1
+    },
+    "The-Hindu_constituency": {
+      "POS-CHG:NOUN\u2192VERB": 1
+    }
+  },
+  "pair_statistics": {
+    "total_unique_pairs": 4,
+    "most_frequent_pairs": [
+      [
+        "FW-DEL:the\u2192",
+        1
+      ],
+      [
+        "C-ADD:\u2192new",
+        1
+      ],
+      [
+        "POS-CHG:NOUN\u2192VERB",
+        1
+      ],
+      [
+        "FW-DEL:a\u2192",
+        1
+      ]
+    ],
+    "pair_frequency_distribution": {},
+    "average_pair_frequency": 1.0,
+    "pair_concentration_metrics": {
+      "total_pair_occurrences": 4,
+      "entropy": 2.0,
+      "concentration_ratio": 1.0
+    }
+  },
+  "pair_diversity_metrics": {
+    "newspaper_pair_diversity": {
+      "Times-of-India": {
+        "unique_pairs": 2,
+        "total_occurrences": 2,
+        "diversity_index": 0.6931471805599453
+      },
+      "The-Hindu": {
+        "unique_pairs": 2,
+        "total_occurrences": 2,
+        "diversity_index": 0.6931471805599453
+      }
+    },
+    "parse_type_pair_diversity": {
+      "dependency": {
+        "unique_pairs": 3,
+        "total_occurrences": 3,
+        "diversity_index": 1.0986122886681096
+      },
+      "constituency": {
+        "unique_pairs": 1,
+        "total_occurrences": 1,
+        "diversity_index": -0.0
+      }
+    },
+    "cross_dimension_diversity": {}
+  },
+  "transformation_pair_patterns": {
+    "feature_transformation_counts": {
+      "FW-DEL": 2,
+      "C-ADD": 1,
+      "POS-CHG": 1
+    },
+    "bidirectional_transformations": [],
+    "transformation_complexity": {
+      "FW-DEL": 2,
+      "C-ADD": 1,
+      "POS-CHG": 1
+    }
+  }
+}

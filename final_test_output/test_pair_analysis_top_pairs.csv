@@ -1,0 +1,5 @@
+pair_unit,frequency,rank
+FW-DEL:the→,1,1
+C-ADD:→new,1,2
+POS-CHG:NOUN→VERB,1,3
+FW-DEL:a→,1,4

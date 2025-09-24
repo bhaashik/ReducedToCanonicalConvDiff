@@ -1376,7 +1376,8 @@ class Visualizer:
                 transformations = global_feature_values[feature_id]
                 if not transformations:
                     axes[i].text(0.5, 0.5, 'No transformations', ha='center', va='center')
-                    axes[i].set_title(f"{feature_id}")
+                    feature_label = self._get_feature_label(feature_id)
+                    axes[i].set_title(f"{feature_label}")
                     continue
 
                 # Get top 10 transformations
@@ -1387,7 +1388,8 @@ class Visualizer:
                 axes[i].barh(range(len(trans_names)), trans_counts, color=f'C{i}')
                 axes[i].set_yticks(range(len(trans_names)))
                 axes[i].set_yticklabels(trans_names, fontsize=8)
-                axes[i].set_title(f"{feature_id}")
+                feature_label = self._get_feature_label(feature_id)
+                axes[i].set_title(f"{feature_label}")
                 axes[i].set_xlabel("Count")
 
             # Hide unused subplots
@@ -1476,7 +1478,8 @@ class Visualizer:
             ax1.barh(range(len(trans_names)), trans_counts, color='steelblue')
             ax1.set_yticks(range(len(trans_names)))
             ax1.set_yticklabels(trans_names, fontsize=8)
-            ax1.set_title(f"Top Transformations for {feature_id}")
+            feature_label = self._get_feature_label(feature_id)
+            ax1.set_title(f"Top Transformations for {feature_label}")
             ax1.set_xlabel("Count")
 
         # 2. Transformation distribution pie chart (top 8)
@@ -1491,7 +1494,8 @@ class Visualizer:
             pie_counts.append(other_count)
 
         ax2.pie(pie_counts, labels=pie_labels, autopct='%1.1f%%', startangle=90)
-        ax2.set_title(f"Transformation Distribution for {feature_id}")
+        feature_label = self._get_feature_label(feature_id)
+        ax2.set_title(f"Transformation Distribution for {feature_label}")
 
         # 3. Transformation type breakdown
         deletions = sum(1 for t in transformations.keys() if t.endswith('→ABSENT'))
@@ -1502,7 +1506,8 @@ class Visualizer:
         type_labels = ['Deletions', 'Additions', 'Changes']
 
         ax3.bar(type_labels, type_counts, color=['red', 'green', 'blue'], alpha=0.7)
-        ax3.set_title(f"Transformation Types for {feature_id}")
+        feature_label = self._get_feature_label(feature_id)
+        ax3.set_title(f"Transformation Types for {feature_label}")
         ax3.set_ylabel("Count")
 
         # 4. Feature statistics summary
@@ -1524,7 +1529,8 @@ class Visualizer:
 
         ax4.text(0.1, 0.9, '\n'.join(stats_text), transform=ax4.transAxes,
                 fontsize=10, verticalalignment='top', fontfamily='monospace')
-        ax4.set_title(f"Statistics for {feature_id}")
+        feature_label = self._get_feature_label(feature_id)
+        ax4.set_title(f"Statistics for {feature_label}")
         ax4.axis('off')
 
         plt.suptitle(f"Detailed Analysis: {feature_id}")
@@ -2624,3 +2630,809 @@ class Visualizer:
 # visualizer.plot_feature_frequencies(feature_counts, "Global Feature Frequencies", "feature_freq_global.png")
 #
 # # Similarly for newspapers or parse-types, pass their counts to plotting functions
+
+    def create_feature_value_pair_visualizations(self, pair_analysis: Dict[str, Any]):
+        """Create comprehensive visualizations for feature-value pairs as atomic units."""
+        print("Creating feature-value pair unit visualizations...")
+
+        # 1. Feature-value pair frequency distribution
+        self.plot_feature_value_pair_distribution(
+            pair_analysis["global_feature_value_pairs"],
+            "Feature-Value Pair Frequency Distribution",
+            "feature_value_pair_distribution.png"
+        )
+
+        # 2. Top transformation pairs
+        self.plot_top_transformation_pairs(
+            pair_analysis["pair_statistics"],
+            "Top Feature-Value Transformation Pairs",
+            "top_transformation_pairs.png"
+        )
+
+        print("✅ Feature-value pair visualizations created")
+
+    def plot_feature_value_pair_distribution(self, global_pairs: Dict[str, int], title: str, filename: str):
+        """Plot distribution of feature-value pairs."""
+        if not global_pairs:
+            return
+
+        # Get top 20 pairs for visualization
+        sorted_pairs = sorted(global_pairs.items(), key=lambda x: x[1], reverse=True)[:20]
+
+        if not sorted_pairs:
+            return
+
+        pair_names = [pair[0] for pair in sorted_pairs]
+        counts = [pair[1] for pair in sorted_pairs]
+
+        # Create shortened labels for readability
+        short_labels = []
+        for pair_name in pair_names:
+            if ":" in pair_name and "→" in pair_name:
+                feature, transformation = pair_name.split(":", 1)
+                # Get feature mnemonic if available
+                feature_label = self.feature_labels.get(feature, feature)
+                short_labels.append(f"{feature_label}: {transformation}")
+            else:
+                short_labels.append(pair_name[:30] + "..." if len(pair_name) > 30 else pair_name)
+
+        fig, ax = plt.subplots(figsize=(16, 10))
+
+        bars = ax.barh(range(len(short_labels)), counts, color="steelblue", alpha=0.8)
+
+        ax.set_yticks(range(len(short_labels)))
+        ax.set_yticklabels(short_labels, fontsize=10)
+        ax.set_xlabel("Frequency", fontweight="bold", fontsize=12)
+        ax.set_title(title, fontweight="bold", fontsize=14, pad=20)
+
+        # Add value labels on bars
+        for i, (bar, count) in enumerate(zip(bars, counts)):
+            width = bar.get_width()
+            ax.text(width + max(counts) * 0.01, bar.get_y() + bar.get_height()/2,
+                   str(count), ha="left", va="center", fontweight="bold")
+
+        # Add statistics text
+        total_pairs = len(global_pairs)
+        total_occurrences = sum(global_pairs.values())
+        ax.text(0.02, 0.98, f"Total unique pairs: {total_pairs:,}\nTotal occurrences: {total_occurrences:,}",
+                transform=ax.transAxes, fontsize=11, verticalalignment="top",
+                bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.8))
+
+        plt.grid(axis="x", alpha=0.3)
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+    def plot_top_transformation_pairs(self, pair_stats: Dict[str, Any], title: str, filename: str):
+        """Plot top transformation pairs with statistics."""
+        if "most_frequent_pairs" not in pair_stats or not pair_stats["most_frequent_pairs"]:
+            return
+
+        top_pairs = pair_stats["most_frequent_pairs"][:15]
+
+        pair_names = [pair[0] for pair in top_pairs]
+        counts = [pair[1] for pair in top_pairs]
+
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 10))
+
+        # Left plot: Bar chart of top pairs
+        bars = ax1.bar(range(len(pair_names)), counts, color="darkgreen", alpha=0.7)
+
+        # Create readable labels
+        short_labels = []
+        for pair_name in pair_names:
+            if ":" in pair_name and "→" in pair_name:
+                feature, transformation = pair_name.split(":", 1)
+                feature_label = self.feature_labels.get(feature, feature)
+                short_labels.append(f"{feature_label}:\n{transformation}")
+            else:
+                short_labels.append(pair_name)
+
+        ax1.set_xticks(range(len(short_labels)))
+        ax1.set_xticklabels(short_labels, rotation=45, ha="right", fontsize=9)
+        ax1.set_ylabel("Frequency", fontweight="bold")
+        ax1.set_title("Top Feature-Value Transformation Pairs", fontweight="bold")
+        ax1.grid(axis="y", alpha=0.3)
+
+        # Add value labels on bars
+        for bar, count in zip(bars, counts):
+            height = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2., height + max(counts) * 0.01,
+                    str(count), ha="center", va="bottom", fontweight="bold")
+
+        # Right plot: Statistics overview
+        ax2.axis("off")
+        if "pair_concentration_metrics" in pair_stats:
+            concentration = pair_stats["pair_concentration_metrics"]
+            stats_text = f"""
+Pair Statistics Summary:
+
+Total Unique Pairs: {pair_stats.get("total_unique_pairs", 0):,}
+Average Frequency: {pair_stats.get("average_pair_frequency", 0):.2f}
+
+Concentration Metrics:
+• Total Occurrences: {concentration.get("total_pair_occurrences", 0):,}
+• Entropy: {concentration.get("entropy", 0):.3f}
+• Top-5 Concentration: {concentration.get("concentration_ratio", 0):.1%}
+
+Most Active Transformation:
+{top_pairs[0][0] if top_pairs else "N/A"}
+(Frequency: {top_pairs[0][1] if top_pairs else 0})
+            """
+            ax2.text(0.05, 0.95, stats_text, transform=ax2.transAxes,
+                    fontsize=12, verticalalignment="top",
+                    bbox=dict(boxstyle="round", facecolor="lightcyan", alpha=0.8))
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+
+    def create_bidirectional_cross_entropy_visualizations(self, cross_entropy_analysis: Dict[str, Any]):
+        """Create comprehensive visualizations for bidirectional cross-entropy analysis."""
+        print("Creating bidirectional cross-entropy visualizations...")
+
+        # 1. Global cross-entropy metrics overview
+        self.plot_global_cross_entropy_metrics(
+            cross_entropy_analysis.get("global_cross_entropy", {}),
+            "Global Cross-Entropy Metrics",
+            "global_cross_entropy_metrics.png"
+        )
+
+        # 2. Newspaper comparison
+        self.plot_newspaper_cross_entropy_comparison(
+            cross_entropy_analysis.get("by_newspaper_cross_entropy", {}),
+            "Cross-Entropy Comparison by Newspaper",
+            "newspaper_cross_entropy_comparison.png"
+        )
+
+        # 3. Bidirectional analysis
+        self.plot_bidirectional_analysis(
+            cross_entropy_analysis.get("by_newspaper_cross_entropy", {}),
+            "Bidirectional Cross-Entropy Analysis",
+            "bidirectional_cross_entropy_analysis.png"
+        )
+
+        # 4. Feature-level cross-entropy ranking
+        self.plot_feature_cross_entropy_ranking(
+            cross_entropy_analysis.get("feature_level_cross_entropy", {}),
+            "Feature-Level Cross-Entropy Ranking",
+            "feature_cross_entropy_ranking.png"
+        )
+
+        # 5. Information asymmetry analysis
+        self.plot_information_asymmetry_analysis(
+            cross_entropy_analysis,
+            "Information Asymmetry Analysis",
+            "information_asymmetry_analysis.png"
+        )
+
+        # 6. Cross-dimensional heatmap
+        self.plot_cross_dimensional_entropy_heatmap(
+            cross_entropy_analysis.get("cross_dimensional_cross_entropy", {}),
+            "Cross-Dimensional Entropy Heatmap",
+            "cross_dimensional_entropy_heatmap.png"
+        )
+
+        print("✅ Bidirectional cross-entropy visualizations created")
+
+    def plot_global_cross_entropy_metrics(self, global_ce: Dict[str, Any], title: str, filename: str):
+        """Plot global cross-entropy metrics overview."""
+        if not global_ce:
+            return
+
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+
+        # 1. Bidirectional cross-entropy comparison
+        metrics = ["Canonical → Headlines", "Headlines → Canonical", "Bidirectional Sum"]
+        values = [
+            global_ce.get("canonical_to_headline_cross_entropy", 0),
+            global_ce.get("headline_to_canonical_cross_entropy", 0),
+            global_ce.get("bidirectional_cross_entropy_sum", 0)
+        ]
+        colors = ["steelblue", "lightcoral", "darkgreen"]
+
+        bars = ax1.bar(metrics, values, color=colors, alpha=0.8)
+        ax1.set_title("Cross-Entropy in Both Directions", fontweight="bold")
+        ax1.set_ylabel("Cross-Entropy (bits)", fontweight="bold")
+        ax1.tick_params(axis="x", rotation=45)
+
+        # Add value labels
+        for bar, value in zip(bars, values):
+            height = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # 2. Information-theoretic measures
+        measures = ["Jensen-Shannon\\nDivergence", "Register\\nOverlap Ratio", "Information\\nAsymmetry"]
+        measure_values = [
+            global_ce.get("jensen_shannon_divergence", 0),
+            global_ce.get("register_overlap_ratio", 0),
+            abs(global_ce.get("canonical_to_headline_cross_entropy", 0) - 
+                global_ce.get("headline_to_canonical_cross_entropy", 0))
+        ]
+        colors2 = ["purple", "orange", "red"]
+
+        bars2 = ax2.bar(measures, measure_values, color=colors2, alpha=0.8)
+        ax2.set_title("Information-Theoretic Measures", fontweight="bold")
+        ax2.set_ylabel("Value", fontweight="bold")
+
+        for bar, value in zip(bars2, measure_values):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # 3. Register statistics
+        ax3.axis("off")
+        stats_text = f"""
+Global Cross-Entropy Statistics:
+
+Canonical → Headlines: {global_ce.get("canonical_to_headline_cross_entropy", 0):.4f} bits
+Headlines → Canonical: {global_ce.get("headline_to_canonical_cross_entropy", 0):.4f} bits
+Bidirectional Sum: {global_ce.get("bidirectional_cross_entropy_sum", 0):.4f} bits
+
+Individual Register Entropies:
+• Canonical Entropy: {global_ce.get("canonical_entropy", 0):.4f} bits
+• Headlines Entropy: {global_ce.get("headline_entropy", 0):.4f} bits
+
+Divergence Measures:
+• KL(Canonical || Headlines): {global_ce.get("kl_canonical_to_headline", 0):.4f}
+• KL(Headlines || Canonical): {global_ce.get("kl_headline_to_canonical", 0):.4f}
+• KL Divergence Sum: {global_ce.get("kl_divergence_sum", 0):.4f}
+
+Value Distribution:
+• Unique Canonical Values: {global_ce.get("unique_canonical_values", 0):,}
+• Unique Headlines Values: {global_ce.get("unique_headline_values", 0):,}
+• Total Unique Values: {global_ce.get("unique_combined_values", 0):,}
+• Register Overlap: {global_ce.get("register_overlap_ratio", 0):.1%}
+        """
+        ax3.text(0.05, 0.95, stats_text, transform=ax3.transAxes,
+                fontsize=11, verticalalignment="top",
+                bbox=dict(boxstyle="round", facecolor="lightblue", alpha=0.8))
+
+        # 4. KL divergences comparison
+        kl_metrics = ["KL(Can → Head)", "KL(Head → Can)", "KL Sum"]
+        kl_values = [
+            global_ce.get("kl_canonical_to_headline", 0),
+            global_ce.get("kl_headline_to_canonical", 0),
+            global_ce.get("kl_divergence_sum", 0)
+        ]
+        
+        bars4 = ax4.bar(kl_metrics, kl_values, color=["darkblue", "darkred", "purple"], alpha=0.8)
+        ax4.set_title("Kullback-Leibler Divergences", fontweight="bold")
+        ax4.set_ylabel("KL Divergence", fontweight="bold")
+        ax4.tick_params(axis="x", rotation=45)
+
+        for bar, value in zip(bars4, kl_values):
+            height = bar.get_height()
+            ax4.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+    def plot_newspaper_cross_entropy_comparison(self, newspaper_ce: Dict[str, Dict[str, Any]], title: str, filename: str):
+        """Plot cross-entropy comparison across newspapers."""
+        if not newspaper_ce:
+            return
+
+        newspapers = list(newspaper_ce.keys())
+        if not newspapers:
+            return
+
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(18, 12))
+
+        # 1. Bidirectional cross-entropy sum comparison
+        bidirectional_sums = [newspaper_ce[np].get("bidirectional_cross_entropy_sum", 0) for np in newspapers]
+        bars1 = ax1.bar(newspapers, bidirectional_sums, color="steelblue", alpha=0.8)
+        ax1.set_title("Bidirectional Cross-Entropy Sum by Newspaper", fontweight="bold")
+        ax1.set_ylabel("Cross-Entropy Sum (bits)", fontweight="bold")
+        ax1.tick_params(axis="x", rotation=45)
+
+        for bar, value in zip(bars1, bidirectional_sums):
+            height = bar.get_height()
+            ax1.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # 2. Directional comparison
+        canonical_to_headline = [newspaper_ce[np].get("canonical_to_headline_cross_entropy", 0) for np in newspapers]
+        headline_to_canonical = [newspaper_ce[np].get("headline_to_canonical_cross_entropy", 0) for np in newspapers]
+
+        x = range(len(newspapers))
+        width = 0.35
+
+        bars2a = ax2.bar([i - width/2 for i in x], canonical_to_headline, width, 
+                        label="Canonical → Headlines", color="lightcoral", alpha=0.8)
+        bars2b = ax2.bar([i + width/2 for i in x], headline_to_canonical, width,
+                        label="Headlines → Canonical", color="lightblue", alpha=0.8)
+
+        ax2.set_title("Directional Cross-Entropy Comparison", fontweight="bold")
+        ax2.set_ylabel("Cross-Entropy (bits)", fontweight="bold")
+        ax2.set_xticks(x)
+        ax2.set_xticklabels(newspapers, rotation=45)
+        ax2.legend()
+
+        # Add value labels
+        for bars in [bars2a, bars2b]:
+            for bar in bars:
+                height = bar.get_height()
+                ax2.text(bar.get_x() + bar.get_width()/2., height,
+                        f"{height:.2f}", ha="center", va="bottom", fontsize=9)
+
+        # 3. Jensen-Shannon divergence
+        js_divergences = [newspaper_ce[np].get("jensen_shannon_divergence", 0) for np in newspapers]
+        bars3 = ax3.bar(newspapers, js_divergences, color="darkgreen", alpha=0.8)
+        ax3.set_title("Jensen-Shannon Divergence by Newspaper", fontweight="bold")
+        ax3.set_ylabel("JS Divergence", fontweight="bold")
+        ax3.tick_params(axis="x", rotation=45)
+
+        for bar, value in zip(bars3, js_divergences):
+            height = bar.get_height()
+            ax3.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # 4. Register overlap ratio
+        overlap_ratios = [newspaper_ce[np].get("register_overlap_ratio", 0) for np in newspapers]
+        bars4 = ax4.bar(newspapers, overlap_ratios, color="orange", alpha=0.8)
+        ax4.set_title("Register Overlap Ratio by Newspaper", fontweight="bold")
+        ax4.set_ylabel("Overlap Ratio", fontweight="bold")
+        ax4.tick_params(axis="x", rotation=45)
+
+        for bar, value in zip(bars4, overlap_ratios):
+            height = bar.get_height()
+            ax4.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+    def plot_bidirectional_analysis(self, newspaper_ce: Dict[str, Dict[str, Any]], title: str, filename: str):
+        """Plot detailed bidirectional analysis."""
+        if not newspaper_ce:
+            return
+
+        newspapers = list(newspaper_ce.keys())
+        if not newspapers:
+            return
+
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
+
+        # 1. Bidirectional flow visualization
+        canonical_to_headline = [newspaper_ce[np].get("canonical_to_headline_cross_entropy", 0) for np in newspapers]
+        headline_to_canonical = [newspaper_ce[np].get("headline_to_canonical_cross_entropy", 0) for np in newspapers]
+
+        # Create arrow plot showing information flow
+        for i, newspaper in enumerate(newspapers):
+            c_to_h = canonical_to_headline[i]
+            h_to_c = headline_to_canonical[i]
+            
+            # Plot bidirectional arrows
+            ax1.arrow(i-0.3, 0, 0, c_to_h, head_width=0.1, head_length=c_to_h*0.05, 
+                     fc="lightcoral", ec="lightcoral", alpha=0.7, label="Can→Head" if i == 0 else "")
+            ax1.arrow(i+0.3, h_to_c, 0, -h_to_c, head_width=0.1, head_length=h_to_c*0.05,
+                     fc="lightblue", ec="lightblue", alpha=0.7, label="Head→Can" if i == 0 else "")
+            
+            # Add values
+            ax1.text(i-0.3, c_to_h/2, f"{c_to_h:.2f}", ha="center", va="center", 
+                    fontweight="bold", fontsize=10)
+            ax1.text(i+0.3, h_to_c/2, f"{h_to_c:.2f}", ha="center", va="center",
+                    fontweight="bold", fontsize=10)
+
+        ax1.set_xlim(-0.5, len(newspapers)-0.5)
+        ax1.set_ylim(0, max(max(canonical_to_headline), max(headline_to_canonical)) * 1.1)
+        ax1.set_xticks(range(len(newspapers)))
+        ax1.set_xticklabels(newspapers, rotation=45)
+        ax1.set_ylabel("Cross-Entropy (bits)", fontweight="bold")
+        ax1.set_title("Bidirectional Information Flow", fontweight="bold")
+        ax1.legend()
+        ax1.grid(alpha=0.3)
+
+        # 2. Asymmetry analysis
+        asymmetries = [abs(c_to_h - h_to_c) for c_to_h, h_to_c in zip(canonical_to_headline, headline_to_canonical)]
+        bars = ax2.bar(newspapers, asymmetries, color="purple", alpha=0.8)
+        
+        ax2.set_title("Information Asymmetry by Newspaper", fontweight="bold")
+        ax2.set_ylabel("Asymmetry (|CE(Can→Head) - CE(Head→Can)|)", fontweight="bold")
+        ax2.tick_params(axis="x", rotation=45)
+
+        for bar, value in zip(bars, asymmetries):
+            height = bar.get_height()
+            ax2.text(bar.get_x() + bar.get_width()/2., height,
+                    f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # Add asymmetry interpretation
+        max_asymmetry = max(asymmetries) if asymmetries else 0
+        if max_asymmetry > 0:
+            most_asymmetric = newspapers[asymmetries.index(max_asymmetry)]
+            ax2.text(0.02, 0.98, f"Most Asymmetric: {most_asymmetric}\nAsymmetry: {max_asymmetry:.3f}",
+                    transform=ax2.transAxes, fontsize=10, verticalalignment="top",
+                    bbox=dict(boxstyle="round", facecolor="yellow", alpha=0.8))
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+
+    def plot_feature_cross_entropy_ranking(self, feature_ce: Dict[str, Dict[str, Any]], title: str, filename: str):
+        """Plot feature-level cross-entropy ranking."""
+        if not feature_ce:
+            return
+
+        # Sort features by bidirectional cross-entropy sum
+        sorted_features = sorted(feature_ce.items(), 
+                               key=lambda x: x[1].get("bidirectional_cross_entropy_sum", 0), 
+                               reverse=True)[:15]  # Top 15 features
+
+        if not sorted_features:
+            return
+
+        feature_ids = [item[0] for item in sorted_features]
+        feature_data = [item[1] for item in sorted_features]
+
+        # Use feature mnemonics if available
+        feature_labels = [self.feature_labels.get(fid, fid) for fid in feature_ids]
+
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(18, 12))
+
+        # 1. Bidirectional sum ranking
+        bidirectional_sums = [data.get("bidirectional_cross_entropy_sum", 0) for data in feature_data]
+        bars1 = ax1.barh(range(len(feature_labels)), bidirectional_sums, color="steelblue", alpha=0.8)
+        ax1.set_yticks(range(len(feature_labels)))
+        ax1.set_yticklabels(feature_labels, fontsize=10)
+        ax1.set_xlabel("Bidirectional Cross-Entropy Sum (bits)", fontweight="bold")
+        ax1.set_title("Top Features by Cross-Entropy", fontweight="bold")
+
+        for i, (bar, value) in enumerate(zip(bars1, bidirectional_sums)):
+            width = bar.get_width()
+            ax1.text(width + max(bidirectional_sums) * 0.01, bar.get_y() + bar.get_height()/2,
+                    f"{value:.3f}", ha="left", va="center", fontweight="bold")
+
+        # 2. Directional comparison for top features
+        top_5_features = sorted_features[:5]
+        top_5_labels = [self.feature_labels.get(item[0], item[0]) for item in top_5_features]
+        canonical_to_headline = [item[1].get("canonical_to_headline_cross_entropy", 0) for item in top_5_features]
+        headline_to_canonical = [item[1].get("headline_to_canonical_cross_entropy", 0) for item in top_5_features]
+
+        x = range(len(top_5_labels))
+        width = 0.35
+
+        bars2a = ax2.bar([i - width/2 for i in x], canonical_to_headline, width,
+                        label="Canonical → Headlines", color="lightcoral", alpha=0.8)
+        bars2b = ax2.bar([i + width/2 for i in x], headline_to_canonical, width,
+                        label="Headlines → Canonical", color="lightblue", alpha=0.8)
+
+        ax2.set_title("Top 5 Features: Directional Cross-Entropy", fontweight="bold")
+        ax2.set_ylabel("Cross-Entropy (bits)", fontweight="bold")
+        ax2.set_xticks(x)
+        ax2.set_xticklabels(top_5_labels, rotation=45, ha="right")
+        ax2.legend()
+
+        # 3. Jensen-Shannon divergence
+        js_divergences = [data.get("jensen_shannon_divergence", 0) for data in feature_data]
+        bars3 = ax3.barh(range(len(feature_labels)), js_divergences, color="darkgreen", alpha=0.8)
+        ax3.set_yticks(range(len(feature_labels)))
+        ax3.set_yticklabels(feature_labels, fontsize=10)
+        ax3.set_xlabel("Jensen-Shannon Divergence", fontweight="bold")
+        ax3.set_title("Features by JS Divergence", fontweight="bold")
+
+        # 4. Register overlap vs total events scatter
+        overlap_ratios = [data.get("register_overlap_ratio", 0) for data in feature_data]
+        total_events = [data.get("total_events", 0) for data in feature_data]
+
+        scatter = ax4.scatter(overlap_ratios, total_events, 
+                            c=bidirectional_sums, cmap="viridis", alpha=0.7, s=100)
+        ax4.set_xlabel("Register Overlap Ratio", fontweight="bold")
+        ax4.set_ylabel("Total Events", fontweight="bold")
+        ax4.set_title("Overlap vs Events (colored by CE)", fontweight="bold")
+
+        # Add colorbar
+        cbar = plt.colorbar(scatter, ax=ax4)
+        cbar.set_label("Bidirectional CE Sum", fontweight="bold")
+
+        # Add feature labels to scatter points
+        for i, label in enumerate(feature_labels):
+            if i < 8:  # Only label top 8 to avoid crowding
+                ax4.annotate(label, (overlap_ratios[i], total_events[i]),
+                           xytext=(5, 5), textcoords="offset points", fontsize=8)
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+    def plot_information_asymmetry_analysis(self, cross_entropy_analysis: Dict[str, Any], title: str, filename: str):
+        """Plot comprehensive information asymmetry analysis."""
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+
+        # 1. Newspaper asymmetry comparison
+        newspaper_ce = cross_entropy_analysis.get("by_newspaper_cross_entropy", {})
+        if newspaper_ce:
+            newspapers = list(newspaper_ce.keys())
+            asymmetries = []
+            for newspaper in newspapers:
+                ce_data = newspaper_ce[newspaper]
+                c_to_h = ce_data.get("canonical_to_headline_cross_entropy", 0)
+                h_to_c = ce_data.get("headline_to_canonical_cross_entropy", 0)
+                asymmetry = abs(c_to_h - h_to_c)
+                asymmetries.append(asymmetry)
+
+            bars1 = ax1.bar(newspapers, asymmetries, color="purple", alpha=0.8)
+            ax1.set_title("Information Asymmetry by Newspaper", fontweight="bold")
+            ax1.set_ylabel("Asymmetry (bits)", fontweight="bold")
+            ax1.tick_params(axis="x", rotation=45)
+
+            for bar, value in zip(bars1, asymmetries):
+                height = bar.get_height()
+                ax1.text(bar.get_x() + bar.get_width()/2., height,
+                        f"{value:.3f}", ha="center", va="bottom", fontweight="bold")
+
+        # 2. Feature asymmetry ranking
+        feature_ce = cross_entropy_analysis.get("feature_level_cross_entropy", {})
+        if feature_ce:
+            feature_asymmetries = []
+            for feature_id, ce_data in feature_ce.items():
+                c_to_h = ce_data.get("canonical_to_headline_cross_entropy", 0)
+                h_to_c = ce_data.get("headline_to_canonical_cross_entropy", 0)
+                asymmetry = abs(c_to_h - h_to_c)
+                feature_asymmetries.append((feature_id, asymmetry))
+
+            # Sort and take top 10
+            feature_asymmetries.sort(key=lambda x: x[1], reverse=True)
+            top_features = feature_asymmetries[:10]
+
+            if top_features:
+                feature_ids = [item[0] for item in top_features]
+                asymmetry_values = [item[1] for item in top_features]
+                feature_labels = [self.feature_labels.get(fid, fid) for fid in feature_ids]
+
+                bars2 = ax2.barh(range(len(feature_labels)), asymmetry_values, color="red", alpha=0.8)
+                ax2.set_yticks(range(len(feature_labels)))
+                ax2.set_yticklabels(feature_labels, fontsize=10)
+                ax2.set_xlabel("Information Asymmetry (bits)", fontweight="bold")
+                ax2.set_title("Top Features by Asymmetry", fontweight="bold")
+
+                for i, (bar, value) in enumerate(zip(bars2, asymmetry_values)):
+                    width = bar.get_width()
+                    ax2.text(width + max(asymmetry_values) * 0.01, bar.get_y() + bar.get_height()/2,
+                            f"{value:.3f}", ha="left", va="center", fontweight="bold")
+
+        # 3. Asymmetry vs total cross-entropy scatter
+        if newspaper_ce:
+            total_ces = []
+            asymmetries_scatter = []
+            newspaper_labels = []
+
+            for newspaper, ce_data in newspaper_ce.items():
+                total_ce = ce_data.get("bidirectional_cross_entropy_sum", 0)
+                c_to_h = ce_data.get("canonical_to_headline_cross_entropy", 0)
+                h_to_c = ce_data.get("headline_to_canonical_cross_entropy", 0)
+                asymmetry = abs(c_to_h - h_to_c)
+                
+                total_ces.append(total_ce)
+                asymmetries_scatter.append(asymmetry)
+                newspaper_labels.append(newspaper)
+
+            scatter = ax3.scatter(total_ces, asymmetries_scatter, s=150, alpha=0.7, 
+                                c=["steelblue", "lightcoral", "mediumseagreen"][:len(newspaper_labels)])
+            ax3.set_xlabel("Total Cross-Entropy (bits)", fontweight="bold")
+            ax3.set_ylabel("Information Asymmetry (bits)", fontweight="bold")
+            ax3.set_title("Total CE vs Asymmetry", fontweight="bold")
+
+            # Add newspaper labels
+            for i, label in enumerate(newspaper_labels):
+                ax3.annotate(label, (total_ces[i], asymmetries_scatter[i]),
+                           xytext=(5, 5), textcoords="offset points", fontweight="bold")
+
+        # 4. Summary statistics
+        ax4.axis("off")
+        
+        # Calculate overall statistics
+        global_ce = cross_entropy_analysis.get("global_cross_entropy", {})
+        stats_text = f"""
+Information Asymmetry Analysis Summary:
+
+Global Measures:
+• Global Asymmetry: {abs(global_ce.get("canonical_to_headline_cross_entropy", 0) - global_ce.get("headline_to_canonical_cross_entropy", 0)):.4f} bits
+• Jensen-Shannon Divergence: {global_ce.get("jensen_shannon_divergence", 0):.4f}
+• Register Overlap Ratio: {global_ce.get("register_overlap_ratio", 0):.1%}
+
+Interpretation:
+• Higher asymmetry indicates unequal information flow
+• Asymmetry near 0 suggests balanced registers  
+• JS divergence provides symmetric distance measure
+• Overlap ratio shows register similarity
+
+Cross-Entropy Components:
+• Canonical → Headlines: {global_ce.get("canonical_to_headline_cross_entropy", 0):.4f} bits
+• Headlines → Canonical: {global_ce.get("headline_to_canonical_cross_entropy", 0):.4f} bits
+• Bidirectional Sum: {global_ce.get("bidirectional_cross_entropy_sum", 0):.4f} bits
+        """
+
+        if newspaper_ce:
+            # Find most/least asymmetric newspapers
+            newspaper_asymmetries = {}
+            for newspaper, ce_data in newspaper_ce.items():
+                c_to_h = ce_data.get("canonical_to_headline_cross_entropy", 0)
+                h_to_c = ce_data.get("headline_to_canonical_cross_entropy", 0)
+                newspaper_asymmetries[newspaper] = abs(c_to_h - h_to_c)
+            
+            most_asymmetric = max(newspaper_asymmetries.items(), key=lambda x: x[1])
+            least_asymmetric = min(newspaper_asymmetries.items(), key=lambda x: x[1])
+
+            stats_text += f"""
+
+Newspaper Ranking:
+• Most Asymmetric: {most_asymmetric[0]} ({most_asymmetric[1]:.3f} bits)
+• Least Asymmetric: {least_asymmetric[0]} ({least_asymmetric[1]:.3f} bits)
+            """
+
+        ax4.text(0.05, 0.95, stats_text, transform=ax4.transAxes,
+                fontsize=11, verticalalignment="top",
+                bbox=dict(boxstyle="round", facecolor="lightyellow", alpha=0.8))
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+
+    def plot_cross_dimensional_entropy_heatmap(self, cross_dim_ce: Dict[str, Dict[str, Any]], title: str, filename: str):
+        """Plot cross-dimensional entropy heatmap."""
+        if not cross_dim_ce:
+            return
+
+        # Extract newspapers and parse types
+        dimensions = list(cross_dim_ce.keys())
+        newspapers = set()
+        parse_types = set()
+
+        for dim in dimensions:
+            if "_" in dim:
+                newspaper, parse_type = dim.split("_", 1)
+                newspapers.add(newspaper)
+                parse_types.add(parse_type)
+
+        newspapers = sorted(list(newspapers))
+        parse_types = sorted(list(parse_types))
+
+        if not newspapers or not parse_types:
+            return
+
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(16, 12))
+
+        # 1. Bidirectional cross-entropy heatmap
+        ce_matrix = []
+        for newspaper in newspapers:
+            row = []
+            for parse_type in parse_types:
+                dim_key = f"{newspaper}_{parse_type}"
+                ce_value = cross_dim_ce.get(dim_key, {}).get("bidirectional_cross_entropy_sum", 0)
+                row.append(ce_value)
+            ce_matrix.append(row)
+
+        import numpy as np
+        ce_array = np.array(ce_matrix)
+        
+        im1 = ax1.imshow(ce_array, cmap="YlOrRd", aspect="auto")
+        ax1.set_xticks(range(len(parse_types)))
+        ax1.set_xticklabels(parse_types, rotation=45)
+        ax1.set_yticks(range(len(newspapers)))
+        ax1.set_yticklabels(newspapers)
+        ax1.set_title("Bidirectional Cross-Entropy", fontweight="bold")
+
+        # Add text annotations
+        for i in range(len(newspapers)):
+            for j in range(len(parse_types)):
+                value = ce_array[i, j]
+                ax1.text(j, i, f"{value:.2f}", ha="center", va="center",
+                        color="white" if value > np.max(ce_array) * 0.6 else "black",
+                        fontweight="bold")
+
+        plt.colorbar(im1, ax=ax1, label="Cross-Entropy (bits)")
+
+        # 2. Jensen-Shannon divergence heatmap
+        js_matrix = []
+        for newspaper in newspapers:
+            row = []
+            for parse_type in parse_types:
+                dim_key = f"{newspaper}_{parse_type}"
+                js_value = cross_dim_ce.get(dim_key, {}).get("jensen_shannon_divergence", 0)
+                row.append(js_value)
+            js_matrix.append(row)
+
+        js_array = np.array(js_matrix)
+        im2 = ax2.imshow(js_array, cmap="viridis", aspect="auto")
+        ax2.set_xticks(range(len(parse_types)))
+        ax2.set_xticklabels(parse_types, rotation=45)
+        ax2.set_yticks(range(len(newspapers)))
+        ax2.set_yticklabels(newspapers)
+        ax2.set_title("Jensen-Shannon Divergence", fontweight="bold")
+
+        for i in range(len(newspapers)):
+            for j in range(len(parse_types)):
+                value = js_array[i, j]
+                ax2.text(j, i, f"{value:.3f}", ha="center", va="center",
+                        color="white" if value > np.max(js_array) * 0.6 else "black",
+                        fontweight="bold")
+
+        plt.colorbar(im2, ax=ax2, label="JS Divergence")
+
+        # 3. Register overlap heatmap
+        overlap_matrix = []
+        for newspaper in newspapers:
+            row = []
+            for parse_type in parse_types:
+                dim_key = f"{newspaper}_{parse_type}"
+                overlap_value = cross_dim_ce.get(dim_key, {}).get("register_overlap_ratio", 0)
+                row.append(overlap_value)
+            overlap_matrix.append(row)
+
+        overlap_array = np.array(overlap_matrix)
+        im3 = ax3.imshow(overlap_array, cmap="RdYlBu", aspect="auto")
+        ax3.set_xticks(range(len(parse_types)))
+        ax3.set_xticklabels(parse_types, rotation=45)
+        ax3.set_yticks(range(len(newspapers)))
+        ax3.set_yticklabels(newspapers)
+        ax3.set_title("Register Overlap Ratio", fontweight="bold")
+
+        for i in range(len(newspapers)):
+            for j in range(len(parse_types)):
+                value = overlap_array[i, j]
+                ax3.text(j, i, f"{value:.2f}", ha="center", va="center",
+                        color="white" if value < np.mean(overlap_array) else "black",
+                        fontweight="bold")
+
+        plt.colorbar(im3, ax=ax3, label="Overlap Ratio")
+
+        # 4. Summary statistics by dimension
+        ax4.axis("off")
+        
+        # Find most/least divergent dimensions
+        dimension_ces = [(dim, data.get("bidirectional_cross_entropy_sum", 0)) 
+                        for dim, data in cross_dim_ce.items()]
+        dimension_ces.sort(key=lambda x: x[1], reverse=True)
+
+        summary_text = f"""
+Cross-Dimensional Analysis Summary:
+
+Most Divergent Combinations:
+"""
+        for i, (dim, ce_value) in enumerate(dimension_ces[:3]):
+            newspaper, parse_type = dim.split("_", 1)
+            summary_text += f"• {newspaper} ({parse_type}): {ce_value:.3f} bits\n"
+
+        summary_text += f"""
+
+Least Divergent Combinations:
+"""
+        for i, (dim, ce_value) in enumerate(dimension_ces[-3:]):
+            newspaper, parse_type = dim.split("_", 1)
+            summary_text += f"• {newspaper} ({parse_type}): {ce_value:.3f} bits\n"
+
+        # Calculate averages
+        avg_ce = np.mean([data.get("bidirectional_cross_entropy_sum", 0) for data in cross_dim_ce.values()])
+        avg_js = np.mean([data.get("jensen_shannon_divergence", 0) for data in cross_dim_ce.values()])
+        avg_overlap = np.mean([data.get("register_overlap_ratio", 0) for data in cross_dim_ce.values()])
+
+        summary_text += f"""
+
+Average Measures:
+• Average Cross-Entropy: {avg_ce:.3f} bits
+• Average JS Divergence: {avg_js:.3f}
+• Average Overlap Ratio: {avg_overlap:.3f}
+        """
+
+        ax4.text(0.05, 0.95, summary_text, transform=ax4.transAxes,
+                fontsize=10, verticalalignment="top",
+                bbox=dict(boxstyle="round", facecolor="lightcyan", alpha=0.8))
+
+        plt.suptitle(title, fontsize=16, fontweight="bold")
+        plt.tight_layout()
+        plt.savefig(self.output_dir / filename, dpi=300, bbox_inches="tight")
+        plt.close()
+

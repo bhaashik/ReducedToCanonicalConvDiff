@@ -1,0 +1,3 @@
+feature_id,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,total_events,information_asymmetry
+POS-CHG,33.21928094907362,33.21928094907363,66.43856189814724,32.21928094907362,0.0,2,7.105427357601002e-15
+FW-DEL,33.219280948873624,33.21928094907363,66.43856189794725,32.719280948973626,0.0,2,2.00003569261753e-10

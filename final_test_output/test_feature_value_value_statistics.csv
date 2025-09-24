@@ -1,0 +1,4 @@
+feature_id,total_transformations,unique_transformation_types,canonical_value_diversity,headline_value_diversity,top3_concentration_ratio,transformation_entropy,most_frequent_transformation,most_frequent_count
+FW-DEL,2,2,2,1,1.0,1.0,the→,1
+C-ADD,1,1,1,1,1.0,0.0,→new,1
+POS-CHG,1,1,1,1,1.0,0.0,NOUN→VERB,1

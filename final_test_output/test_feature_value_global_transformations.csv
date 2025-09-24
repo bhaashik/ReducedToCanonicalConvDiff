@@ -1,0 +1,5 @@
+feature_id,canonical_value,headline_value,transformation,count
+C-ADD,,new,→new,1
+FW-DEL,the,,the→,1
+FW-DEL,a,,a→,1
+POS-CHG,NOUN,VERB,NOUN→VERB,1

@@ -1,0 +1,3 @@
+feature_id,canonical_value,headline_value,transformation,count,percentage
+POS-CHG,NOUN,VERB,NOUN→VERB,1,50.0
+POS-CHG,ADJ,ADV,ADJ→ADV,1,50.0

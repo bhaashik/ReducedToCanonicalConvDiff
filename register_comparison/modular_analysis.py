@@ -178,11 +178,29 @@ class ModularAnalysisRunner:
             # Feature-value analysis
             feature_value_analysis = aggregator.get_feature_value_analysis()
 
+            # Feature-value pair analysis (treating pairs as atomic units)
+            feature_value_pair_analysis = aggregator.get_feature_value_pair_analysis()
+
+            # Bidirectional cross-entropy analysis
+            cross_entropy_analysis = aggregator.get_bidirectional_cross_entropy_analysis()
+
             # Save feature-value outputs
             outputs.save_feature_value_analysis(feature_value_analysis, "feature_value_analysis")
 
+            # Save feature-value pair outputs
+            outputs.save_feature_value_pair_analysis(feature_value_pair_analysis, "feature_value_pair_analysis")
+
+            # Save cross-entropy analysis
+            outputs.save_bidirectional_cross_entropy_analysis(cross_entropy_analysis, "bidirectional_cross_entropy_analysis")
+
             # Feature-value visualizations
             visualizer.create_feature_value_visualizations(feature_value_analysis)
+
+            # Feature-value pair visualizations
+            visualizer.create_feature_value_pair_visualizations(feature_value_pair_analysis)
+
+            # Cross-entropy visualizations
+            visualizer.create_bidirectional_cross_entropy_visualizations(cross_entropy_analysis)
 
             # Generate enhanced reports with feature-value analysis
             outputs.generate_enhanced_latex_report(comprehensive_analysis, statistical_summary,
@@ -233,6 +251,16 @@ class ModularAnalysisRunner:
             feature_value_analysis = self.global_aggregator.get_feature_value_analysis()
             outputs.save_feature_value_analysis(feature_value_analysis, "global_feature_value_analysis")
             visualizer.create_feature_value_visualizations(feature_value_analysis)
+
+            # Global feature-value pair analysis
+            feature_value_pair_analysis = self.global_aggregator.get_feature_value_pair_analysis()
+            outputs.save_feature_value_pair_analysis(feature_value_pair_analysis, "global_feature_value_pair_analysis")
+            visualizer.create_feature_value_pair_visualizations(feature_value_pair_analysis)
+
+            # Global bidirectional cross-entropy analysis
+            cross_entropy_analysis = self.global_aggregator.get_bidirectional_cross_entropy_analysis()
+            outputs.save_bidirectional_cross_entropy_analysis(cross_entropy_analysis, "global_bidirectional_cross_entropy_analysis")
+            visualizer.create_bidirectional_cross_entropy_visualizations(cross_entropy_analysis)
 
             # Generate enhanced global reports
             outputs.generate_enhanced_latex_report(comprehensive_analysis, statistical_summary,
@@ -344,9 +372,11 @@ class ModularAnalysisRunner:
         # Get feature-value analysis from global aggregator
         feature_value_analysis = self.global_aggregator.get_feature_value_analysis()
 
-        # Create enhanced visualizer
+        # Create enhanced visualizer with feature labels from main visualizer
         from register_comparison.visualizers.enhanced_visualizer import EnhancedVisualizer
-        enhanced_viz = EnhancedVisualizer(output_dir)
+        from register_comparison.visualizers.visualizer import Visualizer
+        temp_visualizer = Visualizer(output_dir, self.schema)
+        enhanced_viz = EnhancedVisualizer(output_dir, temp_visualizer.feature_labels)
 
         # Create enhanced transformation visualizations
         enhanced_viz.create_value_to_value_transformations(feature_value_analysis)

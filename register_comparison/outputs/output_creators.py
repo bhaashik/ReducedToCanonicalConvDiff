@@ -452,6 +452,231 @@ class Outputs:
 
         print(f"Saved per-feature analysis files with prefix: {base_filename}_feature_")
 
+    def save_feature_value_pair_analysis(self, pair_analysis: Dict[str, Any], base_filename: str):
+        """Save feature-value pair analysis treating pairs as atomic units."""
+        import json
+
+        # Save complete analysis as JSON
+        json_filename = f"{base_filename}.json"
+        with open(self.output_dir / json_filename, 'w') as f:
+            json.dump(pair_analysis, f, indent=2, default=str)
+
+        # Save global feature-value pairs as CSV
+        if 'global_feature_value_pairs' in pair_analysis:
+            global_pairs = pair_analysis['global_feature_value_pairs']
+            pairs_data = []
+            for pair_key, count in global_pairs.items():
+                pairs_data.append({
+                    'pair_unit': pair_key,
+                    'frequency': count
+                })
+
+            if pairs_data:
+                df = pd.DataFrame(pairs_data)
+                df.to_csv(self.output_dir / f"{base_filename}_global_pairs.csv", index=False)
+
+        # Save pair statistics as CSV
+        if 'pair_statistics' in pair_analysis:
+            stats = pair_analysis['pair_statistics']
+
+            # Most frequent pairs
+            if 'most_frequent_pairs' in stats:
+                frequent_pairs_data = []
+                for pair, count in stats['most_frequent_pairs']:
+                    frequent_pairs_data.append({
+                        'pair_unit': pair,
+                        'frequency': count,
+                        'rank': len(frequent_pairs_data) + 1
+                    })
+
+                if frequent_pairs_data:
+                    df = pd.DataFrame(frequent_pairs_data)
+                    df.to_csv(self.output_dir / f"{base_filename}_top_pairs.csv", index=False)
+
+            # Concentration metrics
+            if 'pair_concentration_metrics' in stats:
+                concentration = stats['pair_concentration_metrics']
+                metrics_data = [{
+                    'metric': 'total_unique_pairs',
+                    'value': stats.get('total_unique_pairs', 0)
+                }, {
+                    'metric': 'average_pair_frequency',
+                    'value': stats.get('average_pair_frequency', 0)
+                }, {
+                    'metric': 'total_pair_occurrences',
+                    'value': concentration.get('total_pair_occurrences', 0)
+                }, {
+                    'metric': 'entropy',
+                    'value': concentration.get('entropy', 0)
+                }, {
+                    'metric': 'concentration_ratio',
+                    'value': concentration.get('concentration_ratio', 0)
+                }]
+
+                df = pd.DataFrame(metrics_data)
+                df.to_csv(self.output_dir / f"{base_filename}_concentration_metrics.csv", index=False)
+
+        # Save by-newspaper pair diversity as CSV
+        if 'pair_diversity_metrics' in pair_analysis and 'newspaper_pair_diversity' in pair_analysis['pair_diversity_metrics']:
+            newspaper_diversity = pair_analysis['pair_diversity_metrics']['newspaper_pair_diversity']
+            diversity_data = []
+
+            for newspaper, metrics in newspaper_diversity.items():
+                diversity_data.append({
+                    'newspaper': newspaper,
+                    'unique_pairs': metrics.get('unique_pairs', 0),
+                    'total_occurrences': metrics.get('total_occurrences', 0),
+                    'diversity_index': metrics.get('diversity_index', 0)
+                })
+
+            if diversity_data:
+                df = pd.DataFrame(diversity_data)
+                df.to_csv(self.output_dir / f"{base_filename}_newspaper_diversity.csv", index=False)
+
+        # Save transformation complexity as CSV
+        if 'transformation_pair_patterns' in pair_analysis and 'transformation_complexity' in pair_analysis['transformation_pair_patterns']:
+            complexity = pair_analysis['transformation_pair_patterns']['transformation_complexity']
+            complexity_data = []
+
+            for feature, count in complexity.items():
+                complexity_data.append({
+                    'feature_id': feature,
+                    'unique_transformations': count
+                })
+
+            if complexity_data:
+                df = pd.DataFrame(complexity_data)
+                df.to_csv(self.output_dir / f"{base_filename}_transformation_complexity.csv", index=False)
+
+        print(f"✅ Feature-value pair analysis saved to {base_filename}.json and multiple CSV files")
+
+    def save_bidirectional_cross_entropy_analysis(self, cross_entropy_analysis: Dict[str, Any], base_filename: str):
+        """Save bidirectional cross-entropy analysis in multiple formats."""
+        import json
+
+        # Save complete analysis as JSON
+        json_filename = f"{base_filename}.json"
+        with open(self.output_dir / json_filename, 'w') as f:
+            json.dump(cross_entropy_analysis, f, indent=2, default=str)
+
+        # Save global cross-entropy metrics
+        if 'global_cross_entropy' in cross_entropy_analysis:
+            global_ce = cross_entropy_analysis['global_cross_entropy']
+            global_data = [{
+                'metric': 'canonical_to_headline_cross_entropy',
+                'value': global_ce.get('canonical_to_headline_cross_entropy', 0),
+                'description': 'Cross-entropy when predicting headline register from canonical'
+            }, {
+                'metric': 'headline_to_canonical_cross_entropy',
+                'value': global_ce.get('headline_to_canonical_cross_entropy', 0),
+                'description': 'Cross-entropy when predicting canonical register from headline'
+            }, {
+                'metric': 'bidirectional_cross_entropy_sum',
+                'value': global_ce.get('bidirectional_cross_entropy_sum', 0),
+                'description': 'Sum of cross-entropies in both directions'
+            }, {
+                'metric': 'jensen_shannon_divergence',
+                'value': global_ce.get('jensen_shannon_divergence', 0),
+                'description': 'Symmetric measure of register divergence'
+            }, {
+                'metric': 'register_overlap_ratio',
+                'value': global_ce.get('register_overlap_ratio', 0),
+                'description': 'Ratio of overlapping values between registers'
+            }, {
+                'metric': 'information_asymmetry',
+                'value': abs(global_ce.get('canonical_to_headline_cross_entropy', 0) -
+                           global_ce.get('headline_to_canonical_cross_entropy', 0)),
+                'description': 'Asymmetry in information flow between registers'
+            }]
+
+            df = pd.DataFrame(global_data)
+            df.to_csv(self.output_dir / f"{base_filename}_global_metrics.csv", index=False)
+
+        # Save by-newspaper cross-entropy comparison
+        if 'by_newspaper_cross_entropy' in cross_entropy_analysis:
+            newspaper_data = []
+            for newspaper, ce_data in cross_entropy_analysis['by_newspaper_cross_entropy'].items():
+                newspaper_data.append({
+                    'newspaper': newspaper,
+                    'canonical_to_headline_ce': ce_data.get('canonical_to_headline_cross_entropy', 0),
+                    'headline_to_canonical_ce': ce_data.get('headline_to_canonical_cross_entropy', 0),
+                    'bidirectional_sum': ce_data.get('bidirectional_cross_entropy_sum', 0),
+                    'jensen_shannon_divergence': ce_data.get('jensen_shannon_divergence', 0),
+                    'register_overlap_ratio': ce_data.get('register_overlap_ratio', 0),
+                    'kl_divergence_sum': ce_data.get('kl_divergence_sum', 0),
+                    'total_events': ce_data.get('total_events', 0),
+                    'unique_canonical_values': ce_data.get('unique_canonical_values', 0),
+                    'unique_headline_values': ce_data.get('unique_headline_values', 0)
+                })
+
+            if newspaper_data:
+                df = pd.DataFrame(newspaper_data)
+                # Sort by bidirectional sum for ranking
+                df = df.sort_values('bidirectional_sum', ascending=False)
+                df.to_csv(self.output_dir / f"{base_filename}_newspaper_comparison.csv", index=False)
+
+        # Save feature-level cross-entropy ranking
+        if 'feature_level_cross_entropy' in cross_entropy_analysis:
+            feature_data = []
+            for feature_id, ce_data in cross_entropy_analysis['feature_level_cross_entropy'].items():
+                feature_data.append({
+                    'feature_id': feature_id,
+                    'canonical_to_headline_ce': ce_data.get('canonical_to_headline_cross_entropy', 0),
+                    'headline_to_canonical_ce': ce_data.get('headline_to_canonical_cross_entropy', 0),
+                    'bidirectional_sum': ce_data.get('bidirectional_cross_entropy_sum', 0),
+                    'jensen_shannon_divergence': ce_data.get('jensen_shannon_divergence', 0),
+                    'register_overlap_ratio': ce_data.get('register_overlap_ratio', 0),
+                    'total_events': ce_data.get('total_events', 0),
+                    'information_asymmetry': abs(ce_data.get('canonical_to_headline_cross_entropy', 0) -
+                                                ce_data.get('headline_to_canonical_cross_entropy', 0))
+                })
+
+            if feature_data:
+                df = pd.DataFrame(feature_data)
+                # Sort by bidirectional sum for ranking
+                df = df.sort_values('bidirectional_sum', ascending=False)
+                df.to_csv(self.output_dir / f"{base_filename}_feature_ranking.csv", index=False)
+
+        # Save cross-entropy statistics summary
+        if 'cross_entropy_statistics' in cross_entropy_analysis:
+            stats = cross_entropy_analysis['cross_entropy_statistics']
+
+            # Newspaper ranking
+            if 'newspaper_comparison' in stats and 'ranked_newspapers' in stats['newspaper_comparison']:
+                ranked_newspapers = stats['newspaper_comparison']['ranked_newspapers']
+                df = pd.DataFrame(ranked_newspapers)
+                df.to_csv(self.output_dir / f"{base_filename}_newspaper_ranking.csv", index=False)
+
+            # Feature ranking
+            if 'feature_ranking' in stats and 'ranked_features' in stats['feature_ranking']:
+                ranked_features = stats['feature_ranking']['ranked_features']
+                df = pd.DataFrame(ranked_features)
+                df.to_csv(self.output_dir / f"{base_filename}_feature_divergence_ranking.csv", index=False)
+
+        # Save cross-dimensional analysis
+        if 'cross_dimensional_cross_entropy' in cross_entropy_analysis:
+            cross_dim_data = []
+            for dimension, ce_data in cross_entropy_analysis['cross_dimensional_cross_entropy'].items():
+                newspaper, parse_type = dimension.split('_', 1)
+                cross_dim_data.append({
+                    'newspaper': newspaper,
+                    'parse_type': parse_type,
+                    'dimension': dimension,
+                    'canonical_to_headline_ce': ce_data.get('canonical_to_headline_cross_entropy', 0),
+                    'headline_to_canonical_ce': ce_data.get('headline_to_canonical_cross_entropy', 0),
+                    'bidirectional_sum': ce_data.get('bidirectional_cross_entropy_sum', 0),
+                    'jensen_shannon_divergence': ce_data.get('jensen_shannon_divergence', 0),
+                    'register_overlap_ratio': ce_data.get('register_overlap_ratio', 0),
+                    'total_events': ce_data.get('total_events', 0)
+                })
+
+            if cross_dim_data:
+                df = pd.DataFrame(cross_dim_data)
+                df = df.sort_values('bidirectional_sum', ascending=False)
+                df.to_csv(self.output_dir / f"{base_filename}_cross_dimensional.csv", index=False)
+
+        print(f"✅ Bidirectional cross-entropy analysis saved to {base_filename}.json and multiple CSV files")
+
     def save_feature_value_pairs(self, analysis: Dict[str, Any], filename: str):
         """Save feature-value pair analysis as CSV and JSON."""
         import json

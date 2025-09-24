@@ -1,0 +1,169 @@
+{
+  "global_feature_value_pairs": {
+    "FW-DEL:the\u2192": 1,
+    "C-ADD:\u2192quickly": 1,
+    "POS-CHG:NOUN\u2192VERB": 1,
+    "FW-SUB:a\u2192the": 1,
+    "FW-DEL:is\u2192": 1,
+    "C-DEL:very\u2192": 1,
+    "POS-CHG:ADJ\u2192ADV": 1,
+    "C-SUB:big\u2192large": 1,
+    "FW-ADD:\u2192will": 1
+  },
+  "by_newspaper_feature_value_pairs": {
+    "Times-of-India": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192quickly": 1,
+      "POS-CHG:NOUN\u2192VERB": 1,
+      "FW-SUB:a\u2192the": 1
+    },
+    "The-Hindu": {
+      "FW-DEL:is\u2192": 1,
+      "C-DEL:very\u2192": 1,
+      "POS-CHG:ADJ\u2192ADV": 1
+    },
+    "Hindustan-Times": {
+      "C-SUB:big\u2192large": 1,
+      "FW-ADD:\u2192will": 1
+    }
+  },
+  "by_parse_type_feature_value_pairs": {
+    "dependency": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192quickly": 1,
+      "FW-SUB:a\u2192the": 1,
+      "C-DEL:very\u2192": 1,
+      "POS-CHG:ADJ\u2192ADV": 1,
+      "FW-ADD:\u2192will": 1
+    },
+    "constituency": {
+      "POS-CHG:NOUN\u2192VERB": 1,
+      "FW-DEL:is\u2192": 1,
+      "C-SUB:big\u2192large": 1
+    }
+  },
+  "cross_feature_value_pairs": {
+    "Times-of-India_dependency": {
+      "FW-DEL:the\u2192": 1,
+      "C-ADD:\u2192quickly": 1,
+      "FW-SUB:a\u2192the": 1
+    },
+    "Times-of-India_constituency": {
+      "POS-CHG:NOUN\u2192VERB": 1
+    },
+    "The-Hindu_dependency": {
+      "C-DEL:very\u2192": 1,
+      "POS-CHG:ADJ\u2192ADV": 1
+    },
+    "The-Hindu_constituency": {
+      "FW-DEL:is\u2192": 1
+    },
+    "Hindustan-Times_dependency": {
+      "FW-ADD:\u2192will": 1
+    },
+    "Hindustan-Times_constituency": {
+      "C-SUB:big\u2192large": 1
+    }
+  },
+  "pair_statistics": {
+    "total_unique_pairs": 9,
+    "most_frequent_pairs": [
+      [
+        "FW-DEL:the\u2192",
+        1
+      ],
+      [
+        "C-ADD:\u2192quickly",
+        1
+      ],
+      [
+        "POS-CHG:NOUN\u2192VERB",
+        1
+      ],
+      [
+        "FW-SUB:a\u2192the",
+        1
+      ],
+      [
+        "FW-DEL:is\u2192",
+        1
+      ],
+      [
+        "C-DEL:very\u2192",
+        1
+      ],
+      [
+        "POS-CHG:ADJ\u2192ADV",
+        1
+      ],
+      [
+        "C-SUB:big\u2192large",
+        1
+      ],
+      [
+        "FW-ADD:\u2192will",
+        1
+      ]
+    ],
+    "pair_frequency_distribution": {},
+    "average_pair_frequency": 1.0,
+    "pair_concentration_metrics": {
+      "total_pair_occurrences": 9,
+      "entropy": 3.169925001442312,
+      "concentration_ratio": 0.5555555555555556
+    }
+  },
+  "pair_diversity_metrics": {
+    "newspaper_pair_diversity": {
+      "Times-of-India": {
+        "unique_pairs": 4,
+        "total_occurrences": 4,
+        "diversity_index": 1.3862943611198906
+      },
+      "The-Hindu": {
+        "unique_pairs": 3,
+        "total_occurrences": 3,
+        "diversity_index": 1.0986122886681096
+      },
+      "Hindustan-Times": {
+        "unique_pairs": 2,
+        "total_occurrences": 2,
+        "diversity_index": 0.6931471805599453
+      }
+    },
+    "parse_type_pair_diversity": {
+      "dependency": {
+        "unique_pairs": 6,
+        "total_occurrences": 6,
+        "diversity_index": 1.7917594692280547
+      },
+      "constituency": {
+        "unique_pairs": 3,
+        "total_occurrences": 3,
+        "diversity_index": 1.0986122886681096
+      }
+    },
+    "cross_dimension_diversity": {}
+  },
+  "transformation_pair_patterns": {
+    "feature_transformation_counts": {
+      "FW-DEL": 2,
+      "C-ADD": 1,
+      "POS-CHG": 2,
+      "FW-SUB": 1,
+      "C-DEL": 1,
+      "C-SUB": 1,
+      "FW-ADD": 1
+    },
+    "bidirectional_transformations": [],
+    "transformation_complexity": {
+      "FW-DEL": 2,
+      "C-ADD": 1,
+      "POS-CHG": 2,
+      "FW-SUB": 1,
+      "C-DEL": 1,
+      "C-SUB": 1,
+      "FW-ADD": 1
+    }
+  }
+}

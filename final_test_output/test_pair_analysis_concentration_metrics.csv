@@ -1,0 +1,6 @@
+metric,value
+total_unique_pairs,4.0
+average_pair_frequency,1.0
+total_pair_occurrences,4.0
+entropy,2.0
+concentration_ratio,1.0

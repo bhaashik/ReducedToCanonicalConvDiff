@@ -1,0 +1,10 @@
+pair_unit,frequency,rank
+FW-DEL:the→,1,1
+C-ADD:→quickly,1,2
+POS-CHG:NOUN→VERB,1,3
+FW-SUB:a→the,1,4
+FW-DEL:is→,1,5
+C-DEL:very→,1,6
+POS-CHG:ADJ→ADV,1,7
+C-SUB:big→large,1,8
+FW-ADD:→will,1,9

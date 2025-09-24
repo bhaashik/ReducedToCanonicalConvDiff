@@ -419,6 +419,406 @@ class Aggregator:
 
         return entropy
 
+    def get_feature_value_pair_analysis(self) -> Dict[str, Any]:
+        """
+        Get comprehensive analysis treating feature-value pairs as single units.
+        This analyzes feature-value combinations as atomic entities for deeper insights.
+        """
+        analysis = {
+            'global_feature_value_pairs': {},
+            'by_newspaper_feature_value_pairs': {},
+            'by_parse_type_feature_value_pairs': {},
+            'cross_feature_value_pairs': {},
+            'pair_statistics': {},
+            'pair_diversity_metrics': {},
+            'transformation_pair_patterns': {}
+        }
+
+        # Global feature-value pair analysis
+        global_pair_units = self._get_feature_value_pair_units(self.global_events)
+        analysis['global_feature_value_pairs'] = global_pair_units
+
+        # By newspaper feature-value pair analysis
+        for newspaper in self.by_newspaper.keys():
+            newspaper_pairs = self._get_feature_value_pair_units(self.by_newspaper[newspaper])
+            analysis['by_newspaper_feature_value_pairs'][newspaper] = newspaper_pairs
+
+        # By parse type feature-value pair analysis
+        for parse_type in self.by_parse_type.keys():
+            parse_type_pairs = self._get_feature_value_pair_units(self.by_parse_type[parse_type])
+            analysis['by_parse_type_feature_value_pairs'][parse_type] = parse_type_pairs
+
+        # Cross-dimensional analysis
+        for newspaper in self.by_newspaper.keys():
+            for parse_type in self.by_parse_type.keys():
+                cross_key = f"{newspaper}_{parse_type}"
+                cross_events = [e for e in self.global_events
+                               if e.newspaper == newspaper and e.parse_type == parse_type]
+                if cross_events:
+                    cross_pairs = self._get_feature_value_pair_units(cross_events)
+                    analysis['cross_feature_value_pairs'][cross_key] = cross_pairs
+
+        # Calculate pair statistics
+        analysis['pair_statistics'] = self._calculate_pair_statistics(analysis)
+
+        # Calculate diversity metrics for pairs
+        analysis['pair_diversity_metrics'] = self._calculate_pair_diversity_metrics(analysis)
+
+        # Analyze transformation patterns at pair level
+        analysis['transformation_pair_patterns'] = self._analyze_transformation_pair_patterns(analysis)
+
+        return analysis
+
+    def _get_feature_value_pair_units(self, events: List[DifferenceEvent]) -> Dict[str, int]:
+        """
+        Get feature-value pairs treated as single atomic units.
+        Returns: {feature_canonical_value→headline_value: count}
+        """
+        pair_units = {}
+
+        for event in events:
+            # Create atomic feature-value pair identifier
+            pair_key = f"{event.feature_id}:{event.canonical_value}→{event.headline_value}"
+            pair_units[pair_key] = pair_units.get(pair_key, 0) + 1
+
+        return pair_units
+
+    def _calculate_pair_statistics(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Calculate comprehensive statistics for feature-value pairs."""
+        stats = {
+            'total_unique_pairs': 0,
+            'most_frequent_pairs': [],
+            'pair_frequency_distribution': {},
+            'average_pair_frequency': 0,
+            'pair_concentration_metrics': {}
+        }
+
+        # Analyze global pairs
+        global_pairs = analysis['global_feature_value_pairs']
+        if global_pairs:
+            stats['total_unique_pairs'] = len(global_pairs)
+
+            # Most frequent pairs
+            sorted_pairs = sorted(global_pairs.items(), key=lambda x: x[1], reverse=True)
+            stats['most_frequent_pairs'] = sorted_pairs[:10]
+
+            # Frequency distribution
+            frequencies = list(global_pairs.values())
+            stats['average_pair_frequency'] = sum(frequencies) / len(frequencies) if frequencies else 0
+
+            # Concentration metrics (how concentrated are the pairs)
+            total_occurrences = sum(frequencies)
+            if total_occurrences > 0:
+                # Calculate concentration metrics
+                sorted_freqs = sorted(frequencies)
+                stats['pair_concentration_metrics'] = {
+                    'total_pair_occurrences': total_occurrences,
+                    'entropy': self._calculate_entropy(frequencies),
+                    'concentration_ratio': sum(sorted_freqs[-5:]) / total_occurrences if total_occurrences > 0 else 0
+                }
+
+        return stats
+
+    def _calculate_pair_diversity_metrics(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Calculate diversity metrics for feature-value pairs across dimensions."""
+        diversity = {
+            'newspaper_pair_diversity': {},
+            'parse_type_pair_diversity': {},
+            'cross_dimension_diversity': {}
+        }
+
+        # Newspaper diversity
+        for newspaper, pairs in analysis['by_newspaper_feature_value_pairs'].items():
+            diversity['newspaper_pair_diversity'][newspaper] = {
+                'unique_pairs': len(pairs),
+                'total_occurrences': sum(pairs.values()) if pairs else 0,
+                'diversity_index': self._calculate_diversity_index(list(pairs.values())) if pairs else 0
+            }
+
+        # Parse type diversity
+        for parse_type, pairs in analysis['by_parse_type_feature_value_pairs'].items():
+            diversity['parse_type_pair_diversity'][parse_type] = {
+                'unique_pairs': len(pairs),
+                'total_occurrences': sum(pairs.values()) if pairs else 0,
+                'diversity_index': self._calculate_diversity_index(list(pairs.values())) if pairs else 0
+            }
+
+        return diversity
+
+    def _analyze_transformation_pair_patterns(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Analyze patterns in transformation pairs."""
+        patterns = {
+            'feature_transformation_counts': {},
+            'bidirectional_transformations': [],
+            'transformation_complexity': {}
+        }
+
+        global_pairs = analysis['global_feature_value_pairs']
+
+        # Analyze by feature
+        transformation_types = {}
+        for pair_key, count in global_pairs.items():
+            if ':' in pair_key and '→' in pair_key:
+                feature_part, transformation = pair_key.split(':', 1)
+                canonical_val, headline_val = transformation.split('→', 1)
+
+                # Count transformations per feature
+                if feature_part not in patterns['feature_transformation_counts']:
+                    patterns['feature_transformation_counts'][feature_part] = 0
+                patterns['feature_transformation_counts'][feature_part] += count
+
+                # Track transformation types
+                if feature_part not in transformation_types:
+                    transformation_types[feature_part] = set()
+                transformation_types[feature_part].add(transformation)
+
+        # Convert sets to counts for JSON serialization
+        for feature in transformation_types:
+            patterns['transformation_complexity'][feature] = len(transformation_types[feature])
+
+        return patterns
+
+    def _calculate_diversity_index(self, frequencies: List[int]) -> float:
+        """Calculate Shannon diversity index for frequency distribution."""
+        if not frequencies or sum(frequencies) == 0:
+            return 0.0
+
+        total = sum(frequencies)
+        proportions = [f / total for f in frequencies if f > 0]
+
+        import math
+        diversity = -sum(p * math.log(p) for p in proportions)
+        return diversity
+
+    def get_bidirectional_cross_entropy_analysis(self) -> Dict[str, Any]:
+        """
+        Calculate bidirectional cross-entropy between canonical and headline registers.
+        Provides information-theoretic measures of register differences.
+        """
+        analysis = {
+            'global_cross_entropy': {},
+            'by_newspaper_cross_entropy': {},
+            'by_parse_type_cross_entropy': {},
+            'cross_dimensional_cross_entropy': {},
+            'cross_entropy_statistics': {},
+            'feature_level_cross_entropy': {}
+        }
+
+        # Global bidirectional cross-entropy
+        global_ce = self._calculate_bidirectional_cross_entropy(self.global_events)
+        analysis['global_cross_entropy'] = global_ce
+
+        # By newspaper cross-entropy
+        for newspaper in self.by_newspaper.keys():
+            newspaper_events = self.by_newspaper[newspaper]
+            newspaper_ce = self._calculate_bidirectional_cross_entropy(newspaper_events)
+            analysis['by_newspaper_cross_entropy'][newspaper] = newspaper_ce
+
+        # By parse type cross-entropy
+        for parse_type in self.by_parse_type.keys():
+            parse_type_events = self.by_parse_type[parse_type]
+            parse_type_ce = self._calculate_bidirectional_cross_entropy(parse_type_events)
+            analysis['by_parse_type_cross_entropy'][parse_type] = parse_type_ce
+
+        # Cross-dimensional analysis
+        for newspaper in self.by_newspaper.keys():
+            for parse_type in self.by_parse_type.keys():
+                cross_key = f"{newspaper}_{parse_type}"
+                cross_events = [e for e in self.global_events
+                               if e.newspaper == newspaper and e.parse_type == parse_type]
+                if cross_events:
+                    cross_ce = self._calculate_bidirectional_cross_entropy(cross_events)
+                    analysis['cross_dimensional_cross_entropy'][cross_key] = cross_ce
+
+        # Feature-level cross-entropy analysis
+        analysis['feature_level_cross_entropy'] = self._calculate_feature_level_cross_entropy()
+
+        # Cross-entropy statistics and summaries
+        analysis['cross_entropy_statistics'] = self._calculate_cross_entropy_statistics(analysis)
+
+        return analysis
+
+    def _calculate_bidirectional_cross_entropy(self, events: List[DifferenceEvent]) -> Dict[str, Any]:
+        """
+        Calculate bidirectional cross-entropy for a set of events.
+        Returns cross-entropy in both directions and combined measures.
+        """
+        import math
+        from collections import defaultdict
+
+        # Separate events by feature for more granular analysis
+        feature_events = defaultdict(list)
+        for event in events:
+            feature_events[event.feature_id].append(event)
+
+        # Calculate distributions for canonical and headline registers
+        canonical_dist = defaultdict(int)
+        headline_dist = defaultdict(int)
+        total_canonical = 0
+        total_headline = 0
+
+        # Count value occurrences in each register
+        for event in events:
+            canonical_dist[event.canonical_value] += 1
+            headline_dist[event.headline_value] += 1
+            total_canonical += 1
+            total_headline += 1
+
+        # Convert to probabilities
+        canonical_probs = {val: count/total_canonical for val, count in canonical_dist.items()}
+        headline_probs = {val: count/total_headline for val, count in headline_dist.items()}
+
+        # Get all unique values
+        all_values = set(canonical_dist.keys()) | set(headline_dist.keys())
+
+        # Calculate cross-entropies
+        # H(canonical, headline) = -sum(p_canonical(x) * log(p_headline(x)))
+        canonical_to_headline_ce = 0
+        headline_to_canonical_ce = 0
+
+        for value in all_values:
+            p_canonical = canonical_probs.get(value, 1e-10)  # Small epsilon for unseen values
+            p_headline = headline_probs.get(value, 1e-10)
+
+            # Cross-entropy: canonical → headline
+            if p_canonical > 0 and p_headline > 0:
+                canonical_to_headline_ce += -p_canonical * math.log2(p_headline)
+
+            # Cross-entropy: headline → canonical
+            if p_headline > 0 and p_canonical > 0:
+                headline_to_canonical_ce += -p_headline * math.log2(p_canonical)
+
+        # Calculate entropy of each register
+        canonical_entropy = -sum(p * math.log2(p) for p in canonical_probs.values() if p > 0)
+        headline_entropy = -sum(p * math.log2(p) for p in headline_probs.values() if p > 0)
+
+        # Calculate KL divergences
+        kl_canonical_to_headline = canonical_to_headline_ce - canonical_entropy
+        kl_headline_to_canonical = headline_to_canonical_ce - headline_entropy
+
+        # Combined measures
+        bidirectional_sum = canonical_to_headline_ce + headline_to_canonical_ce
+        kl_divergence_sum = kl_canonical_to_headline + kl_headline_to_canonical
+        jensen_shannon_divergence = 0.5 * kl_canonical_to_headline + 0.5 * kl_headline_to_canonical
+
+        return {
+            'canonical_to_headline_cross_entropy': canonical_to_headline_ce,
+            'headline_to_canonical_cross_entropy': headline_to_canonical_ce,
+            'bidirectional_cross_entropy_sum': bidirectional_sum,
+            'canonical_entropy': canonical_entropy,
+            'headline_entropy': headline_entropy,
+            'kl_canonical_to_headline': kl_canonical_to_headline,
+            'kl_headline_to_canonical': kl_headline_to_canonical,
+            'kl_divergence_sum': kl_divergence_sum,
+            'jensen_shannon_divergence': jensen_shannon_divergence,
+            'total_events': len(events),
+            'unique_canonical_values': len(canonical_dist),
+            'unique_headline_values': len(headline_dist),
+            'unique_combined_values': len(all_values),
+            'register_overlap_ratio': len(set(canonical_dist.keys()) & set(headline_dist.keys())) / len(all_values) if all_values else 0
+        }
+
+    def _calculate_feature_level_cross_entropy(self) -> Dict[str, Dict[str, Any]]:
+        """Calculate cross-entropy analysis for each feature separately."""
+        feature_analysis = {}
+
+        # Group events by feature
+        from collections import defaultdict
+        feature_events = defaultdict(list)
+        for event in self.global_events:
+            feature_events[event.feature_id].append(event)
+
+        # Calculate cross-entropy for each feature
+        for feature_id, events in feature_events.items():
+            if len(events) >= 2:  # Need minimum events for meaningful analysis
+                feature_ce = self._calculate_bidirectional_cross_entropy(events)
+                feature_analysis[feature_id] = feature_ce
+
+        return feature_analysis
+
+    def _calculate_cross_entropy_statistics(self, analysis: Dict[str, Any]) -> Dict[str, Any]:
+        """Calculate comprehensive statistics for cross-entropy analysis."""
+        stats = {
+            'newspaper_comparison': {},
+            'parse_type_comparison': {},
+            'feature_ranking': {},
+            'overall_metrics': {}
+        }
+
+        # Newspaper comparison statistics
+        newspaper_ces = analysis['by_newspaper_cross_entropy']
+        if newspaper_ces:
+            newspaper_stats = []
+            for newspaper, ce_data in newspaper_ces.items():
+                newspaper_stats.append({
+                    'newspaper': newspaper,
+                    'bidirectional_sum': ce_data['bidirectional_cross_entropy_sum'],
+                    'canonical_to_headline': ce_data['canonical_to_headline_cross_entropy'],
+                    'headline_to_canonical': ce_data['headline_to_canonical_cross_entropy'],
+                    'jensen_shannon': ce_data['jensen_shannon_divergence'],
+                    'register_overlap': ce_data['register_overlap_ratio']
+                })
+
+            # Sort by bidirectional sum (highest information loss first)
+            newspaper_stats.sort(key=lambda x: x['bidirectional_sum'], reverse=True)
+            stats['newspaper_comparison'] = {
+                'ranked_newspapers': newspaper_stats,
+                'most_divergent': newspaper_stats[0]['newspaper'] if newspaper_stats else None,
+                'least_divergent': newspaper_stats[-1]['newspaper'] if newspaper_stats else None,
+                'average_bidirectional_ce': sum(ns['bidirectional_sum'] for ns in newspaper_stats) / len(newspaper_stats) if newspaper_stats else 0
+            }
+
+        # Parse type comparison
+        parse_type_ces = analysis['by_parse_type_cross_entropy']
+        if parse_type_ces:
+            parse_stats = []
+            for parse_type, ce_data in parse_type_ces.items():
+                parse_stats.append({
+                    'parse_type': parse_type,
+                    'bidirectional_sum': ce_data['bidirectional_cross_entropy_sum'],
+                    'jensen_shannon': ce_data['jensen_shannon_divergence'],
+                    'register_overlap': ce_data['register_overlap_ratio']
+                })
+
+            parse_stats.sort(key=lambda x: x['bidirectional_sum'], reverse=True)
+            stats['parse_type_comparison'] = {
+                'ranked_parse_types': parse_stats,
+                'most_divergent_parse_type': parse_stats[0]['parse_type'] if parse_stats else None
+            }
+
+        # Feature-level ranking
+        feature_ces = analysis['feature_level_cross_entropy']
+        if feature_ces:
+            feature_stats = []
+            for feature_id, ce_data in feature_ces.items():
+                feature_stats.append({
+                    'feature_id': feature_id,
+                    'bidirectional_sum': ce_data['bidirectional_cross_entropy_sum'],
+                    'jensen_shannon': ce_data['jensen_shannon_divergence'],
+                    'total_events': ce_data['total_events'],
+                    'register_overlap': ce_data['register_overlap_ratio']
+                })
+
+            feature_stats.sort(key=lambda x: x['bidirectional_sum'], reverse=True)
+            stats['feature_ranking'] = {
+                'ranked_features': feature_stats[:10],  # Top 10 most divergent features
+                'most_divergent_feature': feature_stats[0]['feature_id'] if feature_stats else None,
+                'least_divergent_feature': feature_stats[-1]['feature_id'] if feature_stats else None
+            }
+
+        # Overall metrics
+        global_ce = analysis['global_cross_entropy']
+        if global_ce:
+            stats['overall_metrics'] = {
+                'global_bidirectional_sum': global_ce['bidirectional_cross_entropy_sum'],
+                'global_jensen_shannon': global_ce['jensen_shannon_divergence'],
+                'global_register_overlap': global_ce['register_overlap_ratio'],
+                'information_asymmetry': abs(global_ce['canonical_to_headline_cross_entropy'] - global_ce['headline_to_canonical_cross_entropy']),
+                'total_unique_values': global_ce['unique_combined_values']
+            }
+
+        return stats
+
     def get_statistical_summary(self) -> Dict[str, Any]:
         """Generate statistical summary for all dimensions."""
         analysis = self.get_comprehensive_analysis()

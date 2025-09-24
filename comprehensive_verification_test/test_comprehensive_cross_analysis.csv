@@ -1,0 +1,10 @@
+newspaper,parse_type,feature_id,feature_name,count,percentage_of_combination
+Times-of-India,dependency,FW-DEL,Function Word Deletion,1,33.33333333333333
+Times-of-India,dependency,C-ADD,Content Word Addition,1,33.33333333333333
+Times-of-India,dependency,FW-SUB,FW-SUB,1,33.33333333333333
+Times-of-India,constituency,POS-CHG,Part of Speech Change,1,100.0
+The-Hindu,dependency,C-DEL,Content Word Deletion,1,50.0
+The-Hindu,dependency,POS-CHG,Part of Speech Change,1,50.0
+The-Hindu,constituency,FW-DEL,Function Word Deletion,1,100.0
+Hindustan-Times,dependency,FW-ADD,Function Word Addition,1,100.0
+Hindustan-Times,constituency,C-SUB,C-SUB,1,100.0
