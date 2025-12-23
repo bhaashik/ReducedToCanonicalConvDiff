@@ -1,0 +1,168 @@
+{
+  "total_errors": 12745,
+  "errors_by_type": {
+    "default": {
+      "count": 7453,
+      "examples": [
+        {
+          "feature": "FW-DEL",
+          "predicted": "AUX-DEL",
+          "actual": "CCONJ-DEL",
+          "headline": "ABSENT"
+        },
+        {
+          "feature": "FW-DEL",
+          "predicted": "AUX-DEL",
+          "actual": "ART-DEL",
+          "headline": "ABSENT"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "root",
+          "actual": "nsubj",
+          "headline": "compound"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "root",
+          "actual": "cc",
+          "headline": "compound"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "root",
+          "actual": "conj",
+          "headline": "punct"
+        }
+      ]
+    },
+    "none": {
+      "count": 4299,
+      "examples": [
+        {
+          "feature": "C-ADD",
+          "predicted": "NOUN-ADD",
+          "actual": "ABSENT",
+          "headline": "NOUN-ADD"
+        },
+        {
+          "feature": "POS-CHG",
+          "predicted": "NOUN",
+          "actual": "VERB",
+          "headline": "NOUN"
+        },
+        {
+          "feature": "FORM-CHG",
+          "predicted": "link",
+          "actual": "linked",
+          "headline": "link"
+        },
+        {
+          "feature": "FEAT-CHG",
+          "predicted": "Tense=None",
+          "actual": "Tense=Past",
+          "headline": "Tense=None"
+        },
+        {
+          "feature": "FEAT-CHG",
+          "predicted": "Number=Sing",
+          "actual": "Number=None",
+          "headline": "Number=Sing"
+        }
+      ]
+    },
+    "syntactic": {
+      "count": 931,
+      "examples": [
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CLAUSE-TYPE-CHG",
+          "predicted": "Fin",
+          "actual": "Part",
+          "headline": "Fin"
+        }
+      ]
+    },
+    "lexical": {
+      "count": 62,
+      "examples": [
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        }
+      ]
+    }
+  },
+  "errors_by_feature": {
+    "FW-DEL": 825,
+    "C-ADD": 200,
+    "POS-CHG": 83,
+    "FORM-CHG": 158,
+    "DEP-REL-CHG": 4668,
+    "FEAT-CHG": 95,
+    "LENGTH-CHG": 970,
+    "CONST-MOV": 398,
+    "CLAUSE-TYPE-CHG": 962,
+    "TED-ZHANG-SHASHA": 1123,
+    "TED-KLEIN": 1123,
+    "TED-RTED": 1138,
+    "CONST-ADD": 91,
+    "C-DEL": 215,
+    "CONST-REM": 122,
+    "HEAD-CHG": 196,
+    "FW-ADD": 49,
+    "TED-SIMPLE": 286,
+    "VERB-FORM-CHG": 11,
+    "TOKEN-REORDER": 6,
+    "LEMMA-CHG": 26
+  }
+}

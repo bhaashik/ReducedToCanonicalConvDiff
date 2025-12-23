@@ -1,0 +1,125 @@
+{
+  "$id": "canonical-to-reduced-diff.schema.json",
+  "$schema": "canonical-to-reduced-diff.schema.json",
+  "name": "reduced_to_canonical_conv_diff_ontology",
+  "version": "1.0.0",
+  "description": "A representation or ontology of the differences between the news headlines and their canonical versions",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhaashik/ReducedToCanonicalConvDiff.git"
+  },
+  "private": true,
+  "feature_schema": {
+    "H-Struct": {
+      "name": "Headline Structure",
+      "values": {
+        "sg-line": {
+          "name": "Single Line",
+          "description": "Headline consisting of a single line",
+          "examples": [
+            "Hospital issues special cards"
+            ],
+          "parse_type": [
+            "Dependency",
+            "Constituency"
+          ],
+          "extra": {
+            "length-difference":  "3",
+            "const-tree-depth-diff": "2",
+            "deprel-tree-depth-diff": "1"
+          }
+        },
+        "micro-disc": {
+          "name": "Micro-Discourse",
+          "description": "Headline consisting of multiple lines",
+          "examples": [
+            "I’m looking to retire in a warm place that has a ‘socially liberal mindset’ and lots of live music — and I’m a die-hard skier. Where should I go?"
+            ],
+          "parse_type": [
+            "Dependency",
+            "Constituency"
+          ],
+          "extra": {
+            "num_sentneces": "2",
+            "length-difference":  "5",
+            "const-tree-depth-diff": "2",
+            "deprel-tree-depth-diff": "1"
+          }
+        }
+      }
+    }
+  },
+  "H-Type": {
+    "name": "Headline Type",
+    "values": {
+      "frag": {
+        "name": "Fragment",
+        "description": "Where news headlines are fragments, i.e., are incomplete sentences.",
+        "examples": [
+          "Answers for Chakravyuh"
+          ],
+        "parse_type": [
+          "Dependency",
+          "Constituency"
+        ],
+        "extra": {
+          "length-difference":  "3",
+          "const-tree-depth-diff": "2",
+          "deprel-tree-depth-diff": "1"
+        }
+      },
+      "non-frag": {
+        "name": "Not Fragment",
+        "description": "Where news headlines have Subject+Verb+Object structure",
+        "examples": [
+          "I’m looking to retire in a warm place that has a ‘socially liberal mindset’ and lots of live music — and I’m a die-hard skier. Where should I go?"
+          ],
+        "parse_type": [
+          "Dependency",
+          "Constituency"
+        ],
+        "extra": {
+          "length-difference":  "5",
+          "const-tree-depth-diff": "2",
+          "deprel-tree-depth-diff": "1"
+        }
+      }
+    }
+  },
+  "F-Type": {
+    "name": "Fragment Type",
+    "values": {
+      "complex-compound": {
+        "name": "Complex Compound",
+        "description": "Where fragments are complex compounds",
+        "example": "Dark charm",
+        "parse_type": [
+          "Dependency",
+          "Constituency"
+        ],
+        "extra": {
+          "length-difference":  "0",
+          "const-tree-depth-diff": "0",
+          "deprel-tree-depth-diff": "0"
+        }
+      },
+      "phrase": {
+        "name": "Phrase",
+        "description": "Where fragments are phrases",
+        "examples": [
+          "A burning issue",
+          "At his best"
+          ],
+        "parse_type": [
+          "Dependency",
+          "Constituency"
+        ],
+        "extra": {
+          "length-difference":  "5",
+          "const-tree-depth-diff": "2",
+          "deprel-tree-depth-diff": "1"
+        }
+      }
+    }
+  }
+}

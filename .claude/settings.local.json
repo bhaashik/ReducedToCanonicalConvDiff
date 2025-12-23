@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "WebSearch",
-      "WebFetch(domain:soas-repository.worktribe.com)"
+      "WebFetch(domain:soas-repository.worktribe.com)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

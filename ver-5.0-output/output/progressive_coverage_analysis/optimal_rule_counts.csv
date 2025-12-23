@@ -1,0 +1,4 @@
+Newspaper,Optimal (F1),Coverage @ Opt,Accuracy @ Opt,F1-Score,Optimal (Weighted F1),Coverage @ Weighted,Accuracy @ Weighted
+Times-of-India,83,94.3%,91.8%,93.0,1,32.1%,94.7%
+Hindustan-Times,75,86.6%,88.9%,87.7,1,29.5%,91.2%
+The-Hindu,80,76.2%,92.0%,83.3,1,24.7%,94.3%

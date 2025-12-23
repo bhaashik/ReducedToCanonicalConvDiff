@@ -1,0 +1,790 @@
+{
+  "morph_systematicity": {
+    "Tense": {
+      "total_instances": 3023,
+      "unique_patterns": 3,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "Tense::Past→ABSENT@VERB",
+          "frequency": 1830,
+          "consistency": 1.0,
+          "percentage": 60.535891498511404
+        },
+        {
+          "pattern": "Tense::Pres→ABSENT@VERB",
+          "frequency": 1150,
+          "consistency": 1.0,
+          "percentage": 38.04168044988422
+        },
+        {
+          "pattern": "Tense::ABSENT→Past@NOUN",
+          "frequency": 43,
+          "consistency": 1.0,
+          "percentage": 1.4224280516043666
+        }
+      ]
+    },
+    "VerbForm": {
+      "total_instances": 5076,
+      "unique_patterns": 6,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "VerbForm::Fin→ABSENT@VERB",
+          "frequency": 2801,
+          "consistency": 1.0,
+          "percentage": 55.1812450748621
+        },
+        {
+          "pattern": "VerbForm::Part→ABSENT@VERB",
+          "frequency": 1053,
+          "consistency": 1.0,
+          "percentage": 20.74468085106383
+        },
+        {
+          "pattern": "VerbForm::Inf→ABSENT@VERB",
+          "frequency": 938,
+          "consistency": 1.0,
+          "percentage": 18.479117415287625
+        },
+        {
+          "pattern": "VerbForm::Ger→ABSENT@VERB",
+          "frequency": 203,
+          "consistency": 1.0,
+          "percentage": 3.9992119779353823
+        },
+        {
+          "pattern": "VerbForm::ABSENT→Part@NOUN",
+          "frequency": 43,
+          "consistency": 1.0,
+          "percentage": 0.847123719464145
+        },
+        {
+          "pattern": "VerbForm::Part→Ger@VERB",
+          "frequency": 38,
+          "consistency": 1.0,
+          "percentage": 0.7486209613869189
+        }
+      ]
+    },
+    "Number": {
+      "total_instances": 8441,
+      "unique_patterns": 14,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "Number::ABSENT→Sing@VERB",
+          "frequency": 2445,
+          "consistency": 1.0,
+          "percentage": 28.96576235043241
+        },
+        {
+          "pattern": "Number::ABSENT→Sing@ADJ",
+          "frequency": 1766,
+          "consistency": 1.0,
+          "percentage": 20.921691742684516
+        },
+        {
+          "pattern": "Number::Plur→Sing@NOUN",
+          "frequency": 1294,
+          "consistency": 1.0,
+          "percentage": 15.329937211230895
+        },
+        {
+          "pattern": "Number::Sing→ABSENT@PROPN",
+          "frequency": 757,
+          "consistency": 1.0,
+          "percentage": 8.968131737945741
+        },
+        {
+          "pattern": "Number::Sing→ABSENT@NOUN",
+          "frequency": 668,
+          "consistency": 1.0,
+          "percentage": 7.913754294514868
+        },
+        {
+          "pattern": "Number::ABSENT→Plur@VERB",
+          "frequency": 417,
+          "consistency": 1.0,
+          "percentage": 4.940172965288473
+        },
+        {
+          "pattern": "Number::Sing→Plur@PROPN",
+          "frequency": 215,
+          "consistency": 1.0,
+          "percentage": 2.54709157682739
+        },
+        {
+          "pattern": "Number::Plur→ABSENT@NOUN",
+          "frequency": 188,
+          "consistency": 1.0,
+          "percentage": 2.2272242625281367
+        },
+        {
+          "pattern": "Number::ABSENT→Plur@ADJ",
+          "frequency": 183,
+          "consistency": 1.0,
+          "percentage": 2.1679895746949414
+        },
+        {
+          "pattern": "Number::Sing→ABSENT@VERB",
+          "frequency": 149,
+          "consistency": 1.0,
+          "percentage": 1.7651936974292146
+        },
+        {
+          "pattern": "Number::Plur→Sing@VERB",
+          "frequency": 133,
+          "consistency": 1.0,
+          "percentage": 1.5756426963629901
+        },
+        {
+          "pattern": "Number::Sing→Plur@NOUN",
+          "frequency": 122,
+          "consistency": 1.0,
+          "percentage": 1.4453263831299608
+        },
+        {
+          "pattern": "Number::Plur→Sing@PROPN",
+          "frequency": 71,
+          "consistency": 1.0,
+          "percentage": 0.8411325672313708
+        },
+        {
+          "pattern": "Number::Plur→Ptan@NOUN",
+          "frequency": 33,
+          "consistency": 1.0,
+          "percentage": 0.3909489396990878
+        }
+      ]
+    },
+    "Person": {
+      "total_instances": 1831,
+      "unique_patterns": 3,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "Person::1→ABSENT@VERB",
+          "frequency": 1375,
+          "consistency": 1.0,
+          "percentage": 75.09557618787548
+        },
+        {
+          "pattern": "Person::3→ABSENT@VERB",
+          "frequency": 387,
+          "consistency": 1.0,
+          "percentage": 21.13599126160568
+        },
+        {
+          "pattern": "Person::2→ABSENT@VERB",
+          "frequency": 69,
+          "consistency": 1.0,
+          "percentage": 3.7684325505188423
+        }
+      ]
+    },
+    "Mood": {
+      "total_instances": 2837,
+      "unique_patterns": 2,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "Mood::Ind→ABSENT@VERB",
+          "frequency": 1888,
+          "consistency": 1.0,
+          "percentage": 66.54917166020444
+        },
+        {
+          "pattern": "Mood::Imp→ABSENT@VERB",
+          "frequency": 949,
+          "consistency": 1.0,
+          "percentage": 33.45082833979556
+        }
+      ]
+    },
+    "Voice": {
+      "total_instances": 805,
+      "unique_patterns": 1,
+      "deterministic_percentage": 100.0,
+      "top_patterns": [
+        {
+          "pattern": "Voice::Pass→ABSENT@VERB",
+          "frequency": 805,
+          "consistency": 1.0,
+          "percentage": 100.0
+        }
+      ]
+    }
+  },
+  "verb_analysis": {
+    "total_verb_transformations": 17024,
+    "tense_changes": 2980,
+    "verbform_changes": 5033,
+    "aspect_changes": 0,
+    "verbform_patterns": {
+      "Fin → ABSENT": 2801,
+      "Part → ABSENT": 1053,
+      "Inf → ABSENT": 938,
+      "Ger → ABSENT": 203,
+      "Part → Ger": 38
+    },
+    "tense_patterns": {
+      "Past → ABSENT": 1830,
+      "Pres → ABSENT": 1150
+    },
+    "verbform_with_aux": {
+      "Inf → ABSENT": 752,
+      "Fin → ABSENT": 272,
+      "Part → ABSENT": 103
+    },
+    "verbform_without_aux": {
+      "Fin → ABSENT": 2529,
+      "Part → ABSENT": 950,
+      "Ger → ABSENT": 203,
+      "Inf → ABSENT": 186,
+      "Part → Ger": 38
+    }
+  },
+  "noun_analysis": {
+    "total_noun_transformations": 5071,
+    "number_changes": 3348,
+    "number_patterns": {
+      "Sing → ABSENT": 1425,
+      "Plur → Sing": 1365,
+      "Sing → Plur": 337,
+      "Plur → ABSENT": 188,
+      "Plur → Ptan": 33
+    }
+  },
+  "morphological_rules": {
+    "Mood": [
+      {
+        "feature": "Mood",
+        "pos": "VERB",
+        "headline_value": "Ind",
+        "canonical_value": "ABSENT",
+        "frequency": 1888,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Mood=Ind, change to ABSENT"
+      },
+      {
+        "feature": "Mood",
+        "pos": "VERB",
+        "headline_value": "Imp",
+        "canonical_value": "ABSENT",
+        "frequency": 949,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Mood=Imp, change to ABSENT"
+      }
+    ],
+    "Person": [
+      {
+        "feature": "Person",
+        "pos": "VERB",
+        "headline_value": "1",
+        "canonical_value": "ABSENT",
+        "frequency": 1375,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Person=1, change to ABSENT"
+      },
+      {
+        "feature": "Person",
+        "pos": "VERB",
+        "headline_value": "3",
+        "canonical_value": "ABSENT",
+        "frequency": 387,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Person=3, change to ABSENT"
+      },
+      {
+        "feature": "Person",
+        "pos": "VERB",
+        "headline_value": "2",
+        "canonical_value": "ABSENT",
+        "frequency": 69,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Person=2, change to ABSENT"
+      }
+    ],
+    "Number": [
+      {
+        "feature": "Number",
+        "pos": "VERB",
+        "headline_value": "ABSENT",
+        "canonical_value": "Sing",
+        "frequency": 2445,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False"
+        },
+        "rule_description": "When VERB has Number=ABSENT, change to Sing"
+      },
+      {
+        "feature": "Number",
+        "pos": "ADJ",
+        "headline_value": "ABSENT",
+        "canonical_value": "Sing",
+        "frequency": 1766,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Number=ABSENT, change to Sing"
+      },
+      {
+        "feature": "Number",
+        "pos": "NOUN",
+        "headline_value": "Plur",
+        "canonical_value": "Sing",
+        "frequency": 1294,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Number=Plur, change to Sing"
+      },
+      {
+        "feature": "Number",
+        "pos": "PROPN",
+        "headline_value": "Sing",
+        "canonical_value": "ABSENT",
+        "frequency": 757,
+        "context": {
+          "is_proper_noun": "True",
+          "has_aux": "False"
+        },
+        "rule_description": "When PROPN has Number=Sing, change to ABSENT"
+      },
+      {
+        "feature": "Number",
+        "pos": "NOUN",
+        "headline_value": "Sing",
+        "canonical_value": "ABSENT",
+        "frequency": 668,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Number=Sing, change to ABSENT"
+      },
+      {
+        "feature": "Number",
+        "pos": "VERB",
+        "headline_value": "ABSENT",
+        "canonical_value": "Plur",
+        "frequency": 417,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Number=ABSENT, change to Plur"
+      },
+      {
+        "feature": "Number",
+        "pos": "PROPN",
+        "headline_value": "Sing",
+        "canonical_value": "Plur",
+        "frequency": 215,
+        "context": {
+          "is_proper_noun": "True",
+          "has_aux": "False"
+        },
+        "rule_description": "When PROPN has Number=Sing, change to Plur"
+      },
+      {
+        "feature": "Number",
+        "pos": "NOUN",
+        "headline_value": "Plur",
+        "canonical_value": "ABSENT",
+        "frequency": 188,
+        "context": {
+          "dep_rel": "nsubj",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Number=Plur, change to ABSENT"
+      },
+      {
+        "feature": "Number",
+        "pos": "ADJ",
+        "headline_value": "ABSENT",
+        "canonical_value": "Plur",
+        "frequency": 183,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Number=ABSENT, change to Plur"
+      },
+      {
+        "feature": "Number",
+        "pos": "VERB",
+        "headline_value": "Sing",
+        "canonical_value": "ABSENT",
+        "frequency": 149,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Number=Sing, change to ABSENT"
+      },
+      {
+        "feature": "Number",
+        "pos": "VERB",
+        "headline_value": "Plur",
+        "canonical_value": "Sing",
+        "frequency": 133,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Number=Plur, change to Sing"
+      },
+      {
+        "feature": "Number",
+        "pos": "NOUN",
+        "headline_value": "Sing",
+        "canonical_value": "Plur",
+        "frequency": 122,
+        "context": {
+          "dep_rel": "compound",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Number=Sing, change to Plur"
+      },
+      {
+        "feature": "Number",
+        "pos": "PROPN",
+        "headline_value": "Plur",
+        "canonical_value": "Sing",
+        "frequency": 71,
+        "context": {
+          "is_proper_noun": "True",
+          "has_aux": "False"
+        },
+        "rule_description": "When PROPN has Number=Plur, change to Sing"
+      },
+      {
+        "feature": "Number",
+        "pos": "NOUN",
+        "headline_value": "Plur",
+        "canonical_value": "Ptan",
+        "frequency": 33,
+        "context": {
+          "dep_rel": "nsubj",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Number=Plur, change to Ptan"
+      }
+    ],
+    "Tense": [
+      {
+        "feature": "Tense",
+        "pos": "VERB",
+        "headline_value": "Past",
+        "canonical_value": "ABSENT",
+        "frequency": 1830,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Tense=Past, change to ABSENT"
+      },
+      {
+        "feature": "Tense",
+        "pos": "VERB",
+        "headline_value": "Pres",
+        "canonical_value": "ABSENT",
+        "frequency": 1150,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Tense=Pres, change to ABSENT"
+      },
+      {
+        "feature": "Tense",
+        "pos": "NOUN",
+        "headline_value": "ABSENT",
+        "canonical_value": "Past",
+        "frequency": 43,
+        "context": {
+          "dep_rel": "compound",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Tense=ABSENT, change to Past"
+      }
+    ],
+    "VerbForm": [
+      {
+        "feature": "VerbForm",
+        "pos": "VERB",
+        "headline_value": "Fin",
+        "canonical_value": "ABSENT",
+        "frequency": 2801,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has VerbForm=Fin, change to ABSENT"
+      },
+      {
+        "feature": "VerbForm",
+        "pos": "VERB",
+        "headline_value": "Part",
+        "canonical_value": "ABSENT",
+        "frequency": 1053,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has VerbForm=Part, change to ABSENT"
+      },
+      {
+        "feature": "VerbForm",
+        "pos": "VERB",
+        "headline_value": "Inf",
+        "canonical_value": "ABSENT",
+        "frequency": 938,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "True"
+        },
+        "rule_description": "When VERB has VerbForm=Inf, change to ABSENT"
+      },
+      {
+        "feature": "VerbForm",
+        "pos": "VERB",
+        "headline_value": "Ger",
+        "canonical_value": "ABSENT",
+        "frequency": 203,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has VerbForm=Ger, change to ABSENT"
+      },
+      {
+        "feature": "VerbForm",
+        "pos": "NOUN",
+        "headline_value": "ABSENT",
+        "canonical_value": "Part",
+        "frequency": 43,
+        "context": {
+          "dep_rel": "compound",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has VerbForm=ABSENT, change to Part"
+      },
+      {
+        "feature": "VerbForm",
+        "pos": "VERB",
+        "headline_value": "Part",
+        "canonical_value": "Ger",
+        "frequency": 38,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has VerbForm=Part, change to Ger"
+      }
+    ],
+    "Degree": [
+      {
+        "feature": "Degree",
+        "pos": "ADJ",
+        "headline_value": "Pos",
+        "canonical_value": "ABSENT",
+        "frequency": 1828,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Degree=Pos, change to ABSENT"
+      },
+      {
+        "feature": "Degree",
+        "pos": "NOUN",
+        "headline_value": "ABSENT",
+        "canonical_value": "Pos",
+        "frequency": 813,
+        "context": {
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has Degree=ABSENT, change to Pos"
+      },
+      {
+        "feature": "Degree",
+        "pos": "PROPN",
+        "headline_value": "ABSENT",
+        "canonical_value": "Pos",
+        "frequency": 757,
+        "context": {
+          "is_proper_noun": "True",
+          "has_aux": "False"
+        },
+        "rule_description": "When PROPN has Degree=ABSENT, change to Pos"
+      },
+      {
+        "feature": "Degree",
+        "pos": "VERB",
+        "headline_value": "ABSENT",
+        "canonical_value": "Pos",
+        "frequency": 394,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Degree=ABSENT, change to Pos"
+      },
+      {
+        "feature": "Degree",
+        "pos": "ADJ",
+        "headline_value": "Cmp",
+        "canonical_value": "ABSENT",
+        "frequency": 98,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Degree=Cmp, change to ABSENT"
+      },
+      {
+        "feature": "Degree",
+        "pos": "ADJ",
+        "headline_value": "Cmp",
+        "canonical_value": "Pos",
+        "frequency": 37,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Degree=Cmp, change to Pos"
+      },
+      {
+        "feature": "Degree",
+        "pos": "ADJ",
+        "headline_value": "Sup",
+        "canonical_value": "ABSENT",
+        "frequency": 23,
+        "context": {
+          "dep_rel": "amod",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has Degree=Sup, change to ABSENT"
+      }
+    ],
+    "Voice": [
+      {
+        "feature": "Voice",
+        "pos": "VERB",
+        "headline_value": "Pass",
+        "canonical_value": "ABSENT",
+        "frequency": 805,
+        "context": {
+          "dep_rel": "root",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When VERB has Voice=Pass, change to ABSENT"
+      }
+    ],
+    "NumType": [
+      {
+        "feature": "NumType",
+        "pos": "ADJ",
+        "headline_value": "Ord",
+        "canonical_value": "ABSENT",
+        "frequency": 103,
+        "context": {
+          "dep_rel": "amod",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has NumType=Ord, change to ABSENT"
+      }
+    ],
+    "NumForm": [
+      {
+        "feature": "NumForm",
+        "pos": "ADJ",
+        "headline_value": "Combi",
+        "canonical_value": "ABSENT",
+        "frequency": 103,
+        "context": {
+          "dep_rel": "amod",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When ADJ has NumForm=Combi, change to ABSENT"
+      },
+      {
+        "feature": "NumForm",
+        "pos": "NOUN",
+        "headline_value": "Combi",
+        "canonical_value": "Word",
+        "frequency": 37,
+        "context": {
+          "dep_rel": "compound",
+          "is_proper_noun": "False",
+          "has_aux": "False"
+        },
+        "rule_description": "When NOUN has NumForm=Combi, change to Word"
+      }
+    ],
+    "Abbr": [
+      {
+        "feature": "Abbr",
+        "pos": "PROPN",
+        "headline_value": "Yes",
+        "canonical_value": "ABSENT",
+        "frequency": 30,
+        "context": {
+          "dep_rel": "compound",
+          "is_proper_noun": "True",
+          "has_aux": "False"
+        },
+        "rule_description": "When PROPN has Abbr=Yes, change to ABSENT"
+      }
+    ]
+  },
+  "total_transformations": 26236
+}

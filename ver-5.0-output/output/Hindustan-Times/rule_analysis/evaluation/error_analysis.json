@@ -1,0 +1,167 @@
+{
+  "total_errors": 21623,
+  "errors_by_type": {
+    "default": {
+      "count": 14558,
+      "examples": [
+        {
+          "feature": "FW-DEL",
+          "predicted": "AUX-DEL",
+          "actual": "ART-DEL",
+          "headline": "ABSENT"
+        },
+        {
+          "feature": "FW-DEL",
+          "predicted": "AUX-DEL",
+          "actual": "CCONJ-DEL",
+          "headline": "ABSENT"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "det",
+          "actual": "nsubj",
+          "headline": "mark"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "det",
+          "actual": "aux",
+          "headline": "acl"
+        },
+        {
+          "feature": "DEP-REL-CHG",
+          "predicted": "det",
+          "actual": "root",
+          "headline": "nummod"
+        }
+      ]
+    },
+    "none": {
+      "count": 4788,
+      "examples": [
+        {
+          "feature": "LENGTH-CHG",
+          "predicted": "13",
+          "actual": "15",
+          "headline": "13"
+        },
+        {
+          "feature": "CONST-ADD",
+          "predicted": "SBAR-ADD",
+          "actual": "ABSENT",
+          "headline": "SBAR-ADD"
+        },
+        {
+          "feature": "TED-ZHANG-SHASHA",
+          "predicted": "21",
+          "actual": "21",
+          "headline": "21"
+        },
+        {
+          "feature": "TED-KLEIN",
+          "predicted": "13",
+          "actual": "13",
+          "headline": "13"
+        },
+        {
+          "feature": "TED-RTED",
+          "predicted": "18",
+          "actual": "18",
+          "headline": "18"
+        }
+      ]
+    },
+    "syntactic": {
+      "count": 1935,
+      "examples": [
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CLAUSE-TYPE-CHG",
+          "predicted": "Fin",
+          "actual": "Part",
+          "headline": "Fin"
+        }
+      ]
+    },
+    "lexical": {
+      "count": 342,
+      "examples": [
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        },
+        {
+          "feature": "CONST-MOV",
+          "predicted": "CONST-FRONT",
+          "actual": "CONST-POST",
+          "headline": "CONST-POST"
+        }
+      ]
+    }
+  },
+  "errors_by_feature": {
+    "FW-DEL": 2036,
+    "DEP-REL-CHG": 10518,
+    "LENGTH-CHG": 1136,
+    "CONST-ADD": 114,
+    "CONST-MOV": 1294,
+    "TED-ZHANG-SHASHA": 783,
+    "TED-KLEIN": 783,
+    "TED-RTED": 1141,
+    "FW-ADD": 266,
+    "C-DEL": 806,
+    "FORM-CHG": 61,
+    "FEAT-CHG": 108,
+    "CLAUSE-TYPE-CHG": 1986,
+    "HEAD-CHG": 279,
+    "CONST-REM": 181,
+    "TED-SIMPLE": 14,
+    "VERB-FORM-CHG": 13,
+    "POS-CHG": 84,
+    "TOKEN-REORDER": 3,
+    "LEMMA-CHG": 17
+  }
+}

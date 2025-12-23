@@ -1,0 +1,4 @@
+Newspaper,Morph Rules,Coverage (No Morph),Coverage (With Morph),Coverage Improvement,F1 (No Morph),F1 (With Morph),F1 Improvement,Opt Rules (No Morph),Opt Rules (With Morph)
+Times-of-India,54,94.3%,135.9%,+41.6%,93.0,111.3,+18.3,83,137
+Hindustan-Times,40,86.6%,152.3%,+65.7%,87.7,116.0,+28.3,75,115
+The-Hindu,62,76.2%,106.3%,+30.1%,83.3,99.9,+16.6,80,142

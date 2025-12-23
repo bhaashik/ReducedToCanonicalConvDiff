@@ -1,0 +1,2080 @@
+{
+  "by_granularity": {
+    "minimal": {
+      "granularity": "minimal",
+      "total_patterns": 878,
+      "total_events": 21345,
+      "deterministic_events": 11633,
+      "systematic_events": 12385,
+      "deterministic_percentage": 54.49988287655189,
+      "systematic_percentage": 58.02295619583041,
+      "top_patterns": [
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN",
+          "instances": 2366,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN",
+          "instances": 1927,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN",
+          "instances": 729,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5075445816186557,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN",
+          "instances": 605,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5074380165289256,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ",
+          "instances": 537,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB",
+          "instances": 444,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN",
+          "instances": 344,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN",
+          "instances": 338,
+          "unique_outcomes": 24,
+          "most_common": "nsubj",
+          "consistency": 0.26627218934911245,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN",
+          "instances": 323,
+          "unique_outcomes": 27,
+          "most_common": "root",
+          "consistency": 0.15170278637770898,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN",
+          "instances": 317,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7381703470031545,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@PROPN",
+          "instances": 280,
+          "unique_outcomes": 27,
+          "most_common": "det",
+          "consistency": 0.26785714285714285,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN",
+          "instances": 270,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN",
+          "instances": 263,
+          "unique_outcomes": 19,
+          "most_common": "nsubj",
+          "consistency": 0.25475285171102663,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN",
+          "instances": 256,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.69921875,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@NOUN",
+          "instances": 237,
+          "unique_outcomes": 26,
+          "most_common": "root",
+          "consistency": 0.15611814345991562,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@NOUN",
+          "instances": 223,
+          "unique_outcomes": 23,
+          "most_common": "det",
+          "consistency": 0.2645739910313901,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@PROPN",
+          "instances": 209,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "C-DEL::ABSENT@PROPN",
+          "instances": 177,
+          "unique_outcomes": 4,
+          "most_common": "VERB-DEL",
+          "consistency": 0.4915254237288136,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "C-DEL::ABSENT@NOUN",
+          "instances": 175,
+          "unique_outcomes": 4,
+          "most_common": "VERB-DEL",
+          "consistency": 0.5314285714285715,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@ADJ",
+          "instances": 171,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.4853801169590643,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nsubj@PROPN",
+          "instances": 165,
+          "unique_outcomes": 23,
+          "most_common": "det",
+          "consistency": 0.3696969696969697,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nmod@PROPN",
+          "instances": 163,
+          "unique_outcomes": 17,
+          "most_common": "case",
+          "consistency": 0.2392638036809816,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::punct@PROPN",
+          "instances": 161,
+          "unique_outcomes": 26,
+          "most_common": "compound",
+          "consistency": 0.15527950310559005,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::obl@PROPN",
+          "instances": 157,
+          "unique_outcomes": 24,
+          "most_common": "case",
+          "consistency": 0.29936305732484075,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::obj@PROPN",
+          "instances": 152,
+          "unique_outcomes": 19,
+          "most_common": "root",
+          "consistency": 0.23684210526315788,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@VERB",
+          "instances": 145,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.4827586206896552,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Part@PROPN",
+          "instances": 138,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::obj@NOUN",
+          "instances": 132,
+          "unique_outcomes": 21,
+          "most_common": "root",
+          "consistency": 0.22727272727272727,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Part@NOUN",
+          "instances": 130,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::punct@NOUN",
+          "instances": 125,
+          "unique_outcomes": 21,
+          "most_common": "case",
+          "consistency": 0.12,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nmod@NOUN",
+          "instances": 121,
+          "unique_outcomes": 16,
+          "most_common": "case",
+          "consistency": 0.256198347107438,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Inf@NOUN",
+          "instances": 117,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-REM::ABSENT@PROPN",
+          "instances": 112,
+          "unique_outcomes": 7,
+          "most_common": "VP-REM",
+          "consistency": 0.5714285714285714,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::obl@NOUN",
+          "instances": 111,
+          "unique_outcomes": 20,
+          "most_common": "case",
+          "consistency": 0.27927927927927926,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::amod@PROPN",
+          "instances": 109,
+          "unique_outcomes": 24,
+          "most_common": "case",
+          "consistency": 0.1834862385321101,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Inf@PROPN",
+          "instances": 108,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@NOUN",
+          "instances": 107,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-REM::ABSENT@NOUN",
+          "instances": 102,
+          "unique_outcomes": 7,
+          "most_common": "VP-REM",
+          "consistency": 0.5,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::amod@NOUN",
+          "instances": 94,
+          "unique_outcomes": 23,
+          "most_common": "case",
+          "consistency": 0.18085106382978725,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nsubj@NOUN",
+          "instances": 91,
+          "unique_outcomes": 13,
+          "most_common": "det",
+          "consistency": 0.45054945054945056,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@ADJ",
+          "instances": 79,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@ADJ",
+          "instances": 78,
+          "unique_outcomes": 14,
+          "most_common": "aux",
+          "consistency": 0.24358974358974358,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@ADJ",
+          "instances": 78,
+          "unique_outcomes": 17,
+          "most_common": "root",
+          "consistency": 0.23076923076923078,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@VERB",
+          "instances": 73,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::mark@PROPN",
+          "instances": 73,
+          "unique_outcomes": 17,
+          "most_common": "aux",
+          "consistency": 0.2602739726027397,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::verbless@PROPN",
+          "instances": 72,
+          "unique_outcomes": 1,
+          "most_common": "verbal",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@VERB",
+          "instances": 70,
+          "unique_outcomes": 14,
+          "most_common": "nsubj",
+          "consistency": 0.24285714285714285,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@VERB",
+          "instances": 70,
+          "unique_outcomes": 18,
+          "most_common": "root",
+          "consistency": 0.2,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::acl@PROPN",
+          "instances": 70,
+          "unique_outcomes": 17,
+          "most_common": "aux",
+          "consistency": 0.3,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "LENGTH-CHG::7@PROPN",
+          "instances": 67,
+          "unique_outcomes": 7,
+          "most_common": "10",
+          "consistency": 0.29850746268656714,
+          "is_deterministic": false
+        }
+      ]
+    },
+    "lexical": {
+      "granularity": "lexical",
+      "total_patterns": 12740,
+      "total_events": 21345,
+      "deterministic_events": 17296,
+      "systematic_events": 17552,
+      "deterministic_percentage": 81.03068634340595,
+      "systematic_percentage": 82.23003045209651,
+      "top_patterns": [
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:man:False",
+          "instances": 105,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:year:False",
+          "instances": 70,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:India:True",
+          "instances": 48,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:person:False",
+          "instances": 45,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:BJP:True",
+          "instances": 43,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:new:False",
+          "instances": 40,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:man:False",
+          "instances": 39,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.6410256410256411,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:go:False",
+          "instances": 37,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:woman:False",
+          "instances": 33,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:child:False",
+          "instances": 33,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:mosquito:False",
+          "instances": 33,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:Allepey:True",
+          "instances": 32,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:hassan:True",
+          "instances": 31,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:New:False",
+          "instances": 31,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:HC:True",
+          "instances": 30,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:mangaluru:True",
+          "instances": 30,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:Govt.:True",
+          "instances": 29,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:CM:True",
+          "instances": 29,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:more:False",
+          "instances": 28,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:good:False",
+          "instances": 27,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:IFFK:True",
+          "instances": 27,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:role:False",
+          "instances": 26,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:arrest:False",
+          "instances": 25,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:warangal:True",
+          "instances": 25,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:hold:False",
+          "instances": 24,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:day:False",
+          "instances": 23,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN:man:False",
+          "instances": 23,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7391304347826086,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADV:briefly:False",
+          "instances": 23,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:p.m.:False",
+          "instances": 23,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:state:False",
+          "instances": 22,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:mysuru:False",
+          "instances": 22,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:free:False",
+          "instances": 21,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:cpi:True",
+          "instances": 21,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:Award:False",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:shivamogga:True",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:Kerala:True",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:kadapa:True",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:Race:False",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:AVC:True",
+          "instances": 20,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:kozhikode:True",
+          "instances": 19,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:kolkata:True",
+          "instances": 19,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:tamil:False",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:judgement:False",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:dindigul:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:salem:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:vellore:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:Book:False",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:thiruvananthapuram:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:tirupati:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:visakhapatnam:True",
+          "instances": 18,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        }
+      ]
+    },
+    "syntactic": {
+      "granularity": "syntactic",
+      "total_patterns": 3715,
+      "total_events": 21345,
+      "deterministic_events": 12573,
+      "systematic_events": 13199,
+      "deterministic_percentage": 58.903724525650034,
+      "systematic_percentage": 61.83649566643242,
+      "top_patterns": [
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:root:None:initial:False",
+          "instances": 1018,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:nsubj:VERB:initial:False",
+          "instances": 508,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:initial:False",
+          "instances": 461,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:VERB:initial:False",
+          "instances": 415,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:compound:NOUN:initial:False",
+          "instances": 382,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:compound:NOUN:initial:False",
+          "instances": 378,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:root:None:initial:False",
+          "instances": 316,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5221518987341772,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:NOUN:initial:False",
+          "instances": 262,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:initial:False",
+          "instances": 197,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:nsubj:VERB:initial:False",
+          "instances": 160,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.48125,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:root:None:initial:False",
+          "instances": 143,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:root:None:initial:False",
+          "instances": 142,
+          "unique_outcomes": 18,
+          "most_common": "nsubj",
+          "consistency": 0.2323943661971831,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:compound:NOUN:initial:False",
+          "instances": 137,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5328467153284672,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:root:None:initial:False",
+          "instances": 136,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5147058823529411,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:root:None:initial:False",
+          "instances": 134,
+          "unique_outcomes": 21,
+          "most_common": "root",
+          "consistency": 0.17164179104477612,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@PROPN:root:None:initial:False",
+          "instances": 134,
+          "unique_outcomes": 23,
+          "most_common": "det",
+          "consistency": 0.30597014925373134,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:medial:False",
+          "instances": 133,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:NOUN:medial:False",
+          "instances": 130,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:compound:NOUN:initial:False",
+          "instances": 124,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.532258064516129,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:root:None:initial:False",
+          "instances": 124,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7741935483870968,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:nsubj:VERB:initial:False",
+          "instances": 123,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5203252032520326,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:compound:PROPN:initial:False",
+          "instances": 117,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:compound:NOUN:medial:False",
+          "instances": 113,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:medial:False",
+          "instances": 109,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@ADJ:amod:NOUN:initial:False",
+          "instances": 84,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5238095238095238,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:nsubj:VERB:initial:False",
+          "instances": 80,
+          "unique_outcomes": 24,
+          "most_common": "root",
+          "consistency": 0.175,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:PROPN:initial:False",
+          "instances": 80,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::nmod@PROPN:root:None:initial:False",
+          "instances": 77,
+          "unique_outcomes": 14,
+          "most_common": "case",
+          "consistency": 0.2077922077922078,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:nsubj:VERB:initial:False",
+          "instances": 74,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:nsubj:VERB:initial:False",
+          "instances": 73,
+          "unique_outcomes": 16,
+          "most_common": "nsubj",
+          "consistency": 0.3287671232876712,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "C-DEL::ABSENT@PROPN:root:None:initial:False",
+          "instances": 73,
+          "unique_outcomes": 4,
+          "most_common": "VERB-DEL",
+          "consistency": 0.6301369863013698,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:pass:VERB:initial:False",
+          "instances": 72,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:nsubj:VERB:initial:False",
+          "instances": 71,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7183098591549296,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nsubj@PROPN:root:None:initial:False",
+          "instances": 69,
+          "unique_outcomes": 14,
+          "most_common": "det",
+          "consistency": 0.2898550724637681,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@VERB:root:None:initial:False",
+          "instances": 67,
+          "unique_outcomes": 4,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5373134328358209,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::punct@PROPN:root:None:initial:False",
+          "instances": 65,
+          "unique_outcomes": 18,
+          "most_common": "compound",
+          "consistency": 0.16923076923076924,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@PROPN:root:None:initial:False",
+          "instances": 63,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Part@PROPN:root:None:initial:False",
+          "instances": 63,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:compound:NOUN:initial:False",
+          "instances": 62,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:nsubj:VERB:medial:False",
+          "instances": 61,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:compound:NOUN:initial:False",
+          "instances": 60,
+          "unique_outcomes": 14,
+          "most_common": "nsubj",
+          "consistency": 0.21666666666666667,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN:root:None:initial:False",
+          "instances": 60,
+          "unique_outcomes": 13,
+          "most_common": "nsubj:pass",
+          "consistency": 0.23333333333333334,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:compound:NOUN:initial:False",
+          "instances": 60,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::obl@PROPN:root:None:initial:False",
+          "instances": 60,
+          "unique_outcomes": 15,
+          "most_common": "case",
+          "consistency": 0.26666666666666666,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@NOUN:root:None:initial:False",
+          "instances": 59,
+          "unique_outcomes": 20,
+          "most_common": "root",
+          "consistency": 0.15254237288135594,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@NOUN:compound:NOUN:initial:False",
+          "instances": 58,
+          "unique_outcomes": 16,
+          "most_common": "root",
+          "consistency": 0.1896551724137931,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:compound:NOUN:initial:False",
+          "instances": 58,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:nsubj:VERB:initial:False",
+          "instances": 58,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN:nsubj:VERB:initial:False",
+          "instances": 57,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.631578947368421,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:root:None:initial:False",
+          "instances": 56,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        }
+      ]
+    },
+    "phrasal": {
+      "granularity": "phrasal",
+      "total_patterns": 2216,
+      "total_events": 21345,
+      "deterministic_events": 11996,
+      "systematic_events": 12727,
+      "deterministic_percentage": 56.200515343171695,
+      "systematic_percentage": 59.6252049660342,
+      "top_patterns": [
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:root:None:None:None",
+          "instances": 1064,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:nsubj:None:None:None",
+          "instances": 634,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:None:None",
+          "instances": 614,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:compound:None:None:None",
+          "instances": 560,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:None:None:None",
+          "instances": 559,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:compound:None:None:None",
+          "instances": 550,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:None:None:None",
+          "instances": 476,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:None:None",
+          "instances": 330,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:root:None:None:None",
+          "instances": 323,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5170278637770898,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:nsubj:None:None:None",
+          "instances": 200,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.47,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:compound:None:None:None",
+          "instances": 194,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5154639175257731,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:root:None:None:None",
+          "instances": 182,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:compound:None:None:None",
+          "instances": 181,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5193370165745856,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:nsubj:None:None:None",
+          "instances": 160,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5125,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:root:None:None:None",
+          "instances": 149,
+          "unique_outcomes": 18,
+          "most_common": "nsubj",
+          "consistency": 0.2550335570469799,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:root:None:None:None",
+          "instances": 149,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@ADJ:amod:None:None:None",
+          "instances": 144,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5069444444444444,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:root:None:None:None",
+          "instances": 140,
+          "unique_outcomes": 21,
+          "most_common": "root",
+          "consistency": 0.17142857142857143,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@PROPN:root:None:None:None",
+          "instances": 138,
+          "unique_outcomes": 23,
+          "most_common": "det",
+          "consistency": 0.3115942028985507,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:root:None:None:None",
+          "instances": 127,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7559055118110236,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:pass:None:None:None",
+          "instances": 115,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@VERB:root:None:None:None",
+          "instances": 111,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.4954954954954955,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:compound:None:None:None",
+          "instances": 98,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7448979591836735,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:nsubj:None:None:None",
+          "instances": 96,
+          "unique_outcomes": 24,
+          "most_common": "root",
+          "consistency": 0.16666666666666666,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:nsubj:None:None:None",
+          "instances": 92,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:compound:None:None:None",
+          "instances": 90,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:nsubj:None:None:None",
+          "instances": 89,
+          "unique_outcomes": 18,
+          "most_common": "nsubj",
+          "consistency": 0.3146067415730337,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:compound:None:None:None",
+          "instances": 89,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:compound:None:None:None",
+          "instances": 86,
+          "unique_outcomes": 15,
+          "most_common": "nsubj",
+          "consistency": 0.22093023255813954,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:nsubj:None:None:None",
+          "instances": 85,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.6941176470588235,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN:compound:None:None:None",
+          "instances": 81,
+          "unique_outcomes": 13,
+          "most_common": "nsubj",
+          "consistency": 0.24691358024691357,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nmod@PROPN:root:None:None:None",
+          "instances": 79,
+          "unique_outcomes": 14,
+          "most_common": "case",
+          "consistency": 0.21518987341772153,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN:root:None:None:None",
+          "instances": 78,
+          "unique_outcomes": 15,
+          "most_common": "nsubj:pass",
+          "consistency": 0.2564102564102564,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN:nsubj:None:None:None",
+          "instances": 78,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.6538461538461539,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN:compound:None:None:None",
+          "instances": 77,
+          "unique_outcomes": 2,
+          "most_common": "Part",
+          "consistency": 0.7272727272727273,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:root:None:None:None",
+          "instances": 76,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@NOUN:root:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 21,
+          "most_common": "root",
+          "consistency": 0.16216216216216217,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@NOUN:root:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7297297297297297,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:nsubj:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@NOUN:compound:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 20,
+          "most_common": "root",
+          "consistency": 0.1891891891891892,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@PROPN:compound:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "C-DEL::ABSENT@PROPN:root:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 4,
+          "most_common": "VERB-DEL",
+          "consistency": 0.6351351351351351,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::punct@PROPN:root:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 19,
+          "most_common": "det",
+          "consistency": 0.16216216216216217,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nsubj@PROPN:root:None:None:None",
+          "instances": 74,
+          "unique_outcomes": 14,
+          "most_common": "det",
+          "consistency": 0.3108108108108108,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:compound:None:None:None",
+          "instances": 73,
+          "unique_outcomes": 20,
+          "most_common": "root",
+          "consistency": 0.1095890410958904,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN:nsubj:None:None:None",
+          "instances": 73,
+          "unique_outcomes": 14,
+          "most_common": "nsubj",
+          "consistency": 0.2602739726027397,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@NOUN:compound:None:None:None",
+          "instances": 73,
+          "unique_outcomes": 17,
+          "most_common": "det",
+          "consistency": 0.1780821917808219,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@PROPN:compound:None:None:None",
+          "instances": 70,
+          "unique_outcomes": 21,
+          "most_common": "det",
+          "consistency": 0.22857142857142856,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@ADJ:amod:None:None:None",
+          "instances": 70,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@NOUN:nsubj:None:None:None",
+          "instances": 69,
+          "unique_outcomes": 18,
+          "most_common": "det",
+          "consistency": 0.2753623188405797,
+          "is_deterministic": false
+        }
+      ]
+    },
+    "full": {
+      "granularity": "full",
+      "total_patterns": 4265,
+      "total_events": 21345,
+      "deterministic_events": 12781,
+      "systematic_events": 13344,
+      "deterministic_percentage": 59.87819161396112,
+      "systematic_percentage": 62.515811665495434,
+      "top_patterns": [
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 1008,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 484,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 382,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:None:initial:False:False:None:None:None:Sing",
+          "instances": 378,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:compound:NOUN:None:initial:False:False:None:None:None:Sing",
+          "instances": 371,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 316,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5221518987341772,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:VERB:None:initial:False:False:None:None:None:Sing",
+          "instances": 275,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:NOUN:None:initial:False:False:None:None:None:None",
+          "instances": 262,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 154,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.487012987012987,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 142,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 141,
+          "unique_outcomes": 18,
+          "most_common": "nsubj",
+          "consistency": 0.23404255319148937,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:nsubj:VERB:None:initial:False:False:None:None:None:Plur",
+          "instances": 140,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:compound:NOUN:None:initial:False:False:None:None:None:Sing",
+          "instances": 133,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5338345864661654,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 133,
+          "unique_outcomes": 21,
+          "most_common": "root",
+          "consistency": 0.17293233082706766,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 133,
+          "unique_outcomes": 23,
+          "most_common": "det",
+          "consistency": 0.3082706766917293,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:NOUN:None:medial:False:False:None:None:None:None",
+          "instances": 130,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 124,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.532258064516129,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 123,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7804878048780488,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:compound:PROPN:None:initial:False:True:None:None:None:Sing",
+          "instances": 117,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:compound:NOUN:None:medial:False:False:None:None:None:Sing",
+          "instances": 113,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:None:initial:False:False:None:None:Pres:None",
+          "instances": 112,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:root:None:None:initial:False:False:None:None:None:Sing",
+          "instances": 105,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5142857142857142,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@ADJ:amod:NOUN:None:initial:False:False:None:None:None:None",
+          "instances": 84,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.5238095238095238,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:None:initial:False:False:None:None:None:Plur",
+          "instances": 83,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@NOUN:root:None:None:medial:False:False:None:None:None:Plur",
+          "instances": 83,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "FW-DEL::ABSENT@NOUN:nsubj:VERB:None:initial:False:False:None:None:None:Sing",
+          "instances": 82,
+          "unique_outcomes": 6,
+          "most_common": "AUX-DEL",
+          "consistency": 0.524390243902439,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@ADJ:amod:PROPN:None:initial:False:False:None:None:None:None",
+          "instances": 80,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::nmod@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 77,
+          "unique_outcomes": 14,
+          "most_common": "case",
+          "consistency": 0.2077922077922078,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 76,
+          "unique_outcomes": 22,
+          "most_common": "root",
+          "consistency": 0.18421052631578946,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "C-DEL::ABSENT@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 73,
+          "unique_outcomes": 4,
+          "most_common": "VERB-DEL",
+          "consistency": 0.6301369863013698,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 71,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 70,
+          "unique_outcomes": 16,
+          "most_common": "nsubj",
+          "consistency": 0.32857142857142857,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:None:initial:False:False:None:None:None:None",
+          "instances": 69,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:nsubj:VERB:None:initial:False:True:None:None:None:Sing",
+          "instances": 68,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7205882352941176,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::nsubj@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 68,
+          "unique_outcomes": 14,
+          "most_common": "det",
+          "consistency": 0.29411764705882354,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::punct@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 63,
+          "unique_outcomes": 18,
+          "most_common": "compound",
+          "consistency": 0.1746031746031746,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Part@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 63,
+          "unique_outcomes": 1,
+          "most_common": "Fin",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 62,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@PROPN:nsubj:VERB:None:medial:False:True:None:None:None:Sing",
+          "instances": 61,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 61,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 60,
+          "unique_outcomes": 14,
+          "most_common": "nsubj",
+          "consistency": 0.21666666666666667,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CLAUSE-TYPE-CHG::Fin@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 60,
+          "unique_outcomes": 3,
+          "most_common": "Part",
+          "consistency": 0.7,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::obl@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 60,
+          "unique_outcomes": 15,
+          "most_common": "case",
+          "consistency": 0.26666666666666666,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::compound@NOUN:compound:NOUN:None:initial:False:False:None:None:None:Sing",
+          "instances": 58,
+          "unique_outcomes": 16,
+          "most_common": "root",
+          "consistency": 0.1896551724137931,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "CONST-MOV::CONST-FRONT@VERB:root:None:None:medial:False:False:None:None:Past:None",
+          "instances": 58,
+          "unique_outcomes": 1,
+          "most_common": "CONST-FRONT",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "TED-SIMPLE::10@NOUN:compound:NOUN:None:initial:False:False:None:None:None:Sing",
+          "instances": 57,
+          "unique_outcomes": 1,
+          "most_common": "10",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "CONST-MOV::CONST-POST@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 56,
+          "unique_outcomes": 1,
+          "most_common": "CONST-POST",
+          "consistency": 1.0,
+          "is_deterministic": true
+        },
+        {
+          "pattern": "DEP-REL-CHG::obj@PROPN:root:None:None:initial:False:True:None:None:None:Sing",
+          "instances": 56,
+          "unique_outcomes": 15,
+          "most_common": "compound",
+          "consistency": 0.19642857142857142,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::case@PROPN:compound:NOUN:None:initial:False:True:None:None:None:Sing",
+          "instances": 55,
+          "unique_outcomes": 18,
+          "most_common": "det",
+          "consistency": 0.12727272727272726,
+          "is_deterministic": false
+        },
+        {
+          "pattern": "DEP-REL-CHG::root@NOUN:compound:NOUN:None:initial:False:False:None:None:None:Sing",
+          "instances": 54,
+          "unique_outcomes": 11,
+          "most_common": "aux",
+          "consistency": 0.2037037037037037,
+          "is_deterministic": false
+        }
+      ]
+    }
+  },
+  "ceiling_factors": {
+    "genuine_ambiguity_examples": [],
+    "multiple_valid_transformations": [],
+    "discourse_dependent": [],
+    "annotation_issues": [],
+    "sparse_patterns": []
+  },
+  "data_sufficiency": {
+    "rare_patterns_count": 0,
+    "rare_patterns_percentage": 0,
+    "consistency_by_frequency": {},
+    "estimated_benefit_of_more_data": "TBD"
+  },
+  "linguistic_insights": {
+    "insights": [
+      "Structural transformations (constituency) are more systematic than relational (dependency)",
+      "Function word insertion depends on definiteness - a semantic feature",
+      "Tense changes depend on discourse context (narrative vs. report)",
+      "Some variation is stylistic choice, not deterministic"
+    ]
+  }
+}

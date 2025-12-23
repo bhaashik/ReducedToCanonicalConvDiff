@@ -11,6 +11,11 @@ numpy>=1.21.0
 matplotlib>=3.5.0
 seaborn>=0.11.0
 
+# NLP libraries
+spacy>=3.0.0
+rouge-score>=0.1.2
+
 # Path and file handling (pathlib is built-in for Python 3.4+)
 # Additional utilities
 typing_extensions>=4.0.0
+

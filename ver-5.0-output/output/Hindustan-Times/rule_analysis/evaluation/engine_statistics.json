@@ -1,0 +1,11 @@
+{
+  "total_events": 39960,
+  "lexical_hits": 3629,
+  "syntactic_hits": 12164,
+  "default_hits": 19379,
+  "no_rule": 4788,
+  "correct": 18337,
+  "incorrect": 16835,
+  "accuracy": 52.13522119868077,
+  "coverage": 88.01801801801801
+}
