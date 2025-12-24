@@ -19,3 +19,7 @@ rouge-score>=0.1.2
 # Additional utilities
 typing_extensions>=4.0.0
 
+pylatex
+texsoup
+
+

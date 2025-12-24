@@ -1,0 +1,47 @@
+{
+  "total_events": 94907,
+  "newspapers": [
+    "Times-of-India",
+    "Hindustan-Times",
+    "The-Hindu"
+  ],
+  "event_counts": {
+    "Hindustan-Times": 39998,
+    "The-Hindu": 21381,
+    "Times-of-India": 33525,
+    "newspaper": 3
+  },
+  "feature_diversity": {
+    "Times-of-India": 2.819061118247066,
+    "Hindustan-Times": 2.8404068161506113,
+    "The-Hindu": 3.195490828452254
+  },
+  "unique_features": {
+    "Times-of-India": 21,
+    "Hindustan-Times": 21,
+    "The-Hindu": 21
+  },
+  "top_features": {
+    "CONST-MOV": 30289,
+    "DEP-REL-CHG": 26935,
+    "CLAUSE-TYPE-CHG": 7636,
+    "FW-DEL": 7112,
+    "TED-RTED": 3316,
+    "LENGTH-CHG": 3276,
+    "TED-SIMPLE": 3234,
+    "TED-ZHANG-SHASHA": 2713,
+    "TED-KLEIN": 2713,
+    "C-DEL": 2572,
+    "C-ADD": 1430,
+    "CONST-REM": 1008,
+    "HEAD-CHG": 760,
+    "FW-ADD": 485,
+    "FEAT-CHG": 408,
+    "CONST-ADD": 329,
+    "FORM-CHG": 308,
+    "POS-CHG": 256,
+    "LEMMA-CHG": 65,
+    "VERB-FORM-CHG": 38
+  },
+  "total_unique_features": 22
+}

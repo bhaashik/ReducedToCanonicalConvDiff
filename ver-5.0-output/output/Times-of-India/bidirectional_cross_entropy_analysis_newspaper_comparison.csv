@@ -1,2 +1,0 @@
-newspaper,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,kl_divergence_sum,total_events,unique_canonical_values,unique_headline_values
-Times-of-India,7.589258034778678,5.62790166413013,13.217159698908809,1.9106033573584718,0.3343108504398827,3.8212067147169435,33494,228,227

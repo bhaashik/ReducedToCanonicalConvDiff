@@ -1,0 +1,22 @@
+feature_id,mnemonic,name,count
+CONST-MOV,CONST-MOV,Constituent Movement,11485
+DEP-REL-CHG,DEP-REL-CHG,Dependency Relation Change,9892
+CLAUSE-TYPE-CHG,CLAUSE-TYPE-CHG,Clause Type Change,2728
+FW-DEL,FW-DEL,Function Word Deletion,2241
+TED-RTED,,,1035
+TED-SIMPLE,,,1034
+LENGTH-CHG,LENGTH-CHG,Sentence Length Change,1022
+TED-KLEIN,,,806
+TED-ZHANG-SHASHA,,,806
+C-DEL,C-DEL,Content Word Deletion,720
+C-ADD,C-ADD,Content Word Addition,540
+HEAD-CHG,HEAD-CHG,Dependency Head Change,282
+CONST-REM,CONST-REM,Constituent Removal,254
+FW-ADD,FW-ADD,Function Word Addition,170
+FEAT-CHG,FEAT-CHG,Morphological Feature Change,160
+CONST-ADD,CONST-ADD,Constituent Addition,124
+FORM-CHG,FORM-CHG,Surface Form Change,89
+POS-CHG,POS-CHG,Part of Speech Change,89
+LEMMA-CHG,LEMMA-CHG,Lemma Change,22
+VERB-FORM-CHG,VERB-FORM-CHG,Verb Form Change,14
+TOKEN-REORDER,TOKEN-REORDER,Token Reordering,12

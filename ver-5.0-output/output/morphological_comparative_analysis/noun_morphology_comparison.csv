@@ -1,9 +1,0 @@
-Feature,Transformation,Times-of-India,Hindustan-Times,The-Hindu,Total
-Number,Plur→Sing@NOUN,454,1294,50,1798
-Number,Sing→ABSENT@PROPN,541,757,341,1639
-Number,Sing→ABSENT@NOUN,220,668,325,1213
-Number,Sing→Plur@NOUN,280,122,51,453
-Number,Sing→Plur@PROPN,182,215,20,417
-Number,Plur→ABSENT@NOUN,50,188,0,238
-Number,Plur→Sing@PROPN,78,71,0,149
-Number,Plur→Ptan@NOUN,0,33,0,33

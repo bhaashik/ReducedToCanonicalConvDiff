@@ -2,9 +2,14 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.claude" />
+      <excludeFolder url="file://$MODULE_DIR$/LaTeX" />
+      <excludeFolder url="file://$MODULE_DIR$/Samapika-Thesis" />
+      <excludeFolder url="file://$MODULE_DIR$/claude-conversation-history" />
       <excludeFolder url="file://$MODULE_DIR$/older-code" />
+      <excludeFolder url="file://$MODULE_DIR$/ver-5.0-output" />
     </content>
-    <orderEntry type="jdk" jdkName="Reduced2Canonical (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Reduced2Canonical" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

@@ -1,0 +1,61 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Claude Code working directory
+.claude/
+
+# LaTeX output and working files
+LaTeX/
+*.aux
+*.log
+*.out
+*.toc
+*.pdf
+*.synctex.gz
+
+# Archived code and outputs
+older-code/
+ver-5.0-output/
+
+# Conversation history
+claude-conversation-history/
+
+# Thesis directory (separate project)
+Samapika-Thesis/
+
+# Test output directories
+test_output/
+test_*/
+*_test/
+final_test_output/
+comprehensive_verification_test/
+env_verification_test/
+final_verification_test/
+test_cross_entropy_output/
+test_pipeline_verification/
+test_sentence_ted/
+verification_test/
+
+# Output directories
+output/
+
+# OS files
+.DS_Store
+Thumbs.db

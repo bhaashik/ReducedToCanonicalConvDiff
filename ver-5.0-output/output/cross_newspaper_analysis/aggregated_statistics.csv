@@ -1,4 +1,0 @@
-Newspaper,Total Pairs,Total Events,Minimal Det (%),Lexical Det (%),Syntactic Det (%),Full Det (%),Lexical Rules,Syntactic Rules,Default Rules,Total Rules,Lexical Coverage,Avg Lex Conf
-Times-of-India,1041,33494,52.6%,74.3%,56.0%,56.9%,50,25,8,83,3076,100.0%
-Hindustan-Times,1148,39980,49.6%,68.8%,52.4%,53.2%,45,22,8,75,3329,100.0%
-The-Hindu,1500,21354,54.5%,81.0%,58.9%,59.9%,48,24,8,80,1356,100.0%

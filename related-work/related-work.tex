@@ -1,0 +1,96 @@
+\section{Related Work}
+\label{sec:related-work}
+
+Our research on morphosyntactic transformations between news headlines and canonical sentences draws on and synthesizes three converging research traditions: linguistic register theory, computational morphosyntactic analysis, and text compression/simplification. This section organizes related work thematically, highlighting how each stream contributes to understanding headlines as a systematically transformed linguistic register.
+
+\subsection{Linguistic Register Theory and Headlinese}
+
+The study of register variation provides the theoretical foundation for treating headlines as a distinct linguistic variety rather than merely abbreviated text.
+
+\paragraph{Foundational Work on Headlinese}
+
+\citet{mardh-1980-headlinese} conducted the first systematic linguistic study of newspaper headline grammar in her foundational monograph. M{\aa}rdh coined and legitimized the term ``headlinese''---originally used pejoratively in a 1933 journalism handbook by Garst and Bernstein to denote ``strange speech that corrupts good English''---as a neutral descriptor for the systematic grammatical variety used in headlines. Her corpus-based analysis documented core syntactic features including determiner deletion, distinctive tense patterns, and systematic ellipsis, establishing that headlinese constitutes a coherent grammatical variety with principled linguistic conventions rather than random abbreviation forced by space constraints.
+
+Building on M{\aa}rdh's work, \citet{moncomble-2018-deviant} provides a modern pragmatic analysis arguing that headlinese syntax serves systematic pragmatic functions beyond space-saving. Moncomble demonstrates that morphosyntactic deviations optimize relevance for readers and construct headlines as autonomous news items, constituting ``a norm in itself which actually builds on the very potentialities of Standard English.'' Significantly, he shows that non-standard syntactic features of headlinese have survived the shift to web-based journalism, suggesting functional rather than merely practical motivations for these patterns.
+
+\paragraph{Register Theory and Multi-Dimensional Analysis}
+
+\citet{biber-1995-dimensions} developed the Multi-Dimensional (MD) Analysis framework, which has become one of the most influential approaches to studying register variation. Biber's methodology employs exploratory factor analysis to identify co-occurring sets of linguistic features (dimensions) that characterize different registers. Unlike Halliday's ``system-end'' approach that infers likely linguistic structures from situational context \cite{halliday-hasan-1989-language}, Biber adopts a ``text-end'' empirical approach, examining actual texts to identify frequency patterns of 60+ grammatical features. His Dimension 1 (Involved vs. Informational Production) is particularly relevant to news discourse, positioning headlines as highly informational with minimal personal involvement features.
+
+\citet{biber-egbert-2016-register} extended MD analysis to web-based text, creating the Corpus of Online Registers of English (CORE). Their findings demonstrate that web registers show both continuity with and divergence from traditional print registers, and that headlines persist as a distinct register even in digital environments. A 2013 special issue of \textit{Corpora} celebrated 25 years of MD analysis \cite{corpora-2013-biber}, featuring applications to new domains including social media, demonstrating the framework's continued relevance.
+
+The register theory framework provides our research with:
+\begin{itemize}[nosep]
+    \item Theoretical justification for treating headlines as a systematic register
+    \item Methodology for multi-feature analysis (our 22 feature types parallel Biber's multi-dimensional approach)
+    \item Empirical, corpus-based foundation validating statistical approaches to register comparison
+\end{itemize}
+
+\subsection{Morphosyntactic Annotation and Universal Dependencies}
+
+Computational analysis of morphosyntactic transformations requires standardized annotation frameworks that enable consistent feature extraction and comparison.
+
+\paragraph{Universal Dependencies Framework}
+
+\citet{nivre-etal-2020-universal} describes version 2 of the Universal Dependencies (UD) project, an open community effort producing over 200 treebanks in 150+ languages with cross-linguistically consistent annotation. The UD framework comprises three layers: (1) linguistically motivated word segmentation, (2) morphological annotation including lemmas, universal POS tags, and \textbf{standardized morphological features}, and (3) syntactic dependency relations. The morphological layer (Column 6: FEATS in CoNLL-U format) provides the comprehensive feature inventory---including Tense, Number, Mood, Person, Voice, VerbForm, and 14 additional features---that forms the foundation of our morphosyntactic analysis.
+
+UD's importance extends beyond annotation standards: it represents a convergence of theoretical linguistics and computational methods, providing both cross-linguistic typological insights and training data for state-of-the-art NLP systems. The framework's explicit morphological features enable systematic comparison of how these features transform across registers.
+
+\paragraph{Stanza Parser}
+
+\citet{qi-etal-2020-stanza} presents Stanza, a Python natural language processing toolkit that provides a full neural pipeline for UD annotation. Stanza outputs CoNLL-U format with comprehensive morphological features, POS tags, lemmas, and dependency parses. We employ Stanza to parse both headlines and canonical sentences, ensuring consistent morphological annotation across registers that enables detection of feature transformations.
+
+The UD framework and Stanza parser together provide:
+\begin{itemize}[nosep]
+    \item Standardized inventory of 20 morphological features for analysis
+    \item Consistent annotation enabling systematic feature comparison
+    \item CoNLL-U format facilitating computational extraction of transformations
+\end{itemize}
+
+\subsection{Text Compression, Simplification, and Transformation}
+
+Research on text compression and simplification provides computational frameworks for modeling transformations between linguistic varieties.
+
+\paragraph{Tree-Based Compression}
+
+\citet{cohn-lapata-2009-sentence} presents a foundational tree-to-tree transduction method for sentence compression using synchronous tree substitution grammar (STSG). Their approach addresses ``structural mismatches'' by enabling local distortion of tree topology, moving beyond simple node deletion to model systematic syntactic restructuring. The discriminative training method within a large margin framework demonstrates that compression can be learned as systematic transformations rather than heuristic rules. This work is directly relevant to headline analysis because headlines involve similar tree transformations: constituent deletion, movement, and restructuring. The synchronous grammar framework provides formal tools for modeling bidirectional transformations between canonical syntax and headline syntax.
+
+\paragraph{Edit-Based Simplification}
+
+\citet{omelianchuk-etal-2021-text} introduces a novel approach to text simplification that frames the problem as sequence tagging rather than sequence-to-sequence generation. Their TST (Text Simplification by Tagging) system tags each word with edit operations: KEEP, DELETE, REPLACE, or INSERT. Using pre-trained Transformer encoders, TST achieves 11× faster inference than seq2seq systems while maintaining quality. The explicit edit operations map directly to our difference event types: DELETE corresponds to FW-DEL, C-DEL, CONST-REM; INSERT to H-ADD, CONST-ADD; REPLACE to LEMMA-CHG, FORM-CHG, FEAT-CHG. The tagging framework could model both H→C (expansion with KEEP+INSERT) and C→H (compression with DELETE+KEEP) transformations, providing an interpretable alternative to end-to-end generation.
+
+\citet{van-etal-2021-may-help} explores an innovative application: using neural text simplification to improve machine (not human) performance on downstream NLP tasks. They test prediction-time simplification and training-time data augmentation, demonstrating improvements of 1.82--1.98\% for LSTM models and 0.7--1.3\% for SpanBERT on relation extraction (TACRED dataset), plus gains up to 0.65\% on text classification (MNLI). This work demonstrates that linguistic transformations between registers have practical computational value, and that exposure to multiple registers (via augmentation) improves model robustness---relevant to our finding that headlines constitute a transformed rather than degraded register.
+
+\paragraph{Linguistic Compression Patterns}
+
+\citet{yin-vanschijndel-2023-linguistic} conducted a corpus study examining how humans compress information in single-sentence summaries. Surprisingly, they found that summaries feature \textbf{morphological expansion} rather than reduction, along with increased lexical diversity and similar positional arrangements compared to source texts. Their human evaluation revealed a misalignment: summary writers employ linguistic strategies that readers prefer, yet their lexical choices don't match reader preferences. This finding challenges simplistic notions of compression as pure deletion and suggests that ``compression'' involves selective transformation with expansion in some dimensions---directly relevant to our finding that H→C (expansion) is 1.6--2.2× more complex than C→H (reduction) as measured by perplexity.
+
+\subsection{Headline Generation}
+
+Automatic headline generation research provides insights into what makes text suitable for headline use and how headlines can be produced from longer text.
+
+\citet{higurashi-etal-2018-extractive} proposes an extractive headline generation method based on learning to rank for community question answering (CQA) platforms. Rather than generating headlines from scratch, their approach identifies and extracts the most informative substring from questions to serve as headlines. While CQA differs from professional journalism (user-generated, conversational vs. professionally edited), this work demonstrates that headline generation is a cross-domain problem requiring informativeness metrics. The extractive approach complements our transformation-based analysis by revealing which text segments possess headline-worthy properties.
+
+Recent work on neural headline generation has explored topic-sensitive models, minimum risk training, and attention mechanisms, though much of this work treats headline generation as an end-to-end task without explicit modeling of morphosyntactic transformations. \citet{argamon-2013-register} reviews computational methods for register classification and description across domains including news writing, demonstrating the breadth of computational approaches to register variation.
+
+\subsection{Integration and Contributions}
+
+Our research synthesizes insights from these traditions to provide a comprehensive analysis of morphosyntactic transformations between canonical and headline registers. From register theory \cite{biber-1995-dimensions,mardh-1980-headlinese,moncomble-2018-deviant}, we adopt the premise that headlines constitute a systematic linguistic variety. From UD \cite{nivre-etal-2020-universal} and Stanza \cite{qi-etal-2020-stanza}, we obtain standardized morphological features enabling precise transformation analysis. From compression research \cite{cohn-lapata-2009-sentence,omelianchuk-etal-2021-text,yin-vanschijndel-2023-linguistic}, we draw methodological approaches to modeling transformations while incorporating the insight that compression involves multi-dimensional transformation, not simple deletion.
+
+\paragraph{Novel Contributions}
+
+Our work advances prior research in several ways:
+
+\begin{enumerate}[nosep]
+    \item \textbf{Comprehensive Morphological Coverage}: While previous headline studies focus primarily on syntax \cite{mardh-1980-headlinese,moncomble-2018-deviant} or lexicon, we analyze all 20 UD morphological features, extracting 23 morphological transformation rules with confidence scores.
+
+    \item \textbf{Bidirectional Complexity Analysis}: Most compression work studies C→H; we analyze both directions, quantifying via perplexity that H→C is 1.6--2.2× more complex than C→H---providing quantitative evidence for asymmetric transformation complexity.
+
+    \item \textbf{Systematic Rule Extraction}: Beyond descriptive patterns \cite{mardh-1980-headlinese} or end-to-end neural models, we extract interpretable transformation rules with coverage analysis and confidence metrics, showing 60\% of transformations are rule-based.
+
+    \item \textbf{Information-Theoretic Metrics}: We employ Shannon entropy, perplexity, and cross-entropy to quantify transformation difficulty and systematicity, providing a rigorous information-theoretic foundation for register complexity.
+
+    \item \textbf{Cross-Newspaper Validation}: Analysis of three major Indian English newspapers (Times-of-India, Hindustan-Times, The-Hindu) reveals universal transformation patterns while identifying publication-specific variations.
+\end{enumerate}
+
+In sum, our work demonstrates that reduced registers like headlines require complex, systematic morphosyntactic transformations across multiple linguistic dimensions, advancing understanding of register variation through computational methods informed by linguistic theory.

@@ -1,9 +1,0 @@
-,,Entropy,Entropy,Entropy,Normalized_PP,Normalized_PP,Normalized_PP,Perplexity,Perplexity,Perplexity
-Newspaper,,Hindustan-Times,The-Hindu,Times-of-India,Hindustan-Times,The-Hindu,Times-of-India,Hindustan-Times,The-Hindu,Times-of-India
-Register,Aspect,,,,,,,,,
-Canonical,DEPS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Canonical,LEMMAS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Canonical,POS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Headline,DEPS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Headline,LEMMAS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-Headline,POS,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0

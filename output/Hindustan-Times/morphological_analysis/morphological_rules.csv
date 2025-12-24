@@ -1,0 +1,10 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Tense,Pres,Past,Pres → Past,42,0.8235294117647058,82.35294117647058
+Person,ABSENT,3,ABSENT → 3,8,0.5333333333333333,53.333333333333336
+Mood,ABSENT,Ind,ABSENT → Ind,7,0.5833333333333334,58.333333333333336
+Degree,Pos,ABSENT,Pos → ABSENT,1,1.0,100.0
+Voice,Pass,ABSENT,Pass → ABSENT,1,1.0,100.0
+Case,Acc,Nom,Acc → Nom,1,0.5,50.0
+Case,Nom,ABSENT,Nom → ABSENT,1,0.5,50.0
+Gender,Neut,ABSENT,Neut → ABSENT,1,1.0,100.0
+PronType,Prs,ABSENT,Prs → ABSENT,1,1.0,100.0

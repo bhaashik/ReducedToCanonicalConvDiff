@@ -1,0 +1,2 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Case,Nom,Acc,Nom → Acc,1,1.0,100.0

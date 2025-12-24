@@ -1,0 +1,22 @@
+parse_type,feature_id,feature_name,count,percentage_of_parse_type
+dependency,FW-DEL,Function Word Deletion,3210,16.84950921211485
+dependency,C-DEL,Content Word Deletion,1405,7.374940947981733
+dependency,C-ADD,Content Word Addition,690,3.621857120361136
+dependency,DEP-REL-CHG,Dependency Relation Change,11759,61.723794026560284
+dependency,LENGTH-CHG,Sentence Length Change,1137,5.9681906461603065
+dependency,FW-ADD,Function Word Addition,266,1.3962521652406699
+dependency,FORM-CHG,Surface Form Change,61,0.3201931657130859
+dependency,FEAT-CHG,Morphological Feature Change,126,0.6613826045876857
+dependency,HEAD-CHG,Dependency Head Change,280,1.469739121305968
+dependency,VERB-FORM-CHG,Verb Form Change,13,0.06823788777491994
+dependency,POS-CHG,Part of Speech Change,84,0.44092173639179044
+dependency,TOKEN-REORDER,Token Reordering,3,0.015747204871135373
+dependency,LEMMA-CHG,Lemma Change,17,0.08923416093643378
+constituency,CONST-ADD,Constituent Addition,114,0.5442306774239748
+constituency,CONST-MOV,Constituent Movement,13099,62.534014417339
+constituency,CLAUSE-TYPE-CHG,Clause Type Change,3408,16.269632882990404
+constituency,TED-SIMPLE,TED-SIMPLE,1142,5.451854680861222
+constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,783,3.7380054423067746
+constituency,TED-KLEIN,TED-KLEIN,783,3.7380054423067746
+constituency,TED-RTED,TED-RTED,1142,5.451854680861222
+constituency,CONST-REM,Constituent Removal,476,2.2724017759106316

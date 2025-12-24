@@ -1,0 +1,172 @@
+{
+  "overview": {
+    "total_events": 39998,
+    "unique_features": 21,
+    "newspapers": [
+      "Hindustan-Times"
+    ],
+    "parse_types": [
+      "dependency",
+      "constituency"
+    ]
+  },
+  "feature_statistics": {
+    "FW-DEL": {
+      "total_occurrences": 3210,
+      "percentage_of_total": 8.025401270063504,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "C-DEL": {
+      "total_occurrences": 1405,
+      "percentage_of_total": 3.5126756337816887,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "C-ADD": {
+      "total_occurrences": 690,
+      "percentage_of_total": 1.7250862543127157,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "DEP-REL-CHG": {
+      "total_occurrences": 11759,
+      "percentage_of_total": 29.398969948497427,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "LENGTH-CHG": {
+      "total_occurrences": 1137,
+      "percentage_of_total": 2.8426421321066053,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-ADD": {
+      "total_occurrences": 114,
+      "percentage_of_total": 0.28501425071253567,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-MOV": {
+      "total_occurrences": 13099,
+      "percentage_of_total": 32.749137456872845,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CLAUSE-TYPE-CHG": {
+      "total_occurrences": 3408,
+      "percentage_of_total": 8.520426021301066,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TED-SIMPLE": {
+      "total_occurrences": 1142,
+      "percentage_of_total": 2.855142757137857,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TED-ZHANG-SHASHA": {
+      "total_occurrences": 783,
+      "percentage_of_total": 1.9575978798939946,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TED-KLEIN": {
+      "total_occurrences": 783,
+      "percentage_of_total": 1.9575978798939946,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TED-RTED": {
+      "total_occurrences": 1142,
+      "percentage_of_total": 2.855142757137857,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FW-ADD": {
+      "total_occurrences": 266,
+      "percentage_of_total": 0.6650332516625832,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FORM-CHG": {
+      "total_occurrences": 61,
+      "percentage_of_total": 0.15250762538126908,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "FEAT-CHG": {
+      "total_occurrences": 126,
+      "percentage_of_total": 0.3150157507875394,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "HEAD-CHG": {
+      "total_occurrences": 280,
+      "percentage_of_total": 0.7000350017500875,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-REM": {
+      "total_occurrences": 476,
+      "percentage_of_total": 1.1900595029751488,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "VERB-FORM-CHG": {
+      "total_occurrences": 13,
+      "percentage_of_total": 0.032501625081254065,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "POS-CHG": {
+      "total_occurrences": 84,
+      "percentage_of_total": 0.21001050052502626,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TOKEN-REORDER": {
+      "total_occurrences": 3,
+      "percentage_of_total": 0.0075003750187509375,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "LEMMA-CHG": {
+      "total_occurrences": 17,
+      "percentage_of_total": 0.04250212510625531,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    }
+  },
+  "newspaper_statistics": {
+    "Hindustan-Times": {
+      "total_events": 39998,
+      "percentage_of_global": 100.0,
+      "unique_features": 21,
+      "most_frequent_feature": [
+        "CONST-MOV",
+        13099
+      ]
+    }
+  },
+  "parse_type_statistics": {
+    "dependency": {
+      "total_events": 19051,
+      "percentage_of_global": 47.6298814940747,
+      "unique_features": 13,
+      "most_frequent_feature": [
+        "DEP-REL-CHG",
+        11759
+      ]
+    },
+    "constituency": {
+      "total_events": 20947,
+      "percentage_of_global": 52.3701185059253,
+      "unique_features": 8,
+      "most_frequent_feature": [
+        "CONST-MOV",
+        13099
+      ]
+    }
+  }
+}
