@@ -1,0 +1,2 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Degree,Pos,ABSENT,Pos → ABSENT,2,0.6666666666666666,66.66666666666666

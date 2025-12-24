@@ -1,0 +1,22 @@
+newspaper,feature_id,feature_name,count,percentage_of_newspaper
+Hindustan-Times,FW-DEL,Function Word Deletion,3210,8.025401270063504
+Hindustan-Times,C-DEL,Content Word Deletion,1405,3.5126756337816887
+Hindustan-Times,C-ADD,Content Word Addition,690,1.7250862543127157
+Hindustan-Times,DEP-REL-CHG,Dependency Relation Change,11759,29.398969948497427
+Hindustan-Times,LENGTH-CHG,Sentence Length Change,1137,2.8426421321066053
+Hindustan-Times,CONST-ADD,Constituent Addition,114,0.28501425071253567
+Hindustan-Times,CONST-MOV,Constituent Movement,13099,32.749137456872845
+Hindustan-Times,CLAUSE-TYPE-CHG,Clause Type Change,3408,8.520426021301066
+Hindustan-Times,TED-SIMPLE,TED-SIMPLE,1142,2.855142757137857
+Hindustan-Times,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,783,1.9575978798939946
+Hindustan-Times,TED-KLEIN,TED-KLEIN,783,1.9575978798939946
+Hindustan-Times,TED-RTED,TED-RTED,1142,2.855142757137857
+Hindustan-Times,FW-ADD,Function Word Addition,266,0.6650332516625832
+Hindustan-Times,FORM-CHG,Surface Form Change,61,0.15250762538126908
+Hindustan-Times,FEAT-CHG,Morphological Feature Change,126,0.3150157507875394
+Hindustan-Times,HEAD-CHG,Dependency Head Change,280,0.7000350017500875
+Hindustan-Times,CONST-REM,Constituent Removal,476,1.1900595029751488
+Hindustan-Times,VERB-FORM-CHG,Verb Form Change,13,0.032501625081254065
+Hindustan-Times,POS-CHG,Part of Speech Change,84,0.21001050052502626
+Hindustan-Times,TOKEN-REORDER,Token Reordering,3,0.0075003750187509375
+Hindustan-Times,LEMMA-CHG,Lemma Change,17,0.04250212510625531

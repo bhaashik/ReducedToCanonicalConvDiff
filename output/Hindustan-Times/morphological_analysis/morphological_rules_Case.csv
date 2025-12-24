@@ -1,0 +1,3 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Case,Acc,Nom,Acc → Nom,1,0.5,50.0
+Case,Nom,ABSENT,Nom → ABSENT,1,0.5,50.0

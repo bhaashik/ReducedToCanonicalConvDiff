@@ -1,0 +1,765 @@
+{
+  "lexical_rules": [
+    {
+      "lemma": "man",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 105,
+      "context": {}
+    },
+    {
+      "lemma": "year",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 70,
+      "context": {}
+    },
+    {
+      "lemma": "India",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 48,
+      "context": {}
+    },
+    {
+      "lemma": "person",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 45,
+      "context": {}
+    },
+    {
+      "lemma": "BJP",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 43,
+      "context": {}
+    },
+    {
+      "lemma": "new",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 40,
+      "context": {}
+    },
+    {
+      "lemma": "go",
+      "pos": "VERB",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 37,
+      "context": {}
+    },
+    {
+      "lemma": "woman",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 33,
+      "context": {}
+    },
+    {
+      "lemma": "child",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 33,
+      "context": {}
+    },
+    {
+      "lemma": "mosquito",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 33,
+      "context": {}
+    },
+    {
+      "lemma": "Allepey",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 32,
+      "context": {}
+    },
+    {
+      "lemma": "hassan",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 31,
+      "context": {}
+    },
+    {
+      "lemma": "New",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 31,
+      "context": {}
+    },
+    {
+      "lemma": "HC",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 30,
+      "context": {}
+    },
+    {
+      "lemma": "mangaluru",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 30,
+      "context": {}
+    },
+    {
+      "lemma": "Govt.",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 29,
+      "context": {}
+    },
+    {
+      "lemma": "CM",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 29,
+      "context": {}
+    },
+    {
+      "lemma": "more",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 28,
+      "context": {}
+    },
+    {
+      "lemma": "good",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 27,
+      "context": {}
+    },
+    {
+      "lemma": "IFFK",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 27,
+      "context": {}
+    },
+    {
+      "lemma": "role",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 26,
+      "context": {}
+    },
+    {
+      "lemma": "arrest",
+      "pos": "VERB",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 25,
+      "context": {}
+    },
+    {
+      "lemma": "warangal",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 25,
+      "context": {}
+    },
+    {
+      "lemma": "hold",
+      "pos": "VERB",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 24,
+      "context": {}
+    },
+    {
+      "lemma": "day",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 23,
+      "context": {}
+    },
+    {
+      "lemma": "briefly",
+      "pos": "ADV",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 23,
+      "context": {}
+    },
+    {
+      "lemma": "p.m.",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 23,
+      "context": {}
+    },
+    {
+      "lemma": "state",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 22,
+      "context": {}
+    },
+    {
+      "lemma": "mysuru",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 22,
+      "context": {}
+    },
+    {
+      "lemma": "free",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 21,
+      "context": {}
+    },
+    {
+      "lemma": "cpi",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 21,
+      "context": {}
+    },
+    {
+      "lemma": "Award",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "shivamogga",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "Kerala",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "kadapa",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "Race",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "AVC",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 20,
+      "context": {}
+    },
+    {
+      "lemma": "kozhikode",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 19,
+      "context": {}
+    },
+    {
+      "lemma": "kolkata",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 19,
+      "context": {}
+    },
+    {
+      "lemma": "tamil",
+      "pos": "ADJ",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "judgement",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "dindigul",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "salem",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "vellore",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "Book",
+      "pos": "NOUN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "thiruvananthapuram",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "tirupati",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    },
+    {
+      "lemma": "visakhapatnam",
+      "pos": "PROPN",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 18,
+      "context": {}
+    }
+  ],
+  "syntactic_rules": [
+    {
+      "rule_id": "SYN_0000",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 1018,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0001",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 508,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0002",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 461,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0003",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 415,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0004",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "compound",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 382,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0005",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "compound",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 378,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0006",
+      "pos_pattern": "ADJ",
+      "dep_pattern": "amod",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 262,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0007",
+      "pos_pattern": "VERB",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 197,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0008",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 143,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0009",
+      "pos_pattern": "VERB",
+      "dep_pattern": "root",
+      "position_pattern": "medial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 133,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0010",
+      "pos_pattern": "ADJ",
+      "dep_pattern": "amod",
+      "position_pattern": "medial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 130,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0011",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "compound",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 117,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0012",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "compound",
+      "position_pattern": "medial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 113,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0013",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "root",
+      "position_pattern": "medial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 109,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0014",
+      "pos_pattern": "ADJ",
+      "dep_pattern": "amod",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 80,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0015",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 74,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0016",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "VERB",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 72,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0017",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-POST",
+      "confidence": 1.0,
+      "frequency": 63,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0018",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "CLAUSE-TYPE-CHG",
+      "transformation": "Fin",
+      "confidence": 1.0,
+      "frequency": 63,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0019",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "compound",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 62,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0020",
+      "pos_pattern": "PROPN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "medial",
+      "feature_id": "CONST-MOV",
+      "transformation": "CONST-FRONT",
+      "confidence": 1.0,
+      "frequency": 61,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0021",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "compound",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 58,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0022",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "nsubj",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 58,
+      "conditions": {}
+    },
+    {
+      "rule_id": "SYN_0023",
+      "pos_pattern": "NOUN",
+      "dep_pattern": "root",
+      "position_pattern": "initial",
+      "feature_id": "TED-SIMPLE",
+      "transformation": "10",
+      "confidence": 1.0,
+      "frequency": 56,
+      "conditions": {}
+    }
+  ],
+  "default_rules": [
+    {
+      "feature_id": "CONST-MOV",
+      "default_transformation": "CONST-FRONT",
+      "confidence": 0.9434704830053667,
+      "frequency": 5274
+    },
+    {
+      "feature_id": "FW-DEL",
+      "default_transformation": "AUX-DEL",
+      "confidence": 1.0,
+      "frequency": 1650
+    },
+    {
+      "feature_id": "TED-SIMPLE",
+      "default_transformation": "10",
+      "confidence": 1.0,
+      "frequency": 766
+    },
+    {
+      "feature_id": "DEP-REL-CHG",
+      "default_transformation": "root",
+      "confidence": 0.2692725298588491,
+      "frequency": 992
+    },
+    {
+      "feature_id": "CLAUSE-TYPE-CHG",
+      "default_transformation": "Part",
+      "confidence": 0.5035149384885764,
+      "frequency": 573
+    },
+    {
+      "feature_id": "C-DEL",
+      "default_transformation": "VERB-DEL",
+      "confidence": 1.0,
+      "frequency": 352
+    },
+    {
+      "feature_id": "CONST-REM",
+      "default_transformation": "VP-REM",
+      "confidence": 1.0,
+      "frequency": 214
+    },
+    {
+      "feature_id": "LENGTH-CHG",
+      "default_transformation": "10",
+      "confidence": 1.0,
+      "frequency": 67
+    }
+  ],
+  "statistics": {
+    "total_rules": 80,
+    "lexical_count": 48,
+    "syntactic_count": 24,
+    "default_count": 8,
+    "lexical_coverage": 1356,
+    "syntactic_coverage": 5013,
+    "avg_lexical_confidence": 1.0,
+    "avg_syntactic_confidence": 1.0,
+    "features_with_lexical_rules": 1,
+    "features_with_syntactic_rules": 3,
+    "features_with_defaults": 8
+  }
+}

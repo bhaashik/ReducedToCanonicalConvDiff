@@ -1,0 +1,3 @@
+newspaper,parse_type,dimension,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,total_events
+Times-of-India,dependency,Times-of-India_dependency,11.271313714355346,7.039249756664154,18.3105634710195,4.013339448897765,0.29245283018867924,15253
+Times-of-India,constituency,Times-of-India_constituency,3.182803769037553,3.0109577295114063,6.193761498548959,0.3346825547489507,0.8088235294117647,18272

@@ -1,0 +1,13 @@
+{
+  "newspaper": "The-Hindu",
+  "total_features_with_rules": 5,
+  "total_transformation_rules": 6,
+  "total_feat_chg_instances": 73,
+  "features_covered": [
+    "Tense",
+    "Mood",
+    "Person",
+    "Degree",
+    "Abbr"
+  ]
+}

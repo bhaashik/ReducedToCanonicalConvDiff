@@ -3,7 +3,11 @@
     "allow": [
       "WebSearch",
       "WebFetch(domain:soas-repository.worktribe.com)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "WebFetch(domain:aclanthology.org)",
+      "WebFetch(domain:aclweb.org)",
+      "WebFetch(domain:journals.openedition.org)",
+      "WebFetch(domain:arxiv.org)"
     ],
     "deny": [],
     "ask": []

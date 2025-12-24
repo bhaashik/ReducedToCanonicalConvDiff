@@ -1,0 +1,2 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Mood,ABSENT,Ind,ABSENT → Ind,7,0.5833333333333334,58.333333333333336

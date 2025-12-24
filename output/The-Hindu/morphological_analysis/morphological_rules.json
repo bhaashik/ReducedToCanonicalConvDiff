@@ -1,0 +1,152 @@
+{
+  "newspaper": "The-Hindu",
+  "min_frequency": 1,
+  "min_confidence": 0.5,
+  "summary": {
+    "total_features": 5,
+    "total_rules": 6,
+    "total_instances": 73
+  },
+  "rules_by_feature": {
+    "Tense": {
+      "total_instances": 41,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Tense",
+          "headline_value": "Pres",
+          "canonical_value": "Past",
+          "transformation": "Pres \u2192 Past",
+          "frequency": 27,
+          "confidence": 0.6585365853658537,
+          "coverage": 65.85365853658537
+        }
+      ]
+    },
+    "Mood": {
+      "total_instances": 14,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Mood",
+          "headline_value": "Ind",
+          "canonical_value": "ABSENT",
+          "transformation": "Ind \u2192 ABSENT",
+          "frequency": 9,
+          "confidence": 0.6428571428571429,
+          "coverage": 64.28571428571429
+        }
+      ]
+    },
+    "Person": {
+      "total_instances": 11,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Person",
+          "headline_value": "3",
+          "canonical_value": "ABSENT",
+          "transformation": "3 \u2192 ABSENT",
+          "frequency": 8,
+          "confidence": 0.7272727272727273,
+          "coverage": 72.72727272727273
+        }
+      ]
+    },
+    "Degree": {
+      "total_instances": 4,
+      "num_rules": 2,
+      "rules": [
+        {
+          "feature": "Degree",
+          "headline_value": "Pos",
+          "canonical_value": "ABSENT",
+          "transformation": "Pos \u2192 ABSENT",
+          "frequency": 2,
+          "confidence": 0.5,
+          "coverage": 50.0
+        },
+        {
+          "feature": "Degree",
+          "headline_value": "ABSENT",
+          "canonical_value": "Pos",
+          "transformation": "ABSENT \u2192 Pos",
+          "frequency": 2,
+          "confidence": 0.5,
+          "coverage": 50.0
+        }
+      ]
+    },
+    "Abbr": {
+      "total_instances": 3,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Abbr",
+          "headline_value": "Yes",
+          "canonical_value": "ABSENT",
+          "transformation": "Yes \u2192 ABSENT",
+          "frequency": 2,
+          "confidence": 0.6666666666666666,
+          "coverage": 66.66666666666666
+        }
+      ]
+    }
+  },
+  "all_rules": [
+    {
+      "feature": "Tense",
+      "headline_value": "Pres",
+      "canonical_value": "Past",
+      "transformation": "Pres \u2192 Past",
+      "frequency": 27,
+      "confidence": 0.6585365853658537,
+      "coverage": 65.85365853658537
+    },
+    {
+      "feature": "Mood",
+      "headline_value": "Ind",
+      "canonical_value": "ABSENT",
+      "transformation": "Ind \u2192 ABSENT",
+      "frequency": 9,
+      "confidence": 0.6428571428571429,
+      "coverage": 64.28571428571429
+    },
+    {
+      "feature": "Person",
+      "headline_value": "3",
+      "canonical_value": "ABSENT",
+      "transformation": "3 \u2192 ABSENT",
+      "frequency": 8,
+      "confidence": 0.7272727272727273,
+      "coverage": 72.72727272727273
+    },
+    {
+      "feature": "Degree",
+      "headline_value": "Pos",
+      "canonical_value": "ABSENT",
+      "transformation": "Pos \u2192 ABSENT",
+      "frequency": 2,
+      "confidence": 0.5,
+      "coverage": 50.0
+    },
+    {
+      "feature": "Degree",
+      "headline_value": "ABSENT",
+      "canonical_value": "Pos",
+      "transformation": "ABSENT \u2192 Pos",
+      "frequency": 2,
+      "confidence": 0.5,
+      "coverage": 50.0
+    },
+    {
+      "feature": "Abbr",
+      "headline_value": "Yes",
+      "canonical_value": "ABSENT",
+      "transformation": "Yes \u2192 ABSENT",
+      "frequency": 2,
+      "confidence": 0.6666666666666666,
+      "coverage": 66.66666666666666
+    }
+  ]
+}

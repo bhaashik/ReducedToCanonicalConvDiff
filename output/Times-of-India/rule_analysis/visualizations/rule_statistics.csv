@@ -1,0 +1,5 @@
+Rule Type,Count,Avg Confidence,Coverage (events),Features Covered
+Lexical,50,100.0%,"3,076",1
+Syntactic,25,100.0%,"9,959",4
+Defaults,8,N/A,N/A,8
+TOTAL,83,N/A,N/A,N/A

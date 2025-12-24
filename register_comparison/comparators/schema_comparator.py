@@ -1758,7 +1758,14 @@ class SchemaBasedComparator:
         return events
 
     def _detect_morphological_changes(self, aligned_pair: AlignedSentencePair) -> List[DifferenceEvent]:
-        """Detect morphological feature changes (FEAT-CHG)."""
+        """
+        Detect morphological feature changes (FEAT-CHG).
+
+        Updated for v4.0 schema with ALL 20 morphological features from Stanza CoNLL-U:
+        - Original 7: Tense, Number, Aspect, Voice, Mood, Case, Degree
+        - NEW 13: Person, Gender, Definite, PronType, Poss, NumType, NumForm,
+                  Polarity, Reflex, VerbForm, Abbr, ExtPos, Foreign
+        """
         events = []
 
         canonical_tokens = list(aligned_pair.canonical_dep)
@@ -1775,8 +1782,31 @@ class SchemaBasedComparator:
                 can_feats = can_token.get('feats') or {}
                 head_feats = head_token.get('feats') or {}
 
-                # Check specific morphological features
-                morph_features = ['Tense', 'Number', 'Person', 'Voice', 'Mood', 'Aspect', 'Case']
+                # COMPREHENSIVE morphological features from v4.0 schema (20 features total)
+                morph_features = [
+                    # Original 7 from v3.0
+                    'Tense',        # Past, Pres, Fut
+                    'Number',       # Sing, Plur
+                    'Aspect',       # Imp, Perf, Prog
+                    'Voice',        # Act, Pass, Mid
+                    'Mood',         # Ind, Imp, Sub, Cnd
+                    'Case',         # Nom, Acc, Gen, Dat, etc.
+                    'Degree',       # Pos, Cmp, Sup
+                    # NEW 13 features in v4.0
+                    'Person',       # 1, 2, 3
+                    'Gender',       # Masc, Fem, Neut
+                    'Definite',     # Def, Ind
+                    'PronType',     # Art, Dem, Ind, Int, Prs, Rel
+                    'Poss',         # Yes
+                    'NumType',      # Card, Ord, Frac, Mult
+                    'NumForm',      # Word, Digit, Roman
+                    'Polarity',     # Pos, Neg
+                    'Reflex',       # Yes
+                    'VerbForm',     # Fin, Inf, Part, Ger, Sup, Conv
+                    'Abbr',         # Yes
+                    'ExtPos',       # External POS tag
+                    'Foreign'       # Yes
+                ]
 
                 for feat in morph_features:
                     can_val = can_feats.get(feat) if isinstance(can_feats, dict) else None
@@ -1790,10 +1820,10 @@ class SchemaBasedComparator:
                                 sent_id=aligned_pair.sent_id,
                                 parse_type="dependency",
                                 feature_id="FEAT-CHG",
-                                canonical_value=f"{feat}={can_val}",
-                                headline_value=f"{feat}={head_val}",
-                                feature_name="Morphological Feature Change",
-                                feature_mnemonic="FEAT-CHG",
+                                canonical_value=f"{feat}={can_val if can_val else 'ABSENT'}",
+                                headline_value=f"{feat}={head_val if head_val else 'ABSENT'}",
+                                feature_name=f"Morphological Feature Change ({feat})",
+                                feature_mnemonic=value_mnemonic,
                                 canonical_context=aligned_pair.canonical_text,
                                 headline_context=aligned_pair.headline_text
                             )
@@ -3417,15 +3447,34 @@ class SchemaBasedComparator:
         return f"ID:{head_id}"
 
     def _get_morphological_change_mnemonic(self, feature_name, source_val, target_val):
-        """Get mnemonic for morphological feature changes."""
+        """
+        Get mnemonic for morphological feature changes.
+
+        Updated for v4.0 schema with all 20 morphological feature mnemonics.
+        """
         feature_mnemonics = {
+            # Original 7 from v3.0
             'Tense': 'TENSE-CHG',
             'Number': 'NUM-CHG',
             'Aspect': 'ASP-CHG',
             'Voice': 'VOICE-CHG',
             'Mood': 'MOOD-CHG',
             'Case': 'CASE-CHG',
-            'Degree': 'DEG-CHG'
+            'Degree': 'DEG-CHG',
+            # NEW 13 features in v4.0
+            'Person': 'PERSON-CHG',
+            'Gender': 'GENDER-CHG',
+            'Definite': 'DEF-CHG',
+            'PronType': 'PRONTYPE-CHG',
+            'Poss': 'POSS-CHG',
+            'NumType': 'NUMTYPE-CHG',
+            'NumForm': 'NUMFORM-CHG',
+            'Polarity': 'POL-CHG',
+            'Reflex': 'REFLEX-CHG',
+            'VerbForm': 'VFORM-CHG',
+            'Abbr': 'ABBR-CHG',
+            'ExtPos': 'EXTPOS-CHG',
+            'Foreign': 'FOREIGN-CHG'
         }
         return feature_mnemonics.get(feature_name, 'FEAT-CHG')
 

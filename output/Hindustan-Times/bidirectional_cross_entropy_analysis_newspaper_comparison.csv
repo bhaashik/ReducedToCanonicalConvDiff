@@ -1,0 +1,2 @@
+newspaper,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,kl_divergence_sum,total_events,unique_canonical_values,unique_headline_values
+Hindustan-Times,8.593129921661236,5.76936930848917,14.362499230150405,2.4523010250986297,0.4161073825503356,4.904602050197259,39998,209,213

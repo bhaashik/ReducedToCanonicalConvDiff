@@ -1,0 +1,3 @@
+feature_id,canonical_value,headline_value,transformation,count,percentage
+TOKEN-REORDER,POST,POST,POST→POST,2,66.66666666666666
+TOKEN-REORDER,FRONT,FRONT,FRONT→FRONT,1,33.33333333333333

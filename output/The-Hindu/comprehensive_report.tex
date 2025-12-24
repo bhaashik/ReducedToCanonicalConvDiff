@@ -1,0 +1,188 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title{Comprehensive Register Comparison Analysis:\\Differences between Reduced and Canonical Forms}
+\author{Computational Linguistic Analysis}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Executive Summary}
+
+This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified \textbf{21,381} difference events across \textbf{21} distinct linguistic features.
+
+\subsection{Key Findings}
+\begin{itemize}
+\item \textbf{Constituent Movement} (CONST-MOV): 5,705 occurrences (26.7\% of total)
+\item \textbf{Dependency Relation Change} (DEP-REL-CHG): 5,284 occurrences (24.7\% of total)
+\item \textbf{Function Word Deletion} (FW-DEL): 1,661 occurrences (7.8\% of total)
+\item \textbf{Clause Type Change} (CLAUSE-TYPE-CHG): 1,500 occurrences (7.0\% of total)
+\item \textbf{TED-RTED} (TED-RTED): 1,139 occurrences (5.3\% of total)
+\end{itemize}
+
+\section{Global Analysis}
+
+\subsection{Feature Distribution}
+
+\begin{longtable}{lllr}
+\toprule
+Feature ID & Feature Name & Category & Count \\
+\midrule
+\endfirsthead
+\toprule
+Feature ID & Feature Name & Category & Count \\
+\midrule
+\endhead
+CONST-MOV & Constituent Movement & Syntactic & 5,705 \\
+DEP-REL-CHG & Dependency Relation Change & Syntactic & 5,284 \\
+FW-DEL & Function Word Deletion & Lexical & 1,661 \\
+CLAUSE-TYPE-CHG & Clause Type Change & Clause Level & 1,500 \\
+TED-RTED & TED-RTED & Other & 1,139 \\
+TED-ZHANG-SHASHA & TED-ZHANG-SHASHA & Other & 1,124 \\
+TED-KLEIN & TED-KLEIN & Other & 1,124 \\
+LENGTH-CHG & Sentence Length Change & Structural & 1,117 \\
+TED-SIMPLE & TED-SIMPLE & Other & 1,058 \\
+C-DEL & Content Word Deletion & Lexical & 447 \\
+CONST-REM & Constituent Removal & Syntactic & 278 \\
+C-ADD & Content Word Addition & Lexical & 200 \\
+HEAD-CHG & Dependency Head Change & Syntactic & 198 \\
+FORM-CHG & Surface Form Change & Lexical & 158 \\
+FEAT-CHG & Morphological Feature Change & Morphological & 122 \\
+CONST-ADD & Constituent Addition & Syntactic & 91 \\
+POS-CHG & Part of Speech Change & Lexical & 83 \\
+FW-ADD & Function Word Addition & Lexical & 49 \\
+LEMMA-CHG & Lemma Change & Lexical & 26 \\
+VERB-FORM-CHG & Verb Form Change & Morphological & 11 \\
+TOKEN-REORDER & Token Reordering & Word Order & 6 \\
+\bottomrule
+\end{longtable}
+
+\section{Parse Type Analysis}
+
+The analysis examined differences across two parse types: dependency parsing and constituency parsing.
+
+\subsection{Dependency Parsing}
+
+Total events: 9,362
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+Feature & Count \\
+\midrule
+DEP-REL-CHG & 5,284 \\
+FW-DEL & 1,661 \\
+LENGTH-CHG & 1,117 \\
+C-DEL & 447 \\
+C-ADD & 200 \\
+HEAD-CHG & 198 \\
+FORM-CHG & 158 \\
+FEAT-CHG & 122 \\
+POS-CHG & 83 \\
+FW-ADD & 49 \\
+\bottomrule
+\end{tabular}
+\caption{Top 10 features in dependency parsing}
+\end{table}
+
+\subsection{Constituency Parsing}
+
+Total events: 12,019
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+Feature & Count \\
+\midrule
+CONST-MOV & 5,705 \\
+CLAUSE-TYPE-CHG & 1,500 \\
+TED-RTED & 1,139 \\
+TED-ZHANG-SHASHA & 1,124 \\
+TED-KLEIN & 1,124 \\
+TED-SIMPLE & 1,058 \\
+CONST-REM & 278 \\
+CONST-ADD & 91 \\
+\bottomrule
+\end{tabular}
+\caption{Top 10 features in constituency parsing}
+\end{table}
+
+\section{Linguistic Interpretation}
+
+\subsection{Register Differences}
+
+The analysis reveals systematic differences between reduced and canonical registers:
+
+\begin{itemize}
+\item \textbf{Lexical Simplification}: High frequency of function word deletions and content word changes
+\item \textbf{Syntactic Compression}: Significant constituent removal and dependency relation changes
+\item \textbf{Structural Modifications}: Tree edit distance indicates substantial restructuring
+\item \textbf{Morphological Variation}: Changes in verb forms and morphological features
+\end{itemize}
+
+\section{Statistical Visualizations}
+
+The following visualizations provide comprehensive statistical summaries across all dimensional combinations:
+
+\subsection{Comprehensive Analysis Visualizations}
+\begin{itemize}
+\item \textbf{Global Feature Frequencies}: \texttt{feature\_freq\_global.png}
+\item \textbf{Parse Type Comparison}: \texttt{parse\_type\_comparison.png}
+\item \textbf{Feature Coverage Heatmap}: \texttt{feature\_coverage\_heatmap.png}
+\item \textbf{Top Features Analysis}: \texttt{top\_features\_analysis.png}
+\item \textbf{Cross-Dimensional Analysis}: \texttt{cross\_dimensional\_analysis.png}
+\item \textbf{Feature Category Distribution}: \texttt{feature\_category\_distribution.png}
+\end{itemize}
+
+\subsection{Statistical Summary Visualizations}
+\begin{itemize}
+\item \textbf{Newspaper Statistical Comparison}: \texttt{newspaper\_statistical\_comparison.png}
+\item \textbf{Parse Type Statistical Differences}: \texttt{parse\_type\_statistical\_differences.png}
+\item \textbf{Cross-Dimensional Statistics}: \texttt{cross\_dimensional\_statistics.png}
+\item \textbf{Feature Distribution Statistics}: \texttt{feature\_distribution\_statistics.png}
+\item \textbf{Comparative Variance Analysis}: \texttt{comparative\_variance\_analysis.png}
+\item \textbf{Statistical Significance Heatmap}: \texttt{statistical\_significance\_heatmap.png}
+\end{itemize}
+
+These visualizations reveal patterns in:
+\begin{itemize}
+\item Feature frequency distributions across dimensions
+\item Statistical significance of differences between newspapers and parse types
+\item Variance patterns in cross-dimensional combinations
+\item Distributional characteristics of linguistic features
+\item Comparative analysis of dimensional breakdowns
+\end{itemize}
+
+\section{Methodology}
+
+\subsection{Data Processing}
+\begin{itemize}
+\item Texts parsed using Stanza NLP toolkit
+\item Dependency and constituency parses generated
+\item Feature extraction based on linguistic schema
+\item Statistical analysis and visualization
+\end{itemize}
+
+\subsection{Feature Schema}
+Analysis based on 18 predefined linguistic features covering:
+\begin{itemize}
+\item Lexical differences (word additions, deletions, changes)
+\item Syntactic variations (dependency and constituency changes)
+\item Morphological modifications
+\item Word order alterations
+\item Structural transformations
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,23 @@
+feature_id,newspaper_count,newspapers,is_universal
+C-ADD,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+C-DEL,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+CLAUSE-TYPE-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+CONST-ADD,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+CONST-MOV,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+CONST-REM,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+DEP-REL-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+FEAT-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+FORM-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+FW-ADD,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+FW-DEL,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+HEAD-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+LEMMA-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+LENGTH-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+POS-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+TED-KLEIN,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+TED-RTED,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+TED-SIMPLE,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+TED-ZHANG-SHASHA,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+TOKEN-REORDER,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+VERB-FORM-CHG,3,"Hindustan-Times, Times-of-India, The-Hindu",True
+feature_id,1,newspaper,False

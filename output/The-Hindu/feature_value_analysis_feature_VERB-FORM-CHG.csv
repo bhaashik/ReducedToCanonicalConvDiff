@@ -1,0 +1,6 @@
+feature_id,canonical_value,headline_value,transformation,count,percentage
+VERB-FORM-CHG,Part,Fin,Part→Fin,4,36.36363636363637
+VERB-FORM-CHG,Ger,Part,Ger→Part,4,36.36363636363637
+VERB-FORM-CHG,Fin,Inf,Fin→Inf,1,9.090909090909092
+VERB-FORM-CHG,Inf,Part,Inf→Part,1,9.090909090909092
+VERB-FORM-CHG,Inf,Fin,Inf→Fin,1,9.090909090909092

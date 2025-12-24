@@ -1,0 +1,11 @@
+feature,total_instances,total_rules,newspaper_count,newspapers
+Tense,148,3,3,"Times-of-India, Hindustan-Times, The-Hindu"
+Mood,42,4,3,"Times-of-India, Hindustan-Times, The-Hindu"
+Person,26,2,2,"Hindustan-Times, The-Hindu"
+Degree,8,4,3,"Times-of-India, Hindustan-Times, The-Hindu"
+Foreign,7,1,1,Times-of-India
+Abbr,4,2,2,"Times-of-India, The-Hindu"
+Case,3,3,2,"Times-of-India, Hindustan-Times"
+Voice,3,2,2,"Times-of-India, Hindustan-Times"
+Gender,1,1,1,Hindustan-Times
+PronType,1,1,1,Hindustan-Times

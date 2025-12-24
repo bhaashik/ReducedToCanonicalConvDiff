@@ -1,0 +1,2 @@
+feature,headline_value,canonical_value,transformation,frequency,confidence,coverage
+Tense,Pres,Past,Pres → Past,42,0.8235294117647058,82.35294117647058

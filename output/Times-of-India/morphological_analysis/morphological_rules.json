@@ -1,0 +1,200 @@
+{
+  "newspaper": "Times-of-India",
+  "min_frequency": 1,
+  "min_confidence": 0.5,
+  "summary": {
+    "total_features": 7,
+    "total_rules": 8,
+    "total_instances": 86
+  },
+  "rules_by_feature": {
+    "Tense": {
+      "total_instances": 56,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Tense",
+          "headline_value": "Pres",
+          "canonical_value": "Past",
+          "transformation": "Pres \u2192 Past",
+          "frequency": 46,
+          "confidence": 0.8214285714285714,
+          "coverage": 82.14285714285714
+        }
+      ]
+    },
+    "Foreign": {
+      "total_instances": 7,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Foreign",
+          "headline_value": "ABSENT",
+          "canonical_value": "Yes",
+          "transformation": "ABSENT \u2192 Yes",
+          "frequency": 6,
+          "confidence": 0.8571428571428571,
+          "coverage": 85.71428571428571
+        }
+      ]
+    },
+    "Mood": {
+      "total_instances": 16,
+      "num_rules": 2,
+      "rules": [
+        {
+          "feature": "Mood",
+          "headline_value": "ABSENT",
+          "canonical_value": "Ind",
+          "transformation": "ABSENT \u2192 Ind",
+          "frequency": 8,
+          "confidence": 0.5,
+          "coverage": 50.0
+        },
+        {
+          "feature": "Mood",
+          "headline_value": "Ind",
+          "canonical_value": "ABSENT",
+          "transformation": "Ind \u2192 ABSENT",
+          "frequency": 8,
+          "confidence": 0.5,
+          "coverage": 50.0
+        }
+      ]
+    },
+    "Degree": {
+      "total_instances": 3,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Degree",
+          "headline_value": "Pos",
+          "canonical_value": "ABSENT",
+          "transformation": "Pos \u2192 ABSENT",
+          "frequency": 2,
+          "confidence": 0.6666666666666666,
+          "coverage": 66.66666666666666
+        }
+      ]
+    },
+    "Case": {
+      "total_instances": 1,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Case",
+          "headline_value": "Nom",
+          "canonical_value": "Acc",
+          "transformation": "Nom \u2192 Acc",
+          "frequency": 1,
+          "confidence": 1.0,
+          "coverage": 100.0
+        }
+      ]
+    },
+    "Voice": {
+      "total_instances": 2,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Voice",
+          "headline_value": "Pass",
+          "canonical_value": "ABSENT",
+          "transformation": "Pass \u2192 ABSENT",
+          "frequency": 2,
+          "confidence": 1.0,
+          "coverage": 100.0
+        }
+      ]
+    },
+    "Abbr": {
+      "total_instances": 1,
+      "num_rules": 1,
+      "rules": [
+        {
+          "feature": "Abbr",
+          "headline_value": "Yes",
+          "canonical_value": "ABSENT",
+          "transformation": "Yes \u2192 ABSENT",
+          "frequency": 1,
+          "confidence": 1.0,
+          "coverage": 100.0
+        }
+      ]
+    }
+  },
+  "all_rules": [
+    {
+      "feature": "Tense",
+      "headline_value": "Pres",
+      "canonical_value": "Past",
+      "transformation": "Pres \u2192 Past",
+      "frequency": 46,
+      "confidence": 0.8214285714285714,
+      "coverage": 82.14285714285714
+    },
+    {
+      "feature": "Mood",
+      "headline_value": "ABSENT",
+      "canonical_value": "Ind",
+      "transformation": "ABSENT \u2192 Ind",
+      "frequency": 8,
+      "confidence": 0.5,
+      "coverage": 50.0
+    },
+    {
+      "feature": "Mood",
+      "headline_value": "Ind",
+      "canonical_value": "ABSENT",
+      "transformation": "Ind \u2192 ABSENT",
+      "frequency": 8,
+      "confidence": 0.5,
+      "coverage": 50.0
+    },
+    {
+      "feature": "Foreign",
+      "headline_value": "ABSENT",
+      "canonical_value": "Yes",
+      "transformation": "ABSENT \u2192 Yes",
+      "frequency": 6,
+      "confidence": 0.8571428571428571,
+      "coverage": 85.71428571428571
+    },
+    {
+      "feature": "Degree",
+      "headline_value": "Pos",
+      "canonical_value": "ABSENT",
+      "transformation": "Pos \u2192 ABSENT",
+      "frequency": 2,
+      "confidence": 0.6666666666666666,
+      "coverage": 66.66666666666666
+    },
+    {
+      "feature": "Voice",
+      "headline_value": "Pass",
+      "canonical_value": "ABSENT",
+      "transformation": "Pass \u2192 ABSENT",
+      "frequency": 2,
+      "confidence": 1.0,
+      "coverage": 100.0
+    },
+    {
+      "feature": "Case",
+      "headline_value": "Nom",
+      "canonical_value": "Acc",
+      "transformation": "Nom \u2192 Acc",
+      "frequency": 1,
+      "confidence": 1.0,
+      "coverage": 100.0
+    },
+    {
+      "feature": "Abbr",
+      "headline_value": "Yes",
+      "canonical_value": "ABSENT",
+      "transformation": "Yes \u2192 ABSENT",
+      "frequency": 1,
+      "confidence": 1.0,
+      "coverage": 100.0
+    }
+  ]
+}

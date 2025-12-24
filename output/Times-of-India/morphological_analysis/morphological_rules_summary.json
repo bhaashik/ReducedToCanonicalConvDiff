@@ -1,0 +1,15 @@
+{
+  "newspaper": "Times-of-India",
+  "total_features_with_rules": 7,
+  "total_transformation_rules": 8,
+  "total_feat_chg_instances": 86,
+  "features_covered": [
+    "Tense",
+    "Foreign",
+    "Mood",
+    "Degree",
+    "Case",
+    "Voice",
+    "Abbr"
+  ]
+}

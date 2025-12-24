@@ -1,0 +1,4 @@
+Newspaper,Lexical Rules,Syntactic Rules,Total Rules,Lexical Coverage,Avg Lexical Conf,Avg Syntactic Conf
+Times-of-India,50,25,83,3076,100.0%,100.0%
+Hindustan-Times,45,22,75,3329,100.0%,100.0%
+The-Hindu,48,24,80,1356,100.0%,100.0%

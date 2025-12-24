@@ -1,0 +1,16 @@
+{
+  "newspaper": "Hindustan-Times",
+  "total_features_with_rules": 8,
+  "total_transformation_rules": 9,
+  "total_feat_chg_instances": 84,
+  "features_covered": [
+    "Tense",
+    "Mood",
+    "Person",
+    "Degree",
+    "Voice",
+    "Case",
+    "Gender",
+    "PronType"
+  ]
+}
