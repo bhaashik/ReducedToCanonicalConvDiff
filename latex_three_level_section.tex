@@ -1,0 +1,146 @@
+%==============================================================================
+\subsection{Three-Level Data Organization}
+%==============================================================================
+
+To enable analysis at multiple granularities, we organize transformation events into a three-level hierarchy (Figure~\ref{fig:three-level-hierarchy}):
+
+\begin{enumerate}
+    \item \textbf{Level 1 (Features)}: Aggregate counts for 30 features without value-level detail
+    \item \textbf{Level 2 (Feature-Value Pairs)}: Specific canonical$\rightarrow$headline transformations
+    \item \textbf{Level 3 (Value Statistics)}: Distributional properties (entropy, diversity, concentration)
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.85\columnwidth]{../figures/three_level_hierarchy.png}
+\caption{Three-level data organization hierarchy showing granularity levels from aggregate features to transformation statistics.}
+\label{fig:three-level-hierarchy}
+\end{figure}
+
+\subsubsection{Level 1: Feature-Level Analysis}
+
+Level 1 provides aggregate counts across 30 Schema v5.0 features (Table~\ref{tab:level1-top-features}). Feature frequency distribution (Figure~\ref{fig:level1-frequency}) reveals that syntactic features dominate (CONST-MOV: 30,289 events, 24.62\%; DEP-REL-CHG: 26,935 events, 21.89\%), accounting for nearly half of all transformations. Structural features show consistent sentence-level occurrence (H-STRUCT, TREE-DEPTH-DIFF, DEP-DIST-DIFF: 3,689 events each, 3.00\%), as they apply once per sentence pair regardless of length.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+\textbf{Feature ID} & \textbf{Feature Name} & \textbf{Count} & \textbf{\%} \\
+\midrule
+CONST-MOV & Constituent Movement & 30,289 & 24.62 \\
+DEP-REL-CHG & Dependency Relation Change & 26,935 & 21.89 \\
+CLAUSE-TYPE-CHG & Clause Type Change & 7,636 & 6.21 \\
+FW-DEL & Function Word Deletion & 7,112 & 5.78 \\
+PUNCT-DEL & Punctuation Deletion & 4,042 & 3.29 \\
+H-STRUCT & Headline Structure & 3,689 & 3.00 \\
+CONST-COUNT-DIFF & Constituent Count Difference & 3,689 & 3.00 \\
+TREE-DEPTH-DIFF & Tree Depth Difference & 3,689 & 3.00 \\
+DEP-DIST-DIFF & Dependency Distance Difference & 3,689 & 3.00 \\
+BRANCH-DIFF & Branching Factor Difference & 3,689 & 3.00 \\
+\midrule
+\multicolumn{2}{l}{\textit{Remaining 20 features}} & 27,983 & 22.74 \\
+\midrule
+\textbf{Total} & & \textbf{123,042} & \textbf{100.00} \\
+\bottomrule
+\end{tabular}
+\caption{Level 1: Top 10 features by frequency (GLOBAL analysis across all newspapers).}
+\label{tab:level1-top-features}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{../figures/level1_feature_frequency.png}
+\caption{Level 1: Feature frequency distribution showing top 15 features with event counts and percentages.}
+\label{fig:level1-frequency}
+\end{figure}
+
+\subsubsection{Level 2: Feature-Value Pair Analysis}
+
+Level 2 captures specific transformation patterns through value-to-value mappings. For morphological features (FEAT-CHG), we identify 408 events across 45 distinct transformation types (Figure~\ref{fig:level2-featchange}). The dominant pattern is \textit{Tense=Past}$\rightarrow$\textit{Tense=Pres} (115 occurrences, 28.19\%), reflecting news headlines' preference for historical present tense \cite{dor2003necessity}. Table~\ref{tab:level2-featchange} presents the top 10 morphological transformations.
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}llrr@{}}
+\toprule
+\textbf{Canonical Value} & \textbf{Headline Value} & \textbf{Count} & \textbf{\%} \\
+\midrule
+Tense=Past & Tense=Pres & 115 & 28.19 \\
+Number=ABSENT & Number=Sing & 26 & 6.37 \\
+Number=Plur & Number=Sing & 26 & 6.37 \\
+Person=ABSENT & Person=3 & 22 & 5.39 \\
+Mood=ABSENT & Mood=Ind & 22 & 5.39 \\
+Person=3 & Person=ABSENT & 19 & 4.66 \\
+Mood=Ind & Mood=ABSENT & 18 & 4.41 \\
+Number=Sing & Number=Plur & 16 & 3.92 \\
+Number=Sing & Number=ABSENT & 15 & 3.68 \\
+VerbForm=Part & VerbForm=Fin & 15 & 3.68 \\
+\midrule
+\multicolumn{2}{l}{\textit{Remaining 35 types}} & 114 & 27.94 \\
+\midrule
+\textbf{Total (FEAT-CHG)} & & \textbf{408} & \textbf{100.00} \\
+\bottomrule
+\end{tabular}
+\caption{Level 2: Top 10 morphological feature transformations (FEAT-CHG) showing canonical$\rightarrow$headline value changes.}
+\label{tab:level2-featchange}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{../figures/level2_featchange_transformations.png}
+\caption{Level 2: Feature-value pairs for FEAT-CHG showing top 15 morphological transformations with counts and percentages.}
+\label{fig:level2-featchange}
+\end{figure}
+
+For function word deletion (FW-DEL), 85\% of events concentrate in three categories: auxiliary deletion (AUX-DEL$\rightarrow$ABSENT: 2,851, 40.08\%), article deletion (ART-DEL$\rightarrow$ABSENT: 2,098, 29.50\%), and subordinating conjunction deletion (SCONJ-DEL$\rightarrow$ABSENT: 1,138, 16.00\%). This high concentration (top-3 ratio = 0.83) contrasts sharply with the diversity observed in dependency relation changes (DEP-REL-CHG: 1,023 unique types, top-3 ratio = 0.07).
+
+\subsubsection{Level 3: Value Distribution Statistics}
+
+Level 3 characterizes features through information-theoretic metrics. Table~\ref{tab:level3-statistics} presents entropy and diversity measures for selected features. Shannon entropy quantifies transformation unpredictability: DEP-REL-CHG exhibits maximum entropy (8.35 bits, 1,023 types), indicating highly variable register-specific dependency assignments, while CONST-MOV shows minimal entropy (0.40 bits, 2 types) due to overwhelming fronting preference (92\% CONST-FRONT$\rightarrow$CONST-FRONT).
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\textbf{Feature} & \textbf{Types} & \textbf{Diversity} & \textbf{Entropy} & \textbf{Top-3} \\
+ & & \textbf{(Can|Head)} & \textbf{(bits)} & \textbf{Conc.} \\
+\midrule
+DEP-REL-CHG & 1,023 & 46 | 46 & 8.35 & 0.07 \\
+BRANCH-DIFF & 1,178 & 104 | 90 & 9.06 & 0.10 \\
+DEP-DIST-DIFF & 2,216 & 233 | 168 & 10.27 & 0.10 \\
+CONST-COUNT-DIFF & 524 & 49 | 45 & 8.14 & 0.08 \\
+LENGTH-CHG & 188 & 28 | 24 & 6.52 & 0.09 \\
+\midrule
+FEAT-CHG & 45 & 29 | 28 & 4.22 & 0.41 \\
+FW-DEL & 6 & 6 | 1 & 2.01 & 0.83 \\
+PUNCT-DEL & 8 & 8 | 1 & 1.10 & 0.94 \\
+CONST-MOV & 2 & 2 | 2 & 0.40 & 1.00 \\
+\bottomrule
+\end{tabular}
+\caption{Level 3: Value distribution statistics showing transformation diversity and entropy. Types = unique transformation patterns; Diversity = unique values in canonical|headline; Entropy = Shannon entropy; Top-3 Conc. = proportion in top 3 transformations.}
+\label{tab:level3-statistics}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{../figures/level3_entropy_diversity.png}
+\caption{Level 3: Entropy and diversity metrics for top 15 features. Left: Shannon entropy (unpredictability). Right: Unique transformation types (diversity).}
+\label{fig:level3-entropy-diversity}
+\end{figure}
+
+Figure~\ref{fig:level3-entropy-diversity} visualizes entropy-diversity relationships. Features partition into three clusters: (1) \textit{High variability} (DEP-REL-CHG, structural metrics): high entropy + high diversity, reflecting context-dependent transformations; (2) \textit{Moderate systematicity} (FEAT-CHG, CLAUSE-TYPE-CHG): moderate entropy, predictable patterns emerge; (3) \textit{High concentration} (CONST-MOV, PUNCT-DEL, FW-DEL): low entropy, few dominant transformations account for $>$80\% of events.
+
+\subsubsection{Cross-Level Integration}
+
+Figure~\ref{fig:cross-level-comparison} demonstrates how the three levels provide complementary perspectives on FEAT-CHG. Level 1 quantifies overall frequency (408 events, 0.33\%), Level 2 reveals transformation specifics (45 types with Tense=Past$\rightarrow$Pres dominating at 28\%), and Level 3 characterizes distributional properties (entropy 4.22 bits, moderate concentration). This hierarchical organization enables both coarse-grained feature comparison and fine-grained transformation analysis.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{../figures/cross_level_comparison.png}
+\caption{Cross-level comparison for FEAT-CHG showing the same data at three granularities: feature count (Level 1), transformation breakdown (Level 2), and statistical properties (Level 3).}
+\label{fig:cross-level-comparison}
+\end{figure}
+
+Data at all three levels is available for both per-newspaper and GLOBAL (cross-newspaper) analyses, totaling 131+ CSV files with full reproducibility (see Data Availability Statement).

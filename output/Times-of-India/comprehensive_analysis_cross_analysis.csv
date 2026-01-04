@@ -1,22 +1,31 @@
 newspaper,parse_type,feature_id,feature_name,count,percentage_of_combination
-Times-of-India,dependency,FW-DEL,Function Word Deletion,2241,14.692191699993442
-Times-of-India,dependency,DEP-REL-CHG,Dependency Relation Change,9892,64.85281583950699
-Times-of-India,dependency,LENGTH-CHG,Sentence Length Change,1022,6.700321248279027
-Times-of-India,dependency,HEAD-CHG,Dependency Head Change,282,1.8488166262374615
-Times-of-India,dependency,C-DEL,Content Word Deletion,720,4.720382875499902
-Times-of-India,dependency,C-ADD,Content Word Addition,540,3.5402871566249265
-Times-of-India,dependency,POS-CHG,Part of Speech Change,89,0.5834917721104045
-Times-of-India,dependency,FORM-CHG,Surface Form Change,89,0.5834917721104045
-Times-of-India,dependency,FEAT-CHG,Morphological Feature Change,160,1.0489739723333116
-Times-of-India,dependency,FW-ADD,Function Word Addition,170,1.1145348456041435
-Times-of-India,dependency,LEMMA-CHG,Lemma Change,22,0.14423392119583034
-Times-of-India,dependency,VERB-FORM-CHG,Verb Form Change,14,0.09178522257916476
-Times-of-India,dependency,TOKEN-REORDER,Token Reordering,12,0.07867304792499835
-Times-of-India,constituency,CONST-REM,Constituent Removal,254,1.3901050788091067
-Times-of-India,constituency,CONST-MOV,Constituent Movement,11485,62.85573555166375
-Times-of-India,constituency,CLAUSE-TYPE-CHG,Clause Type Change,2728,14.929947460595447
-Times-of-India,constituency,TED-SIMPLE,TED-SIMPLE,1034,5.65893169877408
-Times-of-India,constituency,TED-RTED,TED-RTED,1035,5.664404553415061
-Times-of-India,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,806,4.411120840630473
-Times-of-India,constituency,TED-KLEIN,TED-KLEIN,806,4.411120840630473
-Times-of-India,constituency,CONST-ADD,Constituent Addition,124,0.6786339754816112
+Times-of-India,dependency,FW-DEL,Function Word Deletion,2241,13.753528906345894
+Times-of-India,dependency,DEP-REL-CHG,Dependency Relation Change,9892,60.709463606235424
+Times-of-India,dependency,LENGTH-CHG,Sentence Length Change,1022,6.272247453050203
+Times-of-India,dependency,DEP-DIST-DIFF,Dependency Distance Difference,1041,6.388854793175403
+Times-of-India,dependency,HEAD-CHG,Dependency Head Change,282,1.7306984165950656
+Times-of-India,dependency,C-DEL,Content Word Deletion,720,4.418804467902295
+Times-of-India,dependency,C-ADD,Content Word Addition,540,3.3141033509267213
+Times-of-India,dependency,POS-CHG,Part of Speech Change,89,0.5462133300601448
+Times-of-India,dependency,FORM-CHG,Surface Form Change,89,0.5462133300601448
+Times-of-India,dependency,FEAT-CHG,Morphological Feature Change,160,0.9819565484227324
+Times-of-India,dependency,FW-ADD,Function Word Addition,170,1.043328832699153
+Times-of-India,dependency,LEMMA-CHG,Lemma Change,22,0.1350190254081257
+Times-of-India,dependency,VERB-FORM-CHG,Verb Form Change,14,0.08592119798698908
+Times-of-India,dependency,TOKEN-REORDER,Token Reordering,12,0.07364674113170491
+Times-of-India,constituency,CONST-REM,Constituent Removal,254,1.1871932694554803
+Times-of-India,constituency,CONST-MOV,Constituent Movement,11485,53.680766534236966
+Times-of-India,constituency,CLAUSE-TYPE-CHG,Clause Type Change,2728,12.75064267352185
+Times-of-India,constituency,TED-SIMPLE,TED-SIMPLE,1034,4.832904884318766
+Times-of-India,constituency,TED-RTED,TED-RTED,1035,4.837578873568591
+Times-of-India,constituency,TREE-DEPTH-DIFF,Tree Depth Difference,1041,4.865622809067539
+Times-of-India,constituency,CONST-COUNT-DIFF,Constituent Count Difference,1041,4.865622809067539
+Times-of-India,constituency,BRANCH-DIFF,Branching Factor Difference,1041,4.865622809067539
+Times-of-India,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,806,3.767235335358729
+Times-of-India,constituency,TED-KLEIN,TED-KLEIN,806,3.767235335358729
+Times-of-India,constituency,CONST-ADD,Constituent Addition,124,0.5795746669782659
+Times-of-India,both,PUNCT-DEL,Punctuation Deletion,1306,33.25693913929208
+Times-of-India,both,H-STRUCT,Headline Structure,1041,26.508785332314744
+Times-of-India,both,H-TYPE,Headline Type,1041,26.508785332314744
+Times-of-India,both,PUNCT-SUBST,Punctuation Substitution,138,3.514132925897632
+Times-of-India,both,PUNCT-ADD,Punctuation Addition,401,10.2113572701808

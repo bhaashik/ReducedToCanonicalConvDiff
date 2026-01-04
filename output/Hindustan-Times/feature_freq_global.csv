@@ -3,14 +3,23 @@ CONST-MOV,CONST-MOV,Constituent Movement,13099
 DEP-REL-CHG,DEP-REL-CHG,Dependency Relation Change,11759
 CLAUSE-TYPE-CHG,CLAUSE-TYPE-CHG,Clause Type Change,3408
 FW-DEL,FW-DEL,Function Word Deletion,3210
+PUNCT-DEL,PUNCT-DEL,Punctuation Deletion,1515
 C-DEL,C-DEL,Content Word Deletion,1405
-TED-SIMPLE,,,1142
+CONST-COUNT-DIFF,CONST-COUNT-DIFF,Constituent Count Difference,1148
+TREE-DEPTH-DIFF,TREE-DEPTH-DIFF,Tree Depth Difference,1148
+DEP-DIST-DIFF,DEP-DIST-DIFF,Dependency Distance Difference,1148
+BRANCH-DIFF,BRANCH-DIFF,Branching Factor Difference,1148
+H-TYPE,H-TYPE,Headline Type,1148
+H-STRUCT,H-STRUCT,Headline Structure,1148
 TED-RTED,,,1142
+TED-SIMPLE,,,1142
 LENGTH-CHG,LENGTH-CHG,Sentence Length Change,1137
-TED-KLEIN,,,783
 TED-ZHANG-SHASHA,,,783
+TED-KLEIN,,,783
+PUNCT-ADD,PUNCT-ADD,Punctuation Addition,753
 C-ADD,C-ADD,Content Word Addition,690
 CONST-REM,CONST-REM,Constituent Removal,476
+PUNCT-SUBST,PUNCT-SUBST,Punctuation Substitution,413
 HEAD-CHG,HEAD-CHG,Dependency Head Change,280
 FW-ADD,FW-ADD,Function Word Addition,266
 FEAT-CHG,FEAT-CHG,Morphological Feature Change,126

@@ -48,11 +48,16 @@ def extract_morphological_rules_from_events(newspaper: str,
         print(f"✗ Events file not found: {events_file}")
         return {}
 
-    # Load events
-    df = pd.read_csv(events_file, header=None)
-    df.columns = ['newspaper', 'sentence_id', 'parse_type', 'feature_id',
-                  'feature_name', 'feature_mnemonic', 'canonical_value',
-                  'headline_value', 'canonical_sentence', 'headline_sentence']
+    # Load events with headers (CSV now has extra context columns)
+    df = pd.read_csv(events_file, header=0, low_memory=False)
+
+    # Verify required columns exist
+    required_cols = ['newspaper', 'sentence_id', 'parse_type', 'feature_id',
+                     'feature_name', 'mnemonic', 'canonical_value', 'headline_value']
+    missing_cols = [col for col in required_cols if col not in df.columns]
+    if missing_cols:
+        print(f"✗ Missing required columns: {missing_cols}")
+        return {}
 
     # Filter FEAT-CHG events
     feat_chg = df[df['feature_id'] == 'FEAT-CHG'].copy()

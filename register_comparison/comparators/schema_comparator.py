@@ -3,6 +3,7 @@ from register_comparison.aligners.aligner import AlignedSentencePair
 from register_comparison.meta_data.schema import FeatureSchema
 from register_comparison.comparators.comparator import DifferenceEvent
 from register_comparison.ted_config import TEDConfig, DEFAULT_TED_CONFIG
+from register_comparison.comparators.v5_feature_detector import V5FeatureDetector
 
 
 class SchemaBasedComparator:
@@ -16,6 +17,8 @@ class SchemaBasedComparator:
         self.ted_config = ted_config or DEFAULT_TED_CONFIG
         # Store sentence-level TED scores for distribution analysis
         self.sentence_level_ted_scores = []
+        # Initialize v5.0 feature detector for new features
+        self.v5_detector = V5FeatureDetector(schema)
 
     def get_sentence_level_ted_scores(self) -> List[Dict]:
         """Get collected sentence-level TED scores for distribution analysis."""
@@ -92,6 +95,18 @@ class SchemaBasedComparator:
 
         # Tree Edit Distance (TED)
         events.extend(self._detect_tree_edit_distance(aligned_pair))
+
+        # === SCHEMA v5.0 NEW FEATURES ===
+
+        # Punctuation features (PUNCT-DEL, PUNCT-ADD, PUNCT-SUBST)
+        events.extend(self.v5_detector._detect_punctuation_changes(aligned_pair))
+
+        # Headline typology (H-STRUCT, H-TYPE, F-TYPE)
+        events.extend(self.v5_detector._detect_headline_typology(aligned_pair))
+
+        # Structural complexity (TREE-DEPTH-DIFF, CONST-COUNT-DIFF, DEP-DIST-DIFF, BRANCH-DIFF)
+        # Excluding TOKEN-COUNT-DIFF, CHAR-COUNT-DIFF as requested by user
+        events.extend(self.v5_detector._detect_structural_complexity(aligned_pair))
 
         return events
 

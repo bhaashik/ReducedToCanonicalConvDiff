@@ -3,6 +3,13 @@ CONST-MOV,CONST-MOV,Constituent Movement,5705
 DEP-REL-CHG,DEP-REL-CHG,Dependency Relation Change,5284
 FW-DEL,FW-DEL,Function Word Deletion,1661
 CLAUSE-TYPE-CHG,CLAUSE-TYPE-CHG,Clause Type Change,1500
+H-STRUCT,H-STRUCT,Headline Structure,1500
+H-TYPE,H-TYPE,Headline Type,1500
+TREE-DEPTH-DIFF,TREE-DEPTH-DIFF,Tree Depth Difference,1500
+CONST-COUNT-DIFF,CONST-COUNT-DIFF,Constituent Count Difference,1500
+BRANCH-DIFF,BRANCH-DIFF,Branching Factor Difference,1500
+DEP-DIST-DIFF,DEP-DIST-DIFF,Dependency Distance Difference,1500
+PUNCT-DEL,PUNCT-DEL,Punctuation Deletion,1221
 TED-RTED,,,1139
 TED-KLEIN,,,1124
 TED-ZHANG-SHASHA,,,1124
@@ -12,10 +19,12 @@ C-DEL,C-DEL,Content Word Deletion,447
 CONST-REM,CONST-REM,Constituent Removal,278
 C-ADD,C-ADD,Content Word Addition,200
 HEAD-CHG,HEAD-CHG,Dependency Head Change,198
+PUNCT-ADD,PUNCT-ADD,Punctuation Addition,190
 FORM-CHG,FORM-CHG,Surface Form Change,158
 FEAT-CHG,FEAT-CHG,Morphological Feature Change,122
 CONST-ADD,CONST-ADD,Constituent Addition,91
 POS-CHG,POS-CHG,Part of Speech Change,83
+PUNCT-SUBST,PUNCT-SUBST,Punctuation Substitution,67
 FW-ADD,FW-ADD,Function Word Addition,49
 LEMMA-CHG,LEMMA-CHG,Lemma Change,26
 VERB-FORM-CHG,VERB-FORM-CHG,Verb Form Change,11

@@ -64,18 +64,83 @@ class ComprehensiveMorphologicalVisualizer:
         print(f"{'='*80}\n")
 
         for newspaper in self.newspapers:
-            # Load morphological analysis
-            morph_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_analysis.json'
+            # Load morphological analysis - try new format first
+            morph_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_rules.json'
             if morph_path.exists():
                 with open(morph_path, 'r') as f:
-                    self.morphological_data[newspaper] = json.load(f)
+                    rules_data = json.load(f)
+                # Convert to expected format
+                self.morphological_data[newspaper] = self._convert_rules_to_systematicity_format(rules_data)
                 print(f"✅ Loaded morphological data for {newspaper}")
+            else:
+                # Try legacy format
+                legacy_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_analysis.json'
+                if legacy_path.exists():
+                    with open(legacy_path, 'r') as f:
+                        self.morphological_data[newspaper] = json.load(f)
+                    print(f"✅ Loaded morphological data for {newspaper} (legacy format)")
 
             # Load progressive coverage with morphology
             prog_path = self.project_root / 'output' / 'progressive_coverage_with_morphology' / f'progressive_data_with_morphology_{newspaper}.csv'
             if prog_path.exists():
                 self.progressive_data[newspaper] = pd.read_csv(prog_path)
                 print(f"✅ Loaded progressive data for {newspaper}")
+
+    def _convert_rules_to_systematicity_format(self, rules_data: Dict) -> Dict:
+        """Convert morphological_rules.json format to morph_systematicity format."""
+        morph_systematicity = {}
+
+        rules_by_feature = rules_data.get('rules_by_feature', {})
+
+        for feature, feature_data in rules_by_feature.items():
+            total_instances = feature_data.get('total_instances', 0)
+            rules = feature_data.get('rules', [])
+
+            # Convert rules to top_patterns format
+            top_patterns = []
+            for rule in rules:
+                h_val = rule.get('headline_value', '')
+                c_val = rule.get('canonical_value', '')
+                freq = rule.get('frequency', 0)
+
+                # Infer POS from feature type
+                pos = self._infer_pos_from_feature(feature)
+
+                pattern = f"{feature}::{h_val}→{c_val}@{pos}"
+
+                top_patterns.append({
+                    'pattern': pattern,
+                    'frequency': freq
+                })
+
+            # Sort by frequency
+            top_patterns.sort(key=lambda x: x['frequency'], reverse=True)
+
+            unique_patterns = len(rules)
+            total_transformations = total_instances
+            avg_consistency = rules[0].get('confidence', 0) if rules else 0
+
+            morph_systematicity[feature] = {
+                'total_instances': total_instances,
+                'top_patterns': top_patterns,
+                'unique_patterns': unique_patterns,
+                'avg_consistency': avg_consistency,
+                'total_transformations': total_transformations
+            }
+
+        return {'morph_systematicity': morph_systematicity}
+
+    def _infer_pos_from_feature(self, feature: str) -> str:
+        """Infer POS tag from feature name."""
+        verb_features = ['VerbForm', 'Tense', 'Aspect', 'Mood', 'Voice']
+        noun_features = ['Number', 'Case', 'Definite', 'Gender']
+
+        if feature in verb_features:
+            return 'VERB'
+        elif feature in noun_features:
+            return 'NOUN'
+        else:
+            return 'UNKNOWN'
 
     def create_feature_transformation_sankey(self):
         """Create Sankey-like visualization showing feature transformations."""
@@ -242,26 +307,32 @@ class ComprehensiveMorphologicalVisualizer:
         # 2. Direction by feature (stacked bar)
         ax2 = axes[0, 1]
         features = list(direction_data.keys())
-        addition_counts = [direction_data[f]['Addition'] for f in features]
-        removal_counts = [direction_data[f]['Removal'] for f in features]
-        change_counts = [direction_data[f]['Change'] for f in features]
 
-        x = np.arange(len(features))
-        width = 0.6
+        if len(features) > 0:
+            addition_counts = [direction_data[f]['Addition'] for f in features]
+            removal_counts = [direction_data[f]['Removal'] for f in features]
+            change_counts = [direction_data[f]['Change'] for f in features]
 
-        ax2.bar(x, addition_counts, width, label='Addition', color='#4ECDC4', alpha=0.8)
-        ax2.bar(x, removal_counts, width, bottom=addition_counts,
-               label='Removal', color='#FF6B6B', alpha=0.8)
-        ax2.bar(x, change_counts, width,
-               bottom=np.array(addition_counts) + np.array(removal_counts),
-               label='Change', color='#F8B500', alpha=0.8)
+            x = np.arange(len(features))
+            width = 0.6
 
-        ax2.set_xticks(x)
-        ax2.set_xticklabels(features, rotation=45, ha='right')
-        ax2.set_ylabel('Frequency', fontweight='bold')
-        ax2.set_title('Transformation Directions by Feature', fontsize=13, fontweight='bold')
-        ax2.legend()
-        ax2.grid(axis='y', alpha=0.3)
+            ax2.bar(x, addition_counts, width, label='Addition', color='#4ECDC4', alpha=0.8)
+            ax2.bar(x, removal_counts, width, bottom=addition_counts,
+                   label='Removal', color='#FF6B6B', alpha=0.8)
+            ax2.bar(x, change_counts, width,
+                   bottom=np.array(addition_counts) + np.array(removal_counts),
+                   label='Change', color='#F8B500', alpha=0.8)
+
+            ax2.set_xticks(x)
+            ax2.set_xticklabels(features, rotation=45, ha='right')
+            ax2.set_ylabel('Frequency', fontweight='bold')
+            ax2.set_title('Transformation Directions by Feature', fontsize=13, fontweight='bold')
+            ax2.legend()
+            ax2.grid(axis='y', alpha=0.3)
+        else:
+            ax2.text(0.5, 0.5, 'No data available', ha='center', va='center',
+                    transform=ax2.transAxes, fontsize=14)
+            ax2.set_title('Transformation Directions by Feature', fontsize=13, fontweight='bold')
 
         # 3. Feature-specific direction percentages
         ax3 = axes[1, 0]

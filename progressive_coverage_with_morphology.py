@@ -56,11 +56,11 @@ class ProgressiveCoverageWithMorphology:
             _, row_data = row
             rule = {
                 'rule_id': f"MORPH_{i:04d}",
-                'pos': row_data['pos'],
+                'pos': row_data.get('pos', 'N/A'),  # Use 'pos' if available, otherwise 'N/A'
                 'morph_feature': row_data['feature'],
                 'headline_value': row_data['headline_value'],
                 'canonical_value': row_data['canonical_value'],
-                'confidence': 1.0,  # Morphological rules have 100% consistency
+                'confidence': row_data.get('confidence', 1.0),  # Use confidence from CSV or default to 1.0
                 'frequency': row_data['frequency'],
                 'rule_type': 'morphological'
             }
@@ -390,7 +390,7 @@ class ProgressiveCoverageWithMorphology:
             df_with = self.results.get(newspaper)
             df_without = self.load_previous_results(newspaper)
 
-            if df_with is None or df_without is None:
+            if df_with is None or df_without is None or df_without.empty:
                 continue
 
             # Calculate metrics

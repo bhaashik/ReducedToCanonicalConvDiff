@@ -1,22 +1,31 @@
 newspaper,parse_type,feature_id,feature_name,count,percentage_of_combination
-The-Hindu,dependency,FW-DEL,Function Word Deletion,1661,17.741935483870968
-The-Hindu,dependency,C-ADD,Content Word Addition,200,2.1362956633198036
-The-Hindu,dependency,POS-CHG,Part of Speech Change,83,0.8865627002777184
-The-Hindu,dependency,FORM-CHG,Surface Form Change,158,1.6876735740226447
-The-Hindu,dependency,DEP-REL-CHG,Dependency Relation Change,5284,56.4409314249092
-The-Hindu,dependency,FEAT-CHG,Morphological Feature Change,122,1.3031403546250802
-The-Hindu,dependency,LENGTH-CHG,Sentence Length Change,1117,11.931211279641103
-The-Hindu,dependency,C-DEL,Content Word Deletion,447,4.774620807519761
-The-Hindu,dependency,HEAD-CHG,Dependency Head Change,198,2.1149327066866053
-The-Hindu,dependency,FW-ADD,Function Word Addition,49,0.5233924375133518
-The-Hindu,dependency,VERB-FORM-CHG,Verb Form Change,11,0.1174962614825892
-The-Hindu,dependency,TOKEN-REORDER,Token Reordering,6,0.0640888698995941
-The-Hindu,dependency,LEMMA-CHG,Lemma Change,26,0.27771843623157444
-The-Hindu,constituency,CONST-MOV,Constituent Movement,5705,47.46651135701806
-The-Hindu,constituency,CLAUSE-TYPE-CHG,Clause Type Change,1500,12.480239620600715
-The-Hindu,constituency,TED-SIMPLE,TED-SIMPLE,1058,8.80272901239704
-The-Hindu,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,1124,9.35185955570347
-The-Hindu,constituency,TED-KLEIN,TED-KLEIN,1124,9.35185955570347
-The-Hindu,constituency,TED-RTED,TED-RTED,1139,9.476661951909476
-The-Hindu,constituency,CONST-ADD,Constituent Addition,91,0.7571345369831101
-The-Hindu,constituency,CONST-REM,Constituent Removal,278,2.313004409684666
+The-Hindu,dependency,FW-DEL,Function Word Deletion,1661,15.291843122813479
+The-Hindu,dependency,C-ADD,Content Word Addition,200,1.8412815319462346
+The-Hindu,dependency,POS-CHG,Part of Speech Change,83,0.7641318357576874
+The-Hindu,dependency,FORM-CHG,Surface Form Change,158,1.4546124102375253
+The-Hindu,dependency,DEP-REL-CHG,Dependency Relation Change,5284,48.64665807401952
+The-Hindu,dependency,FEAT-CHG,Morphological Feature Change,122,1.123181734487203
+The-Hindu,dependency,LENGTH-CHG,Sentence Length Change,1117,10.28355735591972
+The-Hindu,dependency,DEP-DIST-DIFF,Dependency Distance Difference,1500,13.80961148959676
+The-Hindu,dependency,C-DEL,Content Word Deletion,447,4.1152642238998345
+The-Hindu,dependency,HEAD-CHG,Dependency Head Change,198,1.8228687166267723
+The-Hindu,dependency,FW-ADD,Function Word Addition,49,0.4511139753268275
+The-Hindu,dependency,VERB-FORM-CHG,Verb Form Change,11,0.1012704842570429
+The-Hindu,dependency,TOKEN-REORDER,Token Reordering,6,0.055238445958387034
+The-Hindu,dependency,LEMMA-CHG,Lemma Change,26,0.2393665991530105
+The-Hindu,constituency,CONST-MOV,Constituent Movement,5705,34.53598886131122
+The-Hindu,constituency,CLAUSE-TYPE-CHG,Clause Type Change,1500,9.080452811913554
+The-Hindu,constituency,TED-SIMPLE,TED-SIMPLE,1058,6.404746050003027
+The-Hindu,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,1124,6.8042859737272225
+The-Hindu,constituency,TED-KLEIN,TED-KLEIN,1124,6.8042859737272225
+The-Hindu,constituency,TED-RTED,TED-RTED,1139,6.895090501846359
+The-Hindu,constituency,TREE-DEPTH-DIFF,Tree Depth Difference,1500,9.080452811913554
+The-Hindu,constituency,CONST-COUNT-DIFF,Constituent Count Difference,1500,9.080452811913554
+The-Hindu,constituency,BRANCH-DIFF,Branching Factor Difference,1500,9.080452811913554
+The-Hindu,constituency,CONST-ADD,Constituent Addition,91,0.5508808039227556
+The-Hindu,constituency,CONST-REM,Constituent Removal,278,1.6829105878079786
+The-Hindu,both,PUNCT-DEL,Punctuation Deletion,1221,27.266636891469403
+The-Hindu,both,PUNCT-ADD,Punctuation Addition,190,4.242965609647164
+The-Hindu,both,PUNCT-SUBST,Punctuation Substitution,67,1.496203662349263
+The-Hindu,both,H-STRUCT,Headline Structure,1500,33.49709691826708
+The-Hindu,both,H-TYPE,Headline Type,1500,33.49709691826708

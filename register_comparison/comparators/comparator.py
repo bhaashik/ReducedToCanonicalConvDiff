@@ -1,5 +1,5 @@
 
-# Version 1
+# Version 1 - Enhanced with extra metadata and windowed context
 
 from typing import List, Dict, Any
 from register_comparison.aligners.aligner import AlignedSentencePair
@@ -9,6 +9,11 @@ class DifferenceEvent:
     """
     Represents a single difference in feature-values between
     canonical and headline register for a sentence pair.
+
+    Enhanced v5.0 with:
+    - Extra metadata fields (pos, position, wordform, etc.)
+    - Windowed context extraction
+    - Schema-defined supplementary information
     """
     def __init__(self,
                  newspaper: str,
@@ -20,7 +25,8 @@ class DifferenceEvent:
                  feature_name: str,
                  feature_mnemonic: str,
                  canonical_context: str,
-                 headline_context: str):
+                 headline_context: str,
+                 extra: Dict[str, Any] = None):
         self.newspaper = newspaper
         self.sent_id = sent_id
         self.parse_type = parse_type
@@ -31,9 +37,10 @@ class DifferenceEvent:
         self.feature_mnemonic = feature_mnemonic
         self.canonical_context = canonical_context
         self.headline_context = headline_context
+        self.extra = extra or {}  # Schema-defined extra metadata
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        base_dict = {
             "newspaper": self.newspaper,
             "sentence_id": self.sent_id,
             "parse_type": self.parse_type,
@@ -45,6 +52,10 @@ class DifferenceEvent:
             "canonical_context": self.canonical_context,
             "headline_context": self.headline_context,
         }
+        # Merge extra metadata fields into the output
+        if self.extra:
+            base_dict.update(self.extra)
+        return base_dict
 
 
 class Comparator:
@@ -95,7 +106,7 @@ class Comparator:
                     )
         return events
 
-# Version 2
+# Version 2 - Also enhanced with extra metadata (maintaining backward compatibility)
 
 # from typing import List, Dict, Any
 # from aligner import AlignedSentencePair
@@ -105,6 +116,8 @@ class DifferenceEvent:
     """
     Represents a single difference in feature-values between
     canonical and headline register for a sentence pair.
+
+    Enhanced v5.0 with extra metadata support.
     """
     def __init__(self,
                  newspaper: str,
@@ -116,7 +129,8 @@ class DifferenceEvent:
                  feature_name: str,
                  feature_mnemonic: str,
                  canonical_context: str,
-                 headline_context: str):
+                 headline_context: str,
+                 extra: Dict[str, Any] = None):
         self.newspaper = newspaper
         self.sent_id = sent_id
         self.parse_type = parse_type
@@ -127,9 +141,10 @@ class DifferenceEvent:
         self.feature_mnemonic = feature_mnemonic
         self.canonical_context = canonical_context
         self.headline_context = headline_context
+        self.extra = extra or {}  # Schema-defined extra metadata
 
     def to_dict(self) -> Dict[str, Any]:
-        return {
+        base_dict = {
             "newspaper": self.newspaper,
             "sentence_id": self.sent_id,
             "parse_type": self.parse_type,
@@ -141,6 +156,10 @@ class DifferenceEvent:
             "canonical_context": self.canonical_context,
             "headline_context": self.headline_context,
         }
+        # Merge extra metadata fields
+        if self.extra:
+            base_dict.update(self.extra)
+        return base_dict
 
 
 class Comparator:

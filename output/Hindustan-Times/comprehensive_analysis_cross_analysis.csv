@@ -1,22 +1,31 @@
 newspaper,parse_type,feature_id,feature_name,count,percentage_of_combination
-Hindustan-Times,dependency,FW-DEL,Function Word Deletion,3210,16.84950921211485
-Hindustan-Times,dependency,C-DEL,Content Word Deletion,1405,7.374940947981733
-Hindustan-Times,dependency,C-ADD,Content Word Addition,690,3.621857120361136
-Hindustan-Times,dependency,DEP-REL-CHG,Dependency Relation Change,11759,61.723794026560284
-Hindustan-Times,dependency,LENGTH-CHG,Sentence Length Change,1137,5.9681906461603065
-Hindustan-Times,dependency,FW-ADD,Function Word Addition,266,1.3962521652406699
-Hindustan-Times,dependency,FORM-CHG,Surface Form Change,61,0.3201931657130859
-Hindustan-Times,dependency,FEAT-CHG,Morphological Feature Change,126,0.6613826045876857
-Hindustan-Times,dependency,HEAD-CHG,Dependency Head Change,280,1.469739121305968
-Hindustan-Times,dependency,VERB-FORM-CHG,Verb Form Change,13,0.06823788777491994
-Hindustan-Times,dependency,POS-CHG,Part of Speech Change,84,0.44092173639179044
-Hindustan-Times,dependency,TOKEN-REORDER,Token Reordering,3,0.015747204871135373
-Hindustan-Times,dependency,LEMMA-CHG,Lemma Change,17,0.08923416093643378
-Hindustan-Times,constituency,CONST-ADD,Constituent Addition,114,0.5442306774239748
-Hindustan-Times,constituency,CONST-MOV,Constituent Movement,13099,62.534014417339
-Hindustan-Times,constituency,CLAUSE-TYPE-CHG,Clause Type Change,3408,16.269632882990404
-Hindustan-Times,constituency,TED-SIMPLE,TED-SIMPLE,1142,5.451854680861222
-Hindustan-Times,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,783,3.7380054423067746
-Hindustan-Times,constituency,TED-KLEIN,TED-KLEIN,783,3.7380054423067746
-Hindustan-Times,constituency,TED-RTED,TED-RTED,1142,5.451854680861222
-Hindustan-Times,constituency,CONST-REM,Constituent Removal,476,2.2724017759106316
+Hindustan-Times,dependency,FW-DEL,Function Word Deletion,3210,15.891875835437396
+Hindustan-Times,dependency,C-DEL,Content Word Deletion,1405,6.955789890588643
+Hindustan-Times,dependency,C-ADD,Content Word Addition,690,3.416010693598693
+Hindustan-Times,dependency,DEP-REL-CHG,Dependency Relation Change,11759,58.215753255111636
+Hindustan-Times,dependency,LENGTH-CHG,Sentence Length Change,1137,5.628991534234368
+Hindustan-Times,dependency,DEP-DIST-DIFF,Dependency Distance Difference,1148,5.683449675726521
+Hindustan-Times,dependency,FW-ADD,Function Word Addition,266,1.3168968760829745
+Hindustan-Times,dependency,FORM-CHG,Surface Form Change,61,0.30199514827466706
+Hindustan-Times,dependency,FEAT-CHG,Morphological Feature Change,126,0.6237932570919352
+Hindustan-Times,dependency,HEAD-CHG,Dependency Head Change,280,1.3862072379820785
+Hindustan-Times,dependency,VERB-FORM-CHG,Verb Form Change,13,0.06435962176345364
+Hindustan-Times,dependency,POS-CHG,Part of Speech Change,84,0.4158621713946235
+Hindustan-Times,dependency,TOKEN-REORDER,Token Reordering,3,0.014852220406950839
+Hindustan-Times,dependency,LEMMA-CHG,Lemma Change,17,0.08416258230605476
+Hindustan-Times,constituency,CONST-ADD,Constituent Addition,114,0.46738551104915743
+Hindustan-Times,constituency,CONST-MOV,Constituent Movement,13099,53.70423516870977
+Hindustan-Times,constituency,CLAUSE-TYPE-CHG,Clause Type Change,3408,13.972366856627444
+Hindustan-Times,constituency,TED-SIMPLE,TED-SIMPLE,1142,4.682054856299455
+Hindustan-Times,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,783,3.2102004837850027
+Hindustan-Times,constituency,TED-KLEIN,TED-KLEIN,783,3.2102004837850027
+Hindustan-Times,constituency,TED-RTED,TED-RTED,1142,4.682054856299455
+Hindustan-Times,constituency,TREE-DEPTH-DIFF,Tree Depth Difference,1148,4.7066540937230945
+Hindustan-Times,constituency,CONST-COUNT-DIFF,Constituent Count Difference,1148,4.7066540937230945
+Hindustan-Times,constituency,BRANCH-DIFF,Branching Factor Difference,1148,4.7066540937230945
+Hindustan-Times,constituency,CONST-REM,Constituent Removal,476,1.9515395022754296
+Hindustan-Times,both,PUNCT-DEL,Punctuation Deletion,1515,30.440024110910187
+Hindustan-Times,both,PUNCT-ADD,Punctuation Addition,753,15.12959614225437
+Hindustan-Times,both,PUNCT-SUBST,Punctuation Substitution,413,8.29817158931083
+Hindustan-Times,both,H-STRUCT,Headline Structure,1148,23.066104078762308
+Hindustan-Times,both,H-TYPE,Headline Type,1148,23.066104078762308

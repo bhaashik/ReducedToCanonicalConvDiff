@@ -1,6 +1,6 @@
 metric,value
-total_unique_pairs,981.0
-average_pair_frequency,21.795107033639145
-total_pair_occurrences,21381.0
-entropy,6.7362137845067664
-concentration_ratio,0.37575417426687246
+total_unique_pairs,2476.0
+average_pair_frequency,12.867124394184168
+total_pair_occurrences,31859.0
+entropy,7.744245187178483
+concentration_ratio,0.3016729966414514

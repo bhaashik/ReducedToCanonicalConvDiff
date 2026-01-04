@@ -33,16 +33,90 @@ class MorphologicalComparativeAnalyzer:
         print(f"{'='*80}\n")
 
         for newspaper in self.newspapers:
-            morph_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_analysis.json'
+            # Try the new morphological_rules.json file
+            morph_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_rules.json'
 
             if morph_path.exists():
                 with open(morph_path, 'r') as f:
-                    self.morphological_data[newspaper] = json.load(f)
+                    rules_data = json.load(f)
+
+                # Convert from morphological_rules.json format to expected morph_systematicity format
+                converted_data = self._convert_rules_to_systematicity_format(rules_data)
+                self.morphological_data[newspaper] = converted_data
                 print(f"✅ Loaded {newspaper}")
             else:
-                print(f"❌ Missing {newspaper}: {morph_path}")
+                # Try legacy morphological_analysis.json
+                legacy_path = self.project_root / 'output' / newspaper / 'morphological_analysis' / 'morphological_analysis.json'
+                if legacy_path.exists():
+                    with open(legacy_path, 'r') as f:
+                        self.morphological_data[newspaper] = json.load(f)
+                    print(f"✅ Loaded {newspaper} (legacy format)")
+                else:
+                    print(f"❌ Missing {newspaper}: {morph_path}")
 
         print(f"\nLoaded data for {len(self.morphological_data)} newspapers")
+
+    def _convert_rules_to_systematicity_format(self, rules_data: Dict) -> Dict:
+        """Convert morphological_rules.json format to morph_systematicity format."""
+        morph_systematicity = {}
+
+        # Extract rules_by_feature
+        rules_by_feature = rules_data.get('rules_by_feature', {})
+
+        for feature, feature_data in rules_by_feature.items():
+            total_instances = feature_data.get('total_instances', 0)
+            rules = feature_data.get('rules', [])
+
+            # Convert rules to top_patterns format
+            top_patterns = []
+            for rule in rules:
+                # Create pattern in format: "Feature::h_value→c_value@POS"
+                # We don't have POS in the rules, so we'll use a generic marker
+                h_val = rule.get('headline_value', '')
+                c_val = rule.get('canonical_value', '')
+                freq = rule.get('frequency', 0)
+
+                # Infer POS from feature type
+                pos = self._infer_pos_from_feature(feature)
+
+                pattern = f"{feature}::{h_val}→{c_val}@{pos}"
+
+                top_patterns.append({
+                    'pattern': pattern,
+                    'frequency': freq
+                })
+
+            # Sort by frequency
+            top_patterns.sort(key=lambda x: x['frequency'], reverse=True)
+
+            # Calculate systematicity metrics
+            unique_patterns = len(rules)
+            total_transformations = total_instances
+
+            # Average consistency = coverage of top rule
+            avg_consistency = rules[0].get('confidence', 0) if rules else 0
+
+            morph_systematicity[feature] = {
+                'total_instances': total_instances,
+                'top_patterns': top_patterns,
+                'unique_patterns': unique_patterns,
+                'avg_consistency': avg_consistency,
+                'total_transformations': total_transformations
+            }
+
+        return {'morph_systematicity': morph_systematicity}
+
+    def _infer_pos_from_feature(self, feature: str) -> str:
+        """Infer POS tag from feature name."""
+        verb_features = ['VerbForm', 'Tense', 'Aspect', 'Mood', 'Voice']
+        noun_features = ['Number', 'Case', 'Definite', 'Gender']
+
+        if feature in verb_features:
+            return 'VERB'
+        elif feature in noun_features:
+            return 'NOUN'
+        else:
+            return 'UNKNOWN'
 
     def create_overall_statistics_table(self) -> pd.DataFrame:
         """Create overall morphological statistics comparison table."""

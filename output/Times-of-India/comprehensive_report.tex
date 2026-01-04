@@ -19,15 +19,15 @@
 
 \section{Executive Summary}
 
-This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified \textbf{33,525} difference events across \textbf{21} distinct linguistic features.
+This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified \textbf{41,616} difference events across \textbf{30} distinct linguistic features.
 
 \subsection{Key Findings}
 \begin{itemize}
-\item \textbf{Constituent Movement} (CONST-MOV): 11,485 occurrences (34.3\% of total)
-\item \textbf{Dependency Relation Change} (DEP-REL-CHG): 9,892 occurrences (29.5\% of total)
-\item \textbf{Clause Type Change} (CLAUSE-TYPE-CHG): 2,728 occurrences (8.1\% of total)
-\item \textbf{Function Word Deletion} (FW-DEL): 2,241 occurrences (6.7\% of total)
-\item \textbf{TED-RTED} (TED-RTED): 1,035 occurrences (3.1\% of total)
+\item \textbf{Constituent Movement} (CONST-MOV): 11,485 occurrences (27.6\% of total)
+\item \textbf{Dependency Relation Change} (DEP-REL-CHG): 9,892 occurrences (23.8\% of total)
+\item \textbf{Clause Type Change} (CLAUSE-TYPE-CHG): 2,728 occurrences (6.6\% of total)
+\item \textbf{Function Word Deletion} (FW-DEL): 2,241 occurrences (5.4\% of total)
+\item \textbf{Punctuation Deletion} (PUNCT-DEL): 1,306 occurrences (3.1\% of total)
 \end{itemize}
 
 \section{Global Analysis}
@@ -47,6 +47,13 @@ CONST-MOV & Constituent Movement & Syntactic & 11,485 \\
 DEP-REL-CHG & Dependency Relation Change & Syntactic & 9,892 \\
 CLAUSE-TYPE-CHG & Clause Type Change & Clause Level & 2,728 \\
 FW-DEL & Function Word Deletion & Lexical & 2,241 \\
+PUNCT-DEL & Punctuation Deletion & Other & 1,306 \\
+H-STRUCT & Headline Structure & Other & 1,041 \\
+H-TYPE & Headline Type & Other & 1,041 \\
+TREE-DEPTH-DIFF & Tree Depth Difference & Other & 1,041 \\
+CONST-COUNT-DIFF & Constituent Count Difference & Other & 1,041 \\
+DEP-DIST-DIFF & Dependency Distance Difference & Other & 1,041 \\
+BRANCH-DIFF & Branching Factor Difference & Other & 1,041 \\
 TED-RTED & TED-RTED & Other & 1,035 \\
 TED-SIMPLE & TED-SIMPLE & Other & 1,034 \\
 LENGTH-CHG & Sentence Length Change & Structural & 1,022 \\
@@ -54,10 +61,12 @@ TED-ZHANG-SHASHA & TED-ZHANG-SHASHA & Other & 806 \\
 TED-KLEIN & TED-KLEIN & Other & 806 \\
 C-DEL & Content Word Deletion & Lexical & 720 \\
 C-ADD & Content Word Addition & Lexical & 540 \\
+PUNCT-ADD & Punctuation Addition & Other & 401 \\
 HEAD-CHG & Dependency Head Change & Syntactic & 282 \\
 CONST-REM & Constituent Removal & Syntactic & 254 \\
 FW-ADD & Function Word Addition & Lexical & 170 \\
 FEAT-CHG & Morphological Feature Change & Morphological & 160 \\
+PUNCT-SUBST & Punctuation Substitution & Other & 138 \\
 CONST-ADD & Constituent Addition & Syntactic & 124 \\
 POS-CHG & Part of Speech Change & Lexical & 89 \\
 FORM-CHG & Surface Form Change & Lexical & 89 \\
@@ -73,7 +82,7 @@ The analysis examined differences across two parse types: dependency parsing and
 
 \subsection{Dependency Parsing}
 
-Total events: 15,253
+Total events: 16,294
 
 \begin{table}[h]
 \centering
@@ -83,6 +92,7 @@ Feature & Count \\
 \midrule
 DEP-REL-CHG & 9,892 \\
 FW-DEL & 2,241 \\
+DEP-DIST-DIFF & 1,041 \\
 LENGTH-CHG & 1,022 \\
 C-DEL & 720 \\
 C-ADD & 540 \\
@@ -90,7 +100,6 @@ HEAD-CHG & 282 \\
 FW-ADD & 170 \\
 FEAT-CHG & 160 \\
 POS-CHG & 89 \\
-FORM-CHG & 89 \\
 \bottomrule
 \end{tabular}
 \caption{Top 10 features in dependency parsing}
@@ -98,7 +107,7 @@ FORM-CHG & 89 \\
 
 \subsection{Constituency Parsing}
 
-Total events: 18,272
+Total events: 21,395
 
 \begin{table}[h]
 \centering
@@ -108,15 +117,37 @@ Feature & Count \\
 \midrule
 CONST-MOV & 11,485 \\
 CLAUSE-TYPE-CHG & 2,728 \\
+TREE-DEPTH-DIFF & 1,041 \\
+CONST-COUNT-DIFF & 1,041 \\
+BRANCH-DIFF & 1,041 \\
 TED-RTED & 1,035 \\
 TED-SIMPLE & 1,034 \\
 TED-ZHANG-SHASHA & 806 \\
 TED-KLEIN & 806 \\
 CONST-REM & 254 \\
-CONST-ADD & 124 \\
 \bottomrule
 \end{tabular}
 \caption{Top 10 features in constituency parsing}
+\end{table}
+
+\subsection{Both Parsing}
+
+Total events: 3,927
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lr}
+\toprule
+Feature & Count \\
+\midrule
+PUNCT-DEL & 1,306 \\
+H-STRUCT & 1,041 \\
+H-TYPE & 1,041 \\
+PUNCT-ADD & 401 \\
+PUNCT-SUBST & 138 \\
+\bottomrule
+\end{tabular}
+\caption{Top 10 features in both parsing}
 \end{table}
 
 \section{Linguistic Interpretation}
@@ -176,7 +207,7 @@ These visualizations reveal patterns in:
 \end{itemize}
 
 \subsection{Feature Schema}
-Analysis based on 18 predefined linguistic features covering:
+Analysis based on 30 predefined linguistic features covering:
 \begin{itemize}
 \item Lexical differences (word additions, deletions, changes)
 \item Syntactic variations (dependency and constituency changes)

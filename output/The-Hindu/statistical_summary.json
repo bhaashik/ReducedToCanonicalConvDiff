@@ -1,148 +1,203 @@
 {
   "overview": {
-    "total_events": 21381,
-    "unique_features": 21,
+    "total_events": 31859,
+    "unique_features": 30,
     "newspapers": [
       "The-Hindu"
     ],
     "parse_types": [
       "dependency",
-      "constituency"
+      "constituency",
+      "both"
     ]
   },
   "feature_statistics": {
     "FW-DEL": {
       "total_occurrences": 1661,
-      "percentage_of_total": 7.768579580000935,
+      "percentage_of_total": 5.213597413603691,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "C-ADD": {
       "total_occurrences": 200,
-      "percentage_of_total": 0.9354099434076983,
+      "percentage_of_total": 0.6277660943532439,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "POS-CHG": {
       "total_occurrences": 83,
-      "percentage_of_total": 0.38819512651419485,
+      "percentage_of_total": 0.26052292915659625,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FORM-CHG": {
       "total_occurrences": 158,
-      "percentage_of_total": 0.7389738552920817,
+      "percentage_of_total": 0.49593521453906275,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "DEP-REL-CHG": {
       "total_occurrences": 5284,
-      "percentage_of_total": 24.713530704831392,
+      "percentage_of_total": 16.585580212812705,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FEAT-CHG": {
       "total_occurrences": 122,
-      "percentage_of_total": 0.570600065478696,
+      "percentage_of_total": 0.38293731755547883,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "LENGTH-CHG": {
       "total_occurrences": 1117,
-      "percentage_of_total": 5.224264533931996,
+      "percentage_of_total": 3.5060736369628676,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-MOV": {
       "total_occurrences": 5705,
-      "percentage_of_total": 26.682568635704595,
+      "percentage_of_total": 17.907027841426284,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CLAUSE-TYPE-CHG": {
       "total_occurrences": 1500,
-      "percentage_of_total": 7.015574575557738,
+      "percentage_of_total": 4.70824570764933,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-SIMPLE": {
       "total_occurrences": 1058,
-      "percentage_of_total": 4.948318600626725,
+      "percentage_of_total": 3.3208826391286603,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-ZHANG-SHASHA": {
       "total_occurrences": 1124,
-      "percentage_of_total": 5.257003881951265,
+      "percentage_of_total": 3.528045450265231,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-KLEIN": {
       "total_occurrences": 1124,
-      "percentage_of_total": 5.257003881951265,
+      "percentage_of_total": 3.528045450265231,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-RTED": {
       "total_occurrences": 1139,
-      "percentage_of_total": 5.327159627706843,
+      "percentage_of_total": 3.575127907341724,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "PUNCT-DEL": {
+      "total_occurrences": 1221,
+      "percentage_of_total": 3.8325120060265547,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "PUNCT-ADD": {
+      "total_occurrences": 190,
+      "percentage_of_total": 0.5963777896355817,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "PUNCT-SUBST": {
+      "total_occurrences": 67,
+      "percentage_of_total": 0.21030164160833675,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "H-STRUCT": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "H-TYPE": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "TREE-DEPTH-DIFF": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "CONST-COUNT-DIFF": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "DEP-DIST-DIFF": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "BRANCH-DIFF": {
+      "total_occurrences": 1500,
+      "percentage_of_total": 4.70824570764933,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-ADD": {
       "total_occurrences": 91,
-      "percentage_of_total": 0.42561152425050275,
+      "percentage_of_total": 0.285633572930726,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "C-DEL": {
       "total_occurrences": 447,
-      "percentage_of_total": 2.0906412235162057,
+      "percentage_of_total": 1.4030572208795005,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-REM": {
       "total_occurrences": 278,
-      "percentage_of_total": 1.3002198213367007,
+      "percentage_of_total": 0.8725948711510091,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "HEAD-CHG": {
       "total_occurrences": 198,
-      "percentage_of_total": 0.9260558439736215,
+      "percentage_of_total": 0.6214884334097116,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FW-ADD": {
       "total_occurrences": 49,
-      "percentage_of_total": 0.2291754361348861,
+      "percentage_of_total": 0.15380269311654476,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "VERB-FORM-CHG": {
       "total_occurrences": 11,
-      "percentage_of_total": 0.051447546887423416,
+      "percentage_of_total": 0.03452713518942842,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TOKEN-REORDER": {
       "total_occurrences": 6,
-      "percentage_of_total": 0.02806229830223095,
+      "percentage_of_total": 0.01883298283059732,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "LEMMA-CHG": {
       "total_occurrences": 26,
-      "percentage_of_total": 0.1216032926430008,
+      "percentage_of_total": 0.08160959226592172,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     }
   },
   "newspaper_statistics": {
     "The-Hindu": {
-      "total_events": 21381,
+      "total_events": 31859,
       "percentage_of_global": 100.0,
-      "unique_features": 21,
+      "unique_features": 30,
       "most_frequent_feature": [
         "CONST-MOV",
         5705
@@ -151,21 +206,30 @@
   },
   "parse_type_statistics": {
     "dependency": {
-      "total_events": 9362,
-      "percentage_of_global": 43.78653945091436,
-      "unique_features": 13,
+      "total_events": 10862,
+      "percentage_of_global": 34.09397658432468,
+      "unique_features": 14,
       "most_frequent_feature": [
         "DEP-REL-CHG",
         5284
       ]
     },
     "constituency": {
-      "total_events": 12019,
-      "percentage_of_global": 56.21346054908564,
-      "unique_features": 8,
+      "total_events": 16519,
+      "percentage_of_global": 51.85034056310619,
+      "unique_features": 11,
       "most_frequent_feature": [
         "CONST-MOV",
         5705
+      ]
+    },
+    "both": {
+      "total_events": 4478,
+      "percentage_of_global": 14.055682852569133,
+      "unique_features": 5,
+      "most_frequent_feature": [
+        "H-STRUCT",
+        1500
       ]
     }
   }

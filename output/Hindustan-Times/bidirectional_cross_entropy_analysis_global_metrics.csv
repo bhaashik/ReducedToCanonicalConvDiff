@@ -1,7 +1,7 @@
 metric,value,description
-canonical_to_headline_cross_entropy,8.593129921661236,Cross-entropy when predicting headline register from canonical
-headline_to_canonical_cross_entropy,5.76936930848917,Cross-entropy when predicting canonical register from headline
-bidirectional_cross_entropy_sum,14.362499230150405,Sum of cross-entropies in both directions
-jensen_shannon_divergence,2.4523010250986297,Symmetric measure of register divergence
-register_overlap_ratio,0.4161073825503356,Ratio of overlapping values between registers
-information_asymmetry,2.823760613172065,Asymmetry in information flow between registers
+canonical_to_headline_cross_entropy,9.24578051189901,Cross-entropy when predicting headline register from canonical
+headline_to_canonical_cross_entropy,7.902203170428147,Cross-entropy when predicting canonical register from headline
+bidirectional_cross_entropy_sum,17.14798368232716,Sum of cross-entropies in both directions
+jensen_shannon_divergence,3.122497779765251,Symmetric measure of register divergence
+register_overlap_ratio,0.44310344827586207,Ratio of overlapping values between registers
+information_asymmetry,1.343577341470863,Asymmetry in information flow between registers

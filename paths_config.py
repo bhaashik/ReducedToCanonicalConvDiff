@@ -71,8 +71,8 @@ from config import BASE_DIR
 # Base data directory (adjust if needed)
 # BASE_DIR = Path(__file__).resolve().parent / "data"
 
-# Feature schema path - Updated to v4.0 with enriched morphological features
-SCHEMA_PATH = BASE_DIR / "data/diff-ontology-ver-4.0.json"
+# Feature schema path
+SCHEMA_PATH = BASE_DIR / "data/diff-ontology-ver-5.0.json"
 
 # Newspaper names
 NEWSPAPERS = ["Hindustan-Times", "The-Hindu", "Times-of-India"]

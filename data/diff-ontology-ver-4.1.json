@@ -1,0 +1,430 @@
+{
+  "name": "reducedtocanonicalconvdiff",
+  "version": "4.0.0",
+  "description": "Enriched schema with comprehensive morphological features from Stanza CoNLL-U parses",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bhaashik/ReducedToCanonicalConvDiff.git"
+  },
+  "private": true,
+  "changelog": {
+    "4.0.0": "Enriched FEAT-CHG with all morphological features from Stanza: Person, Gender, Definite, PronType, Poss, NumType, NumForm, Polarity, Reflex, Abbr, ExtPos, Foreign. This ensures complete morphosyntactic coverage."
+  },
+  "diff-schema": {
+    "features": [
+      {
+        "name": "Function Word Deletion",
+        "mnemonic_code": "FW-DEL",
+        "group": "lexical/function",
+        "description": "Deletion of function words from the reduced register relative to the canonical.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "article deletion",
+          "quantifier deletion",
+          "auxiliary deletion",
+          "preposition deletion",
+          "coordinating conjunction deletion",
+          "subordinating conjunction deletion",
+          "personal pronoun deletion",
+          "relative pronoun deletion",
+          "demonstrative pronoun deletion"
+        ],
+        "value_mnemonics": {
+          "article deletion": "ART-DEL",
+          "quantifier deletion": "QUANT-DEL",
+          "auxiliary deletion": "AUX-DEL",
+          "preposition deletion": "ADP-DEL",
+          "coordinating conjunction deletion": "CCONJ-DEL",
+          "subordinating conjunction deletion": "SCONJ-DEL",
+          "personal pronoun deletion": "PRON-PERS-DEL",
+          "relative pronoun deletion": "PRON-REL-DEL",
+          "demonstrative pronoun deletion": "PRON-DEM-DEL"
+        },
+        "extra": ["deleted_wordform", "pos", "position"]
+      },
+      {
+        "name": "Function Word Addition",
+        "mnemonic_code": "FW-ADD",
+        "group": "lexical/function",
+        "description": "Addition of function words in canonical relative to headline.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "article addition",
+          "quantifier addition",
+          "auxiliary addition",
+          "preposition addition",
+          "coordinating conjunction addition",
+          "subordinating conjunction addition",
+          "personal pronoun addition",
+          "relative pronoun addition",
+          "demonstrative pronoun addition"
+        ],
+        "value_mnemonics": {
+          "article addition": "ART-ADD",
+          "quantifier addition": "QUANT-ADD",
+          "auxiliary addition": "AUX-ADD",
+          "preposition addition": "ADP-ADD",
+          "coordinating conjunction addition": "CCONJ-ADD",
+          "subordinating conjunction addition": "SCONJ-ADD",
+          "personal pronoun addition": "PRON-PERS-ADD",
+          "relative pronoun addition": "PRON-REL-ADD",
+          "demonstrative pronoun addition": "PRON-DEM-ADD"
+        },
+        "extra": ["added_wordform", "pos", "position"]
+      },
+      {
+        "name": "Content Word Deletion",
+        "mnemonic_code": "C-DEL",
+        "group": "lexical/content",
+        "description": "Deletion of content words (nouns, verbs, adjectives, adverbs) in reduced register.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["noun deletion", "verb deletion", "adjective deletion", "adverb deletion"],
+        "value_mnemonics": {
+          "noun deletion": "NOUN-DEL",
+          "verb deletion": "VERB-DEL",
+          "adjective deletion": "ADJ-DEL",
+          "adverb deletion": "ADV-DEL"
+        },
+        "extra": ["deleted_wordform", "pos", "position"]
+      },
+      {
+        "name": "Content Word Addition",
+        "mnemonic_code": "C-ADD",
+        "group": "lexical/content",
+        "description": "Addition of content words in canonical form.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["noun addition", "verb addition", "adjective addition", "adverb addition"],
+        "value_mnemonics": {
+          "noun addition": "NOUN-ADD",
+          "verb addition": "VERB-ADD",
+          "adjective addition": "ADJ-ADD",
+          "adverb addition": "ADV-ADD"
+        },
+        "extra": ["added_wordform", "pos", "position"]
+      },
+      {
+        "name": "Part of Speech Change",
+        "mnemonic_code": "POS-CHG",
+        "group": "lexical",
+        "description": "Part-of-speech changes between aligned tokens.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": [
+          "noun to verb",
+          "verb to noun",
+          "adjective to noun",
+          "noun to adjective",
+          "verb to adjective",
+          "adjective to verb",
+          "finite verb to nonfinite verb",
+          "proper noun to common noun",
+          "common noun to proper noun"
+        ],
+        "value_mnemonics": {
+          "noun to verb": "N2V",
+          "verb to noun": "V2N",
+          "adjective to noun": "ADJ2N",
+          "noun to adjective": "N2ADJ",
+          "verb to adjective": "V2ADJ",
+          "adjective to verb": "ADJ2V",
+          "finite verb to nonfinite verb": "VFIN2VNFIN",
+          "proper noun to common noun": "PROPN2N",
+          "common noun to proper noun": "N2PROPN"
+        },
+        "extra": ["source_pos", "target_pos", "wordform"]
+      },
+      {
+        "name": "Lemma Change",
+        "mnemonic_code": "LEMMA-CHG",
+        "group": "lexical",
+        "description": "Lemma differences in aligned tokens.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["any lemma change"],
+        "value_mnemonics": {
+          "any lemma change": "LEM-CHG"
+        },
+        "extra": ["source_lemma", "target_lemma", "pos"]
+      },
+      {
+        "name": "Surface Form Change",
+        "mnemonic_code": "FORM-CHG",
+        "group": "lexical",
+        "description": "Orthographic or inflectional surface form differences.",
+        "category": "lexical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["any form change"],
+        "value_mnemonics": {
+          "any form change": "FORM-CHG"
+        },
+        "extra": ["source_form", "target_form", "lemma", "pos"]
+      },
+      {
+        "name": "Morphological Feature Change",
+        "mnemonic_code": "FEAT-CHG",
+        "group": "morphological",
+        "description": "Morphological feature differences extracted from Universal Dependencies Stanza parses. Includes all granular morphological features: Tense, Number, Aspect, Voice, Mood, Case, Degree, Person, Gender, Definiteness, PronType, Possessive, NumType, NumForm, Polarity, Reflexive, VerbForm, Abbreviation, ExtPos, Foreign.",
+        "category": "morphological",
+        "parse_types": ["dependency"],
+        "values": [
+          "tense change",
+          "number change",
+          "aspect change",
+          "voice change",
+          "mood change",
+          "case change",
+          "degree change",
+          "person change",
+          "gender change",
+          "definiteness change",
+          "pronoun type change",
+          "possessive change",
+          "number type change",
+          "number form change",
+          "polarity change",
+          "reflexive change",
+          "verbform change",
+          "abbreviation change",
+          "external pos change",
+          "foreign change"
+        ],
+        "value_mnemonics": {
+          "tense change": "TENSE-CHG",
+          "number change": "NUM-CHG",
+          "aspect change": "ASP-CHG",
+          "voice change": "VOICE-CHG",
+          "mood change": "MOOD-CHG",
+          "case change": "CASE-CHG",
+          "degree change": "DEG-CHG",
+          "person change": "PERSON-CHG",
+          "gender change": "GENDER-CHG",
+          "definiteness change": "DEF-CHG",
+          "pronoun type change": "PRONTYPE-CHG",
+          "possessive change": "POSS-CHG",
+          "number type change": "NUMTYPE-CHG",
+          "number form change": "NUMFORM-CHG",
+          "polarity change": "POL-CHG",
+          "reflexive change": "REFLEX-CHG",
+          "verbform change": "VFORM-CHG",
+          "abbreviation change": "ABBR-CHG",
+          "external pos change": "EXTPOS-CHG",
+          "foreign change": "FOREIGN-CHG"
+        },
+        "extra": ["source_feats", "target_feats", "feature_name", "source_value", "target_value"],
+        "feature_definitions": {
+          "Tense": "Temporal reference of verb: Past, Pres, Fut",
+          "Number": "Grammatical number: Sing, Plur",
+          "Aspect": "Viewpoint aspect: Imp, Perf, Prog",
+          "Voice": "Grammatical voice: Act, Pass, Mid",
+          "Mood": "Grammatical mood: Ind, Imp, Sub, Cnd",
+          "Case": "Grammatical case: Nom, Acc, Gen, Dat, etc.",
+          "Degree": "Degree of comparison: Pos, Cmp, Sup",
+          "Person": "Grammatical person: 1, 2, 3",
+          "Gender": "Grammatical gender: Masc, Fem, Neut",
+          "Definite": "Definiteness: Def, Ind",
+          "PronType": "Pronoun type: Art, Dem, Ind, Int, Prs, Rel",
+          "Poss": "Possessive: Yes",
+          "NumType": "Numeral type: Card, Ord, Frac, Mult",
+          "NumForm": "Numeral form: Word, Digit, Roman",
+          "Polarity": "Polarity/Negation: Pos, Neg",
+          "Reflex": "Reflexive: Yes",
+          "VerbForm": "Verb form: Fin, Inf, Part, Ger, Sup, Conv",
+          "Abbr": "Abbreviation: Yes",
+          "ExtPos": "External POS (when word functions as different POS)",
+          "Foreign": "Foreign word: Yes"
+        }
+      },
+      {
+        "name": "Dependency Relation Change",
+        "mnemonic_code": "DEP-REL-CHG",
+        "group": "syntactic/dependency",
+        "description": "Change in dependency relation labels (and possibly heads).",
+        "category": "syntactic",
+        "parse_types": ["dependency"],
+        "values": [
+          "nsubj to obl",
+          "obl to advmod",
+          "advmod to obl",
+          "obj to nsubj",
+          "nsubj to obj",
+          "modifier shift",
+          "complement drop",
+          "other"
+        ],
+        "value_mnemonics": {
+          "nsubj to obl": "NSUBJ2OBL",
+          "obl to advmod": "OBL2ADVMOD",
+          "advmod to obl": "ADVMOD2OBL",
+          "obj to nsubj": "OBJ2NSUBJ",
+          "nsubj to obj": "NSUBJ2OBJ",
+          "modifier shift": "MOD-SHIFT",
+          "complement drop": "COMP-DROP",
+          "other": "DEP-MISC"
+        },
+        "extra": ["source_deprel", "target_deprel", "head_word"]
+      },
+      {
+        "name": "Dependency Head Change",
+        "mnemonic_code": "HEAD-CHG",
+        "group": "syntactic/dependency",
+        "description": "Token keeps same dependency label but head changes.",
+        "category": "syntactic",
+        "parse_types": ["dependency"],
+        "values": ["lexical head change", "syntactic head change"],
+        "value_mnemonics": {
+          "lexical head change": "HEAD-LEX-CHG",
+          "syntactic head change": "HEAD-SYN-CHG"
+        },
+        "extra": ["old_head", "new_head", "pos_head"]
+      },
+      {
+        "name": "Token Reordering",
+        "mnemonic_code": "TOKEN-REORDER",
+        "group": "word-order",
+        "description": "Changes in linear order of individual tokens.",
+        "category": "word-order",
+        "parse_types": ["dependency"],
+        "values": ["fronting", "postposing", "local swap", "long-distance move"],
+        "value_mnemonics": {
+          "fronting": "FRONT",
+          "postposing": "POST",
+          "local swap": "LSWAP",
+          "long-distance move": "LD-MOVE"
+        },
+        "extra": ["old_position", "new_position", "wordform"]
+      },
+      {
+        "name": "Constituent Removal",
+        "mnemonic_code": "CONST-REM",
+        "group": "syntactic/phrase-level",
+        "description": "Removal of whole syntactic constituents.",
+        "category": "syntactic",
+        "parse_types": ["constituency"],
+        "values": [
+          "NP removal",
+          "PP removal",
+          "SBAR removal",
+          "ADJP removal",
+          "VP removal",
+          "CP removal",
+          "QP removal",
+          "AdvP removal"
+        ],
+        "value_mnemonics": {
+          "NP removal": "NP-REM",
+          "PP removal": "PP-REM",
+          "SBAR removal": "SBAR-REM",
+          "ADJP removal": "ADJP-REM",
+          "VP removal": "VP-REM",
+          "CP removal": "CP-REM",
+          "QP removal": "QP-REM",
+          "AdvP removal": "ADVP-REM"
+        },
+        "extra": ["removed_label", "removed_words", "start_end_span"]
+      },
+      {
+        "name": "Constituent Addition",
+        "mnemonic_code": "CONST-ADD",
+        "group": "syntactic/phrase-level",
+        "description": "Addition of whole syntactic constituents.",
+        "category": "syntactic",
+        "parse_types": ["constituency"],
+        "values": [
+          "NP addition",
+          "PP addition",
+          "SBAR addition",
+          "ADJP addition",
+          "VP addition",
+          "CP addition",
+          "QP addition",
+          "AdvP addition"
+        ],
+        "value_mnemonics": {
+          "NP addition": "NP-ADD",
+          "PP addition": "PP-ADD",
+          "SBAR addition": "SBAR-ADD",
+          "ADJP addition": "ADJP-ADD",
+          "VP addition": "VP-ADD",
+          "CP addition": "CP-ADD",
+          "QP addition": "QP-ADD",
+          "AdvP addition": "ADVP-ADD"
+        },
+        "extra": ["added_label", "added_words", "start_end_span"]
+      },
+      {
+        "name": "Constituent Movement",
+        "mnemonic_code": "CONST-MOV",
+        "group": "syntactic/phrase-level",
+        "description": "Movement of an entire constituent to a new position.",
+        "category": "word-order",
+        "parse_types": ["constituency"],
+        "values": ["fronted constituent", "postposed constituent"],
+        "value_mnemonics": {
+          "fronted constituent": "CONST-FRONT",
+          "postposed constituent": "CONST-POST"
+        },
+        "extra": ["constituent_label", "moved_words", "old_span", "new_span"]
+      },
+      {
+        "name": "Clause Type Change",
+        "mnemonic_code": "CLAUSE-TYPE-CHG",
+        "group": "syntactic/clause-level",
+        "description": "Changes in clause type or finiteness.",
+        "category": "syntactic",
+        "parse_types": ["constituency", "dependency"],
+        "values": ["finite to nonfinite", "verbless clause", "declarative to imperative"],
+        "value_mnemonics": {
+          "finite to nonfinite": "FIN2NFIN",
+          "verbless clause": "VERBLESS",
+          "declarative to imperative": "DECL2IMP"
+        },
+        "extra": ["source_clause_type", "target_clause_type"]
+      },
+      {
+        "name": "Verb Form Change",
+        "mnemonic_code": "VERB-FORM-CHG",
+        "group": "morphological/verb",
+        "description": "Verb form changes independent of POS category shifts. Note: VerbForm feature changes are also captured in FEAT-CHG.",
+        "category": "morphological",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["finite to participle", "finite to infinitive", "participle to finite"],
+        "value_mnemonics": {
+          "finite to participle": "VFIN2PART",
+          "finite to infinitive": "VFIN2INF",
+          "participle to finite": "PART2VFIN"
+        },
+        "extra": ["source_form", "target_form", "pos", "tense_aspect"]
+      },
+      {
+        "name": "Tree Edit Distance",
+        "mnemonic_code": "TED",
+        "group": "structural",
+        "description": "Tree edit distance between constituency parses.",
+        "category": "structural",
+        "parse_types": ["constituency"],
+        "values": ["numeric"],
+        "value_mnemonics": { "numeric": "TED" },
+        "extra": ["operation_list"]
+      },
+      {
+        "name": "Sentence Length Change",
+        "mnemonic_code": "LENGTH-CHG",
+        "group": "statistical",
+        "description": "Difference in tokens/constituents between forms.",
+        "category": "statistical",
+        "parse_types": ["dependency", "constituency"],
+        "values": ["numeric"],
+        "value_mnemonics": { "numeric": "LEN-DIFF" },
+        "extra": ["headline_length", "canonical_length"]
+      }
+    ]
+  }
+}
