@@ -263,6 +263,50 @@ class PipelineExecutor:
             task_root / LEXICAL_DIR,
             ["*feature_freq_global*","*top_features*","*feature_distribution_statistics*"],
         )
+        # Per-paper lexical/punctuation/syntactic/overview routing from legacy per-paper outputs
+        for paper in self.newspapers:
+            paper_src = self.output_root / paper
+            # Lexical
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / LEXICAL_DIR / paper,
+                [
+                    "feature_freq_global.*",
+                    "*feature_freq_global.*",
+                    "*feature_distribution_statistics.*",
+                    "*top_features*.*",
+                    "*feature_value_pairs.*",
+                ],
+            )
+            # Punctuation
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / PUNCTUATION_DIR / paper,
+                ["*punctuation*.*"],
+            )
+            # Syntactic combined
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / SYNTACTIC_DIR / SYN_COMBINED_DIR / paper,
+                [
+                    "cross_dimensional_analysis.*",
+                    "cross_dimensional_entropy_heatmap.*",
+                    "cross_dimensional_statistics.*",
+                    "parse_type_comparison.*",
+                    "parse_type_statistical_differences.*",
+                    "transformation_patterns_overview.*",
+                ],
+            )
+            # Overview per-paper (broad summaries)
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / OVERVIEW_DIR / paper,
+                [
+                    "comprehensive_report.*",
+                    "comprehensive_analysis.*",
+                    "transformation_patterns_overview.*",
+                ],
+            )
 
         # Rule effectiveness summaries
         reports = [
