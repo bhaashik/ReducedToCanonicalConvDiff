@@ -107,15 +107,24 @@ class RegisterPerplexityAnalyzer:
         self.results = {}
 
     def load_events_data(self) -> pd.DataFrame:
-        """Load events data from CSV."""
-        events_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
+        """Load events data with direction tags (C2H/H2C)."""
+        # Preferred: directional events generated into complexity-similarity-study/events
+        directional_path = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events.csv"
+        fallback_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
 
-        if not events_path.exists():
-            print(f"⚠️  Events file not found: {events_path}")
+        path_to_use = None
+        if directional_path.exists():
+            path_to_use = directional_path
+        elif fallback_path.exists():
+            path_to_use = fallback_path
+        else:
+            print(f"⚠️  Events file not found for {self.newspaper} (looked for {directional_path} and {fallback_path})")
             return pd.DataFrame()
 
-        df = pd.read_csv(events_path)
-        print(f"✅ Loaded {len(df)} events for {self.newspaper}")
+        df = pd.read_csv(path_to_use)
+        if 'Direction' not in df.columns:
+            df['Direction'] = 'C2H'
+        print(f"✅ Loaded {len(df)} events for {self.newspaper} from {path_to_use}")
         return df
 
     def load_morphological_rules(self) -> pd.DataFrame:
@@ -143,33 +152,55 @@ class RegisterPerplexityAnalyzer:
 
         results = {}
 
-        # 1. Event type distribution
-        event_types = Counter(self.events_df['feature_id'].values)
-        results['event_types'] = self.calculator.calculate_distribution_perplexity(event_types)
+        # 1. Event type distribution (by Direction if available)
+        if 'Direction' in self.events_df.columns:
+            for direction, group in self.events_df.groupby('Direction'):
+                event_types = Counter(group['feature_id'].values)
+                key = f"event_types_{direction}"
+                results[key] = self.calculator.calculate_distribution_perplexity(event_types)
+                print(f"Event Type Distribution ({direction}):")
+                print(f"  PP={results[key]['perplexity']:.3f}, "
+                      f"PP_norm={results[key]['normalized_perplexity']:.3f}, "
+                      f"Types={results[key]['num_types']}, "
+                      f"Tokens={results[key]['num_tokens']}")
+        else:
+            event_types = Counter(self.events_df['feature_id'].values)
+            results['event_types'] = self.calculator.calculate_distribution_perplexity(event_types)
+            print(f"Event Type Distribution:")
+            print(f"  PP={results['event_types']['perplexity']:.3f}, "
+                  f"PP_norm={results['event_types']['normalized_perplexity']:.3f}, "
+                  f"Types={results['event_types']['num_types']}, "
+                  f"Tokens={results['event_types']['num_tokens']}")
 
-        print(f"Event Type Distribution:")
-        print(f"  PP={results['event_types']['perplexity']:.3f}, "
-              f"PP_norm={results['event_types']['normalized_perplexity']:.3f}, "
-              f"Types={results['event_types']['num_types']}, "
-              f"Tokens={results['event_types']['num_tokens']}")
+        # 2/3. Register-specific value distributions (by Direction)
+        if 'Direction' in self.events_df.columns:
+            for direction, group in self.events_df.groupby('Direction'):
+                canonical_values = Counter(group['canonical_value'].dropna().values)
+                headline_values = Counter(group['headline_value'].dropna().values)
+                results[f'canonical_values_{direction}'] = self.calculator.calculate_distribution_perplexity(canonical_values)
+                results[f'headline_values_{direction}'] = self.calculator.calculate_distribution_perplexity(headline_values)
+                print(f"\nCanonical Value Distribution ({direction}):")
+                print(f"  PP={results[f'canonical_values_{direction}']['perplexity']:.3f}, "
+                      f"PP_norm={results[f'canonical_values_{direction}']['normalized_perplexity']:.3f}, "
+                      f"Types={results[f'canonical_values_{direction}']['num_types']}")
+                print(f"\nHeadline Value Distribution ({direction}):")
+                print(f"  PP={results[f'headline_values_{direction}']['perplexity']:.3f}, "
+                      f"PP_norm={results[f'headline_values_{direction}']['normalized_perplexity']:.3f}, "
+                      f"Types={results[f'headline_values_{direction}']['num_types']}")
+        else:
+            canonical_values = Counter(self.events_df['canonical_value'].dropna().values)
+            results['canonical_values'] = self.calculator.calculate_distribution_perplexity(canonical_values)
+            print(f"\nCanonical Value Distribution:")
+            print(f"  PP={results['canonical_values']['perplexity']:.3f}, "
+                  f"PP_norm={results['canonical_values']['normalized_perplexity']:.3f}, "
+                  f"Types={results['canonical_values']['num_types']}")
 
-        # 2. Canonical value distribution (complexity in canonical register)
-        canonical_values = Counter(self.events_df['canonical_value'].dropna().values)
-        results['canonical_values'] = self.calculator.calculate_distribution_perplexity(canonical_values)
-
-        print(f"\nCanonical Value Distribution:")
-        print(f"  PP={results['canonical_values']['perplexity']:.3f}, "
-              f"PP_norm={results['canonical_values']['normalized_perplexity']:.3f}, "
-              f"Types={results['canonical_values']['num_types']}")
-
-        # 3. Headline value distribution (complexity in headline register)
-        headline_values = Counter(self.events_df['headline_value'].dropna().values)
-        results['headline_values'] = self.calculator.calculate_distribution_perplexity(headline_values)
-
-        print(f"\nHeadline Value Distribution:")
-        print(f"  PP={results['headline_values']['perplexity']:.3f}, "
-              f"PP_norm={results['headline_values']['normalized_perplexity']:.3f}, "
-              f"Types={results['headline_values']['num_types']}")
+            headline_values = Counter(self.events_df['headline_value'].dropna().values)
+            results['headline_values'] = self.calculator.calculate_distribution_perplexity(headline_values)
+            print(f"\nHeadline Value Distribution:")
+            print(f"  PP={results['headline_values']['perplexity']:.3f}, "
+                  f"PP_norm={results['headline_values']['normalized_perplexity']:.3f}, "
+                  f"Types={results['headline_values']['num_types']}")
 
         self.results['mono_register'] = results
         return results

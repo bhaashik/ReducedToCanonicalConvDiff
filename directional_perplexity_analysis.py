@@ -85,14 +85,18 @@ class DirectionalPerplexityAnalyzer:
 
     def load_events_data(self) -> pd.DataFrame:
         """Load events data."""
-        events_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
+        directional_path = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events.csv"
+        legacy_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
+        path = directional_path if directional_path.exists() else legacy_path
 
-        if not events_path.exists():
-            print(f"⚠️  Events file not found: {events_path}")
+        if not path.exists():
+            print(f"⚠️  Events file not found: {path}")
             return pd.DataFrame()
 
-        df = pd.read_csv(events_path)
-        print(f"✅ Loaded {len(df)} events for {self.newspaper}")
+        df = pd.read_csv(path)
+        if 'Direction' not in df.columns:
+            df['Direction'] = 'C2H'
+        print(f"✅ Loaded {len(df)} events for {self.newspaper} from {path}")
         return df
 
     def classify_transformation_direction(self, canonical_val: str, headline_val: str) -> str:

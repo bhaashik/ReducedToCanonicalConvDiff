@@ -17,6 +17,23 @@ from pathlib import Path
 from typing import Iterable, List, Sequence
 
 DEFAULT_NEWSPAPERS = ["Times-of-India", "Hindustan-Times", "The-Hindu"]
+# New standardized layout under output/
+COMMON_DIR = "common"
+COMPARATIVE_DIR = "comparative-study"
+TRANSFORMATION_DIR = "transformation-study"
+COMPLEXITY_DIR = "complexity-similarity-study"
+LEXICAL_DIR = "lexical"
+PUNCTUATION_DIR = "punctuation"
+MORPHO_DIR = "morphological"
+SYNTACTIC_DIR = "syntactic"
+SYN_DEP_DIR = "dependency"
+SYN_CONST_DIR = "constituency"
+SYN_COMBINED_DIR = "combined"
+OVERVIEW_DIR = "overview"
+COMPARE_EVENTS = "events"
+TABLES = "tables"
+VISUALS = "visualizations"
+REPORTS = "reports"
 TABLE_PATTERNS = ("*.csv", "*.json", "*.md", "*.tex")
 VISUAL_PATTERNS = ("*.png", "*.jpg", "*.jpeg", "*.svg", "*.pdf")
 TRACE_PATTERNS = ("*.csv", "*.json", "*.txt")
@@ -62,45 +79,57 @@ class PipelineExecutor:
         base = self.output_root
         dirs: List[Path] = []
 
+        # Common
+        dirs.append(base / COMMON_DIR)
+
         # Task 1: Comparative Study
-        comp = base / "comparative-study"
+        comp = base / COMPARATIVE_DIR
         dirs += [
             comp,
-            comp / "global" / "tables",
-            comp / "global" / "visualizations",
-            comp / "reports",
-            comp / "visualizations",
+            comp / "global" / TABLES,
+            comp / "global" / VISUALS,
+            comp / REPORTS,
+            comp / VISUALS,
+            comp / COMPARE_EVENTS,
         ]
         for paper in self.newspapers:
             dirs += [
-                comp / "per-newspaper" / paper / "tables",
-                comp / "per-newspaper" / paper / "visualizations",
+                comp / "per-newspaper" / paper / TABLES,
+                comp / "per-newspaper" / paper / VISUALS,
+                comp / COMPARE_EVENTS / paper,
             ]
 
         # Task 2: Transformation Study
-        trans = base / "transformation-study"
+        trans = base / TRANSFORMATION_DIR
         dirs += [
             trans,
             trans / "coverage-analysis",
-            trans / "morphological-rules",
+            trans / LEXICAL_DIR,
+            trans / PUNCTUATION_DIR,
+            trans / MORPHO_DIR,
+            trans / SYNTACTIC_DIR / SYN_DEP_DIR,
+            trans / SYNTACTIC_DIR / SYN_CONST_DIR,
+            trans / SYNTACTIC_DIR / SYN_COMBINED_DIR,
+            trans / OVERVIEW_DIR,
             trans / "rule-effectiveness",
-            trans / "visualizations",
-            trans / "reports",
+            trans / VISUALS,
+            trans / REPORTS,
         ]
         for paper in self.newspapers:
             dirs.append(trans / "coverage-analysis" / paper)
 
         # Task 3: Complexity & Similarity Study
-        comp_sim = base / "complexity-similarity-study"
+        comp_sim = base / COMPLEXITY_DIR
         dirs += [
             comp_sim,
             comp_sim / "bidirectional-transformation",
             comp_sim / "transformation-traces",
             comp_sim / "mt-evaluation",
-            comp_sim / "perplexity-analysis",
-            comp_sim / "correlation-analysis",
-            comp_sim / "visualizations",
-            comp_sim / "reports",
+            comp_sim / "perplexity",
+            comp_sim / "correlation",
+            comp_sim / VISUALS,
+            comp_sim / REPORTS,
+            comp_sim / "events",
         ]
 
         for directory in dirs:
@@ -152,7 +181,7 @@ class PipelineExecutor:
     # ------------------------------------------------------------------ #
     def organize_comparative_study_outputs(self) -> int:
         """Collect Task 1 outputs into comparative-study layout."""
-        task_root = self.output_root / "comparative-study"
+        task_root = self.output_root / COMPARATIVE_DIR
         total = 0
 
         # Per-newspaper tables and visualizations
@@ -193,7 +222,7 @@ class PipelineExecutor:
 
     def organize_transformation_study_outputs(self) -> int:
         """Collect Task 2 outputs into transformation-study layout."""
-        task_root = self.output_root / "transformation-study"
+        task_root = self.output_root / TRANSFORMATION_DIR
         total = 0
 
         # Coverage analysis (per-newspaper CSVs go into per-newspaper folders)
@@ -207,16 +236,26 @@ class PipelineExecutor:
         # Morphological rule comparisons and related visualizations
         total += self._copy_from_dir(
             self.output_root / "morphological_comparative_analysis",
-            task_root / "morphological-rules",
+            task_root / MORPHO_DIR,
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
             self.output_root / "comprehensive_morphological_visualizations",
-            task_root / "visualizations",
+            task_root / MORPHO_DIR,
             VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
-            self.output_root / "task2_visualizations", task_root / "visualizations", VISUAL_PATTERNS
+            self.output_root / "task2_visualizations", task_root / MORPHO_DIR, VISUAL_PATTERNS
+        )
+        total += self._copy_from_dir(
+            self.output_root / "punctuation_visualizations", task_root / PUNCTUATION_DIR, VISUAL_PATTERNS
+        )
+        total += self._copy_from_dir(
+            self.output_root / "three_level_visualizations", task_root / SYNTACTIC_DIR / SYN_COMBINED_DIR, VISUAL_PATTERNS
+        )
+        # Lexical and overview visuals/tables (placeholders: use publication_figures as overview)
+        total += self._copy_from_dir(
+            self.output_root / "publication_figures", task_root / OVERVIEW_DIR, VISUAL_PATTERNS
         )
 
         # Rule effectiveness summaries
@@ -229,7 +268,7 @@ class PipelineExecutor:
 
     def organize_complexity_similarity_outputs(self) -> int:
         """Collect Task 3 outputs into complexity-similarity-study layout."""
-        task_root = self.output_root / "complexity-similarity-study"
+        task_root = self.output_root / COMPLEXITY_DIR
         total = 0
 
         total += self._copy_from_dir(
@@ -239,27 +278,27 @@ class PipelineExecutor:
         )
         total += self._copy_from_dir(
             self.output_root / "perplexity_analysis",
-            task_root / "perplexity-analysis",
+            task_root / "perplexity",
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
             self.output_root / "directional_perplexity",
-            task_root / "perplexity-analysis",
+            task_root / "perplexity",
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
             self.output_root / "correlation_analysis",
-            task_root / "correlation-analysis",
+            task_root / "correlation",
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
             self.output_root / "multilevel_complexity",
-            task_root / "perplexity-analysis",
+            task_root / "perplexity",
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
         total += self._copy_from_dir(
             self.output_root / "multilevel_similarity",
-            task_root / "bidirectional-transformation",
+            task_root / "transformation-traces",
             TABLE_PATTERNS + VISUAL_PATTERNS,
         )
 
@@ -276,6 +315,35 @@ class PipelineExecutor:
             self.organize_transformation_study_outputs()
         if "task3" in selected:
             self.organize_complexity_similarity_outputs()
+
+    # ------------------------------------------------------------------ #
+    # Event generation for complexity study
+    # ------------------------------------------------------------------ #
+    def generate_directional_events(self):
+        """
+        Create direction-tagged event CSVs for complexity/similarity study.
+        Currently uses existing canonical→headline events (Direction=C2H).
+        """
+        events_dir = self.output_root / COMPLEXITY_DIR / "events"
+        events_dir.mkdir(parents=True, exist_ok=True)
+
+        for paper in self.newspapers:
+            src = self.output_root / paper / "events_global.csv"
+            if not src.exists():
+                self.log(f"[TASK-3] Missing events file for {paper}: {src}", "WARN")
+                continue
+            df = None
+            try:
+                import pandas as pd  # Local import to avoid hard dependency at startup
+
+                df = pd.read_csv(src)
+                df["Direction"] = "C2H"
+                dest = events_dir / f"{paper}_events.csv"
+                if not self.dry_run:
+                    df.to_csv(dest, index=False)
+                self.log(f"[TASK-3] Wrote directional events for {paper} -> {dest}")
+            except Exception as exc:  # pylint: disable=broad-except
+                self.log(f"[TASK-3] Failed to create directional events for {paper}: {exc}", "ERROR")
 
     # ------------------------------------------------------------------ #
     # Script runners
@@ -521,6 +589,8 @@ class PipelineExecutor:
         self.log("")
 
         self.setup_directories()
+        # Prepare directional events for complexity/similarity (C2H baseline).
+        self.generate_directional_events()
 
         task1_success = self.task1_comparative_study()
         task2_success = self.task2_transformation_study()
