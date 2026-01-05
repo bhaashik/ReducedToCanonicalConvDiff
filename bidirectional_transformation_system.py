@@ -25,20 +25,23 @@ from paths_config import TEXT_FILES
 COMPLEXITY_DIR = "complexity-similarity-study"
 
 # Import evaluation metrics
+BLEU_AVAILABLE = False
+METEOR_AVAILABLE = False
 try:
     from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
     from nltk.translate.meteor_score import meteor_score
     import nltk
-    # Avoid network download; rely on locally installed corpora
+    BLEU_AVAILABLE = True
     try:
         nltk.data.find('corpora/wordnet')
         nltk.data.find('corpora/omw-1.4')
-        NLTK_AVAILABLE = True
+        METEOR_AVAILABLE = True
     except LookupError:
-        NLTK_AVAILABLE = False
+        METEOR_AVAILABLE = False
         print("⚠️  NLTK corpora wordnet/omw-1.4 not found locally. METEOR will be skipped.")
 except Exception:
-    NLTK_AVAILABLE = False
+    BLEU_AVAILABLE = False
+    METEOR_AVAILABLE = False
     print("⚠️  NLTK not available, BLEU and METEOR will be skipped")
 
 try:
@@ -306,7 +309,7 @@ class BidirectionalEvaluationSystem:
         hyp_tokens = hypothesis.lower().split()
 
         # BLEU score
-        if NLTK_AVAILABLE and len(ref_tokens) > 0 and len(hyp_tokens) > 0:
+        if BLEU_AVAILABLE and len(ref_tokens) > 0 and len(hyp_tokens) > 0:
             try:
                 smoothing = SmoothingFunction()
                 bleu1 = sentence_bleu([ref_tokens], hyp_tokens, weights=(1, 0, 0, 0),
@@ -324,7 +327,7 @@ class BidirectionalEvaluationSystem:
                 metrics['bleu4'] = 0.0
 
         # METEOR score
-        if NLTK_AVAILABLE and len(ref_tokens) > 0 and len(hyp_tokens) > 0:
+        if METEOR_AVAILABLE and len(ref_tokens) > 0 and len(hyp_tokens) > 0:
             try:
                 meteor = meteor_score([ref_tokens], hyp_tokens)
                 metrics['meteor'] = meteor
