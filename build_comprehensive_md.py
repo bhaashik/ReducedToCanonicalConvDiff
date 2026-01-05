@@ -28,7 +28,7 @@ OUT_DIR = BASE / 'TABLES-FIGURES-ALL-MD'
 OUT_FILE = OUT_DIR / 'comprehensive.md'
 
 CSV_MAX_MB = 1.0
-FIG_MAX_MB = 1.0
+FIG_MAX_MB = 5.0
 IMAGE_EXTS = {'.png', '.jpg', '.jpeg', '.svg', '.pdf'}
 
 TASKS = {
@@ -101,12 +101,22 @@ def csv_to_md_table(path: Path) -> str:
     df = df[~df.apply(row_all_empty, axis=1)]
     if df.empty:
         return ''
+    # Limit columns for readability
+    max_cols = 20
+    if df.shape[1] > max_cols:
+        df = df.iloc[:, :max_cols]
     if TABULATE_AVAILABLE:
-        return df.to_markdown(index=False)
+        return df.to_markdown(index=False, tablefmt="github")
     else:
-        # Fallback: simple CSV block if tabulate is not installed
-        csv_str = df.to_csv(index=False)
-        return "```\n" + csv_str + "\n```"
+        # Simple markdown pipe table fallback
+        headers = list(df.columns)
+        rows = df.values.tolist()
+        header_line = "| " + " | ".join(str(h) for h in headers) + " |"
+        sep_line = "| " + " | ".join(["---"] * len(headers)) + " |"
+        body_lines = []
+        for row in rows:
+            body_lines.append("| " + " | ".join("" if pd.isna(v) else str(v) for v in row) + " |")
+        return "\n".join([header_line, sep_line] + body_lines)
 
 
 def main():
