@@ -313,18 +313,22 @@ class BidirectionalEvaluationSystem:
             try:
                 smoothing = SmoothingFunction()
                 bleu1 = sentence_bleu([ref_tokens], hyp_tokens, weights=(1, 0, 0, 0),
-                                     smoothing_function=smoothing.method1)
+                                      smoothing_function=smoothing.method1)
                 bleu2 = sentence_bleu([ref_tokens], hyp_tokens, weights=(0.5, 0.5, 0, 0),
-                                     smoothing_function=smoothing.method1)
+                                      smoothing_function=smoothing.method1)
                 bleu4 = sentence_bleu([ref_tokens], hyp_tokens, weights=(0.25, 0.25, 0.25, 0.25),
-                                     smoothing_function=smoothing.method1)
+                                      smoothing_function=smoothing.method1)
                 metrics['bleu1'] = bleu1
                 metrics['bleu2'] = bleu2
                 metrics['bleu4'] = bleu4
-            except:
+            except Exception:
                 metrics['bleu1'] = 0.0
                 metrics['bleu2'] = 0.0
                 metrics['bleu4'] = 0.0
+        else:
+            metrics['bleu1'] = 0.0
+            metrics['bleu2'] = 0.0
+            metrics['bleu4'] = 0.0
 
         # METEOR score
         if METEOR_AVAILABLE and len(ref_tokens) > 0 and len(hyp_tokens) > 0:
@@ -333,6 +337,8 @@ class BidirectionalEvaluationSystem:
                 metrics['meteor'] = meteor
             except:
                 metrics['meteor'] = 0.0
+        else:
+            metrics['meteor'] = 0.0
 
         # ROUGE scores
         if ROUGE_AVAILABLE:
