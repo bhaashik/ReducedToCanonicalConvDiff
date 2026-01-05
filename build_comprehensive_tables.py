@@ -94,10 +94,14 @@ def friendly_label(task: str, path: Path) -> str:
     return f"tab:{task}-{path.stem.replace('_','-')}"
 
 
-def write_tables(task: str, csv_files: List[Path], tex_dir: Path) -> List[Path]:
+def write_tables(task: str, csv_files: List[Path], tex_dir: Path, max_size_mb: float) -> List[Path]:
     tex_dir.mkdir(parents=True, exist_ok=True)
     created = []
     for csv in csv_files:
+        size_mb = csv.stat().st_size / (1024 * 1024)
+        if size_mb > max_size_mb:
+            print(f"Skipping {csv} (size {size_mb:.2f} MB > {max_size_mb} MB)")
+            continue
         if csv.stat().st_size == 0:
             continue
         caption = friendly_caption(csv)
@@ -161,6 +165,12 @@ def main():
         default="all",
         help="Which task(s) to process.",
     )
+    parser.add_argument(
+        "--max-csv-size-mb",
+        type=float,
+        default=1.0,
+        help="Skip CSVs larger than this size (MB) to keep docs manageable.",
+    )
     args = parser.parse_args()
 
     tasks = ["task1", "task2", "task3"] if args.task == "all" else [args.task]
@@ -170,9 +180,9 @@ def main():
         doc = cfg["doc"]
         tex_dir = cfg["tex_dir"]
         csvs = cfg["csvs"]
-        created = write_tables(task, csvs, tex_dir)
+        created = write_tables(task, csvs, tex_dir, max_size_mb=args.max_csv_size_mb)
         append_inputs_to_doc(doc, created)
-        print(f"[{task}] Generated {len(created)} tables and updated {doc}")
+        print(f"[{task}] Generated {len(created)} tables (skipped oversized/empty) and updated {doc}")
 
 
 if __name__ == "__main__":
