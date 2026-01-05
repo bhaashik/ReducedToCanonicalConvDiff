@@ -22,6 +22,7 @@ import numpy as np
 import re
 from config import BASE_DIR
 from paths_config import TEXT_FILES
+COMPLEXITY_DIR = "complexity-similarity-study"
 
 # Import evaluation metrics
 try:
