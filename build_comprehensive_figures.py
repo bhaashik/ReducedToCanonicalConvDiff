@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
 """
-Build comprehensive figure includes for each task and insert \\includegraphics
-blocks into the comprehensive documents (not the main submission).
+Insert all figures for a task into the comprehensive document (not the main submission).
 
 Usage:
   python build_comprehensive_figures.py --task task1
   python build_comprehensive_figures.py --task all
 
-Tasks:
-  task1 -> figures under LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR/figures
-  task2 -> figures under LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR/figures
-  task3 -> figures under LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR/figures
-
 Notes:
-- Generates \\section*{Auto-generated Figures} with one figure environment per image.
-- Captions/labels are derived from filenames (friendly, but still placeholders).
+- Figures are collected from the task's `figures/` directory (and any PNG/JPG/SVG/PDF in the task root).
+- Captions/labels are derived from filenames (placeholders for review).
 - LaTeX files remain ignored unless you choose to track them.
 """
 
@@ -37,33 +31,41 @@ def friendly_label(task: str, path: Path) -> str:
 
 def collect_figures(task: str) -> Dict[str, List[Path]]:
     if task == "task1":
-        root = Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR/figures")
-        doc = Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR/Task-1-Comprehensive-Figures.tex")
+        root = Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR")
+        fig_dirs = [root / "figures", root]
+        doc = root / "Task-1-Comprehensive-Figures.tex"
     elif task == "task2":
-        root = Path("LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR/figures")
-        doc = Path("LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR/Task-2-Comprehensive-Figures.tex")
+        root = Path("LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR")
+        fig_dirs = [root / "figures"]
+        doc = root / "Task-2-Comprehensive-Figures.tex"
     elif task == "task3":
-        root = Path("LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR/figures")
-        doc = Path("LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR/Task-3-Comprehensive-Figures.tex")
+        root = Path("LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR")
+        fig_dirs = [root / "figures"]
+        doc = root / "Task-3-Comprehensive-Figures.tex"
     else:
         raise ValueError(f"Unknown task: {task}")
 
     figures = []
-    if root.exists():
-        for path in sorted(root.rglob("*")):
-            if path.suffix.lower() in IMAGE_EXTS and path.is_file():
-                figures.append(path)
+    for d in fig_dirs:
+        if d.exists():
+            for path in sorted(d.rglob("*")):
+                if path.suffix.lower() in IMAGE_EXTS and path.is_file():
+                    figures.append(path)
 
     return {"doc": doc, "figures": figures}
 
 
-def build_block(doc: Path, figures: List[Path], task: str) -> str:
+def build_block(doc: Path, figures: List[Path], task: str, max_size_mb: float) -> str:
     if not figures:
         return ""
     lines = []
     lines.append("% ===== Auto-generated Figures (do not edit by hand) =====")
     lines.append("\\section*{Auto-generated Figures}")
     for fig in figures:
+        size_mb = fig.stat().st_size / (1024 * 1024)
+        if size_mb > max_size_mb:
+            lines.append(f"% Skipped {fig} (size {size_mb:.2f} MB > {max_size_mb} MB)")
+            continue
         rel = fig.relative_to(doc.parent)
         caption = friendly_caption(fig)
         label = friendly_label(task, fig)
@@ -93,6 +95,12 @@ def main():
         default="all",
         help="Which task(s) to process.",
     )
+    parser.add_argument(
+        "--max-figure-size-mb",
+        type=float,
+        default=1.0,
+        help="Skip figures larger than this size (MB).",
+    )
     args = parser.parse_args()
 
     tasks = ["task1", "task2", "task3"] if args.task == "all" else [args.task]
@@ -101,9 +109,9 @@ def main():
         cfg = collect_figures(task)
         doc = cfg["doc"]
         figures = cfg["figures"]
-        block = build_block(doc, figures, task)
+        block = build_block(doc, figures, task, args.max_figure_size_mb)
         append_block(doc, block)
-        print(f"[{task}] Inserted {len(figures)} figures into {doc}")
+        print(f"[{task}] Processed {len(figures)} figures into {doc}")
 
 
 if __name__ == "__main__":

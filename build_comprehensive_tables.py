@@ -25,6 +25,8 @@ import os
 from pathlib import Path
 from typing import List, Dict
 
+# Image handling for optional figure insertion
+IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".svg", ".pdf"}
 
 def csv_to_latex_longtable(csv_path: Path, caption: str, label: str, max_rows: int | None = None) -> str:
     import pandas as pd
@@ -141,19 +143,25 @@ def collect_csvs(task: str) -> Dict[str, List[Path]]:
         csvs = [p for p in root.rglob("*.csv") if "events" not in p.parts]
         doc = Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR/Task-1-Comprehensive-Figures.tex")
         tex_dir = doc.parent / "tables"
-        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs}
+        fig_dirs = [
+            Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR/figures"),
+            Path("LaTeX/Canonical-Reduced-Register-Comparison-Part-1-ACL-ARR"),
+        ]
+        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs, "fig_dirs": fig_dirs}
     if task == "task2":
         root = base / "transformation-study"
         csvs = [p for p in root.rglob("*.csv")]
         doc = Path("LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR/Task-2-Comprehensive-Figures.tex")
         tex_dir = doc.parent / "tables"
-        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs}
+        fig_dirs = [Path("LaTeX/Canonical-Reduced-Register-Transformation-Part-2-ACL-ARR/figures")]
+        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs, "fig_dirs": fig_dirs}
     if task == "task3":
         root = base / "complexity-similarity-study"
         csvs = [p for p in root.rglob("*.csv")]
         doc = Path("LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR/Task-3-Comprehensive-Figures.tex")
         tex_dir = doc.parent / "tables"
-        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs}
+        fig_dirs = [Path("LaTeX/Canonical-Reduced-Register-Complexity-Part-3-ACL-ARR/figures")]
+        return {"doc": doc, "tex_dir": tex_dir, "csvs": csvs, "fig_dirs": fig_dirs}
     raise ValueError(f"Unknown task: {task}")
 
 
@@ -170,6 +178,17 @@ def main():
         type=float,
         default=1.0,
         help="Skip CSVs larger than this size (MB) to keep docs manageable.",
+    )
+    parser.add_argument(
+        "--include-figures",
+        action="store_true",
+        help="Also insert figures after tables, skipping files over the size limit.",
+    )
+    parser.add_argument(
+        "--max-figure-size-mb",
+        type=float,
+        default=1.0,
+        help="Skip figures larger than this size (MB).",
     )
     args = parser.parse_args()
 
