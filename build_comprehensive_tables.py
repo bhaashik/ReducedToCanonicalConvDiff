@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import List, Dict
 
 
-def csv_to_latex_longtable(csv_path: Path, caption: str, label: str) -> str:
+def csv_to_latex_longtable(csv_path: Path, caption: str, label: str, max_rows: int | None = None) -> str:
     import pandas as pd
     from pandas.errors import EmptyDataError
 
@@ -34,6 +34,40 @@ def csv_to_latex_longtable(csv_path: Path, caption: str, label: str) -> str:
         df = pd.read_csv(csv_path)
     except EmptyDataError:
         return ""
+
+    # Drop fully empty columns
+    df = df.dropna(axis=1, how="all")
+
+    # Drop numeric columns that are all zeros/NaN
+    numeric_cols = df.select_dtypes(include=["number"]).columns
+    for col in numeric_cols:
+        col_data = df[col].fillna(0)
+        if (col_data.abs() == 0).all():
+            df = df.drop(columns=[col])
+
+    # Drop rows that are entirely NaN/empty or all-zero for remaining numeric columns
+    def row_all_empty(row):
+        num_zero = True
+        for col in row.index:
+            val = row[col]
+            if pd.api.types.is_numeric_dtype(df[col]):
+                if pd.notna(val) and abs(val) > 0:
+                    num_zero = False
+            else:
+                if isinstance(val, str) and val.strip():
+                    return False
+                if pd.notna(val) and not isinstance(val, str):
+                    return False
+        return num_zero
+
+    df = df[~df.apply(row_all_empty, axis=1)]
+
+    if max_rows is not None and len(df) > max_rows:
+        df = df.head(max_rows)
+
+    if df.empty:
+        return ""
+
     latex_body = df.to_latex(
         index=False,
         escape=True,
@@ -82,13 +116,18 @@ def append_inputs_to_doc(doc_path: Path, tex_paths: List[Path]):
     if not tex_paths:
         return
     tex_paths = sorted(tex_paths)
-    rel_inputs = [p.relative_to(doc_path.parent) for p in tex_paths]
-    block = ["% ===== Auto-generated Tables (do not edit by hand) =====", "\\section*{Auto-generated Tables}"]
-    for p in rel_inputs:
-        block.append(f"\\input{{{p.as_posix()}}}")
-    block.append("% ===== End auto-generated tables =====")
+    # Inline the table content instead of using \\input
+    block_lines = ["% ===== Auto-generated Tables (do not edit by hand) =====", "\\section*{Auto-generated Tables}"]
+    for p in tex_paths:
+        try:
+            content = p.read_text(encoding="ascii", errors="ignore")
+            block_lines.append(content)
+            block_lines.append("")  # spacer
+        except OSError:
+            continue
+    block_lines.append("% ===== End auto-generated tables =====")
     with open(doc_path, "a", encoding="utf-8") as f:
-        f.write("\n\n" + "\n".join(block) + "\n")
+        f.write("\n\n" + "\n".join(block_lines) + "\n")
 
 
 def collect_csvs(task: str) -> Dict[str, List[Path]]:
