@@ -66,6 +66,11 @@ def collect_figs(dirs: List[Path]) -> List[Path]:
     return figs
 
 
+def friendly_caption(path: Path) -> str:
+    stem = path.stem.replace("_", " ").replace("-", " ")
+    return stem.title()
+
+
 def csv_to_md_table(path: Path) -> str:
     try:
         df = pd.read_csv(path)
