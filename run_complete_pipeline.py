@@ -257,6 +257,12 @@ class PipelineExecutor:
         total += self._copy_from_dir(
             self.output_root / "publication_figures", task_root / OVERVIEW_DIR, VISUAL_PATTERNS
         )
+        # Lexical: currently no dedicated lexical outputs; place holders via top feature visuals
+        total += self._copy_from_dir(
+            self.output_root / "AGGREGATED_CROSS_NEWSPAPER",
+            task_root / LEXICAL_DIR,
+            ["*feature_freq_global*","*top_features*","*feature_distribution_statistics*"],
+        )
 
         # Rule effectiveness summaries
         reports = [
