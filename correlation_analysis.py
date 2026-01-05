@@ -37,53 +37,47 @@ class CorrelationAnalyzer:
         """Load and aggregate MT evaluation results by newspaper and direction."""
         all_data = []
 
+        def agg_metric(df, col):
+            return df[col].mean() if col in df.columns else np.nan
+
         for newspaper in self.newspapers:
-            # Load H2C results
-            h2c_path = self.project_root / 'output' / 'bidirectional_evaluation' / f'{newspaper}_H2C_results.csv'
-            if h2c_path.exists():
-                h2c_df = pd.read_csv(h2c_path)
-                # Aggregate metrics
-                h2c_agg = {
+            for direction, suffix in [('H2C', 'H2C'), ('C2H', 'C2H')]:
+                path = self.project_root / 'output' / 'bidirectional_evaluation' / f'{newspaper}_{suffix}_results.csv'
+                if not path.exists():
+                    continue
+                df = pd.read_csv(path)
+                all_data.append({
                     'Newspaper': newspaper,
-                    'Direction': 'H2C',
-                    'BLEU-1': h2c_df['bleu1'].mean(),
-                    'BLEU-2': h2c_df['bleu2'].mean(),
-                    'BLEU-4': h2c_df['bleu4'].mean(),
-                    'METEOR': h2c_df['meteor'].mean(),
-                    'ROUGE-1': h2c_df['rouge1'].mean(),
-                    'ROUGE-2': h2c_df['rouge2'].mean(),
-                    'ROUGE-L': h2c_df['rougeL'].mean(),
-                    'chrF': h2c_df['chrF'].mean(),
-                    'Num_Samples': len(h2c_df)
-                }
-                all_data.append(h2c_agg)
+                    'Direction': direction,
+                    'BLEU-1': agg_metric(df, 'bleu1'),
+                    'BLEU-2': agg_metric(df, 'bleu2'),
+                    'BLEU-4': agg_metric(df, 'bleu4'),
+                    'METEOR': agg_metric(df, 'meteor'),
+                    'ROUGE-1': agg_metric(df, 'rouge1'),
+                    'ROUGE-2': agg_metric(df, 'rouge2'),
+                    'ROUGE-L': agg_metric(df, 'rougeL'),
+                    'chrF': agg_metric(df, 'chrF'),
+                    'Num_Samples': len(df)
+                })
 
-            # Load C2H results
-            c2h_path = self.project_root / 'output' / 'bidirectional_evaluation' / f'{newspaper}_C2H_results.csv'
-            if c2h_path.exists():
-                c2h_df = pd.read_csv(c2h_path)
-                # Aggregate metrics
-                c2h_agg = {
-                    'Newspaper': newspaper,
-                    'Direction': 'C2H',
-                    'BLEU-1': c2h_df['bleu1'].mean(),
-                    'BLEU-2': c2h_df['bleu2'].mean(),
-                    'BLEU-4': c2h_df['bleu4'].mean(),
-                    'METEOR': c2h_df['meteor'].mean(),
-                    'ROUGE-1': c2h_df['rouge1'].mean(),
-                    'ROUGE-2': c2h_df['rouge2'].mean(),
-                    'ROUGE-L': c2h_df['rougeL'].mean(),
-                    'chrF': c2h_df['chrF'].mean(),
-                    'Num_Samples': len(c2h_df)
-                }
-                all_data.append(c2h_agg)
+        mt_df = pd.DataFrame(all_data)
 
-        return pd.DataFrame(all_data)
+        # Write aggregated metrics to the new layout for downstream use.
+        if not mt_df.empty:
+            dest = self.project_root / 'output' / 'complexity-similarity-study' / 'mt-evaluation' / 'bidirectional_metrics.csv'
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            mt_df.to_csv(dest, index=False)
+        return mt_df
 
     def load_perplexity_data(self) -> pd.DataFrame:
         """Load directional perplexity analysis results."""
-        perplexity_path = self.project_root / 'output' / 'directional_perplexity' / 'directional_perplexity_analysis.csv'
-        df = pd.read_csv(perplexity_path)
+        preferred = self.project_root / 'output' / 'complexity-similarity-study' / 'perplexity' / 'directional_perplexity_analysis.csv'
+        legacy = self.project_root / 'output' / 'directional_perplexity' / 'directional_perplexity_analysis.csv'
+        path = preferred if preferred.exists() else legacy
+        if not path.exists():
+            print(f"⚠️  Perplexity analysis file not found: {path}")
+            return pd.DataFrame()
+        df = pd.read_csv(path)
 
         # Standardize direction labels
         # CSV has: C→H, H→C, BIDIRECTIONAL
