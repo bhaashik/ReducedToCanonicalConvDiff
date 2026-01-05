@@ -1,31 +1,31 @@
 newspaper,feature_id,feature_name,count,percentage_of_newspaper
-Times-of-India,FW-DEL,Function Word Deletion,2241,5.384948096885813
-Times-of-India,DEP-REL-CHG,Dependency Relation Change,9892,23.769703960015377
-Times-of-India,LENGTH-CHG,Sentence Length Change,1022,2.4557862360630525
-Times-of-India,CONST-REM,Constituent Removal,254,0.6103421760861207
-Times-of-India,CONST-MOV,Constituent Movement,11485,27.597558631295655
-Times-of-India,CLAUSE-TYPE-CHG,Clause Type Change,2728,6.5551710880430605
-Times-of-India,TED-SIMPLE,TED-SIMPLE,1034,2.4846212995001924
-Times-of-India,TED-RTED,TED-RTED,1035,2.487024221453287
-Times-of-India,PUNCT-DEL,Punctuation Deletion,1306,3.138216070742023
-Times-of-India,H-STRUCT,Headline Structure,1041,2.501441753171857
-Times-of-India,H-TYPE,Headline Type,1041,2.501441753171857
-Times-of-India,TREE-DEPTH-DIFF,Tree Depth Difference,1041,2.501441753171857
-Times-of-India,CONST-COUNT-DIFF,Constituent Count Difference,1041,2.501441753171857
-Times-of-India,DEP-DIST-DIFF,Dependency Distance Difference,1041,2.501441753171857
-Times-of-India,BRANCH-DIFF,Branching Factor Difference,1041,2.501441753171857
-Times-of-India,HEAD-CHG,Dependency Head Change,282,0.6776239907727797
-Times-of-India,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,806,1.9367550941945404
-Times-of-India,TED-KLEIN,TED-KLEIN,806,1.9367550941945404
-Times-of-India,PUNCT-SUBST,Punctuation Substitution,138,0.33160322952710497
-Times-of-India,C-DEL,Content Word Deletion,720,1.7301038062283738
-Times-of-India,C-ADD,Content Word Addition,540,1.2975778546712802
-Times-of-India,POS-CHG,Part of Speech Change,89,0.21386005382545173
-Times-of-India,FORM-CHG,Surface Form Change,89,0.21386005382545173
-Times-of-India,FEAT-CHG,Morphological Feature Change,160,0.3844675124951942
-Times-of-India,CONST-ADD,Constituent Addition,124,0.29796232218377544
-Times-of-India,FW-ADD,Function Word Addition,170,0.40849673202614384
-Times-of-India,PUNCT-ADD,Punctuation Addition,401,0.9635717031910804
-Times-of-India,LEMMA-CHG,Lemma Change,22,0.0528642829680892
-Times-of-India,VERB-FORM-CHG,Verb Form Change,14,0.03364090734332949
-Times-of-India,TOKEN-REORDER,Token Reordering,12,0.02883506343713956
+Times-of-India,FW-DEL,Function Word Deletion,2241,5.51739419454908
+Times-of-India,DEP-REL-CHG,Dependency Relation Change,9892,24.35433439200335
+Times-of-India,LENGTH-CHG,Sentence Length Change,1022,2.5161878031366176
+Times-of-India,CONST-REM,Constituent Removal,254,0.6253539158480439
+Times-of-India,CONST-MOV,Constituent Movement,11485,28.276337494152692
+Times-of-India,CLAUSE-TYPE-CHG,Clause Type Change,2728,6.716399537139621
+Times-of-India,TED-SIMPLE,TED-SIMPLE,1034,2.5457320826255017
+Times-of-India,TED-RTED,TED-RTED,1035,2.548194105916242
+Times-of-India,H-STRUCT,Headline Structure,1041,2.562966245660684
+Times-of-India,H-TYPE,Headline Type,1041,2.562966245660684
+Times-of-India,TREE-DEPTH-DIFF,Tree Depth Difference,1041,2.562966245660684
+Times-of-India,CONST-COUNT-DIFF,Constituent Count Difference,1041,2.562966245660684
+Times-of-India,DEP-DIST-DIFF,Dependency Distance Difference,1041,2.562966245660684
+Times-of-India,BRANCH-DIFF,Branching Factor Difference,1041,2.562966245660684
+Times-of-India,HEAD-CHG,Dependency Head Change,282,0.6942905679887732
+Times-of-India,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,806,1.9843907723367062
+Times-of-India,TED-KLEIN,TED-KLEIN,806,1.9843907723367062
+Times-of-India,PUNCT-DEL,Punctuation Deletion,307,0.7558411502572814
+Times-of-India,PUNCT-SUBST,Punctuation Substitution,138,0.3397592141221656
+Times-of-India,C-DEL,Content Word Deletion,720,1.7726567693330377
+Times-of-India,C-ADD,Content Word Addition,540,1.3294925769997783
+Times-of-India,POS-CHG,Part of Speech Change,89,0.2191200728758894
+Times-of-India,FORM-CHG,Surface Form Change,89,0.2191200728758894
+Times-of-India,FEAT-CHG,Morphological Feature Change,160,0.39392372651845287
+Times-of-India,CONST-ADD,Constituent Addition,124,0.305290888051801
+Times-of-India,FW-ADD,Function Word Addition,170,0.41854395942585615
+Times-of-India,PUNCT-ADD,Punctuation Addition,401,0.9872713395868725
+Times-of-India,LEMMA-CHG,Lemma Change,22,0.05416451239628727
+Times-of-India,VERB-FORM-CHG,Verb Form Change,14,0.034468326070364624
+Times-of-India,TOKEN-REORDER,Token Reordering,12,0.029544279488883964

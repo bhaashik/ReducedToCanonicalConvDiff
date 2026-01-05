@@ -1,8 +1,8 @@
 {
   "global_feature_values": {
     "FW-DEL": {
-      "ART-DEL→ABSENT": 920,
       "SCONJ-DEL→ABSENT": 101,
+      "ART-DEL→ABSENT": 920,
       "AUX-DEL→ABSENT": 844,
       "PRON-PERS-DEL→ABSENT": 111,
       "ADP-DEL→ABSENT": 167,
@@ -1054,15 +1054,6 @@
       "47→47": 1,
       "3→3": 6,
       "45→45": 1
-    },
-    "PUNCT-DEL": {
-      "period→": 1025,
-      "comma→": 183,
-      "quote→": 56,
-      "semicolon→": 6,
-      "apostrophe→": 21,
-      "hyphen→": 11,
-      "question mark→": 4
     },
     "H-STRUCT": {
       "→single-line": 1036,
@@ -3122,6 +3113,15 @@
       "36→36": 1,
       "30→30": 4
     },
+    "PUNCT-DEL": {
+      "comma→": 183,
+      "quote→": 56,
+      "semicolon→": 6,
+      "apostrophe→": 21,
+      "hyphen→": 11,
+      "period→": 26,
+      "question mark→": 4
+    },
     "PUNCT-SUBST": {
       "\"→says": 23,
       ",→on": 9,
@@ -3331,8 +3331,8 @@
   "by_newspaper_feature_values": {
     "Times-of-India": {
       "FW-DEL": {
-        "ART-DEL→ABSENT": 920,
         "SCONJ-DEL→ABSENT": 101,
+        "ART-DEL→ABSENT": 920,
         "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
@@ -4384,15 +4384,6 @@
         "47→47": 1,
         "3→3": 6,
         "45→45": 1
-      },
-      "PUNCT-DEL": {
-        "period→": 1025,
-        "comma→": 183,
-        "quote→": 56,
-        "semicolon→": 6,
-        "apostrophe→": 21,
-        "hyphen→": 11,
-        "question mark→": 4
       },
       "H-STRUCT": {
         "→single-line": 1036,
@@ -6452,6 +6443,15 @@
         "36→36": 1,
         "30→30": 4
       },
+      "PUNCT-DEL": {
+        "comma→": 183,
+        "quote→": 56,
+        "semicolon→": 6,
+        "apostrophe→": 21,
+        "hyphen→": 11,
+        "period→": 26,
+        "question mark→": 4
+      },
       "PUNCT-SUBST": {
         "\"→says": 23,
         ",→on": 9,
@@ -6662,8 +6662,8 @@
   "by_parse_type_feature_values": {
     "dependency": {
       "FW-DEL": {
-        "ART-DEL→ABSENT": 920,
         "SCONJ-DEL→ABSENT": 101,
+        "ART-DEL→ABSENT": 920,
         "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
@@ -9952,15 +9952,6 @@
       }
     },
     "both": {
-      "PUNCT-DEL": {
-        "period→": 1025,
-        "comma→": 183,
-        "quote→": 56,
-        "semicolon→": 6,
-        "apostrophe→": 21,
-        "hyphen→": 11,
-        "question mark→": 4
-      },
       "H-STRUCT": {
         "→single-line": 1036,
         "→micro-discourse": 5
@@ -9968,6 +9959,15 @@
       "H-TYPE": {
         "→non-fragment": 776,
         "→fragment": 265
+      },
+      "PUNCT-DEL": {
+        "comma→": 183,
+        "quote→": 56,
+        "semicolon→": 6,
+        "apostrophe→": 21,
+        "hyphen→": 11,
+        "period→": 26,
+        "question mark→": 4
       },
       "PUNCT-SUBST": {
         "\"→says": 23,
@@ -9997,8 +9997,8 @@
   "cross_feature_values": {
     "Times-of-India_dependency": {
       "FW-DEL": {
-        "ART-DEL→ABSENT": 920,
         "SCONJ-DEL→ABSENT": 101,
+        "ART-DEL→ABSENT": 920,
         "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
@@ -13287,15 +13287,6 @@
       }
     },
     "Times-of-India_both": {
-      "PUNCT-DEL": {
-        "period→": 1025,
-        "comma→": 183,
-        "quote→": 56,
-        "semicolon→": 6,
-        "apostrophe→": 21,
-        "hyphen→": 11,
-        "question mark→": 4
-      },
       "H-STRUCT": {
         "→single-line": 1036,
         "→micro-discourse": 5
@@ -13303,6 +13294,15 @@
       "H-TYPE": {
         "→non-fragment": 776,
         "→fragment": 265
+      },
+      "PUNCT-DEL": {
+        "comma→": 183,
+        "quote→": 56,
+        "semicolon→": 6,
+        "apostrophe→": 21,
+        "hyphen→": 11,
+        "period→": 26,
+        "question mark→": 4
       },
       "PUNCT-SUBST": {
         "\"→says": 23,
@@ -13589,36 +13589,6 @@
         [
           "19→19",
           44
-        ]
-      ],
-      "PUNCT-DEL": [
-        [
-          "period→",
-          1025
-        ],
-        [
-          "comma→",
-          183
-        ],
-        [
-          "quote→",
-          56
-        ],
-        [
-          "apostrophe→",
-          21
-        ],
-        [
-          "hyphen→",
-          11
-        ],
-        [
-          "semicolon→",
-          6
-        ],
-        [
-          "question mark→",
-          4
         ]
       ],
       "H-STRUCT": [
@@ -13933,6 +13903,36 @@
         [
           "21→21",
           26
+        ]
+      ],
+      "PUNCT-DEL": [
+        [
+          "comma→",
+          183
+        ],
+        [
+          "quote→",
+          56
+        ],
+        [
+          "period→",
+          26
+        ],
+        [
+          "apostrophe→",
+          21
+        ],
+        [
+          "hyphen→",
+          11
+        ],
+        [
+          "semicolon→",
+          6
+        ],
+        [
+          "question mark→",
+          4
         ]
       ],
       "PUNCT-SUBST": [
@@ -14286,8 +14286,8 @@
     },
     "transformation_types": {
       "deletions": {
-        "ART-DEL→ABSENT": 920,
         "SCONJ-DEL→ABSENT": 101,
+        "ART-DEL→ABSENT": 920,
         "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
@@ -15289,13 +15289,6 @@
         "Fin→Part": 2,
         "Ger→Fin": 1,
         "verbal→verbless": 49,
-        "period→": 1025,
-        "comma→": 183,
-        "quote→": 56,
-        "semicolon→": 6,
-        "apostrophe→": 21,
-        "hyphen→": 11,
-        "question mark→": 4,
         "→single-line": 1036,
         "→micro-discourse": 5,
         "→non-fragment": 776,
@@ -16991,6 +16984,13 @@
         "1→4": 1,
         "3→4": 2,
         "4→5": 1,
+        "comma→": 183,
+        "quote→": 56,
+        "semicolon→": 6,
+        "apostrophe→": 21,
+        "hyphen→": 11,
+        "period→": 26,
+        "question mark→": 4,
         "\"→says": 23,
         ",→on": 9,
         "that→:": 30,
@@ -17321,18 +17321,6 @@
       ],
       "transformation_entropy": 4.974379776527464
     },
-    "PUNCT-DEL": {
-      "total_transformations": 1306,
-      "unique_transformation_types": 7,
-      "canonical_value_diversity": 7,
-      "headline_value_diversity": 1,
-      "top3_concentration_ratio": 0.9678407350689127,
-      "most_frequent_transformation": [
-        "period→",
-        1025
-      ],
-      "transformation_entropy": 1.0815436731379122
-    },
     "H-STRUCT": {
       "total_transformations": 1041,
       "unique_transformation_types": 2,
@@ -17440,6 +17428,18 @@
         95
       ],
       "transformation_entropy": 4.447212623000182
+    },
+    "PUNCT-DEL": {
+      "total_transformations": 307,
+      "unique_transformation_types": 7,
+      "canonical_value_diversity": 7,
+      "headline_value_diversity": 1,
+      "top3_concentration_ratio": 0.8631921824104235,
+      "most_frequent_transformation": [
+        "comma→",
+        183
+      ],
+      "transformation_entropy": 1.8236630297331593
     },
     "PUNCT-SUBST": {
       "total_transformations": 138,

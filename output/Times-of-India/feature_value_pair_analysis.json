@@ -1,7 +1,7 @@
 {
   "global_feature_value_pairs": {
-    "FW-DEL:ART-DEL\u2192ABSENT": 920,
     "FW-DEL:SCONJ-DEL\u2192ABSENT": 101,
+    "FW-DEL:ART-DEL\u2192ABSENT": 920,
     "FW-DEL:AUX-DEL\u2192ABSENT": 844,
     "DEP-REL-CHG:det\u2192xcomp": 12,
     "DEP-REL-CHG:nsubj\u2192compound": 60,
@@ -22,7 +22,6 @@
     "CLAUSE-TYPE-CHG:Part\u2192Fin": 986,
     "TED-SIMPLE:10\u219210": 997,
     "TED-RTED:26\u219226": 19,
-    "PUNCT-DEL:period\u2192": 1025,
     "H-STRUCT:\u2192single-line": 1036,
     "H-TYPE:\u2192non-fragment": 776,
     "TREE-DEPTH-DIFF:12\u21929": 18,
@@ -323,6 +322,7 @@
     "DEP-REL-CHG:aux:pass\u2192root": 34,
     "DEP-REL-CHG:compound\u2192case": 81,
     "TED-KLEIN:15\u219215": 39,
+    "PUNCT-DEL:period\u2192": 26,
     "H-STRUCT:\u2192micro-discourse": 5,
     "CONST-COUNT-DIFF:22\u219218": 10,
     "DEP-DIST-DIFF:2.67\u21922.00": 6,
@@ -3270,8 +3270,8 @@
   },
   "by_newspaper_feature_value_pairs": {
     "Times-of-India": {
-      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:SCONJ-DEL\u2192ABSENT": 101,
+      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:AUX-DEL\u2192ABSENT": 844,
       "DEP-REL-CHG:det\u2192xcomp": 12,
       "DEP-REL-CHG:nsubj\u2192compound": 60,
@@ -3292,7 +3292,6 @@
       "CLAUSE-TYPE-CHG:Part\u2192Fin": 986,
       "TED-SIMPLE:10\u219210": 997,
       "TED-RTED:26\u219226": 19,
-      "PUNCT-DEL:period\u2192": 1025,
       "H-STRUCT:\u2192single-line": 1036,
       "H-TYPE:\u2192non-fragment": 776,
       "TREE-DEPTH-DIFF:12\u21929": 18,
@@ -3593,6 +3592,7 @@
       "DEP-REL-CHG:aux:pass\u2192root": 34,
       "DEP-REL-CHG:compound\u2192case": 81,
       "TED-KLEIN:15\u219215": 39,
+      "PUNCT-DEL:period\u2192": 26,
       "H-STRUCT:\u2192micro-discourse": 5,
       "CONST-COUNT-DIFF:22\u219218": 10,
       "DEP-DIST-DIFF:2.67\u21922.00": 6,
@@ -6541,8 +6541,8 @@
   },
   "by_parse_type_feature_value_pairs": {
     "dependency": {
-      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:SCONJ-DEL\u2192ABSENT": 101,
+      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:AUX-DEL\u2192ABSENT": 844,
       "DEP-REL-CHG:det\u2192xcomp": 12,
       "DEP-REL-CHG:nsubj\u2192compound": 60,
@@ -9782,7 +9782,6 @@
       "CONST-COUNT-DIFF:25\u219226": 1
     },
     "both": {
-      "PUNCT-DEL:period\u2192": 1025,
       "H-STRUCT:\u2192single-line": 1036,
       "H-TYPE:\u2192non-fragment": 776,
       "H-TYPE:\u2192fragment": 265,
@@ -9792,6 +9791,7 @@
       "PUNCT-DEL:semicolon\u2192": 6,
       "PUNCT-DEL:apostrophe\u2192": 21,
       "PUNCT-DEL:hyphen\u2192": 11,
+      "PUNCT-DEL:period\u2192": 26,
       "H-STRUCT:\u2192micro-discourse": 5,
       "PUNCT-ADD:\u2192apostrophe": 39,
       "PUNCT-SUBST:,\u2192on": 9,
@@ -9816,8 +9816,8 @@
   },
   "cross_feature_value_pairs": {
     "Times-of-India_dependency": {
-      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:SCONJ-DEL\u2192ABSENT": 101,
+      "FW-DEL:ART-DEL\u2192ABSENT": 920,
       "FW-DEL:AUX-DEL\u2192ABSENT": 844,
       "DEP-REL-CHG:det\u2192xcomp": 12,
       "DEP-REL-CHG:nsubj\u2192compound": 60,
@@ -13057,7 +13057,6 @@
       "CONST-COUNT-DIFF:25\u219226": 1
     },
     "Times-of-India_both": {
-      "PUNCT-DEL:period\u2192": 1025,
       "H-STRUCT:\u2192single-line": 1036,
       "H-TYPE:\u2192non-fragment": 776,
       "H-TYPE:\u2192fragment": 265,
@@ -13067,6 +13066,7 @@
       "PUNCT-DEL:semicolon\u2192": 6,
       "PUNCT-DEL:apostrophe\u2192": 21,
       "PUNCT-DEL:hyphen\u2192": 11,
+      "PUNCT-DEL:period\u2192": 26,
       "H-STRUCT:\u2192micro-discourse": 5,
       "PUNCT-ADD:\u2192apostrophe": 39,
       "PUNCT-SUBST:,\u2192on": 9,
@@ -13101,10 +13101,6 @@
         1036
       ],
       [
-        "PUNCT-DEL:period\u2192",
-        1025
-      ],
-      [
         "TED-SIMPLE:10\u219210",
         997
       ],
@@ -13131,22 +13127,26 @@
       [
         "CLAUSE-TYPE-CHG:Fin\u2192Part",
         631
+      ],
+      [
+        "CLAUSE-TYPE-CHG:Fin\u2192Inf",
+        507
       ]
     ],
     "pair_frequency_distribution": {},
-    "average_pair_frequency": 12.738292011019285,
+    "average_pair_frequency": 12.432506887052341,
     "pair_concentration_metrics": {
-      "total_pair_occurrences": 41616,
-      "entropy": 7.375320857794298,
-      "concentration_ratio": 0.35532006920415227
+      "total_pair_occurrences": 40617,
+      "entropy": 7.393634819895658,
+      "concentration_ratio": 0.3614742595464953
     }
   },
   "pair_diversity_metrics": {
     "newspaper_pair_diversity": {
       "Times-of-India": {
         "unique_pairs": 3267,
-        "total_occurrences": 41616,
-        "diversity_index": 5.1121828583056885
+        "total_occurrences": 40617,
+        "diversity_index": 5.124877129500076
       }
     },
     "parse_type_pair_diversity": {
@@ -13162,8 +13162,8 @@
       },
       "both": {
         "unique_pairs": 30,
-        "total_occurrences": 3927,
-        "diversity_index": 2.0271186344921293
+        "total_occurrences": 2928,
+        "diversity_index": 1.9995408263093488
       }
     },
     "cross_dimension_diversity": {}
@@ -13178,7 +13178,6 @@
       "CLAUSE-TYPE-CHG": 2728,
       "TED-SIMPLE": 1034,
       "TED-RTED": 1035,
-      "PUNCT-DEL": 1306,
       "H-STRUCT": 1041,
       "H-TYPE": 1041,
       "TREE-DEPTH-DIFF": 1041,
@@ -13188,6 +13187,7 @@
       "HEAD-CHG": 282,
       "TED-ZHANG-SHASHA": 806,
       "TED-KLEIN": 806,
+      "PUNCT-DEL": 307,
       "PUNCT-SUBST": 138,
       "C-DEL": 720,
       "C-ADD": 540,
@@ -13211,7 +13211,6 @@
       "CLAUSE-TYPE-CHG": 7,
       "TED-SIMPLE": 10,
       "TED-RTED": 47,
-      "PUNCT-DEL": 7,
       "H-STRUCT": 2,
       "H-TYPE": 2,
       "TREE-DEPTH-DIFF": 91,
@@ -13221,6 +13220,7 @@
       "HEAD-CHG": 56,
       "TED-ZHANG-SHASHA": 40,
       "TED-KLEIN": 35,
+      "PUNCT-DEL": 7,
       "PUNCT-SUBST": 11,
       "C-DEL": 4,
       "C-ADD": 4,

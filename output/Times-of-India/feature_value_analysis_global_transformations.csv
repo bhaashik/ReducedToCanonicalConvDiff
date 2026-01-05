@@ -3017,9 +3017,9 @@ PUNCT-ADD,,hyphen,→hyphen,13
 PUNCT-ADD,,semicolon,→semicolon,2
 PUNCT-ADD,,slash,→slash,1
 PUNCT-ADD,,question mark,→question mark,1
-PUNCT-DEL,period,,period→,1025
 PUNCT-DEL,comma,,comma→,183
 PUNCT-DEL,quote,,quote→,56
+PUNCT-DEL,period,,period→,26
 PUNCT-DEL,apostrophe,,apostrophe→,21
 PUNCT-DEL,hyphen,,hyphen→,11
 PUNCT-DEL,semicolon,,semicolon→,6

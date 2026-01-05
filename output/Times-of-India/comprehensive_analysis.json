@@ -1,6 +1,6 @@
 {
   "global": {
-    "total_events": 41616,
+    "total_events": 40617,
     "feature_counts": {
       "FW-DEL": 2241,
       "DEP-REL-CHG": 9892,
@@ -10,7 +10,6 @@
       "CLAUSE-TYPE-CHG": 2728,
       "TED-SIMPLE": 1034,
       "TED-RTED": 1035,
-      "PUNCT-DEL": 1306,
       "H-STRUCT": 1041,
       "H-TYPE": 1041,
       "TREE-DEPTH-DIFF": 1041,
@@ -20,6 +19,7 @@
       "HEAD-CHG": 282,
       "TED-ZHANG-SHASHA": 806,
       "TED-KLEIN": 806,
+      "PUNCT-DEL": 307,
       "PUNCT-SUBST": 138,
       "C-DEL": 720,
       "C-ADD": 540,
@@ -64,9 +64,9 @@
         "CONST-ADD": 124
       },
       "both": {
-        "PUNCT-DEL": 1306,
         "H-STRUCT": 1041,
         "H-TYPE": 1041,
+        "PUNCT-DEL": 307,
         "PUNCT-SUBST": 138,
         "PUNCT-ADD": 401
       }
@@ -74,7 +74,7 @@
   },
   "by_newspaper": {
     "Times-of-India": {
-      "total_events": 41616,
+      "total_events": 40617,
       "feature_counts": {
         "FW-DEL": 2241,
         "DEP-REL-CHG": 9892,
@@ -84,7 +84,6 @@
         "CLAUSE-TYPE-CHG": 2728,
         "TED-SIMPLE": 1034,
         "TED-RTED": 1035,
-        "PUNCT-DEL": 1306,
         "H-STRUCT": 1041,
         "H-TYPE": 1041,
         "TREE-DEPTH-DIFF": 1041,
@@ -94,6 +93,7 @@
         "HEAD-CHG": 282,
         "TED-ZHANG-SHASHA": 806,
         "TED-KLEIN": 806,
+        "PUNCT-DEL": 307,
         "PUNCT-SUBST": 138,
         "C-DEL": 720,
         "C-ADD": 540,
@@ -138,17 +138,17 @@
           "CONST-ADD": 124
         },
         "both": {
-          "PUNCT-DEL": 1306,
           "H-STRUCT": 1041,
           "H-TYPE": 1041,
+          "PUNCT-DEL": 307,
           "PUNCT-SUBST": 138,
           "PUNCT-ADD": 401
         }
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "ART-DEL→ABSENT": 920,
           "SCONJ-DEL→ABSENT": 101,
+          "ART-DEL→ABSENT": 920,
           "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
@@ -1200,15 +1200,6 @@
           "47→47": 1,
           "3→3": 6,
           "45→45": 1
-        },
-        "PUNCT-DEL": {
-          "period→": 1025,
-          "comma→": 183,
-          "quote→": 56,
-          "semicolon→": 6,
-          "apostrophe→": 21,
-          "hyphen→": 11,
-          "question mark→": 4
         },
         "H-STRUCT": {
           "→single-line": 1036,
@@ -3268,6 +3259,15 @@
           "36→36": 1,
           "30→30": 4
         },
+        "PUNCT-DEL": {
+          "comma→": 183,
+          "quote→": 56,
+          "semicolon→": 6,
+          "apostrophe→": 21,
+          "hyphen→": 11,
+          "period→": 26,
+          "question mark→": 4
+        },
         "PUNCT-SUBST": {
           "\"→says": 23,
           ",→on": 9,
@@ -3515,8 +3515,8 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "ART-DEL→ABSENT": 920,
           "SCONJ-DEL→ABSENT": 101,
+          "ART-DEL→ABSENT": 920,
           "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
@@ -6837,33 +6837,24 @@
       }
     },
     "both": {
-      "total_events": 3927,
+      "total_events": 2928,
       "feature_counts": {
-        "PUNCT-DEL": 1306,
         "H-STRUCT": 1041,
         "H-TYPE": 1041,
+        "PUNCT-DEL": 307,
         "PUNCT-SUBST": 138,
         "PUNCT-ADD": 401
       },
       "newspaper_breakdown": {
         "Times-of-India": {
-          "PUNCT-DEL": 1306,
           "H-STRUCT": 1041,
           "H-TYPE": 1041,
+          "PUNCT-DEL": 307,
           "PUNCT-SUBST": 138,
           "PUNCT-ADD": 401
         }
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1025,
-          "comma→": 183,
-          "quote→": 56,
-          "semicolon→": 6,
-          "apostrophe→": 21,
-          "hyphen→": 11,
-          "question mark→": 4
-        },
         "H-STRUCT": {
           "→single-line": 1036,
           "→micro-discourse": 5
@@ -6871,6 +6862,15 @@
         "H-TYPE": {
           "→non-fragment": 776,
           "→fragment": 265
+        },
+        "PUNCT-DEL": {
+          "comma→": 183,
+          "quote→": 56,
+          "semicolon→": 6,
+          "apostrophe→": 21,
+          "hyphen→": 11,
+          "period→": 26,
+          "question mark→": 4
         },
         "PUNCT-SUBST": {
           "\"→says": 23,
@@ -6919,8 +6919,8 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "ART-DEL→ABSENT": 920,
           "SCONJ-DEL→ABSENT": 101,
+          "ART-DEL→ABSENT": 920,
           "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
@@ -10226,24 +10226,15 @@
       }
     },
     "Times-of-India_both": {
-      "total_events": 3927,
+      "total_events": 2928,
       "feature_counts": {
-        "PUNCT-DEL": 1306,
         "H-STRUCT": 1041,
         "H-TYPE": 1041,
+        "PUNCT-DEL": 307,
         "PUNCT-SUBST": 138,
         "PUNCT-ADD": 401
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1025,
-          "comma→": 183,
-          "quote→": 56,
-          "semicolon→": 6,
-          "apostrophe→": 21,
-          "hyphen→": 11,
-          "question mark→": 4
-        },
         "H-STRUCT": {
           "→single-line": 1036,
           "→micro-discourse": 5
@@ -10251,6 +10242,15 @@
         "H-TYPE": {
           "→non-fragment": 776,
           "→fragment": 265
+        },
+        "PUNCT-DEL": {
+          "comma→": 183,
+          "quote→": 56,
+          "semicolon→": 6,
+          "apostrophe→": 21,
+          "hyphen→": 11,
+          "period→": 26,
+          "question mark→": 4
         },
         "PUNCT-SUBST": {
           "\"→says": 23,

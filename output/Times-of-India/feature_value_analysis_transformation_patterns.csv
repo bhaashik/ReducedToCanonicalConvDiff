@@ -2714,7 +2714,7 @@ parataxis,0,parataxis→case,1,changes
 parataxis,0,parataxis→punct,1,changes
 parataxis,0,parataxis→amod,1,changes
 performed,0,performed→performs,1,changes
-period,0,period→,1025,changes
+period,0,period→,26,changes
 punct,0,punct→compound,84,changes
 punct,0,punct→amod,57,changes
 punct,0,punct→case,51,changes
@@ -3004,9 +3004,9 @@ PUNCT-ADD,5,→hyphen,13,most_common
 PUNCT-ADD,6,→semicolon,2,most_common
 PUNCT-ADD,7,→slash,1,most_common
 PUNCT-ADD,8,→question mark,1,most_common
-PUNCT-DEL,1,period→,1025,most_common
-PUNCT-DEL,2,comma→,183,most_common
-PUNCT-DEL,3,quote→,56,most_common
+PUNCT-DEL,1,comma→,183,most_common
+PUNCT-DEL,2,quote→,56,most_common
+PUNCT-DEL,3,period→,26,most_common
 PUNCT-DEL,4,apostrophe→,21,most_common
 PUNCT-DEL,5,hyphen→,11,most_common
 PUNCT-DEL,6,semicolon→,6,most_common

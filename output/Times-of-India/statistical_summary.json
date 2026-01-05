@@ -1,6 +1,6 @@
 {
   "overview": {
-    "total_events": 41616,
+    "total_events": 40617,
     "unique_features": 30,
     "newspapers": [
       "Times-of-India"
@@ -14,188 +14,188 @@
   "feature_statistics": {
     "FW-DEL": {
       "total_occurrences": 2241,
-      "percentage_of_total": 5.384948096885813,
+      "percentage_of_total": 5.51739419454908,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "DEP-REL-CHG": {
       "total_occurrences": 9892,
-      "percentage_of_total": 23.769703960015377,
+      "percentage_of_total": 24.35433439200335,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "LENGTH-CHG": {
       "total_occurrences": 1022,
-      "percentage_of_total": 2.4557862360630525,
+      "percentage_of_total": 2.5161878031366176,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-REM": {
       "total_occurrences": 254,
-      "percentage_of_total": 0.6103421760861207,
+      "percentage_of_total": 0.6253539158480439,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-MOV": {
       "total_occurrences": 11485,
-      "percentage_of_total": 27.597558631295655,
+      "percentage_of_total": 28.276337494152692,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CLAUSE-TYPE-CHG": {
       "total_occurrences": 2728,
-      "percentage_of_total": 6.5551710880430605,
+      "percentage_of_total": 6.716399537139621,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-SIMPLE": {
       "total_occurrences": 1034,
-      "percentage_of_total": 2.4846212995001924,
+      "percentage_of_total": 2.5457320826255017,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-RTED": {
       "total_occurrences": 1035,
-      "percentage_of_total": 2.487024221453287,
-      "newspapers_found_in": 1,
-      "parse_types_found_in": 1
-    },
-    "PUNCT-DEL": {
-      "total_occurrences": 1306,
-      "percentage_of_total": 3.138216070742023,
+      "percentage_of_total": 2.548194105916242,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "H-STRUCT": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "H-TYPE": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TREE-DEPTH-DIFF": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-COUNT-DIFF": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "DEP-DIST-DIFF": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "BRANCH-DIFF": {
       "total_occurrences": 1041,
-      "percentage_of_total": 2.501441753171857,
+      "percentage_of_total": 2.562966245660684,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "HEAD-CHG": {
       "total_occurrences": 282,
-      "percentage_of_total": 0.6776239907727797,
+      "percentage_of_total": 0.6942905679887732,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-ZHANG-SHASHA": {
       "total_occurrences": 806,
-      "percentage_of_total": 1.9367550941945404,
+      "percentage_of_total": 1.9843907723367062,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TED-KLEIN": {
       "total_occurrences": 806,
-      "percentage_of_total": 1.9367550941945404,
+      "percentage_of_total": 1.9843907723367062,
+      "newspapers_found_in": 1,
+      "parse_types_found_in": 1
+    },
+    "PUNCT-DEL": {
+      "total_occurrences": 307,
+      "percentage_of_total": 0.7558411502572814,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "PUNCT-SUBST": {
       "total_occurrences": 138,
-      "percentage_of_total": 0.33160322952710497,
+      "percentage_of_total": 0.3397592141221656,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "C-DEL": {
       "total_occurrences": 720,
-      "percentage_of_total": 1.7301038062283738,
+      "percentage_of_total": 1.7726567693330377,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "C-ADD": {
       "total_occurrences": 540,
-      "percentage_of_total": 1.2975778546712802,
+      "percentage_of_total": 1.3294925769997783,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "POS-CHG": {
       "total_occurrences": 89,
-      "percentage_of_total": 0.21386005382545173,
+      "percentage_of_total": 0.2191200728758894,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FORM-CHG": {
       "total_occurrences": 89,
-      "percentage_of_total": 0.21386005382545173,
+      "percentage_of_total": 0.2191200728758894,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FEAT-CHG": {
       "total_occurrences": 160,
-      "percentage_of_total": 0.3844675124951942,
+      "percentage_of_total": 0.39392372651845287,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "CONST-ADD": {
       "total_occurrences": 124,
-      "percentage_of_total": 0.29796232218377544,
+      "percentage_of_total": 0.305290888051801,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "FW-ADD": {
       "total_occurrences": 170,
-      "percentage_of_total": 0.40849673202614384,
+      "percentage_of_total": 0.41854395942585615,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "PUNCT-ADD": {
       "total_occurrences": 401,
-      "percentage_of_total": 0.9635717031910804,
+      "percentage_of_total": 0.9872713395868725,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "LEMMA-CHG": {
       "total_occurrences": 22,
-      "percentage_of_total": 0.0528642829680892,
+      "percentage_of_total": 0.05416451239628727,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "VERB-FORM-CHG": {
       "total_occurrences": 14,
-      "percentage_of_total": 0.03364090734332949,
+      "percentage_of_total": 0.034468326070364624,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     },
     "TOKEN-REORDER": {
       "total_occurrences": 12,
-      "percentage_of_total": 0.02883506343713956,
+      "percentage_of_total": 0.029544279488883964,
       "newspapers_found_in": 1,
       "parse_types_found_in": 1
     }
   },
   "newspaper_statistics": {
     "Times-of-India": {
-      "total_events": 41616,
+      "total_events": 40617,
       "percentage_of_global": 100.0,
       "unique_features": 30,
       "most_frequent_feature": [
@@ -207,7 +207,7 @@
   "parse_type_statistics": {
     "dependency": {
       "total_events": 16294,
-      "percentage_of_global": 39.15321030372934,
+      "percentage_of_global": 40.11620749932294,
       "unique_features": 14,
       "most_frequent_feature": [
         "DEP-REL-CHG",
@@ -216,7 +216,7 @@
     },
     "constituency": {
       "total_events": 21395,
-      "percentage_of_global": 51.410515186466746,
+      "percentage_of_global": 52.67498830538937,
       "unique_features": 11,
       "most_frequent_feature": [
         "CONST-MOV",
@@ -224,12 +224,12 @@
       ]
     },
     "both": {
-      "total_events": 3927,
-      "percentage_of_global": 9.436274509803921,
+      "total_events": 2928,
+      "percentage_of_global": 7.208804195287688,
       "unique_features": 5,
       "most_frequent_feature": [
-        "PUNCT-DEL",
-        1306
+        "H-STRUCT",
+        1041
       ]
     }
   }

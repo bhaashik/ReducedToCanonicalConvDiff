@@ -24,8 +24,8 @@ Times-of-India,constituency,BRANCH-DIFF,Branching Factor Difference,1041,4.86562
 Times-of-India,constituency,TED-ZHANG-SHASHA,TED-ZHANG-SHASHA,806,3.767235335358729
 Times-of-India,constituency,TED-KLEIN,TED-KLEIN,806,3.767235335358729
 Times-of-India,constituency,CONST-ADD,Constituent Addition,124,0.5795746669782659
-Times-of-India,both,PUNCT-DEL,Punctuation Deletion,1306,33.25693913929208
-Times-of-India,both,H-STRUCT,Headline Structure,1041,26.508785332314744
-Times-of-India,both,H-TYPE,Headline Type,1041,26.508785332314744
-Times-of-India,both,PUNCT-SUBST,Punctuation Substitution,138,3.514132925897632
-Times-of-India,both,PUNCT-ADD,Punctuation Addition,401,10.2113572701808
+Times-of-India,both,H-STRUCT,Headline Structure,1041,35.55327868852459
+Times-of-India,both,H-TYPE,Headline Type,1041,35.55327868852459
+Times-of-India,both,PUNCT-DEL,Punctuation Deletion,307,10.484972677595628
+Times-of-India,both,PUNCT-SUBST,Punctuation Substitution,138,4.713114754098361
+Times-of-India,both,PUNCT-ADD,Punctuation Addition,401,13.69535519125683
