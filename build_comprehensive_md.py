@@ -17,6 +17,11 @@ from typing import List, Tuple
 
 import pandas as pd
 from pandas.errors import EmptyDataError
+try:
+    from tabulate import tabulate  # noqa: F401
+    TABULATE_AVAILABLE = True
+except ImportError:
+    TABULATE_AVAILABLE = False
 
 BASE = Path('.')
 OUT_DIR = BASE / 'TABLES-FIGURES-ALL-MD'
@@ -91,7 +96,12 @@ def csv_to_md_table(path: Path) -> str:
     df = df[~df.apply(row_all_empty, axis=1)]
     if df.empty:
         return ''
-    return df.to_markdown(index=False)
+    if TABULATE_AVAILABLE:
+        return df.to_markdown(index=False)
+    else:
+        # Fallback: simple CSV block if tabulate is not installed
+        csv_str = df.to_csv(index=False)
+        return "```\n" + csv_str + "\n```"
 
 
 def main():
