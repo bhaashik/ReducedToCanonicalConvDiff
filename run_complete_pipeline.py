@@ -297,6 +297,26 @@ class PipelineExecutor:
                     "transformation_patterns_overview.*",
                 ],
             )
+            # Syntactic dependency (reuse parse outputs if no dedicated deps)
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / SYNTACTIC_DIR / SYN_DEP_DIR / paper,
+                [
+                    "parse_type_comparison.*",
+                    "parse_type_statistical_differences.*",
+                    "cross_dimensional_analysis.*",
+                ],
+            )
+            # Syntactic constituency (reuse parse outputs if no dedicated const)
+            total += self._copy_from_dir(
+                paper_src,
+                task_root / SYNTACTIC_DIR / SYN_CONST_DIR / paper,
+                [
+                    "parse_type_comparison.*",
+                    "parse_type_statistical_differences.*",
+                    "cross_dimensional_analysis.*",
+                ],
+            )
             # Overview per-paper (broad summaries)
             total += self._copy_from_dir(
                 paper_src,
