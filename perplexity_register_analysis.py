@@ -108,12 +108,15 @@ class RegisterPerplexityAnalyzer:
 
     def load_events_data(self) -> pd.DataFrame:
         """Load events data with direction tags (C2H/H2C)."""
-        # Preferred: directional events generated into complexity-similarity-study/events
+        # Preferred: combined directional events generated into complexity-similarity-study/events
+        directional_combined = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events_combined.csv"
         directional_path = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events.csv"
         fallback_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
 
         path_to_use = None
-        if directional_path.exists():
+        if directional_combined.exists():
+            path_to_use = directional_combined
+        elif directional_path.exists():
             path_to_use = directional_path
         elif fallback_path.exists():
             path_to_use = fallback_path

@@ -85,9 +85,16 @@ class DirectionalPerplexityAnalyzer:
 
     def load_events_data(self) -> pd.DataFrame:
         """Load events data."""
+        directional_combined = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events_combined.csv"
         directional_path = self.project_root / 'output' / 'complexity-similarity-study' / 'events' / f"{self.newspaper}_events.csv"
         legacy_path = self.project_root / 'output' / self.newspaper / 'events_global.csv'
-        path = directional_path if directional_path.exists() else legacy_path
+        path = None
+        if directional_combined.exists():
+            path = directional_combined
+        elif directional_path.exists():
+            path = directional_path
+        else:
+            path = legacy_path
 
         if not path.exists():
             print(f"⚠️  Events file not found: {path}")

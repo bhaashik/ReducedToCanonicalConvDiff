@@ -322,7 +322,8 @@ class PipelineExecutor:
     def generate_directional_events(self):
         """
         Create direction-tagged event CSVs for complexity/similarity study.
-        Currently uses existing canonical→headline events (Direction=C2H).
+        Uses existing canonical→headline events (Direction=C2H) and synthesizes
+        a headline→canonical view (Direction=H2C) by swapping canonical/headline values.
         """
         events_dir = self.output_root / COMPLEXITY_DIR / "events"
         events_dir.mkdir(parents=True, exist_ok=True)
@@ -332,15 +333,34 @@ class PipelineExecutor:
             if not src.exists():
                 self.log(f"[TASK-3] Missing events file for {paper}: {src}", "WARN")
                 continue
-            df = None
             try:
                 import pandas as pd  # Local import to avoid hard dependency at startup
 
-                df = pd.read_csv(src)
-                df["Direction"] = "C2H"
-                dest = events_dir / f"{paper}_events.csv"
+                df_c2h = pd.read_csv(src)
+                df_c2h["Direction"] = "C2H"
+
+                # Synthesize H2C by swapping canonical/headline fields; keep feature_id as-is.
+                df_h2c = df_c2h.copy()
+                swap_cols = [
+                    ("canonical_value", "headline_value"),
+                    ("canonical_context", "headline_context"),
+                    ("deleted_punctuation", "added_punctuation"),
+                ]
+                for c_col, h_col in swap_cols:
+                    if c_col in df_h2c.columns and h_col in df_h2c.columns:
+                        df_h2c[c_col], df_h2c[h_col] = df_h2c[h_col], df_h2c[c_col]
+                df_h2c["Direction"] = "H2C"
+
+                combined = pd.concat([df_c2h, df_h2c], ignore_index=True)
+
+                dest = events_dir / f"{paper}_events_combined.csv"
                 if not self.dry_run:
-                    df.to_csv(dest, index=False)
+                    combined.to_csv(dest, index=False)
+                # Also write per-direction files for clarity
+                if not self.dry_run:
+                    df_c2h.to_csv(events_dir / f"{paper}_events_c2h.csv", index=False)
+                    df_h2c.to_csv(events_dir / f"{paper}_events_h2c.csv", index=False)
+
                 self.log(f"[TASK-3] Wrote directional events for {paper} -> {dest}")
             except Exception as exc:  # pylint: disable=broad-except
                 self.log(f"[TASK-3] Failed to create directional events for {paper}: {exc}", "ERROR")

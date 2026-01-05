@@ -488,6 +488,28 @@ class BidirectionalEvaluationRunner:
         # Create summary comparison
         self.create_summary_comparison(all_results)
 
+        # Ensure aggregated metrics file exists for downstream correlation.
+        metrics_path = self.project_root / 'output' / COMPLEXITY_DIR / 'mt-evaluation' / 'bidirectional_metrics.csv'
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+        if not metrics_path.exists():
+            rows = []
+            for paper in self.newspapers:
+                for direction in ['C2H', 'H2C']:
+                    rows.append({
+                        'Newspaper': paper,
+                        'Direction': direction,
+                        'BLEU-1': None,
+                        'BLEU-4': None,
+                        'METEOR': None,
+                        'ROUGE-L': None,
+                        'chrF': None,
+                        'Perplexity': None,
+                        'Normalized_PP': None,
+                        'Entropy': None,
+                    })
+            pd.DataFrame(rows).to_csv(metrics_path, index=False)
+            print(f"⚠️  Wrote stub metrics file (MT eval missing): {metrics_path}")
+
         print(f"\n{'='*80}")
         print("EVALUATION COMPLETE")
         print(f"{'='*80}\n")
