@@ -90,6 +90,11 @@ class V5FeatureDetector:
             canonical_count = len(canonical_punct[punct_type])
             headline_count = len(headline_punct.get(punct_type, []))
 
+            # Skip sentence-final period deletions unless headline also has a period.
+            # This prevents trivial CR-only full-stop differences from dominating PUNCT stats.
+            if punct_type == 'period' and headline_count == 0:
+                continue
+
             if canonical_count > headline_count:
                 # Punctuation was deleted - enrich with context
                 extra = self.enricher.enrich_punctuation_deletion(aligned_pair, punct_type)

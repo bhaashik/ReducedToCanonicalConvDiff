@@ -9,6 +9,14 @@ Analyzes correlations between:
 Provides statistical validation of the relationship between complexity and performance.
 """
 
+import os
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+os.environ.setdefault("KMP_AFFINITY", "disabled")
+os.environ.setdefault("KMP_INIT_AT_FORK", "FALSE")
+
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -608,6 +616,13 @@ class CorrelationAnalyzer:
 
 def main():
     project_root = Path(__file__).parent
+
+    # Ensure required MT evaluation file exists before proceeding.
+    metrics_path = project_root / 'output' / 'complexity-similarity-study' / 'mt-evaluation' / 'bidirectional_metrics.csv'
+    if not metrics_path.exists():
+        print(f"⚠️  Missing MT evaluation metrics file: {metrics_path}")
+        print("    Skipping correlation analysis. Run bidirectional_transformation_system.py to generate it.")
+        return
 
     analyzer = CorrelationAnalyzer(project_root)
     results = analyzer.run_complete_analysis()

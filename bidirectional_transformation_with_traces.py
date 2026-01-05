@@ -19,6 +19,8 @@ import json
 from dataclasses import dataclass, asdict
 from collections import Counter
 import spacy
+from config import BASE_DIR
+from paths_config import TEXT_FILES
 
 # Load spaCy model
 try:
@@ -509,7 +511,7 @@ class TransformationTraceWriter:
 
 
 def main():
-    project_root = Path(__file__).parent
+    project_root = Path(BASE_DIR)
     newspapers = ['Times-of-India', 'Hindustan-Times', 'The-Hindu']
 
     # Output directories
@@ -526,8 +528,8 @@ def main():
         print("-" * 60)
 
         # Load aligned data
-        headline_path = project_root / 'data' / 'input' / 'input-single-line-break' / f'{newspaper}-corrected-headlines.txt'
-        canonical_path = project_root / 'data' / 'input' / 'input-single-line-break' / f'{newspaper}-corrected-canonical.txt'
+        headline_path = TEXT_FILES[newspaper]['headlines']
+        canonical_path = TEXT_FILES[newspaper]['canonical']
 
         with open(headline_path, 'r', encoding='utf-8') as f:
             headlines = [line.strip() for line in f if line.strip()]

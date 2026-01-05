@@ -20,16 +20,23 @@ from typing import Dict, List, Any, Tuple, Set, Optional
 from collections import defaultdict
 import numpy as np
 import re
+from config import BASE_DIR
+from paths_config import TEXT_FILES
 
 # Import evaluation metrics
 try:
     from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
     from nltk.translate.meteor_score import meteor_score
     import nltk
-    nltk.download('wordnet', quiet=True)
-    nltk.download('omw-1.4', quiet=True)
-    NLTK_AVAILABLE = True
-except:
+    # Avoid network download; rely on locally installed corpora
+    try:
+        nltk.data.find('corpora/wordnet')
+        nltk.data.find('corpora/omw-1.4')
+        NLTK_AVAILABLE = True
+    except LookupError:
+        NLTK_AVAILABLE = False
+        print("⚠️  NLTK corpora wordnet/omw-1.4 not found locally. METEOR will be skipped.")
+except Exception:
     NLTK_AVAILABLE = False
     print("⚠️  NLTK not available, BLEU and METEOR will be skipped")
 
@@ -84,11 +91,12 @@ class TransformationRuleEngine:
 
         for _, row in df.iterrows():
             rule = {
-                'feature': row['feature'],
-                'pos': row['pos'],
-                'headline_value': row['headline_value'],
-                'canonical_value': row['canonical_value'],
-                'frequency': row['frequency']
+                'feature': row.get('feature', 'UNK'),
+                # Fallback to 'NA' if pos column is missing to avoid KeyError
+                'pos': row.get('pos', 'NA'),
+                'headline_value': row.get('headline_value', 'ABSENT'),
+                'canonical_value': row.get('canonical_value', 'ABSENT'),
+                'frequency': row.get('frequency', 0)
             }
 
             # Categorize by direction
@@ -255,17 +263,8 @@ class BidirectionalEvaluationSystem:
 
     def load_aligned_data(self) -> List[Dict]:
         """Load aligned headline-canonical pairs from text files."""
-        # Handle newspaper names with 'corrected' suffix
-        base_name = self.newspaper.replace('-', '-corrected-')
-
-        # Try without 'corrected' first
-        headline_path = self.project_root / 'data' / 'input' / 'input-single-line-break' / f'{self.newspaper}-headlines.txt'
-        canonical_path = self.project_root / 'data' / 'input' / 'input-single-line-break' / f'{self.newspaper}-canonical.txt'
-
-        # If not found, try with 'corrected'
-        if not headline_path.exists():
-            headline_path = self.project_root / 'data' / 'input' / 'input-single-line-break' / f'{self.newspaper}-corrected-headlines.txt'
-            canonical_path = self.project_root / 'data' / 'input' / 'input-single-line-break' / f'{self.newspaper}-corrected-canonical.txt'
+        headline_path = TEXT_FILES[self.newspaper]['headlines']
+        canonical_path = TEXT_FILES[self.newspaper]['canonical']
 
         if not headline_path.exists() or not canonical_path.exists():
             print(f"⚠️  Data files not found for {self.newspaper}")
@@ -466,7 +465,7 @@ class BidirectionalEvaluationRunner:
 
     def __init__(self):
         self.newspapers = ['Times-of-India', 'Hindustan-Times', 'The-Hindu']
-        self.project_root = Path(__file__).parent.absolute()
+        self.project_root = Path(BASE_DIR)
         self.output_dir = self.project_root / 'output' / 'bidirectional_evaluation'
         self.output_dir.mkdir(parents=True, exist_ok=True)
 

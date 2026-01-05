@@ -16,6 +16,14 @@ This reveals:
 - Which event types contribute most to complexity
 """
 
+import os
+os.environ.setdefault("OMP_NUM_THREADS", "1")
+os.environ.setdefault("MKL_NUM_THREADS", "1")
+os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+os.environ.setdefault("NUMEXPR_NUM_THREADS", "1")
+os.environ.setdefault("KMP_AFFINITY", "disabled")
+os.environ.setdefault("KMP_INIT_AT_FORK", "FALSE")
+
 import json
 import pandas as pd
 import numpy as np
@@ -213,8 +221,10 @@ class RegisterPerplexityAnalyzer:
         if not self.morph_df.empty:
             morph_transformations = Counter()
             for _, row in self.morph_df.iterrows():
-                pattern = f"{row['feature']}:{row['headline_value']}→{row['canonical_value']}@{row['pos']}"
-                morph_transformations[pattern] = row['frequency']
+                pos_val = row.get('pos', 'NA')
+                pattern = f"{row.get('feature', 'UNK')}:{row.get('headline_value', 'NULL')}→{row.get('canonical_value', 'NULL')}@{pos_val}"
+                freq = row.get('frequency', 0)
+                morph_transformations[pattern] = freq
 
             results['morph_transformations'] = self.calculator.calculate_distribution_perplexity(morph_transformations)
 

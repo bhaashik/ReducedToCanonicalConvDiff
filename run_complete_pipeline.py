@@ -8,6 +8,7 @@ register study. Provides a CLI to:
 """
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -35,6 +36,19 @@ class PipelineExecutor:
         self.newspapers = list(newspapers) if newspapers else list(DEFAULT_NEWSPAPERS)
         self.dry_run = dry_run
         self.start_time = datetime.now()
+        base_env = os.environ.copy()
+        # Limit thread-heavy libs to avoid SHM issues in constrained environments.
+        base_env.update(
+            {
+                "OMP_NUM_THREADS": "1",
+                "MKL_NUM_THREADS": "1",
+                "OPENBLAS_NUM_THREADS": "1",
+                "NUMEXPR_NUM_THREADS": "1",
+                "KMP_AFFINITY": "disabled",
+                "KMP_INIT_AT_FORK": "FALSE",
+            }
+        )
+        self.exec_env = base_env
 
     def log(self, message: str, level: str = "INFO"):
         timestamp = datetime.now().strftime("%H:%M:%S")
@@ -286,6 +300,7 @@ class PipelineExecutor:
                 capture_output=True,
                 text=True,
                 timeout=1800,  # 30 minute timeout
+                env=self.exec_env,
             )
 
             if result.returncode == 0:
