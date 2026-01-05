@@ -28,8 +28,12 @@ from typing import List, Dict
 
 def csv_to_latex_longtable(csv_path: Path, caption: str, label: str) -> str:
     import pandas as pd
+    from pandas.errors import EmptyDataError
 
-    df = pd.read_csv(csv_path)
+    try:
+        df = pd.read_csv(csv_path)
+    except EmptyDataError:
+        return ""
     latex_body = df.to_latex(
         index=False,
         escape=True,
@@ -60,9 +64,13 @@ def write_tables(task: str, csv_files: List[Path], tex_dir: Path) -> List[Path]:
     tex_dir.mkdir(parents=True, exist_ok=True)
     created = []
     for csv in csv_files:
+        if csv.stat().st_size == 0:
+            continue
         caption = friendly_caption(csv)
         label = friendly_label(task, csv)
         tex_content = csv_to_latex_longtable(csv, caption, label)
+        if not tex_content.strip():
+            continue
         tex_path = tex_dir / f"{csv.stem}.tex"
         with open(tex_path, "w", encoding="ascii", errors="ignore") as f:
             f.write(tex_content)
@@ -73,6 +81,7 @@ def write_tables(task: str, csv_files: List[Path], tex_dir: Path) -> List[Path]:
 def append_inputs_to_doc(doc_path: Path, tex_paths: List[Path]):
     if not tex_paths:
         return
+    tex_paths = sorted(tex_paths)
     rel_inputs = [p.relative_to(doc_path.parent) for p in tex_paths]
     block = ["% ===== Auto-generated Tables (do not edit by hand) =====", "\\section*{Auto-generated Tables}"]
     for p in rel_inputs:
