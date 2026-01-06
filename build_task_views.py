@@ -131,7 +131,7 @@ def render_md_table(df: pd.DataFrame) -> str:
     if df.empty:
         return ""
     try:
-        return df.to_markdown(index=False, tablefmt="github")
+        return df.to_html(index=False, escape=True)
     except Exception:
         # Fallback simple pipe table
         headers = list(df.columns)
@@ -148,6 +148,13 @@ def render_html_table(df: pd.DataFrame) -> str:
     if df.empty:
         return ""
     return df.to_html(index=False, escape=True)
+
+
+def rel_to_out(path: Path) -> str:
+    try:
+        return os.path.relpath(path, OUT_DIR)
+    except ValueError:
+        return path.as_posix()
 
 
 def safe_read_csv(path: Path) -> pd.DataFrame | None:
@@ -239,12 +246,14 @@ def build_task(task_name: str, cfg: Dict, max_csv_mb: float, max_fig_mb: float):
                     if paired_fig and size_mb(paired_fig) <= max_fig_mb:
                         used_figs.add(paired_fig)
                         md_lines.append(f"**{t}** (paired with {paired_fig})")
-                        md_lines.append(f"<table><tr><td>{md_table}</td><td>![{paired_fig.stem}]({paired_fig.relative_to(BASE).as_posix()})</td></tr></table>")
+                        md_lines.append(
+                            "<table><tr><td>" + md_table + "</td><td><img src='" + rel_to_out(paired_fig) + "' alt='" + paired_fig.stem + "' style='max-width:100%;height:auto;'/></td></tr></table>"
+                        )
                         html_lines.append("<div class='pair'><div>")
                         html_lines.append(f"<p><b>{t}</b></p>")
                         html_lines.append(render_html_table(df_table))
                         html_lines.append("</div><div>")
-                        html_lines.append(f"<p>{paired_fig}</p><img src='{paired_fig.relative_to(BASE).as_posix()}' alt='{paired_fig.stem}'/>")
+                        html_lines.append(f"<p>{paired_fig}</p><img src='{rel_to_out(paired_fig)}' alt='{paired_fig.stem}'/>")
                         html_lines.append("</div></div>")
                     else:
                         md_lines.append(f"**{t}**")
@@ -260,8 +269,8 @@ def build_task(task_name: str, cfg: Dict, max_csv_mb: float, max_fig_mb: float):
                         html_lines.append(f"<p class='skipped'>Skipped figure >{max_fig_mb}MB: {f}</p>")
                         md_lines.append(f"- Skipped figure >{max_fig_mb}MB: {f}")
                         continue
-                    md_lines.append(f"![{f.stem}]({f.relative_to(BASE).as_posix()})")
-                    html_lines.append(f"<div><p>{f}</p><img src='{f.relative_to(BASE).as_posix()}' alt='{f.stem}'/></div>")
+                    md_lines.append(f"![{f.stem}]({rel_to_out(f)})")
+                    html_lines.append(f"<div><p>{f}</p><img src='{rel_to_out(f)}' alt='{f.stem}'/></div>")
 
     html_lines.append("</body></html>")
     OUT_DIR.mkdir(parents=True, exist_ok=True)
