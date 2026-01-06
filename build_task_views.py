@@ -246,15 +246,11 @@ def build_task(task_name: str, cfg: Dict, max_csv_mb: float, max_fig_mb: float):
                     if paired_fig and size_mb(paired_fig) <= max_fig_mb:
                         used_figs.add(paired_fig)
                         md_lines.append(f"**{t}** (paired with {paired_fig})")
-                        md_lines.append(
-                            "<table><tr><td>" + md_table + "</td><td><img src='" + rel_to_out(paired_fig) + "' alt='" + paired_fig.stem + "' style='max-width:100%;height:auto;'/></td></tr></table>"
-                        )
-                        html_lines.append("<div class='pair'><div>")
-                        html_lines.append(f"<p><b>{t}</b></p>")
+                        md_lines.append(f"![{paired_fig.stem}]({rel_to_out(paired_fig)})")
+                        md_lines.append(md_table)
+                        html_lines.append(f"<p><b>{t}</b> (paired with {paired_fig})</p>")
+                        html_lines.append(f"<div><img src='{rel_to_out(paired_fig)}' alt='{paired_fig.stem}'/></div>")
                         html_lines.append(render_html_table(df_table))
-                        html_lines.append("</div><div>")
-                        html_lines.append(f"<p>{paired_fig}</p><img src='{rel_to_out(paired_fig)}' alt='{paired_fig.stem}'/>")
-                        html_lines.append("</div></div>")
                     else:
                         md_lines.append(f"**{t}**")
                         md_lines.append(md_table)
