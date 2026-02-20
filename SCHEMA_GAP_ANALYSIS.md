@@ -272,3 +272,5 @@ The current schema v4.0 has **critical gaps**, particularly:
 ---
 
 **Status**: Gap analysis complete, ready for schema update implementation.
+
+The reduced-canonical register study, task-1, task-2 and task-3, completed. Extension for other varieties started, using stanza training etc.
