@@ -147,9 +147,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "AUX-DEL→ABSENT": 844,
           "SCONJ-DEL→ABSENT": 101,
           "ART-DEL→ABSENT": 920,
-          "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
           "CCONJ-DEL→ABSENT": 98
@@ -3515,9 +3515,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "AUX-DEL→ABSENT": 844,
           "SCONJ-DEL→ABSENT": 101,
           "ART-DEL→ABSENT": 920,
-          "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
           "CCONJ-DEL→ABSENT": 98
@@ -6919,9 +6919,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "AUX-DEL→ABSENT": 844,
           "SCONJ-DEL→ABSENT": 101,
           "ART-DEL→ABSENT": 920,
-          "AUX-DEL→ABSENT": 844,
           "PRON-PERS-DEL→ABSENT": 111,
           "ADP-DEL→ABSENT": 167,
           "CCONJ-DEL→ABSENT": 98

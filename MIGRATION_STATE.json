@@ -1,0 +1,238 @@
+{
+  "session_info": {
+    "created_date": "2026-01-07",
+    "purpose": "Track comprehensive to selected migration for ACL ARR 8-page long papers",
+    "paper_format": "8 pages main + unlimited references/appendices",
+    "context": "All three tasks need summary-level tables and figures copied from comprehensive to selected directories"
+  },
+
+  "directory_paths": {
+    "task1_base": "/mnt/d/Dropbox/backup-and-keep/D-Drive-HP-x360-14-cd/projects/Bhaashik/ReducedToCanonicalConvDiff/LaTeX/Canonical_Reduced_Register_Complexity_Part_1_ACL_ARR_short_submitted",
+    "task2_base": "/mnt/d/Dropbox/backup-and-keep/D-Drive-HP-x360-14-cd/projects/Bhaashik/ReducedToCanonicalConvDiff/LaTeX/Canonical_Reduced_Register_Complexity_Part_2_ACL_ARR_short_not_submitted/latex",
+    "task3_base": "/mnt/d/Dropbox/backup-and-keep/D-Drive-HP-x360-14-cd/projects/Bhaashik/ReducedToCanonicalConvDiff/LaTeX/Canonical_Reduced_Register_Complexity_Part_3_ACL_ARR_short_submiited"
+  },
+
+  "current_status": {
+    "task1": {
+      "comprehensive_tables_total": 108,
+      "comprehensive_figures_global": 90,
+      "comprehensive_figures_per_newspaper": "~70-80 each",
+      "selected_tables": 0,
+      "selected_figures_global": 16,
+      "selected_figures_per_newspaper": 11,
+      "status": "Missing 74 global figures, all tables",
+      "critical_issue": "Cross-newspaper comparison figures missing"
+    },
+    "task2": {
+      "comprehensive_tables_total": 16,
+      "comprehensive_figures_global": 19,
+      "comprehensive_figures_per_newspaper": 2,
+      "selected_tables": 0,
+      "selected_figures_global": 0,
+      "selected_figures_per_newspaper": 10,
+      "selected_figures_root": 10,
+      "status": "NO global/ subdirectory in selected, all tables missing",
+      "critical_issue": "Directory structure broken - root figures should be in global/"
+    },
+    "task3": {
+      "comprehensive_tables_total": 44,
+      "comprehensive_figures_global": 12,
+      "comprehensive_figures_per_newspaper": 3,
+      "selected_tables": 0,
+      "selected_figures_global": 12,
+      "selected_figures_per_newspaper": 3,
+      "status": "Figures complete, all tables missing",
+      "critical_issue": "Must verify normalization in all figures and tables"
+    }
+  },
+
+  "priority_actions": {
+    "immediate": {
+      "task1": {
+        "tables": [
+          "global_comprehensive_analysis_global.tex",
+          "cross_newspaper_comparison.tex",
+          "global_statistical_summary_features.tex",
+          "global_bidirectional_cross_entropy_analysis_global_metrics.tex",
+          "global_feature_value_pair_analysis_top_pairs.tex"
+        ],
+        "figures": [
+          "cross_newspaper_event_counts.png",
+          "cross_newspaper_top_features_comparison.png",
+          "cross_newspaper_parse_types.png"
+        ]
+      },
+      "task2": {
+        "actions": [
+          "Create latex-selected/figures/global/ directory",
+          "Move all root figures to global/",
+          "Copy integrated_transformation_comparison.tex (MOST CRITICAL)",
+          "Copy task2_*.png figures (5 files)",
+          "Copy morphological analysis figures"
+        ],
+        "tables": [
+          "integrated_transformation_comparison.tex",
+          "overall_morphological_statistics.tex",
+          "morphological_systematicity.tex"
+        ],
+        "figures": [
+          "task2_coverage_curve.png",
+          "task2_newspaper_comparison.png",
+          "task2_morphological_rules.png",
+          "task2_punctuation_rules.png",
+          "task2_rule_hierarchy.png",
+          "integrated_comparison.png",
+          "morphological_features_heatmap.png",
+          "transformation_directionality.png"
+        ]
+      },
+      "task3": {
+        "tables": [
+          "bidirectional_metrics.tex",
+          "directional_perplexity_analysis.tex",
+          "cross_newspaper_comparison.tex"
+        ],
+        "verification": {
+          "action": "Verify ALL figures use normalized values",
+          "critical_figures": [
+            "entropy_comparison.png",
+            "cross_entropy_comparison.png",
+            "kl_divergence_comparison.png",
+            "complexity_ratios.png"
+          ],
+          "requirement": "All must show per-token, per-char, or vocab-normalized values"
+        }
+      }
+    },
+    "high_priority": {
+      "task1": {
+        "tables": [
+          "global_comprehensive_analysis_by_parse_type.tex",
+          "morphological_features_cross_newspaper.tex",
+          "global_feature_value_pair_analysis_concentration_metrics.tex"
+        ],
+        "figures": [
+          "statistical_significance_heatmap.png (check if global exists)",
+          "global_cross_entropy_metrics.png (may need aggregation)",
+          "information_asymmetry_analysis.png (may need aggregation)"
+        ]
+      },
+      "task2": {
+        "tables": [
+          "noun_morphology_comparison.tex",
+          "verb_morphology_comparison.tex",
+          "morphological_features_summary.tex"
+        ],
+        "figures": [
+          "noun_morphology_comparison.png",
+          "verb_morphology_comparison.png",
+          "overall_morphological_statistics.png",
+          "morphological_impact_comparison.png",
+          "cross_newspaper_feature_comparison.png"
+        ]
+      },
+      "task3": {
+        "tables": [
+          "correlation_results.tex",
+          "inter_metric_correlations.tex",
+          "ratio_correlations.tex"
+        ],
+        "action": "Create normalized table variants if missing"
+      }
+    }
+  },
+
+  "normalization_requirements": {
+    "task3_critical": {
+      "perplexity": "Per-token, not total",
+      "cross_entropy": "Bits per token",
+      "kl_divergence": "Bits per token",
+      "ttr": "Already normalized (types/tokens)",
+      "feature_frequencies": "Per 1000 tokens",
+      "complexity_ratios": "Based on normalized values (H→C/C→H)",
+      "similarity_scores": "Jaccard, Dice (inherently normalized)"
+    },
+    "task1_recommended": {
+      "feature_frequencies": "Per 1000 tokens for cross-newspaper comparison"
+    },
+    "task2_recommended": {
+      "rule_coverage": "Percentage, not raw counts"
+    }
+  },
+
+  "file_counts": {
+    "task1": {
+      "to_add_tables_critical": 5,
+      "to_add_tables_high": 4,
+      "to_add_figures_critical": 10,
+      "to_add_figures_high": 3
+    },
+    "task2": {
+      "to_add_tables_critical": 3,
+      "to_add_tables_high": 6,
+      "to_add_figures_critical": 13,
+      "to_restructure_figures": 8
+    },
+    "task3": {
+      "to_add_tables_critical": 3,
+      "to_add_tables_high": 6,
+      "to_verify_figures": 12,
+      "to_create_normalized_variants": "TBD based on verification"
+    }
+  },
+
+  "completion_tracking": {
+    "phase1_directory_setup": {
+      "task1_tables_dir": false,
+      "task2_tables_dir": false,
+      "task2_figures_global_dir": false,
+      "task3_tables_dir": false
+    },
+    "phase2_task1_critical": {
+      "tables_copied": 0,
+      "target": 5,
+      "figures_copied": 0,
+      "target_figures": 10
+    },
+    "phase3_task2_critical": {
+      "global_dir_created": false,
+      "root_figures_moved": 0,
+      "target_moves": 8,
+      "tables_copied": 0,
+      "target_tables": 3,
+      "figures_copied": 0,
+      "target_figures": 13
+    },
+    "phase4_task3_critical": {
+      "tables_copied": 0,
+      "target": 3,
+      "normalization_verified": false,
+      "normalized_variants_created": 0
+    }
+  },
+
+  "key_findings": {
+    "task1": "Missing cross-newspaper comparison figures that show relative differences",
+    "task2": "Directory structure broken - no global/ subdirectory, integrated_transformation_comparison.tex is THE most critical table",
+    "task3": "Figures complete but MUST verify normalization - raw values inappropriate for cross-newspaper comparison",
+    "all_tasks": "No standalone tables/ directories exist - all tables currently embedded in main .tex files"
+  },
+
+  "execution_commands": {
+    "see_file": "COMPREHENSIVE_TO_SELECTED_MIGRATION_PLAN.md",
+    "sections": {
+      "phase2": "Task 1 table/figure copying",
+      "phase4": "Task 2 table copying",
+      "phase5": "Task 2 figure restructure and copying",
+      "phase6": "Task 3 table copying",
+      "phase7": "Task 3 normalization verification"
+    }
+  },
+
+  "time_estimates": {
+    "task1": "2-3 hours",
+    "task2": "3-4 hours (includes restructure)",
+    "task3": "2-3 hours (includes verification)",
+    "total": "7-10 hours"
+  }
+}

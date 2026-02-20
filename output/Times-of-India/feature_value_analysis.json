@@ -1,9 +1,9 @@
 {
   "global_feature_values": {
     "FW-DEL": {
+      "AUX-DEL→ABSENT": 844,
       "SCONJ-DEL→ABSENT": 101,
       "ART-DEL→ABSENT": 920,
-      "AUX-DEL→ABSENT": 844,
       "PRON-PERS-DEL→ABSENT": 111,
       "ADP-DEL→ABSENT": 167,
       "CCONJ-DEL→ABSENT": 98
@@ -3331,9 +3331,9 @@
   "by_newspaper_feature_values": {
     "Times-of-India": {
       "FW-DEL": {
+        "AUX-DEL→ABSENT": 844,
         "SCONJ-DEL→ABSENT": 101,
         "ART-DEL→ABSENT": 920,
-        "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
         "CCONJ-DEL→ABSENT": 98
@@ -6662,9 +6662,9 @@
   "by_parse_type_feature_values": {
     "dependency": {
       "FW-DEL": {
+        "AUX-DEL→ABSENT": 844,
         "SCONJ-DEL→ABSENT": 101,
         "ART-DEL→ABSENT": 920,
-        "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
         "CCONJ-DEL→ABSENT": 98
@@ -9997,9 +9997,9 @@
   "cross_feature_values": {
     "Times-of-India_dependency": {
       "FW-DEL": {
+        "AUX-DEL→ABSENT": 844,
         "SCONJ-DEL→ABSENT": 101,
         "ART-DEL→ABSENT": 920,
-        "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
         "CCONJ-DEL→ABSENT": 98
@@ -14286,9 +14286,9 @@
     },
     "transformation_types": {
       "deletions": {
+        "AUX-DEL→ABSENT": 844,
         "SCONJ-DEL→ABSENT": 101,
         "ART-DEL→ABSENT": 920,
-        "AUX-DEL→ABSENT": 844,
         "PRON-PERS-DEL→ABSENT": 111,
         "ADP-DEL→ABSENT": 167,
         "CCONJ-DEL→ABSENT": 98,

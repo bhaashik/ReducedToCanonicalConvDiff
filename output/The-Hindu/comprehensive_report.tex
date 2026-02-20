@@ -19,15 +19,15 @@
 
 \section{Executive Summary}
 
-This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified \textbf{31,859} difference events across \textbf{30} distinct linguistic features.
+This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified \textbf{30,818} difference events across \textbf{30} distinct linguistic features.
 
 \subsection{Key Findings}
 \begin{itemize}
-\item \textbf{Constituent Movement} (CONST-MOV): 5,705 occurrences (17.9\% of total)
-\item \textbf{Dependency Relation Change} (DEP-REL-CHG): 5,284 occurrences (16.6\% of total)
-\item \textbf{Function Word Deletion} (FW-DEL): 1,661 occurrences (5.2\% of total)
-\item \textbf{Clause Type Change} (CLAUSE-TYPE-CHG): 1,500 occurrences (4.7\% of total)
-\item \textbf{Headline Structure} (H-STRUCT): 1,500 occurrences (4.7\% of total)
+\item \textbf{Constituent Movement} (CONST-MOV): 5,705 occurrences (18.5\% of total)
+\item \textbf{Dependency Relation Change} (DEP-REL-CHG): 5,284 occurrences (17.1\% of total)
+\item \textbf{Function Word Deletion} (FW-DEL): 1,661 occurrences (5.4\% of total)
+\item \textbf{Clause Type Change} (CLAUSE-TYPE-CHG): 1,500 occurrences (4.9\% of total)
+\item \textbf{Headline Structure} (H-STRUCT): 1,500 occurrences (4.9\% of total)
 \end{itemize}
 
 \section{Global Analysis}
@@ -53,7 +53,6 @@ TREE-DEPTH-DIFF & Tree Depth Difference & Other & 1,500 \\
 CONST-COUNT-DIFF & Constituent Count Difference & Other & 1,500 \\
 DEP-DIST-DIFF & Dependency Distance Difference & Other & 1,500 \\
 BRANCH-DIFF & Branching Factor Difference & Other & 1,500 \\
-PUNCT-DEL & Punctuation Deletion & Other & 1,221 \\
 TED-RTED & TED-RTED & Other & 1,139 \\
 TED-ZHANG-SHASHA & TED-ZHANG-SHASHA & Other & 1,124 \\
 TED-KLEIN & TED-KLEIN & Other & 1,124 \\
@@ -64,6 +63,7 @@ CONST-REM & Constituent Removal & Syntactic & 278 \\
 C-ADD & Content Word Addition & Lexical & 200 \\
 HEAD-CHG & Dependency Head Change & Syntactic & 198 \\
 PUNCT-ADD & Punctuation Addition & Other & 190 \\
+PUNCT-DEL & Punctuation Deletion & Other & 180 \\
 FORM-CHG & Surface Form Change & Lexical & 158 \\
 FEAT-CHG & Morphological Feature Change & Morphological & 122 \\
 CONST-ADD & Constituent Addition & Syntactic & 91 \\
@@ -132,7 +132,7 @@ CONST-REM & 278 \\
 
 \subsection{Both Parsing}
 
-Total events: 4,478
+Total events: 3,437
 
 \begin{table}[h]
 \centering
@@ -142,8 +142,8 @@ Feature & Count \\
 \midrule
 H-STRUCT & 1,500 \\
 H-TYPE & 1,500 \\
-PUNCT-DEL & 1,221 \\
 PUNCT-ADD & 190 \\
+PUNCT-DEL & 180 \\
 PUNCT-SUBST & 67 \\
 \bottomrule
 \end{tabular}

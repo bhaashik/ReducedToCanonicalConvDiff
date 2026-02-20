@@ -1,8 +1,8 @@
 {
   "global_feature_value_pairs": {
-    "FW-DEL:AUX-DEL\u2192ABSENT": 836,
     "FW-DEL:ART-DEL\u2192ABSENT": 622,
     "FW-DEL:CCONJ-DEL\u2192ABSENT": 57,
+    "FW-DEL:AUX-DEL\u2192ABSENT": 836,
     "C-ADD:ABSENT\u2192NOUN-ADD": 153,
     "POS-CHG:VERB\u2192NOUN": 34,
     "FORM-CHG:linked\u2192link": 1,
@@ -27,7 +27,6 @@
     "TED-ZHANG-SHASHA:20\u219220": 18,
     "TED-KLEIN:23\u219223": 6,
     "TED-RTED:19\u219219": 17,
-    "PUNCT-DEL:period\u2192": 1088,
     "PUNCT-ADD:\u2192comma": 69,
     "PUNCT-SUBST:and\u2192,": 51,
     "H-STRUCT:\u2192single-line": 1460,
@@ -351,6 +350,7 @@
     "TED-KLEIN:20\u219220": 21,
     "TED-RTED:26\u219226": 6,
     "PUNCT-DEL:comma\u2192": 28,
+    "PUNCT-DEL:period\u2192": 47,
     "CONST-COUNT-DIFF:23\u219213": 2,
     "DEP-DIST-DIFF:2.17\u21921.50": 3,
     "BRANCH-DIFF:2.20\u21922.00": 8,
@@ -2479,9 +2479,9 @@
   },
   "by_newspaper_feature_value_pairs": {
     "The-Hindu": {
-      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "FW-DEL:ART-DEL\u2192ABSENT": 622,
       "FW-DEL:CCONJ-DEL\u2192ABSENT": 57,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "C-ADD:ABSENT\u2192NOUN-ADD": 153,
       "POS-CHG:VERB\u2192NOUN": 34,
       "FORM-CHG:linked\u2192link": 1,
@@ -2506,7 +2506,6 @@
       "TED-ZHANG-SHASHA:20\u219220": 18,
       "TED-KLEIN:23\u219223": 6,
       "TED-RTED:19\u219219": 17,
-      "PUNCT-DEL:period\u2192": 1088,
       "PUNCT-ADD:\u2192comma": 69,
       "PUNCT-SUBST:and\u2192,": 51,
       "H-STRUCT:\u2192single-line": 1460,
@@ -2830,6 +2829,7 @@
       "TED-KLEIN:20\u219220": 21,
       "TED-RTED:26\u219226": 6,
       "PUNCT-DEL:comma\u2192": 28,
+      "PUNCT-DEL:period\u2192": 47,
       "CONST-COUNT-DIFF:23\u219213": 2,
       "DEP-DIST-DIFF:2.17\u21921.50": 3,
       "BRANCH-DIFF:2.20\u21922.00": 8,
@@ -4959,9 +4959,9 @@
   },
   "by_parse_type_feature_value_pairs": {
     "dependency": {
-      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "FW-DEL:ART-DEL\u2192ABSENT": 622,
       "FW-DEL:CCONJ-DEL\u2192ABSENT": 57,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "C-ADD:ABSENT\u2192NOUN-ADD": 153,
       "POS-CHG:VERB\u2192NOUN": 34,
       "FORM-CHG:linked\u2192link": 1,
@@ -7416,7 +7416,6 @@
       "BRANCH-DIFF:2.12\u21921.92": 1
     },
     "both": {
-      "PUNCT-DEL:period\u2192": 1088,
       "PUNCT-ADD:\u2192comma": 69,
       "PUNCT-SUBST:and\u2192,": 51,
       "H-STRUCT:\u2192single-line": 1460,
@@ -7430,6 +7429,7 @@
       "PUNCT-SUBST:that\u2192:": 10,
       "PUNCT-DEL:apostrophe\u2192": 88,
       "PUNCT-DEL:comma\u2192": 28,
+      "PUNCT-DEL:period\u2192": 47,
       "PUNCT-ADD:\u2192slash": 2,
       "PUNCT-DEL:hyphen\u2192": 9,
       "PUNCT-ADD:\u2192question mark": 1,
@@ -7443,9 +7443,9 @@
   },
   "cross_feature_value_pairs": {
     "The-Hindu_dependency": {
-      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "FW-DEL:ART-DEL\u2192ABSENT": 622,
       "FW-DEL:CCONJ-DEL\u2192ABSENT": 57,
+      "FW-DEL:AUX-DEL\u2192ABSENT": 836,
       "C-ADD:ABSENT\u2192NOUN-ADD": 153,
       "POS-CHG:VERB\u2192NOUN": 34,
       "FORM-CHG:linked\u2192link": 1,
@@ -9900,7 +9900,6 @@
       "BRANCH-DIFF:2.12\u21921.92": 1
     },
     "The-Hindu_both": {
-      "PUNCT-DEL:period\u2192": 1088,
       "PUNCT-ADD:\u2192comma": 69,
       "PUNCT-SUBST:and\u2192,": 51,
       "H-STRUCT:\u2192single-line": 1460,
@@ -9914,6 +9913,7 @@
       "PUNCT-SUBST:that\u2192:": 10,
       "PUNCT-DEL:apostrophe\u2192": 88,
       "PUNCT-DEL:comma\u2192": 28,
+      "PUNCT-DEL:period\u2192": 47,
       "PUNCT-ADD:\u2192slash": 2,
       "PUNCT-DEL:hyphen\u2192": 9,
       "PUNCT-ADD:\u2192question mark": 1,
@@ -9935,10 +9935,6 @@
       [
         "H-STRUCT:\u2192single-line",
         1460
-      ],
-      [
-        "PUNCT-DEL:period\u2192",
-        1088
       ],
       [
         "H-TYPE:\u2192fragment",
@@ -9967,22 +9963,26 @@
       [
         "CONST-MOV:CONST-POST\u2192CONST-POST",
         398
+      ],
+      [
+        "TREE-DEPTH-DIFF:3\u21923",
+        340
       ]
     ],
     "pair_frequency_distribution": {},
-    "average_pair_frequency": 12.867124394184168,
+    "average_pair_frequency": 12.446688206785137,
     "pair_concentration_metrics": {
-      "total_pair_occurrences": 31859,
-      "entropy": 7.744245187178483,
-      "concentration_ratio": 0.3016729966414514
+      "total_pair_occurrences": 30818,
+      "entropy": 7.800253576967919,
+      "concentration_ratio": 0.30157700045428
     }
   },
   "pair_diversity_metrics": {
     "newspaper_pair_diversity": {
       "The-Hindu": {
         "unique_pairs": 2476,
-        "total_occurrences": 31859,
-        "diversity_index": 5.3679017170581504
+        "total_occurrences": 30818,
+        "diversity_index": 5.406723774528056
       }
     },
     "parse_type_pair_diversity": {
@@ -9998,8 +9998,8 @@
       },
       "both": {
         "unique_pairs": 23,
-        "total_occurrences": 4478,
-        "diversity_index": 1.7406834980118875
+        "total_occurrences": 3437,
+        "diversity_index": 1.6177642542047028
       }
     },
     "cross_dimension_diversity": {}
@@ -10019,7 +10019,6 @@
       "TED-ZHANG-SHASHA": 1124,
       "TED-KLEIN": 1124,
       "TED-RTED": 1139,
-      "PUNCT-DEL": 1221,
       "PUNCT-ADD": 190,
       "PUNCT-SUBST": 67,
       "H-STRUCT": 1500,
@@ -10034,6 +10033,7 @@
       "HEAD-CHG": 198,
       "FW-ADD": 49,
       "VERB-FORM-CHG": 11,
+      "PUNCT-DEL": 180,
       "TOKEN-REORDER": 6,
       "LEMMA-CHG": 26
     },
@@ -10052,7 +10052,6 @@
       "TED-ZHANG-SHASHA": 35,
       "TED-KLEIN": 31,
       "TED-RTED": 36,
-      "PUNCT-DEL": 6,
       "PUNCT-ADD": 9,
       "PUNCT-SUBST": 4,
       "H-STRUCT": 2,
@@ -10067,6 +10066,7 @@
       "HEAD-CHG": 40,
       "FW-ADD": 5,
       "VERB-FORM-CHG": 5,
+      "PUNCT-DEL": 6,
       "TOKEN-REORDER": 2,
       "LEMMA-CHG": 24
     }

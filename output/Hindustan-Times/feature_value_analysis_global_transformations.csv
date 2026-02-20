@@ -3117,11 +3117,11 @@ PUNCT-ADD,,semicolon,→semicolon,9
 PUNCT-ADD,,slash,→slash,2
 PUNCT-ADD,,period,→period,1
 PUNCT-ADD,,question mark,→question mark,1
-PUNCT-DEL,period,,period→,1126
 PUNCT-DEL,comma,,comma→,196
 PUNCT-DEL,quote,,quote→,95
 PUNCT-DEL,apostrophe,,apostrophe→,44
 PUNCT-DEL,hyphen,,hyphen→,42
+PUNCT-DEL,period,,period→,31
 PUNCT-DEL,semicolon,,semicolon→,8
 PUNCT-DEL,question mark,,question mark→,3
 PUNCT-DEL,colon,,colon→,1

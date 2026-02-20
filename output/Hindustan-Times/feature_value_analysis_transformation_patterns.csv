@@ -2905,7 +2905,7 @@ parataxis,0,parataxis→dep,1,changes
 parataxis,0,parataxis→nummod,1,changes
 parataxis,0,parataxis→cc,1,changes
 parataxis,0,parataxis→punct,1,changes
-period,0,period→,1126,changes
+period,0,period→,31,changes
 planned,0,planned→plan,1,changes
 police,0,police→Police,1,changes
 praised,0,praised→praises,1,changes
@@ -3195,11 +3195,11 @@ PUNCT-ADD,5,→semicolon,9,most_common
 PUNCT-ADD,6,→slash,2,most_common
 PUNCT-ADD,7,→period,1,most_common
 PUNCT-ADD,8,→question mark,1,most_common
-PUNCT-DEL,1,period→,1126,most_common
-PUNCT-DEL,2,comma→,196,most_common
-PUNCT-DEL,3,quote→,95,most_common
-PUNCT-DEL,4,apostrophe→,44,most_common
-PUNCT-DEL,5,hyphen→,42,most_common
+PUNCT-DEL,1,comma→,196,most_common
+PUNCT-DEL,2,quote→,95,most_common
+PUNCT-DEL,3,apostrophe→,44,most_common
+PUNCT-DEL,4,hyphen→,42,most_common
+PUNCT-DEL,5,period→,31,most_common
 PUNCT-DEL,6,semicolon→,8,most_common
 PUNCT-DEL,7,question mark→,3,most_common
 PUNCT-DEL,8,colon→,1,most_common

@@ -24,8 +24,8 @@ constituency,TREE-DEPTH-DIFF,Tree Depth Difference,1148,4.7066540937230945
 constituency,CONST-COUNT-DIFF,Constituent Count Difference,1148,4.7066540937230945
 constituency,BRANCH-DIFF,Branching Factor Difference,1148,4.7066540937230945
 constituency,CONST-REM,Constituent Removal,476,1.9515395022754296
-both,PUNCT-DEL,Punctuation Deletion,1515,30.440024110910187
-both,PUNCT-ADD,Punctuation Addition,753,15.12959614225437
-both,PUNCT-SUBST,Punctuation Substitution,413,8.29817158931083
-both,H-STRUCT,Headline Structure,1148,23.066104078762308
-both,H-TYPE,Headline Type,1148,23.066104078762308
+both,PUNCT-ADD,Punctuation Addition,753,19.397217928902627
+both,PUNCT-SUBST,Punctuation Substitution,413,10.638845955692942
+both,H-STRUCT,Headline Structure,1148,29.57238536836682
+both,H-TYPE,Headline Type,1148,29.57238536836682
+both,PUNCT-DEL,Punctuation Deletion,420,10.819165378670787

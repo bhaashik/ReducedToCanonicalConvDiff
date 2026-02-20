@@ -1,6 +1,6 @@
 {
   "global": {
-    "total_events": 49567,
+    "total_events": 48472,
     "feature_counts": {
       "FW-DEL": 3210,
       "C-DEL": 1405,
@@ -14,7 +14,6 @@
       "TED-ZHANG-SHASHA": 783,
       "TED-KLEIN": 783,
       "TED-RTED": 1142,
-      "PUNCT-DEL": 1515,
       "PUNCT-ADD": 753,
       "PUNCT-SUBST": 413,
       "H-STRUCT": 1148,
@@ -28,6 +27,7 @@
       "FEAT-CHG": 126,
       "HEAD-CHG": 280,
       "CONST-REM": 476,
+      "PUNCT-DEL": 420,
       "VERB-FORM-CHG": 13,
       "POS-CHG": 84,
       "TOKEN-REORDER": 3,
@@ -64,17 +64,17 @@
         "CONST-REM": 476
       },
       "both": {
-        "PUNCT-DEL": 1515,
         "PUNCT-ADD": 753,
         "PUNCT-SUBST": 413,
         "H-STRUCT": 1148,
-        "H-TYPE": 1148
+        "H-TYPE": 1148,
+        "PUNCT-DEL": 420
       }
     }
   },
   "by_newspaper": {
     "Hindustan-Times": {
-      "total_events": 49567,
+      "total_events": 48472,
       "feature_counts": {
         "FW-DEL": 3210,
         "C-DEL": 1405,
@@ -88,7 +88,6 @@
         "TED-ZHANG-SHASHA": 783,
         "TED-KLEIN": 783,
         "TED-RTED": 1142,
-        "PUNCT-DEL": 1515,
         "PUNCT-ADD": 753,
         "PUNCT-SUBST": 413,
         "H-STRUCT": 1148,
@@ -102,6 +101,7 @@
         "FEAT-CHG": 126,
         "HEAD-CHG": 280,
         "CONST-REM": 476,
+        "PUNCT-DEL": 420,
         "VERB-FORM-CHG": 13,
         "POS-CHG": 84,
         "TOKEN-REORDER": 3,
@@ -138,18 +138,18 @@
           "CONST-REM": 476
         },
         "both": {
-          "PUNCT-DEL": 1515,
           "PUNCT-ADD": 753,
           "PUNCT-SUBST": 413,
           "H-STRUCT": 1148,
-          "H-TYPE": 1148
+          "H-TYPE": 1148,
+          "PUNCT-DEL": 420
         }
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "ART-DEL→ABSENT": 1065,
           "CCONJ-DEL→ABSENT": 207,
           "AUX-DEL→ABSENT": 1171,
-          "ART-DEL→ABSENT": 1065,
           "PRON-PERS-DEL→ABSENT": 268,
           "SCONJ-DEL→ABSENT": 253,
           "ADP-DEL→ABSENT": 246
@@ -1296,16 +1296,6 @@
           "45→45": 3,
           "53→53": 1,
           "49→49": 1
-        },
-        "PUNCT-DEL": {
-          "period→": 1126,
-          "comma→": 196,
-          "quote→": 95,
-          "question mark→": 3,
-          "apostrophe→": 44,
-          "hyphen→": 42,
-          "semicolon→": 8,
-          "colon→": 1
         },
         "PUNCT-ADD": {
           "→comma": 151,
@@ -3548,6 +3538,16 @@
           "QP-REM→ABSENT": 50,
           "ADVP-REM→ABSENT": 6
         },
+        "PUNCT-DEL": {
+          "comma→": 196,
+          "quote→": 95,
+          "question mark→": 3,
+          "apostrophe→": 44,
+          "hyphen→": 42,
+          "period→": 31,
+          "semicolon→": 8,
+          "colon→": 1
+        },
         "VERB-FORM-CHG": {
           "Fin→Part": 1,
           "Part→Ger": 1,
@@ -3628,9 +3628,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "ART-DEL→ABSENT": 1065,
           "CCONJ-DEL→ABSENT": 207,
           "AUX-DEL→ABSENT": 1171,
-          "ART-DEL→ABSENT": 1065,
           "PRON-PERS-DEL→ABSENT": 268,
           "SCONJ-DEL→ABSENT": 253,
           "ADP-DEL→ABSENT": 246
@@ -7055,34 +7055,24 @@
       }
     },
     "both": {
-      "total_events": 4977,
+      "total_events": 3882,
       "feature_counts": {
-        "PUNCT-DEL": 1515,
         "PUNCT-ADD": 753,
         "PUNCT-SUBST": 413,
         "H-STRUCT": 1148,
-        "H-TYPE": 1148
+        "H-TYPE": 1148,
+        "PUNCT-DEL": 420
       },
       "newspaper_breakdown": {
         "Hindustan-Times": {
-          "PUNCT-DEL": 1515,
           "PUNCT-ADD": 753,
           "PUNCT-SUBST": 413,
           "H-STRUCT": 1148,
-          "H-TYPE": 1148
+          "H-TYPE": 1148,
+          "PUNCT-DEL": 420
         }
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1126,
-          "comma→": 196,
-          "quote→": 95,
-          "question mark→": 3,
-          "apostrophe→": 44,
-          "hyphen→": 42,
-          "semicolon→": 8,
-          "colon→": 1
-        },
         "PUNCT-ADD": {
           "→comma": 151,
           "→colon": 466,
@@ -7120,6 +7110,16 @@
         "H-TYPE": {
           "→fragment": 272,
           "→non-fragment": 876
+        },
+        "PUNCT-DEL": {
+          "comma→": 196,
+          "quote→": 95,
+          "question mark→": 3,
+          "apostrophe→": 44,
+          "hyphen→": 42,
+          "period→": 31,
+          "semicolon→": 8,
+          "colon→": 1
         }
       }
     }
@@ -7145,9 +7145,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
+          "ART-DEL→ABSENT": 1065,
           "CCONJ-DEL→ABSENT": 207,
           "AUX-DEL→ABSENT": 1171,
-          "ART-DEL→ABSENT": 1065,
           "PRON-PERS-DEL→ABSENT": 268,
           "SCONJ-DEL→ABSENT": 253,
           "ADP-DEL→ABSENT": 246
@@ -10557,25 +10557,15 @@
       }
     },
     "Hindustan-Times_both": {
-      "total_events": 4977,
+      "total_events": 3882,
       "feature_counts": {
-        "PUNCT-DEL": 1515,
         "PUNCT-ADD": 753,
         "PUNCT-SUBST": 413,
         "H-STRUCT": 1148,
-        "H-TYPE": 1148
+        "H-TYPE": 1148,
+        "PUNCT-DEL": 420
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1126,
-          "comma→": 196,
-          "quote→": 95,
-          "question mark→": 3,
-          "apostrophe→": 44,
-          "hyphen→": 42,
-          "semicolon→": 8,
-          "colon→": 1
-        },
         "PUNCT-ADD": {
           "→comma": 151,
           "→colon": 466,
@@ -10613,6 +10603,16 @@
         "H-TYPE": {
           "→fragment": 272,
           "→non-fragment": 876
+        },
+        "PUNCT-DEL": {
+          "comma→": 196,
+          "quote→": 95,
+          "question mark→": 3,
+          "apostrophe→": 44,
+          "hyphen→": 42,
+          "period→": 31,
+          "semicolon→": 8,
+          "colon→": 1
         }
       }
     }

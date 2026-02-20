@@ -1,6 +1,6 @@
 {
   "global": {
-    "total_events": 31859,
+    "total_events": 30818,
     "feature_counts": {
       "FW-DEL": 1661,
       "C-ADD": 200,
@@ -15,7 +15,6 @@
       "TED-ZHANG-SHASHA": 1124,
       "TED-KLEIN": 1124,
       "TED-RTED": 1139,
-      "PUNCT-DEL": 1221,
       "PUNCT-ADD": 190,
       "PUNCT-SUBST": 67,
       "H-STRUCT": 1500,
@@ -30,6 +29,7 @@
       "HEAD-CHG": 198,
       "FW-ADD": 49,
       "VERB-FORM-CHG": 11,
+      "PUNCT-DEL": 180,
       "TOKEN-REORDER": 6,
       "LEMMA-CHG": 26
     },
@@ -64,17 +64,17 @@
         "CONST-REM": 278
       },
       "both": {
-        "PUNCT-DEL": 1221,
         "PUNCT-ADD": 190,
         "PUNCT-SUBST": 67,
         "H-STRUCT": 1500,
-        "H-TYPE": 1500
+        "H-TYPE": 1500,
+        "PUNCT-DEL": 180
       }
     }
   },
   "by_newspaper": {
     "The-Hindu": {
-      "total_events": 31859,
+      "total_events": 30818,
       "feature_counts": {
         "FW-DEL": 1661,
         "C-ADD": 200,
@@ -89,7 +89,6 @@
         "TED-ZHANG-SHASHA": 1124,
         "TED-KLEIN": 1124,
         "TED-RTED": 1139,
-        "PUNCT-DEL": 1221,
         "PUNCT-ADD": 190,
         "PUNCT-SUBST": 67,
         "H-STRUCT": 1500,
@@ -104,6 +103,7 @@
         "HEAD-CHG": 198,
         "FW-ADD": 49,
         "VERB-FORM-CHG": 11,
+        "PUNCT-DEL": 180,
         "TOKEN-REORDER": 6,
         "LEMMA-CHG": 26
       },
@@ -138,18 +138,18 @@
           "CONST-REM": 278
         },
         "both": {
-          "PUNCT-DEL": 1221,
           "PUNCT-ADD": 190,
           "PUNCT-SUBST": 67,
           "H-STRUCT": 1500,
-          "H-TYPE": 1500
+          "H-TYPE": 1500,
+          "PUNCT-DEL": 180
         }
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "AUX-DEL→ABSENT": 836,
           "ART-DEL→ABSENT": 622,
           "CCONJ-DEL→ABSENT": 57,
+          "AUX-DEL→ABSENT": 836,
           "ADP-DEL→ABSENT": 49,
           "PRON-PERS-DEL→ABSENT": 61,
           "SCONJ-DEL→ABSENT": 36
@@ -1060,14 +1060,6 @@
           "33→33": 1,
           "40→40": 1,
           "29→29": 3
-        },
-        "PUNCT-DEL": {
-          "period→": 1088,
-          "apostrophe→": 88,
-          "comma→": 28,
-          "hyphen→": 9,
-          "semicolon→": 5,
-          "quote→": 3
         },
         "PUNCT-ADD": {
           "→comma": 69,
@@ -2652,6 +2644,14 @@
           "Inf→Fin": 1,
           "Ger→Part": 4
         },
+        "PUNCT-DEL": {
+          "apostrophe→": 88,
+          "comma→": 28,
+          "period→": 47,
+          "hyphen→": 9,
+          "semicolon→": 5,
+          "quote→": 3
+        },
         "TOKEN-REORDER": {
           "POST→POST": 4,
           "FRONT→FRONT": 2
@@ -2724,9 +2724,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "AUX-DEL→ABSENT": 836,
           "ART-DEL→ABSENT": 622,
           "CCONJ-DEL→ABSENT": 57,
+          "AUX-DEL→ABSENT": 836,
           "ADP-DEL→ABSENT": 49,
           "PRON-PERS-DEL→ABSENT": 61,
           "SCONJ-DEL→ABSENT": 36
@@ -5262,32 +5262,24 @@
       }
     },
     "both": {
-      "total_events": 4478,
+      "total_events": 3437,
       "feature_counts": {
-        "PUNCT-DEL": 1221,
         "PUNCT-ADD": 190,
         "PUNCT-SUBST": 67,
         "H-STRUCT": 1500,
-        "H-TYPE": 1500
+        "H-TYPE": 1500,
+        "PUNCT-DEL": 180
       },
       "newspaper_breakdown": {
         "The-Hindu": {
-          "PUNCT-DEL": 1221,
           "PUNCT-ADD": 190,
           "PUNCT-SUBST": 67,
           "H-STRUCT": 1500,
-          "H-TYPE": 1500
+          "H-TYPE": 1500,
+          "PUNCT-DEL": 180
         }
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1088,
-          "apostrophe→": 88,
-          "comma→": 28,
-          "hyphen→": 9,
-          "semicolon→": 5,
-          "quote→": 3
-        },
         "PUNCT-ADD": {
           "→comma": 69,
           "→apostrophe": 39,
@@ -5312,6 +5304,14 @@
         "H-TYPE": {
           "→fragment": 920,
           "→non-fragment": 580
+        },
+        "PUNCT-DEL": {
+          "apostrophe→": 88,
+          "comma→": 28,
+          "period→": 47,
+          "hyphen→": 9,
+          "semicolon→": 5,
+          "quote→": 3
         }
       }
     }
@@ -5337,9 +5337,9 @@
       },
       "feature_value_pairs": {
         "FW-DEL": {
-          "AUX-DEL→ABSENT": 836,
           "ART-DEL→ABSENT": 622,
           "CCONJ-DEL→ABSENT": 57,
+          "AUX-DEL→ABSENT": 836,
           "ADP-DEL→ABSENT": 49,
           "PRON-PERS-DEL→ABSENT": 61,
           "SCONJ-DEL→ABSENT": 36
@@ -7860,23 +7860,15 @@
       }
     },
     "The-Hindu_both": {
-      "total_events": 4478,
+      "total_events": 3437,
       "feature_counts": {
-        "PUNCT-DEL": 1221,
         "PUNCT-ADD": 190,
         "PUNCT-SUBST": 67,
         "H-STRUCT": 1500,
-        "H-TYPE": 1500
+        "H-TYPE": 1500,
+        "PUNCT-DEL": 180
       },
       "feature_value_pairs": {
-        "PUNCT-DEL": {
-          "period→": 1088,
-          "apostrophe→": 88,
-          "comma→": 28,
-          "hyphen→": 9,
-          "semicolon→": 5,
-          "quote→": 3
-        },
         "PUNCT-ADD": {
           "→comma": 69,
           "→apostrophe": 39,
@@ -7901,6 +7893,14 @@
         "H-TYPE": {
           "→fragment": 920,
           "→non-fragment": 580
+        },
+        "PUNCT-DEL": {
+          "apostrophe→": 88,
+          "comma→": 28,
+          "period→": 47,
+          "hyphen→": 9,
+          "semicolon→": 5,
+          "quote→": 3
         }
       }
     }
