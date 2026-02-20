@@ -161,6 +161,8 @@ Canonical and headline files must have **matching line counts** (parallel alignm
 
 **Naming inconsistency**: The-Hindu and Times-of-India plain text files use "corrected-" prefix (e.g., `The-Hindu-corrected-canonical.txt`), but Hindustan-Times does not, and no parsed files use it. All file paths are defined in `paths_config.py` — always reference that file rather than constructing paths manually.
 
+**Parser bias caveat**: the current parses were produced by an off-the-shelf Stanza model trained on canonical (well-formed) text. This model may perform worse on reduced/headline text, which means some observed register differences may partly be parsing artefacts rather than true linguistic differences. For controlled experiments, finetune or retrain Stanza on matched UD treebank data (same quantity from each register) before re-parsing. See `TUTORIAL.md` §12 for the full procedure.
+
 ## Output Structure
 
 Outputs go to `output/` (git-ignored), organized by task:

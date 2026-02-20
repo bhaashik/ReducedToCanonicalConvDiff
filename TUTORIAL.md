@@ -17,6 +17,7 @@ This tutorial walks you through running the pipeline end-to-end on a new machine
 9. [Running Task 3 — Complexity & Similarity Study](#9-running-task-3--complexity--similarity-study)
 10. [Understanding the Output Structure](#10-understanding-the-output-structure)
 11. [Common Issues and Troubleshooting](#11-common-issues-and-troubleshooting)
+12. [Controlled Parser Training for Fair Register Comparison](#12-controlled-parser-training-for-fair-register-comparison)
 
 ---
 
@@ -674,3 +675,324 @@ print(s.version)  # Should be '5.0'
 ```
 
 If it shows an older version, check that `paths_config.py` points to `data/diff-ontology-ver-5.0.json`.
+
+---
+
+## 12. Controlled Parser Training for Fair Register Comparison
+
+### 12.1 The Parser Bias Problem
+
+The pipeline analyses morphosyntactic differences between two registers, but the dependency and constituency parses it reads were produced by a single off-the-shelf Stanza model trained primarily on "well-formed", canonical text (the English Universal Dependencies treebanks, which are mostly newswire and web text in full-sentence form).
+
+This creates a methodological confound: **if the parser performs worse on reduced/non-canonical text than on canonical text, the apparent morphosyntactic differences may partly be parsing artefacts rather than true register differences.** For example:
+
+- Headline text lacks determiners and finite verbs; the parser may mis-label their absence as parsing errors rather than register features
+- Spoken transcripts have disfluencies that a written-text parser handles poorly
+- L2 learner text has non-standard word orders that confuse attachment decisions
+
+The current project mitigates this by comparing *parallel* data (the same events described in both registers), so sentence-level content is controlled. But parsing quality is not controlled, and this is a limitation acknowledged in the papers.
+
+### 12.2 Three Levels of Control
+
+| Level | What you control | Suitable when |
+|-------|-----------------|---------------|
+| **No control** (current setup) | Nothing — use off-the-shelf parser | Quick exploratory studies; register pair well-supported by existing models |
+| **Finetuning control** | Finetune one shared model on a mix of both registers | You have at least a few hundred gold-annotated sentences for each register |
+| **Training quantity control** | Train separate models on exactly N sentences from each register | You have a gold UD treebank for each register; want to isolate data-quantity effects |
+
+The rest of this section describes how to implement levels 2 and 3 using Stanza and Universal Dependencies treebanks.
+
+### 12.3 Getting Universal Dependencies Treebank Data
+
+The [Universal Dependencies (UD) project](https://universaldependencies.org/) provides gold CoNLL-U treebanks for 100+ languages and many varieties (spoken, learner, social media, historical). These are human-annotated and therefore free of the automatic-parsing error confound.
+
+```bash
+# Download the full UD collection (large — ~2 GB)
+git clone https://github.com/UniversalDependencies/UD_English-EWT.git    # Web Treebank
+git clone https://github.com/UniversalDependencies/UD_English-GUM.git    # Georgetown
+git clone https://github.com/UniversalDependencies/UD_English-Lines.git  # Literary
+# ... or browse https://universaldependencies.org/#language-en for the full list
+
+# For other languages, replace 'English' with e.g. 'Hindi', 'Arabic', 'German'
+git clone https://github.com/UniversalDependencies/UD_Hindi-HDTB.git
+```
+
+Alternatively, download specific treebanks from the official UD releases page:
+```bash
+wget https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.14.tgz
+tar xzf ud-treebanks-v2.14.tgz
+```
+
+Each treebank directory contains `*-train.conllu`, `*-dev.conllu`, `*-test.conllu`.
+
+### 12.4 Choosing Treebanks for a Register-Controlled Experiment
+
+To compare two registers fairly, you want treebanks whose annotation guidelines are as similar as possible (ideally identical). Good pairings:
+
+| Register A | Register B | Suggested treebanks |
+|-----------|-----------|---------------------|
+| Canonical news | Reduced headlines | UD_English-EWT train + any English UD with headline/tweet data |
+| Formal written | Informal spoken | UD_English-GUM (written) + UD_English-Spoken |
+| Standard dialect | Regional dialect | UD treebank for standard + dialect-specific treebank (e.g. UD_Norwegian-Bokmaal vs UD_Norwegian-Nynorsk) |
+| L1 text | L2 learner text | UD_English-EWT + EFCAMDAT or NUCLE learner corpora (if annotated in CoNLL-U) |
+| Language A | Language B | UD_[Language-A]-* + UD_[Language-B]-* (same UD version guarantees compatible tagsets) |
+
+**Key requirement**: both treebanks must use the same UPOS tagset and the same UD dependency relation inventory (which all UD v2 treebanks do by construction).
+
+### 12.5 Finetuning Stanza on a New Language or Custom Dataset
+
+Stanza provides a training API via `stanza.utils.training`. The process involves:
+
+1. Preparing the data in CoNLL-U format
+2. Optionally providing pretrained word vectors
+3. Running `stanza.utils.training.run_pos` (for POS/feats) and `stanza.utils.training.run_depparse` (for dependency parsing) — or the unified `run_training` wrapper
+
+#### 12.5.1 Install Training Dependencies
+
+```bash
+pip install stanza torch
+# GPU training (recommended for speed):
+pip install torch --index-url https://download.pytorch.org/whl/cu121   # CUDA 12.1
+```
+
+#### 12.5.2 Prepare a Training Config
+
+Create a directory structure Stanza expects:
+
+```
+stanza_train/
+├── data/
+│   ├── register_a-train.conllu
+│   ├── register_a-dev.conllu
+│   ├── register_b-train.conllu
+│   └── register_b-dev.conllu
+├── models/
+│   ├── register_a/
+│   └── register_b/
+└── vectors/
+    └── en.vectors.xz   # optional pretrained word vectors
+```
+
+Word vectors for English: download from [https://stanfordnlp.github.io/stanza/training.html](https://stanfordnlp.github.io/stanza/training.html) under "Pretrained word vectors".
+
+#### 12.5.3 Train a Dependency Parser
+
+```python
+import stanza
+from stanza.utils.training import run_depparse
+
+# Training arguments mirror the command-line interface
+args = [
+    '--wordvec_pretrain_file', 'stanza_train/vectors/en.vectors.pt',
+    '--train_file',  'stanza_train/data/register_a-train.conllu',
+    '--eval_file',   'stanza_train/data/register_a-dev.conllu',
+    '--output_file', 'stanza_train/models/register_a/depparse.pt',
+    '--lang',        'en',
+    '--shorthand',   'en_register_a',
+    '--mode',        'train',
+    '--batch_size',  '5000',
+    '--max_steps',   '50000',
+]
+run_depparse.main(args)
+```
+
+Run the same command again for `register_b`, substituting the appropriate files and output path.
+
+For a **new language** not in Stanza's pre-packaged models, the steps are identical — just set `--lang` to the ISO 639-1 code (e.g., `hi` for Hindi) and point `--wordvec_pretrain_file` to vectors for that language.
+
+#### 12.5.4 Finetune from an Existing Model (Recommended)
+
+Starting from Stanza's pretrained English model usually converges faster and gives better results than training from scratch, especially with small datasets:
+
+```python
+args = [
+    '--wordvec_pretrain_file', 'stanza_train/vectors/en.vectors.pt',
+    '--pretrain_path',   '/path/to/stanza_resources/en/pretrain/ewt.pt',  # existing model
+    '--train_file',      'stanza_train/data/register_b-train.conllu',
+    '--eval_file',       'stanza_train/data/register_b-dev.conllu',
+    '--output_file',     'stanza_train/models/register_b/depparse.pt',
+    '--lang',            'en',
+    '--shorthand',       'en_register_b',
+    '--mode',            'train',
+    '--max_steps',       '20000',   # fewer steps needed when finetuning
+]
+run_depparse.main(args)
+```
+
+The pretrained model path is typically `~/.stanza_resources/{lang}/pretrain/{treebank}.pt` after running `stanza.download('en')`.
+
+#### 12.5.5 Also Train the POS / Morphological Features Tagger
+
+The dependency parser depends on POS tags. If you are finetuning on a new register, also retrain the tagger:
+
+```python
+from stanza.utils.training import run_pos
+
+pos_args = [
+    '--wordvec_pretrain_file', 'stanza_train/vectors/en.vectors.pt',
+    '--train_file',   'stanza_train/data/register_a-train.conllu',
+    '--eval_file',    'stanza_train/data/register_a-dev.conllu',
+    '--output_file',  'stanza_train/models/register_a/pos.pt',
+    '--lang',         'en',
+    '--shorthand',    'en_register_a',
+    '--mode',         'train',
+]
+run_pos.main(pos_args)
+```
+
+### 12.6 Controlling for Training Data Quantity
+
+A key controlled experiment design: train two parsers on **exactly the same number of sentences**, one from each register's treebank, and compare downstream pipeline results.
+
+```python
+import random
+from pathlib import Path
+from conllu import parse
+
+def sample_conllu(src_path: str, n_sentences: int, seed: int = 42) -> list:
+    """Sample exactly n_sentences from a CoNLL-U file."""
+    with open(src_path) as f:
+        sentences = parse(f.read())
+    random.seed(seed)
+    return random.sample(sentences, min(n_sentences, len(sentences)))
+
+def write_conllu(sentences: list, out_path: str):
+    with open(out_path, 'w') as f:
+        for sent in sentences:
+            f.write(sent.serialize())
+
+# Example: train on 500 sentences from each register
+for n in [100, 250, 500, 1000, 2000]:
+    for register, src in [('canonical', 'ud_data/en-ewt-train.conllu'),
+                           ('reduced',  'ud_data/en-gum-train.conllu')]:
+        sample = sample_conllu(src, n_sentences=n)
+        write_conllu(sample, f'stanza_train/data/{register}-n{n}-train.conllu')
+        # Then train a parser for each (register, n) combination
+```
+
+This lets you plot LAS/UAS curves against training size for each register, revealing whether one register is intrinsically harder to parse or just data-starved.
+
+### 12.7 Parsing Your Project Data with the Custom Model
+
+Once trained, load your custom model by pointing Stanza to the saved `.pt` files:
+
+```python
+import stanza
+
+# Build a custom pipeline using your finetuned components
+nlp = stanza.Pipeline(
+    lang='en',
+    processors='tokenize,pos,lemma,depparse',
+    tokenize_no_ssplit=True,
+    pos_model_path='stanza_train/models/register_a/pos.pt',
+    depparse_model_path='stanza_train/models/register_a/depparse.pt',
+    # Use the same pretrained word vectors that training used:
+    pos_pretrain_path='stanza_train/vectors/en.vectors.pt',
+    depparse_pretrain_path='stanza_train/vectors/en.vectors.pt',
+)
+
+# Parse and write CoNLL-U exactly as in Section 4.1
+with open('data/input/input-single-line-break/MyCorpus-canonical.txt') as fin, \
+     open('data/input/dependecy-parsed/MyCorpus-canonical-deps.conllu', 'w') as fout:
+    for line in fin:
+        line = line.strip()
+        if not line:
+            continue
+        doc = nlp(line)
+        for sent in doc.sentences:
+            for word in sent.words:
+                feats = word.feats or '_'
+                print(f"{word.id}\t{word.text}\t{word.lemma}\t{word.upos}\t{word.xpos}"
+                      f"\t{feats}\t{word.head}\t{word.deprel}\t_\t_", file=fout)
+            print(file=fout)
+```
+
+Parse both registers with the **same model** (or with matched-quantity models) before running the pipeline. Replace the paths in `paths_config.py` to point to the new CoNLL-U files.
+
+### 12.8 Evaluating Parser Quality per Register
+
+Before running the full pipeline, measure how well your model performs on held-out gold data from each register. This quantifies the parsing-quality gap between registers.
+
+```python
+from stanza.utils.conll import CoNLL
+
+def evaluate_parser(gold_path: str, pred_path: str) -> dict:
+    """Compute UAS and LAS between gold and predicted CoNLL-U files."""
+    gold_sents = CoNLL.conll2dict(input_file=gold_path)
+    pred_sents = CoNLL.conll2dict(input_file=pred_path)
+
+    total, uas_correct, las_correct = 0, 0, 0
+    for g_sent, p_sent in zip(gold_sents, pred_sents):
+        for g_tok, p_tok in zip(g_sent, p_sent):
+            if not str(g_tok['id']).isdigit():
+                continue   # skip multi-word tokens
+            total += 1
+            if g_tok['head'] == p_tok['head']:
+                uas_correct += 1
+                if g_tok['deprel'] == p_tok['deprel']:
+                    las_correct += 1
+
+    return {
+        'UAS': uas_correct / total if total else 0,
+        'LAS': las_correct / total if total else 0,
+        'n_tokens': total,
+    }
+
+# Compare parser quality on each register's held-out gold data
+canonical_eval = evaluate_parser(
+    gold_path='ud_data/register_a-test.conllu',
+    pred_path='stanza_train/predictions/register_a-test-pred.conllu',
+)
+reduced_eval = evaluate_parser(
+    gold_path='ud_data/register_b-test.conllu',
+    pred_path='stanza_train/predictions/register_b-test-pred.conllu',
+)
+
+print(f"Canonical: UAS={canonical_eval['UAS']:.3f}  LAS={canonical_eval['LAS']:.3f}")
+print(f"Reduced:   UAS={reduced_eval['UAS']:.3f}  LAS={reduced_eval['LAS']:.3f}")
+gap_las = canonical_eval['LAS'] - reduced_eval['LAS']
+print(f"LAS gap (canonical - reduced): {gap_las:+.3f}")
+```
+
+If the LAS gap is large (e.g., > 5 points), downstream differences in the pipeline's event counts may be partly parsing artefacts. Report this gap alongside your linguistic findings.
+
+### 12.9 Recommended Experiment Designs
+
+#### Design A — Shared Model, Controlled Finetuning
+
+**Goal**: eliminate parser bias by using a single model finetuned on a balanced mix of both registers.
+
+1. Pool gold CoNLL-U from both registers: `cat register_a-train.conllu register_b-train.conllu > mixed-train.conllu`
+2. Shuffle: `python -c "import random, conllu; ..."`  (or use the `sample_conllu` helper above)
+3. Finetune one model on the mixed set
+4. Parse **both** registers with this single model
+5. Run the full pipeline — now both registers are parsed by a model that has seen both
+
+#### Design B — Matched-Quantity Separate Models
+
+**Goal**: isolate the effect of training data quantity on apparent register differences.
+
+1. For each N ∈ {100, 500, 1000, all}: sample N sentences from each register's gold treebank
+2. Train a separate parser for each (register, N) pair
+3. For each N, parse the test data with the matched model
+4. Run the pipeline and record event counts / complexity metrics
+5. Plot event counts against N — a flat curve means the result is robust to training quantity
+
+#### Design C — Cross-Register Parsing (Probing Parser Transferability)
+
+**Goal**: directly measure how much the register mismatch hurts parsing.
+
+1. Train model only on register A gold data
+2. Parse both register A and register B text with it
+3. Evaluate LAS on held-out gold for both registers
+4. Compare pipeline results against a baseline where both are parsed by the matched model
+
+This design is closest to what the current project does implicitly (the off-the-shelf Stanza model is essentially "trained on canonical-like text, applied to both registers").
+
+### 12.10 Practical Notes
+
+- **Minimum training data**: Stanza's dependency parser typically needs ≥ 200 sentences for reasonable performance; ≥ 1,000 sentences for competitive performance on in-domain text.
+- **Constituency parsing**: Stanza's constituency parser (`processors='constituency'`) can also be retrained using `stanza.utils.training.run_constituency`. The training workflow is analogous to dependency parsing.
+- **Non-English languages**: set `--lang` to the ISO code and download the appropriate word vectors from the Stanza training page. The UD treebank naming convention (`UD_{Language}-{Treebank}`) maps to Stanza's `--shorthand` as `{iso}_{treebank_lowercase}` (e.g., `hi_hdtb` for Hindi HDTB).
+- **Gold vs. auto-parsed data tradeoff**: UD gold treebanks are small but reliable; auto-parsed data is large but noisy. For controlled experiments, gold is strongly preferred. For domain adaptation to a new register where no gold exists, a small amount of manually corrected auto-parsed data (50–100 sentences) can substantially improve quality.
+- **Reporting**: always report the LAS/UAS of the parser on held-out data for each register separately, and include it in the paper's experimental setup section. This lets readers judge how much of the observed register difference might be attributed to differential parsing quality.

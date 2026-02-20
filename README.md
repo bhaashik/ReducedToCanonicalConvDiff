@@ -65,7 +65,7 @@ data/input/
     └── {Newspaper}-headlines-stanza-parsed-constituency.txt
 ```
 
-**Critical**: canonical and headline files must have **identical line counts** (parallel sentence alignment). See `TUTORIAL.md` for how to generate parses from raw text.
+**Critical**: canonical and headline files must have **identical line counts** (parallel sentence alignment). See `TUTORIAL.md` §4 for how to generate parses from raw text, and §12 for how to finetune Stanza on matched data to avoid parser-quality bias between registers.
 
 ---
 
@@ -246,4 +246,8 @@ See `CLAUDE.md` for:
 - Data file naming inconsistencies (`paths_config.py` is the single source of truth)
 - Development workflow and task dependency order
 
-See `TUTORIAL.md` for a complete step-by-step guide to running the pipeline on new data, including how to generate parses and adapt `paths_config.py` for different register pairs.
+See `TUTORIAL.md` for a complete step-by-step guide, including:
+- Generating dependency and constituency parses from raw text (Stanza / Benepar snippets)
+- Adapting `paths_config.py` for a new dataset
+- Adapting the schema for registers beyond headlines (spoken, learner, social media, cross-lingual)
+- **Controlled parser training** (Section 12): finetuning or training Stanza from scratch on UD treebank data so that both registers are parsed by a model trained on matched data, eliminating parser-quality bias as a confound in the comparison
