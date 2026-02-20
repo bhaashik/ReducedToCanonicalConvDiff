@@ -24,8 +24,8 @@ The-Hindu,constituency,CONST-COUNT-DIFF,Constituent Count Difference,1500,9.0804
 The-Hindu,constituency,BRANCH-DIFF,Branching Factor Difference,1500,9.080452811913554
 The-Hindu,constituency,CONST-ADD,Constituent Addition,91,0.5508808039227556
 The-Hindu,constituency,CONST-REM,Constituent Removal,278,1.6829105878079786
-The-Hindu,both,PUNCT-DEL,Punctuation Deletion,1221,27.266636891469403
-The-Hindu,both,PUNCT-ADD,Punctuation Addition,190,4.242965609647164
-The-Hindu,both,PUNCT-SUBST,Punctuation Substitution,67,1.496203662349263
-The-Hindu,both,H-STRUCT,Headline Structure,1500,33.49709691826708
-The-Hindu,both,H-TYPE,Headline Type,1500,33.49709691826708
+The-Hindu,both,PUNCT-ADD,Punctuation Addition,190,5.528076811172535
+The-Hindu,both,PUNCT-SUBST,Punctuation Substitution,67,1.9493744544661042
+The-Hindu,both,H-STRUCT,Headline Structure,1500,43.64271166715159
+The-Hindu,both,H-TYPE,Headline Type,1500,43.64271166715159
+The-Hindu,both,PUNCT-DEL,Punctuation Deletion,180,5.23712540005819

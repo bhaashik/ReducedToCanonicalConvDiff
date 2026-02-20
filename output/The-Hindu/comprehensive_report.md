@@ -6,15 +6,15 @@
 
 ## Executive Summary
 
-This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified **31,859 difference events** across **30 distinct linguistic features**.
+This report presents a comprehensive analysis of linguistic differences between reduced register (newspaper headlines) and canonical forms. The analysis identified **30,818 difference events** across **30 distinct linguistic features**.
 
 ### Key Findings
 
-1. **Constituent Movement** (CONST-MOV): 5,705 occurrences (17.9% of total)
-2. **Dependency Relation Change** (DEP-REL-CHG): 5,284 occurrences (16.6% of total)
-3. **Function Word Deletion** (FW-DEL): 1,661 occurrences (5.2% of total)
-4. **Clause Type Change** (CLAUSE-TYPE-CHG): 1,500 occurrences (4.7% of total)
-5. **Headline Structure** (H-STRUCT): 1,500 occurrences (4.7% of total)
+1. **Constituent Movement** (CONST-MOV): 5,705 occurrences (18.5% of total)
+2. **Dependency Relation Change** (DEP-REL-CHG): 5,284 occurrences (17.1% of total)
+3. **Function Word Deletion** (FW-DEL): 1,661 occurrences (5.4% of total)
+4. **Clause Type Change** (CLAUSE-TYPE-CHG): 1,500 occurrences (4.9% of total)
+5. **Headline Structure** (H-STRUCT): 1,500 occurrences (4.9% of total)
 
 ---
 
@@ -24,35 +24,35 @@ This report presents a comprehensive analysis of linguistic differences between 
 
 | Rank | Feature ID | Feature Name | Count | Percentage |
 |------|------------|--------------|-------|------------|
-| 1 | CONST-MOV | Constituent Movement | 5,705 | 17.91% |
-| 2 | DEP-REL-CHG | Dependency Relation Change | 5,284 | 16.59% |
-| 3 | FW-DEL | Function Word Deletion | 1,661 | 5.21% |
-| 4 | CLAUSE-TYPE-CHG | Clause Type Change | 1,500 | 4.71% |
-| 5 | H-STRUCT | Headline Structure | 1,500 | 4.71% |
-| 6 | H-TYPE | Headline Type | 1,500 | 4.71% |
-| 7 | TREE-DEPTH-DIFF | Tree Depth Difference | 1,500 | 4.71% |
-| 8 | CONST-COUNT-DIFF | Constituent Count Difference | 1,500 | 4.71% |
-| 9 | DEP-DIST-DIFF | Dependency Distance Difference | 1,500 | 4.71% |
-| 10 | BRANCH-DIFF | Branching Factor Difference | 1,500 | 4.71% |
-| 11 | PUNCT-DEL | Punctuation Deletion | 1,221 | 3.83% |
-| 12 | TED-RTED | TED-RTED | 1,139 | 3.58% |
-| 13 | TED-ZHANG-SHASHA | TED-ZHANG-SHASHA | 1,124 | 3.53% |
-| 14 | TED-KLEIN | TED-KLEIN | 1,124 | 3.53% |
-| 15 | LENGTH-CHG | Sentence Length Change | 1,117 | 3.51% |
-| 16 | TED-SIMPLE | TED-SIMPLE | 1,058 | 3.32% |
-| 17 | C-DEL | Content Word Deletion | 447 | 1.40% |
-| 18 | CONST-REM | Constituent Removal | 278 | 0.87% |
-| 19 | C-ADD | Content Word Addition | 200 | 0.63% |
-| 20 | HEAD-CHG | Dependency Head Change | 198 | 0.62% |
-| 21 | PUNCT-ADD | Punctuation Addition | 190 | 0.60% |
-| 22 | FORM-CHG | Surface Form Change | 158 | 0.50% |
-| 23 | FEAT-CHG | Morphological Feature Change | 122 | 0.38% |
-| 24 | CONST-ADD | Constituent Addition | 91 | 0.29% |
-| 25 | POS-CHG | Part of Speech Change | 83 | 0.26% |
-| 26 | PUNCT-SUBST | Punctuation Substitution | 67 | 0.21% |
-| 27 | FW-ADD | Function Word Addition | 49 | 0.15% |
+| 1 | CONST-MOV | Constituent Movement | 5,705 | 18.51% |
+| 2 | DEP-REL-CHG | Dependency Relation Change | 5,284 | 17.15% |
+| 3 | FW-DEL | Function Word Deletion | 1,661 | 5.39% |
+| 4 | CLAUSE-TYPE-CHG | Clause Type Change | 1,500 | 4.87% |
+| 5 | H-STRUCT | Headline Structure | 1,500 | 4.87% |
+| 6 | H-TYPE | Headline Type | 1,500 | 4.87% |
+| 7 | TREE-DEPTH-DIFF | Tree Depth Difference | 1,500 | 4.87% |
+| 8 | CONST-COUNT-DIFF | Constituent Count Difference | 1,500 | 4.87% |
+| 9 | DEP-DIST-DIFF | Dependency Distance Difference | 1,500 | 4.87% |
+| 10 | BRANCH-DIFF | Branching Factor Difference | 1,500 | 4.87% |
+| 11 | TED-RTED | TED-RTED | 1,139 | 3.70% |
+| 12 | TED-ZHANG-SHASHA | TED-ZHANG-SHASHA | 1,124 | 3.65% |
+| 13 | TED-KLEIN | TED-KLEIN | 1,124 | 3.65% |
+| 14 | LENGTH-CHG | Sentence Length Change | 1,117 | 3.62% |
+| 15 | TED-SIMPLE | TED-SIMPLE | 1,058 | 3.43% |
+| 16 | C-DEL | Content Word Deletion | 447 | 1.45% |
+| 17 | CONST-REM | Constituent Removal | 278 | 0.90% |
+| 18 | C-ADD | Content Word Addition | 200 | 0.65% |
+| 19 | HEAD-CHG | Dependency Head Change | 198 | 0.64% |
+| 20 | PUNCT-ADD | Punctuation Addition | 190 | 0.62% |
+| 21 | PUNCT-DEL | Punctuation Deletion | 180 | 0.58% |
+| 22 | FORM-CHG | Surface Form Change | 158 | 0.51% |
+| 23 | FEAT-CHG | Morphological Feature Change | 122 | 0.40% |
+| 24 | CONST-ADD | Constituent Addition | 91 | 0.30% |
+| 25 | POS-CHG | Part of Speech Change | 83 | 0.27% |
+| 26 | PUNCT-SUBST | Punctuation Substitution | 67 | 0.22% |
+| 27 | FW-ADD | Function Word Addition | 49 | 0.16% |
 | 28 | LEMMA-CHG | Lemma Change | 26 | 0.08% |
-| 29 | VERB-FORM-CHG | Verb Form Change | 11 | 0.03% |
+| 29 | VERB-FORM-CHG | Verb Form Change | 11 | 0.04% |
 | 30 | TOKEN-REORDER | Token Reordering | 6 | 0.02% |
 
 ---
@@ -97,15 +97,15 @@ The analysis examined differences across dependency and constituency parsing:
 
 ### Both Parsing
 
-**Total events:** 4,478
+**Total events:** 3,437
 
 | Feature ID | Count | Percentage |
 |------------|-------|------------|
-| H-STRUCT | 1,500 | 33.50% |
-| H-TYPE | 1,500 | 33.50% |
-| PUNCT-DEL | 1,221 | 27.27% |
-| PUNCT-ADD | 190 | 4.24% |
-| PUNCT-SUBST | 67 | 1.50% |
+| H-STRUCT | 1,500 | 43.64% |
+| H-TYPE | 1,500 | 43.64% |
+| PUNCT-ADD | 190 | 5.53% |
+| PUNCT-DEL | 180 | 5.24% |
+| PUNCT-SUBST | 67 | 1.95% |
 
 ---
 
@@ -115,12 +115,12 @@ The analysis examined differences across dependency and constituency parsing:
 
 | Category | Features | Total Count | Percentage |
 |----------|----------|-------------|------------|
-| Lexical | 7 | 2,624 | 8.24% |
-| Syntactic | 5 | 11,556 | 36.27% |
-| Morphological | 2 | 133 | 0.42% |
+| Lexical | 7 | 2,624 | 8.51% |
+| Syntactic | 5 | 11,556 | 37.50% |
+| Morphological | 2 | 133 | 0.43% |
 | Word Order | 1 | 6 | 0.02% |
-| Clause Level | 1 | 1,500 | 4.71% |
-| Structural | 1 | 1,117 | 3.51% |
+| Clause Level | 1 | 1,500 | 4.87% |
+| Structural | 1 | 1,117 | 3.62% |
 
 ---
 
@@ -200,4 +200,4 @@ Analysis based on 30 predefined linguistic features covering:
 
 ---
 
-*Report generated on 2026-01-03 13:42:54*
+*Report generated on 2026-02-13 13:36:17*

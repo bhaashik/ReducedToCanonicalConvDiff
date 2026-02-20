@@ -56,6 +56,11 @@ verification_test/
 # Output directories
 output/
 
+# Large binary / archive files (use git-lfs for these if needed, otherwise ignore)
+*.zip
+*.tar.gz
+*.tgz
+
 # OS files
 .DS_Store
 Thumbs.db

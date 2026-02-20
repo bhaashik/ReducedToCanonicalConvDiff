@@ -24,8 +24,8 @@ Hindustan-Times,constituency,TREE-DEPTH-DIFF,Tree Depth Difference,1148,4.706654
 Hindustan-Times,constituency,CONST-COUNT-DIFF,Constituent Count Difference,1148,4.7066540937230945
 Hindustan-Times,constituency,BRANCH-DIFF,Branching Factor Difference,1148,4.7066540937230945
 Hindustan-Times,constituency,CONST-REM,Constituent Removal,476,1.9515395022754296
-Hindustan-Times,both,PUNCT-DEL,Punctuation Deletion,1515,30.440024110910187
-Hindustan-Times,both,PUNCT-ADD,Punctuation Addition,753,15.12959614225437
-Hindustan-Times,both,PUNCT-SUBST,Punctuation Substitution,413,8.29817158931083
-Hindustan-Times,both,H-STRUCT,Headline Structure,1148,23.066104078762308
-Hindustan-Times,both,H-TYPE,Headline Type,1148,23.066104078762308
+Hindustan-Times,both,PUNCT-ADD,Punctuation Addition,753,19.397217928902627
+Hindustan-Times,both,PUNCT-SUBST,Punctuation Substitution,413,10.638845955692942
+Hindustan-Times,both,H-STRUCT,Headline Structure,1148,29.57238536836682
+Hindustan-Times,both,H-TYPE,Headline Type,1148,29.57238536836682
+Hindustan-Times,both,PUNCT-DEL,Punctuation Deletion,420,10.819165378670787

@@ -1887,7 +1887,7 @@ obl:unmarked,0,obl:unmarked→nmod,1,changes
 parataxis,0,parataxis→nsubj,1,changes
 passport,0,passport→Passport,1,changes
 pedalling,0,pedalling→Pedalling,1,changes
-period,0,period→,1088,changes
+period,0,period→,47,changes
 pooled,0,pooled→pool,1,changes
 prevailed,0,prevailed→prevails,1,changes
 process,0,process→Process,1,changes
@@ -2155,8 +2155,8 @@ PUNCT-ADD,6,→slash,2,most_common
 PUNCT-ADD,7,→question mark,1,most_common
 PUNCT-ADD,8,→dash,1,most_common
 PUNCT-ADD,9,→semicolon,1,most_common
-PUNCT-DEL,1,period→,1088,most_common
-PUNCT-DEL,2,apostrophe→,88,most_common
+PUNCT-DEL,1,apostrophe→,88,most_common
+PUNCT-DEL,2,period→,47,most_common
 PUNCT-DEL,3,comma→,28,most_common
 PUNCT-DEL,4,hyphen→,9,most_common
 PUNCT-DEL,5,semicolon→,5,most_common

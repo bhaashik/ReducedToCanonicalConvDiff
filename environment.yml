@@ -1,0 +1,26 @@
+name: Reduced2Canonical
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+    # NLP / data format
+    - conllu>=6.0
+    - nltk>=3.8
+    # Data processing
+    - pandas>=3.0
+    - numpy>=2.4
+    - scipy>=1.17
+    # Visualization
+    - matplotlib>=3.10
+    - seaborn>=0.13
+    - pillow>=10.0
+    # CLI
+    - click>=8.3
+    # Optional — Task 3 transformation evaluation
+    # Uncomment the lines below if you need MT-style scoring:
+    # - spacy>=3.7
+    # - rouge-score>=0.1
+    # - sacrebleu>=2.4
