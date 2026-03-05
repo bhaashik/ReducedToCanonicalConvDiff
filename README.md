@@ -169,18 +169,18 @@ python test_cross_entropy_integration.py
 
 ```
 output/
-├── comparative-study/          # Task 1
-│   ├── {Newspaper}/            # Per-newspaper tables, figures, reports
+├── task-1-comparative-study/   # Task 1
+│   ├── per-newspaper/{Newspaper}/  # Per-newspaper tables, figures, reports
 │   └── global/                 # Aggregated across all newspapers
-├── transformation-study/       # Task 2
+├── task-2-transformation-study/ # Task 2
 │   ├── bidirectional-transformation/
 │   │   ├── generated/          # c2r_results_*.csv, r2c_results_*.csv
 │   │   ├── evaluation/         # Jaccard, BLEU, WER summaries
 │   │   ├── tables/             # rule_coverage_analysis.csv, hypothesis_selection_stats.csv
 │   │   ├── figures/            # Visualizations
 │   │   └── rules/              # Rule JSON exports
-│   └── {Newspaper}/            # Per-newspaper rule tables and figures
-├── complexity-similarity-study/  # Task 3 comprehensive
+│   └── per-newspaper/{Newspaper}/ # Per-newspaper rule tables and figures
+├── task-3-complexity-similarity-study/ # Task 3 comprehensive
 │   ├── per-newspaper/
 │   │   └── {Newspaper}/
 │   │       ├── complexity/     # Per-level complexity CSVs

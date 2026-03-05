@@ -2422,53 +2422,60 @@ class Visualizer:
             return
 
         df = pd.DataFrame(sentence_scores)
+        algorithms = list(df['algorithm'].unique())
+        if not algorithms:
+            return
 
-        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
+        # Panel layout: top-10 bar chart + one scatter per algorithm (up to 3)
+        scatter_algs = algorithms[:3]
+        n_scatter = len(scatter_algs)
+        total_panels = 1 + n_scatter           # bar + scatter(s)
+        ncols = 2
+        nrows = (total_panels + ncols - 1) // ncols
+        fig, axes = plt.subplots(nrows, ncols, figsize=(16, 6 * nrows), squeeze=False)
         fig.suptitle(title, fontsize=16, fontweight='bold')
 
-        # 1. Top scoring sentence pairs
-        algorithms = df['algorithm'].unique()
-
-        # Get top 10 sentence pairs for first algorithm
+        # Panel 0: top 10 sentence pairs by TED score (first algorithm)
         first_alg = algorithms[0]
         top_pairs = df[df['algorithm'] == first_alg].nlargest(10, 'ted_score')
-
+        ax0 = axes[0, 0]
         if len(top_pairs) > 0:
-            bars = axes[0, 0].barh(range(len(top_pairs)), top_pairs['ted_score'],
-                                 color='skyblue', edgecolor='black', linewidth=0.8)
-            axes[0, 0].set_title(f"Top 10 Sentence Pairs by TED Score\n({first_alg.replace('_', '-').upper()})",
-                               fontweight='bold')
-            axes[0, 0].set_xlabel("TED Score", fontweight='bold')
-            axes[0, 0].set_yticks(range(len(top_pairs)))
-            axes[0, 0].set_yticklabels([f"Sent {sid}" for sid in top_pairs['sent_id']], fontsize=9)
+            bars = ax0.barh(range(len(top_pairs)), top_pairs['ted_score'],
+                            color='skyblue', edgecolor='black', linewidth=0.8)
+            ax0.set_title(f"Top 10 Sentence Pairs by TED Score\n({first_alg.replace('_', '-').upper()})",
+                          fontweight='bold')
+            ax0.set_xlabel("TED Score", fontweight='bold')
+            ax0.set_yticks(range(len(top_pairs)))
+            ax0.set_yticklabels([f"Sent {sid}" for sid in top_pairs['sent_id']], fontsize=9)
+            max_score = max(top_pairs['ted_score']) if len(top_pairs) > 0 else 1
+            for bar, score in zip(bars, top_pairs['ted_score']):
+                ax0.text(bar.get_width() + max_score * 0.01,
+                         bar.get_y() + bar.get_height() / 2,
+                         f'{score:.1f}', va='center', fontweight='bold', fontsize=9)
 
-            # Add values
-            for i, (bar, score) in enumerate(zip(bars, top_pairs['ted_score'])):
-                axes[0, 0].text(bar.get_width() + max(top_pairs['ted_score'])*0.01, bar.get_y() + bar.get_height()/2,
-                               f'{score:.1f}', va='center', fontweight='bold', fontsize=9)
-
-        # 2. TED score vs sentence length
-        sentence_lengths = df['canonical_text'].str.len() + df['headline_text'].str.len()
-
-        for i, algorithm in enumerate(algorithms[:3]):  # Limit to 3 algorithms
+        # Panels 1..n_scatter: TED score vs text length, one per algorithm
+        colors = ['#1f77b4', '#ff7f0e', '#2ca02c']
+        for i, algorithm in enumerate(scatter_algs):
+            panel_idx = 1 + i
+            row, col = panel_idx // ncols, panel_idx % ncols
             alg_data = df[df['algorithm'] == algorithm]
             alg_lengths = alg_data['canonical_text'].str.len() + alg_data['headline_text'].str.len()
-
-            scatter_ax = axes[0, 1] if i == 0 else axes[1, 0] if i == 1 else axes[1, 1]
-            scatter_ax.scatter(alg_lengths, alg_data['ted_score'], alpha=0.6, s=30,
-                             color=['#1f77b4', '#ff7f0e', '#2ca02c'][i])
-            scatter_ax.set_title(f"TED Score vs Text Length\n{algorithm.replace('_', '-').upper()}",
-                                fontweight='bold')
-            scatter_ax.set_xlabel("Combined Text Length (chars)", fontweight='bold')
-            scatter_ax.set_ylabel("TED Score", fontweight='bold')
-            scatter_ax.grid(alpha=0.3)
-
-            # Add correlation coefficient
+            ax = axes[row, col]
+            ax.scatter(alg_lengths, alg_data['ted_score'], alpha=0.6, s=30, color=colors[i])
+            ax.set_title(f"TED Score vs Text Length\n{algorithm.replace('_', '-').upper()}",
+                         fontweight='bold')
+            ax.set_xlabel("Combined Text Length (chars)", fontweight='bold')
+            ax.set_ylabel("TED Score", fontweight='bold')
+            ax.grid(alpha=0.3)
             if len(alg_lengths) > 1:
                 correlation = alg_lengths.corr(alg_data['ted_score'])
-                scatter_ax.text(0.05, 0.95, f'r = {correlation:.3f}',
-                               transform=scatter_ax.transAxes,
-                               bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                ax.text(0.05, 0.95, f'r = {correlation:.3f}',
+                        transform=ax.transAxes,
+                        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
+        # Hide any unused axes
+        for i in range(total_panels, nrows * ncols):
+            axes[i // ncols, i % ncols].set_visible(False)
 
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
@@ -2492,38 +2499,34 @@ class Visualizer:
         if pivot_df.empty:
             return
 
-        fig, axes = plt.subplots(1, 2, figsize=(16, 6))
+        algorithms = list(pivot_df.columns)
+        has_pairs = len(algorithms) >= 2
+        ncols = 2 if has_pairs else 1
+        fig, axes = plt.subplots(1, ncols, figsize=(8 * ncols, 6), squeeze=False)
         fig.suptitle(title, fontsize=16, fontweight='bold')
 
         # 1. Correlation matrix
         corr_matrix = pivot_df.corr()
-        im = axes[0].imshow(corr_matrix, cmap='RdBu_r', vmin=-1, vmax=1)
-        axes[0].set_title("TED Algorithm Correlation Matrix", fontweight='bold')
-
-        algorithms = list(corr_matrix.columns)
-        axes[0].set_xticks(range(len(algorithms)))
-        axes[0].set_xticklabels([alg.replace('_', '-').upper() for alg in algorithms], rotation=45)
-        axes[0].set_yticks(range(len(algorithms)))
-        axes[0].set_yticklabels([alg.replace('_', '-').upper() for alg in algorithms])
-
-        # Add correlation values
+        im = axes[0, 0].imshow(corr_matrix, cmap='RdBu_r', vmin=-1, vmax=1)
+        axes[0, 0].set_title("TED Algorithm Correlation Matrix", fontweight='bold')
+        axes[0, 0].set_xticks(range(len(algorithms)))
+        axes[0, 0].set_xticklabels([alg.replace('_', '-').upper() for alg in algorithms], rotation=45)
+        axes[0, 0].set_yticks(range(len(algorithms)))
+        axes[0, 0].set_yticklabels([alg.replace('_', '-').upper() for alg in algorithms])
         for i in range(len(algorithms)):
             for j in range(len(algorithms)):
                 value = corr_matrix.iloc[i, j]
                 color = 'white' if abs(value) > 0.5 else 'black'
-                axes[0].text(j, i, f'{value:.2f}', ha='center', va='center',
-                           color=color, fontweight='bold')
+                axes[0, 0].text(j, i, f'{value:.2f}', ha='center', va='center',
+                                color=color, fontweight='bold')
+        plt.colorbar(im, ax=axes[0, 0], label='Correlation Coefficient')
 
-        plt.colorbar(im, ax=axes[0], label='Correlation Coefficient')
-
-        # 2. Scatter plot of two most different algorithms
-        if len(algorithms) >= 2:
-            # Find the pair with lowest correlation
+        # 2. Scatter of least-correlated pair (only when >=2 algorithms present)
+        if has_pairs:
             min_corr_pair = None
             min_corr_value = 1.0
-
             for i in range(len(algorithms)):
-                for j in range(i+1, len(algorithms)):
+                for j in range(i + 1, len(algorithms)):
                     corr_val = corr_matrix.iloc[i, j]
                     if corr_val < min_corr_value:
                         min_corr_value = corr_val
@@ -2533,21 +2536,21 @@ class Visualizer:
                 alg1, alg2 = min_corr_pair
                 x_data = pivot_df[alg1]
                 y_data = pivot_df[alg2]
-
-                axes[1].scatter(x_data, y_data, alpha=0.6, s=30, color='purple')
-                axes[1].set_title(f"Least Correlated Algorithms\n{alg1.replace('_', '-').upper()} vs {alg2.replace('_', '-').upper()}",
-                                fontweight='bold')
-                axes[1].set_xlabel(f"{alg1.replace('_', '-').upper()} TED Score", fontweight='bold')
-                axes[1].set_ylabel(f"{alg2.replace('_', '-').upper()} TED Score", fontweight='bold')
-                axes[1].grid(alpha=0.3)
-
-                # Add correlation line
-                z = np.polyfit(x_data, y_data, 1)
-                p = np.poly1d(z)
-                axes[1].plot(x_data, p(x_data), "r--", alpha=0.8)
-                axes[1].text(0.05, 0.95, f'r = {min_corr_value:.3f}',
-                           transform=axes[1].transAxes,
-                           bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                axes[0, 1].scatter(x_data, y_data, alpha=0.6, s=30, color='purple')
+                axes[0, 1].set_title(
+                    f"Least Correlated Algorithms\n"
+                    f"{alg1.replace('_', '-').upper()} vs {alg2.replace('_', '-').upper()}",
+                    fontweight='bold')
+                axes[0, 1].set_xlabel(f"{alg1.replace('_', '-').upper()} TED Score", fontweight='bold')
+                axes[0, 1].set_ylabel(f"{alg2.replace('_', '-').upper()} TED Score", fontweight='bold')
+                axes[0, 1].grid(alpha=0.3)
+                if x_data.std() > 0:
+                    z = np.polyfit(x_data, y_data, 1)
+                    p = np.poly1d(z)
+                    axes[0, 1].plot(sorted(x_data), p(sorted(x_data)), "r--", alpha=0.8)
+                axes[0, 1].text(0.05, 0.95, f'r = {min_corr_value:.3f}',
+                                transform=axes[0, 1].transAxes,
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
 
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')
@@ -2561,36 +2564,45 @@ class Visualizer:
             return
 
         df = pd.DataFrame(sentence_scores)
+        algorithms = list(df['algorithm'].unique())
+        n_algs = min(len(algorithms), 4)
+        if n_algs == 0:
+            return
 
-        fig, axes = plt.subplots(2, 2, figsize=(16, 12))
-        fig.suptitle(title, fontsize=16, fontweight='bold')
-
-        algorithms = df['algorithm'].unique()
         colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728']
 
-        # 1. TED score vs max tree size
-        for i, algorithm in enumerate(algorithms[:4]):
-            row, col = i // 2, i % 2
+        # Size grid to fit exactly the number of algorithms present
+        ncols = 2 if n_algs > 1 else 1
+        nrows = (n_algs + ncols - 1) // ncols
+        fig, axes = plt.subplots(nrows, ncols, figsize=(8 * ncols, 6 * nrows), squeeze=False)
+        fig.suptitle(title, fontsize=16, fontweight='bold')
+
+        for i, algorithm in enumerate(algorithms[:n_algs]):
+            row, col = i // ncols, i % ncols
             alg_data = df[df['algorithm'] == algorithm]
             max_tree_sizes = alg_data[['tree1_size', 'tree2_size']].max(axis=1)
 
             axes[row, col].scatter(max_tree_sizes, alg_data['ted_score'],
-                                 alpha=0.6, s=30, color=colors[i])
+                                   alpha=0.6, s=30, color=colors[i])
             axes[row, col].set_title(f"TED Score vs Max Tree Size\n{algorithm.replace('_', '-').upper()}",
-                                   fontweight='bold')
+                                     fontweight='bold')
             axes[row, col].set_xlabel("Maximum Tree Size (nodes)", fontweight='bold')
             axes[row, col].set_ylabel("TED Score", fontweight='bold')
             axes[row, col].grid(alpha=0.3)
 
-            # Add correlation and trend line
-            if len(max_tree_sizes) > 1:
+            if len(max_tree_sizes) > 1 and max_tree_sizes.std() > 0:
                 correlation = max_tree_sizes.corr(alg_data['ted_score'])
-                z = np.polyfit(max_tree_sizes, alg_data['ted_score'], 1)
+                sorted_sizes = max_tree_sizes.sort_values()
+                z = np.polyfit(max_tree_sizes, alg_data['ted_score'].loc[max_tree_sizes.index], 1)
                 p = np.poly1d(z)
-                axes[row, col].plot(max_tree_sizes, p(max_tree_sizes), "r--", alpha=0.8)
+                axes[row, col].plot(sorted_sizes, p(sorted_sizes), "r--", alpha=0.8)
                 axes[row, col].text(0.05, 0.95, f'r = {correlation:.3f}',
-                                   transform=axes[row, col].transAxes,
-                                   bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                                    transform=axes[row, col].transAxes,
+                                    bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+
+        # Hide any unused axes
+        for i in range(n_algs, nrows * ncols):
+            axes[i // ncols, i % ncols].set_visible(False)
 
         plt.tight_layout()
         plt.savefig(self.output_dir / filename, dpi=300, bbox_inches='tight')

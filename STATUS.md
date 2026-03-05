@@ -1,20 +1,27 @@
 # Project Status
 
-All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and LaTeX outputs are in sync.
+All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v9.0).
 
 ## Tasks
 
 | Task | Status | Output |
 |------|--------|--------|
-| **Task 1** — Comparative Study | Complete | `output/comparative-study/` |
-| **Task 2** — Transformation Study | Complete | `output/transformation-study/` |
-| **Task 3** — Complexity & Similarity Study | Complete | `output/complexity-similarity-study/` |
+| **Task 1** — Comparative Study | Complete | `output/task-1-comparative-study/` |
+| **Task 2** — Transformation Study | Complete | `output/task-2-transformation-study/` |
+| **Task 3** — Complexity & Similarity Study | Complete | `output/task-3-complexity-similarity-study/` |
 
 The pipeline is generic and documented for adaptation to any two-register, two-language, or two-variety comparison.
 
 ---
 
 ## Changelog
+
+### 2026-03-05 (tag `v9.0`)
+- **Output**: Reorganised `output/` into a clean task-oriented structure — `task-1-comparative-study/`, `task-2-transformation-study/`, `task-3-complexity-similarity-study/`, `common/`, `perhaps-useful/`; no stray directories remain at the top level
+- **Script**: Added `reorganize_output.py` — idempotent, dry-run capable; merges per-newspaper flat dirs into `task-1/per-newspaper/{NP}/`, routes morphological rules to `task-2/per-newspaper/{NP}/morphological-rules/`, moves bidirectional/global outputs to `task-2/global/`, moves Task 3 subtree verbatim, and archives legacy multilevel runners under `perhaps-useful/`
+- **Pipeline**: Updated `run_complete_pipeline.py` constants (`COMPARATIVE_DIR`, `TRANSFORMATION_DIR`, `COMPLEXITY_DIR`) to write future runs directly to `task-N-*` directories
+- **Bug fixes**: Three TED visualisation fixes in `register_comparison/visualizers/visualizer.py` — dynamic subplot grid sizing (was hardcoded 2×2), hidden unused axes when fewer algorithms have data, `np.polyfit` guarded with `std() > 0` and sorted x-axis for trend lines
+- **Docs**: Updated `README.md`, `STATUS.md`, `CLAUDE.md` to reflect new output layout
 
 ### 2026-02-20
 - **Docs**: Added `TUTORIAL.md` (§1–11: pipeline walkthrough; §12: controlled Stanza parser training on UD treebank data — finetuning, training-quantity control, per-register LAS evaluation, three experiment designs)

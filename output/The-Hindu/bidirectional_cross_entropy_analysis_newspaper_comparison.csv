@@ -1,2 +1,0 @@
-newspaper,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,kl_divergence_sum,total_events,unique_canonical_values,unique_headline_values
-The-Hindu,8.832185027653368,9.416736140892697,18.248921168546065,3.4452928402766205,0.4400871459694989,6.890585680553241,30818,354,307

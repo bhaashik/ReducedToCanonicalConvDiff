@@ -19,9 +19,9 @@ from typing import Iterable, List, Sequence
 DEFAULT_NEWSPAPERS = ["Times-of-India", "Hindustan-Times", "The-Hindu"]
 # New standardized layout under output/
 COMMON_DIR = "common"
-COMPARATIVE_DIR = "comparative-study"
-TRANSFORMATION_DIR = "transformation-study"
-COMPLEXITY_DIR = "complexity-similarity-study"
+COMPARATIVE_DIR = "task-1-comparative-study"
+TRANSFORMATION_DIR = "task-2-transformation-study"
+COMPLEXITY_DIR = "task-3-complexity-similarity-study"
 LEXICAL_DIR = "lexical"
 PUNCTUATION_DIR = "punctuation"
 MORPHO_DIR = "morphological"
@@ -610,7 +610,7 @@ class PipelineExecutor:
         report.append("- Constituency and dependency parse comparison")
         report.append("- Event-level statistical analysis (global and per-newspaper)")
         report.append("")
-        report.append("**Output**: `output/comparative-study/`")
+        report.append("**Output**: `output/task-1-comparative-study/`")
         report.append("")
         report.append("### Task 2: Transformation Study")
         report.append("")
@@ -621,7 +621,7 @@ class PipelineExecutor:
         report.append("- Progressive coverage analysis (per-newspaper and global)")
         report.append("- Rule effectiveness measurement and visualizations")
         report.append("")
-        report.append("**Output**: `output/transformation-study/`")
+        report.append("**Output**: `output/task-2-transformation-study/`")
         report.append("")
         report.append("### Task 3: Complexity & Similarity Study")
         report.append("")
@@ -632,25 +632,25 @@ class PipelineExecutor:
         report.append("- Perplexity analysis (mono-register, cross-register, directional)")
         report.append("- Correlation analysis (complexity vs performance)")
         report.append("")
-        report.append("**Output**: `output/complexity-similarity-study/`")
+        report.append("**Output**: `output/task-3-complexity-similarity-study/`")
         report.append("")
         report.append("## Directory Structure")
         report.append("")
         report.append("```")
         report.append("output/")
-        report.append("├── comparative-study/           # Task 1: Difference analysis")
+        report.append("├── task-1-comparative-study/    # Task 1: Difference analysis")
         report.append("│   ├── global/{tables,visualizations}")
         report.append("│   ├── per-newspaper/<paper>/{tables,visualizations}")
         report.append("│   └── reports/")
         report.append("│")
-        report.append("├── transformation-study/        # Task 2: Rule coverage")
+        report.append("├── task-2-transformation-study/ # Task 2: Rule coverage")
         report.append("│   ├── coverage-analysis[/<paper>]/")
         report.append("│   ├── morphological-rules/")
         report.append("│   ├── rule-effectiveness/")
         report.append("│   ├── visualizations/")
         report.append("│   └── reports/")
         report.append("│")
-        report.append("└── complexity-similarity-study/ # Task 3: Bidirectional analysis")
+        report.append("└── task-3-complexity-similarity-study/ # Task 3: Bidirectional analysis")
         report.append("    ├── bidirectional-transformation/")
         report.append("    ├── transformation-traces/")
         report.append("    ├── mt-evaluation/")

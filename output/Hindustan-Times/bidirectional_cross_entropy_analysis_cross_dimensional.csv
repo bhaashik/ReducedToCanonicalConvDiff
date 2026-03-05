@@ -1,4 +1,0 @@
-newspaper,parse_type,dimension,canonical_to_headline_ce,headline_to_canonical_ce,bidirectional_sum,jensen_shannon_divergence,register_overlap_ratio,total_events
-Hindustan-Times,both,Hindustan-Times_both,7.2103580738608954,24.160815057107207,31.371173130968103,13.561012462055109,0.4,3882
-Hindustan-Times,dependency,Hindustan-Times_dependency,13.192524864912308,7.699734829197661,20.892259694109967,5.055572222233786,0.37423312883435583,20199
-Hindustan-Times,constituency,Hindustan-Times_constituency,4.443167615100773,3.975603887246873,8.418771502347646,0.5693399993982253,0.6949152542372882,24391

@@ -166,12 +166,12 @@ Canonical and headline files must have **matching line counts** (parallel alignm
 ## Output Structure
 
 Outputs go to `output/` (git-ignored), organized by task:
-- `comparative-study/` — per-newspaper + global tables, visualizations, reports (Task 1)
-- `transformation-study/` — coverage analysis, morphological rules, visualizations (Task 2)
-- `complexity-similarity-study/` — bidirectional transformations, perplexity, correlations (Task 3)
-- `multilevel_complexity/` — per-newspaper + global multi-level complexity (Task 3 extended)
-- `multilevel_similarity/` — per-newspaper + global multi-level similarity (Task 3 extended)
-- `[Newspaper-Name]/` — legacy per-newspaper results
+- `task-1-comparative-study/` — per-newspaper + global tables, visualizations, reports (Task 1)
+- `task-2-transformation-study/` — coverage analysis, morphological rules, visualizations (Task 2)
+- `task-3-complexity-similarity-study/` — bidirectional transformations, perplexity, correlations (Task 3)
+- `perhaps-useful/multilevel-complexity-legacy/` — multi-level complexity from extended runner (legacy)
+- `perhaps-useful/multilevel-similarity-legacy/` — multi-level similarity from extended runner (legacy)
+- `common/` — placeholder for shared cross-task resources
 
 ## Environment
 
