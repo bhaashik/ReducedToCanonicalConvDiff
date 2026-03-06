@@ -1,6 +1,6 @@
 # Project Status
 
-All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v9.0).
+All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.0).
 
 ## Tasks
 
@@ -15,6 +15,14 @@ The pipeline is generic and documented for adaptation to any two-register, two-l
 ---
 
 ## Changelog
+
+### 2026-03-06 (tag `v10.0`)
+- **Visualizations**: Added `generate_supplementary_visualizations.py` — config-driven script producing consistent, publication-quality figures across all three newspapers for all three tasks
+- **Task 1**: Per-newspaper `visualizations/` subdirs with 7 summary figures + per-feature `feature_analysis/` subfolder; global `visualizations/` with 6 cross-newspaper comparison figures (t1g_*)
+- **Task 2**: Per-newspaper `visualizations/` subdirs with 4 morphological rule figures (t2_*); global `visualizations/` with 7 figures including cross-newspaper aggregates
+- **Task 3**: Per-newspaper `figures/` subdirs with 6 figures (t3_*) — identical structure for all 3 newspapers; global `figures/` with 25 figures (accumulated curves, heatmaps, cross-newspaper profiles)
+- **Config files**: `output/figures_config.json` (369 entries) and `output/tables_config.json` (247 entries) — structured by global/per-newspaper × task; each entry includes path, title, description, axis labels, data source
+- **Design**: One function per figure type called identically for every newspaper — guarantees structural identity for cross-newspaper comparison; t1_*/t2_*/t3_* prefixes for per-newspaper, t1g_*/t2g_*/t3g_* for global
 
 ### 2026-03-05 (tag `v9.0`)
 - **Output**: Reorganised `output/` into a clean task-oriented structure — `task-1-comparative-study/`, `task-2-transformation-study/`, `task-3-complexity-similarity-study/`, `common/`, `perhaps-useful/`; no stray directories remain at the top level
