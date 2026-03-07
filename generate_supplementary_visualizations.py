@@ -144,7 +144,7 @@ def t1_feature_frequency(data_dir: Path, label: str, out_dir: Path):
               fontsize=8, loc="lower right")
     ax.set_xlabel("Event count (total instances in corpus)")
     ax.set_ylabel("Feature ID (schema v5.0)")
-    ax.set_title(f"{label} — Feature Event Frequency (Top 20)",
+    ax.set_title(f"{label}\nFeature Event Frequency (Top 20)",
                  fontsize=12, fontweight="bold")
     _save(out_dir / "t1_feature_frequency.png")
 
@@ -218,7 +218,7 @@ def t1_top_transformations_grid(data_dir: Path, label: str, out_dir: Path):
     for i in range(len(top6_features), 6):
         axes[i].set_visible(False)
 
-    fig.suptitle(f"{label} — Top Transformations for Each of the 6 Most Frequent Features",
+    fig.suptitle(f"{label}\nTop Transformations for Each of the 6 Most Frequent Features",
                  fontsize=13, fontweight="bold")
     _save(out_dir / "t1_top_transformations_grid.png")
 
@@ -279,7 +279,7 @@ def t1_parse_type_breakdown(data_dir: Path, label: str, out_dir: Path):
     ax.set_yticklabels(pivot.index, fontsize=9)
     ax.set_xlabel("Event count")
     ax.set_ylabel("Feature ID (schema v5.0)")
-    ax.set_title(f"{label} — Feature Counts by Parse Type (Top 20 features)",
+    ax.set_title(f"{label}\nFeature Counts by Parse Type (Top 20 features)",
                  fontsize=11, fontweight="bold")
     ax.legend(title="Parse type", fontsize=9)
     _save(out_dir / "t1_parse_type_breakdown.png")
@@ -301,7 +301,7 @@ def t1_top_value_pairs(data_dir: Path, label: str, out_dir: Path):
                 f"{int(v):,}", va="center", fontsize=7.5)
     ax.set_xlabel("Frequency (occurrence count in corpus)")
     ax.set_ylabel("Feature-value pair (feature_id:canonical→headline)")
-    ax.set_title(f"{label} — Top-25 Feature-Value Pairs",
+    ax.set_title(f"{label}\nTop-25 Feature-Value Pairs",
                  fontsize=11, fontweight="bold")
     ax.tick_params(axis="y", labelsize=7.5)
     # legend for categories
@@ -362,7 +362,7 @@ def t1_statistical_overview(data_dir: Path, label: str, out_dir: Path):
     ax.set_xlabel("Total event occurrences in corpus (log scale)")
     ax.set_ylabel("Percentage of total events (%)")
     ax.set_xscale("log")
-    ax.set_title(f"{label} — Feature Occurrences vs. Percentage of Total Events",
+    ax.set_title(f"{label}\nFeature Occurrences vs. Percentage of Total Events",
                  fontsize=11, fontweight="bold")
     seen = {}
     for cat, col in CAT_COLORS.items():
@@ -586,7 +586,7 @@ def t2_morphological_rules(rules_dir: Path, label: str, out_dir: Path):
     ax.axhline(0.5, color="grey", lw=0.8, ls="--", alpha=0.5,
                label="0.5 reference line")
     ax.set_xlabel("Morphological transformation rule (feature: canonical→headline)")
-    ax.set_title(f"{label} — Morphological Rule Confidence & Coverage (Top 20)",
+    ax.set_title(f"{label}\nMorphological Rule Confidence & Coverage (Top 20)",
                  fontsize=12, fontweight="bold")
     ax.legend(fontsize=9)
     _save(out_dir / "t2_morphological_rule_confidence_coverage.png")
@@ -597,7 +597,7 @@ def t2_morphological_rules(rules_dir: Path, label: str, out_dir: Path):
             color="#66BB6A", alpha=0.9, edgecolor="white")
     ax.set_xlabel("Frequency (total corpus instances matching this rule)")
     ax.set_ylabel("Morphological transformation rule (feature: canonical→headline)")
-    ax.set_title(f"{label} — Morphological Rule Frequencies (Top 20)",
+    ax.set_title(f"{label}\nMorphological Rule Frequencies (Top 20)",
                  fontsize=12, fontweight="bold")
     _save(out_dir / "t2_morphological_rule_frequencies.png")
 
@@ -629,7 +629,7 @@ def t2_morphological_rules(rules_dir: Path, label: str, out_dir: Path):
                             fontsize=8, color="white" if vmax>0 and v/vmax>0.55 else "black")
     for idx in range(len(features), nrows*ncols):
         axes[idx//ncols][idx%ncols].set_visible(False)
-    fig.suptitle(f"{label} — Morphological Transformation Matrices\n"
+    fig.suptitle(f"{label}\nMorphological Transformation Matrices\n"
                  "(rows = canonical value, columns = headline value, cells = frequency)",
                  fontsize=12, fontweight="bold")
     _save(out_dir / "t2_morphological_transformation_matrices.png")
