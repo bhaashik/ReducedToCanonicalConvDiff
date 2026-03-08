@@ -106,6 +106,15 @@ def _short(text, n=20):
     s = str(text)
     return s[:n] + "…" if len(s) > n else s
 
+def _absent(v, n=20):
+    """Short label; NaN/None/empty → 'ABSENT'."""
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return "ABSENT"
+    s = str(v).strip()
+    if s in ("nan", "", "None", "NaN"):
+        return "ABSENT"
+    return s[:n] + "…" if len(s) > n else s
+
 def _csv(path: Path) -> pd.DataFrame | None:
     if not path.exists():
         return None
@@ -203,7 +212,7 @@ def t1_top_transformations_grid(data_dir: Path, label: str, out_dir: Path):
             continue
         cat = CAT.get(feat, "Other")
         color = CAT_COLORS.get(cat, "#757575")
-        labels = [_short(r["canonical_value"]) + "→" + _short(r["headline_value"], 12)
+        labels = [_absent(r["canonical_value"]) + "→" + _absent(r["headline_value"], 12)
                   for _, r in sub.iterrows()]
         bars = ax.barh(labels[::-1], sub["count"].values[::-1],
                        color=color, alpha=0.87, edgecolor="white")
@@ -313,34 +322,67 @@ def t1_top_value_pairs(data_dir: Path, label: str, out_dir: Path):
               fontsize=8, loc="lower right")
     _save(out_dir / "t1_top_value_pairs.png")
 
-def t1_per_feature_analysis(data_dir: Path, label: str, out_dir: Path):
-    """One figure per schema feature: bar chart of canonical→headline transformations."""
+def t1_per_feature_analysis(data_dir: Path, label: str, out_dir: Path,
+                             global_features: dict | None = None):
+    """One figure per schema feature: bar chart of canonical→headline transformations.
+
+    global_features: {fid: feature_name} collected across ALL newspapers so that
+    every newspaper gets a figure for every feature (placeholder if no events).
+    """
     trans_dir = out_dir / "feature_analysis"
     trans_dir.mkdir(parents=True, exist_ok=True)
-    feat_df = _csv(data_dir / "feature_freq_global.csv")
-    if feat_df is None: return
 
-    for _, row in feat_df.iterrows():
-        fid = row["feature_id"]
-        fname = data_dir / f"feature_value_analysis_feature_{fid}.csv"
-        df = _csv(fname)
-        if df is None: continue
+    # Local per-newspaper feature list (fid → name, count)
+    feat_df = _csv(data_dir / "feature_freq_global.csv")
+    local_info = {}
+    if feat_df is not None:
+        for _, row in feat_df.iterrows():
+            local_info[str(row["feature_id"])] = {
+                "name": str(row.get("name", row["feature_id"])),
+                "count": int(row.get("count", 0)),
+            }
+
+    # Iterate over the global union so every newspaper has the same figure set
+    features_to_plot = global_features if global_features is not None else {
+        fid: info["name"] for fid, info in local_info.items()
+    }
+
+    for fid, feat_name in features_to_plot.items():
+        cat   = CAT.get(fid, "Other")
+        color = CAT_COLORS.get(cat, "#757575")
+        local_name = local_info.get(fid, {}).get("name", feat_name)
+
+        csv_file = data_dir / f"feature_value_analysis_feature_{fid}.csv"
+        df = _csv(csv_file)
+
+        if df is None or df.empty:
+            # Placeholder for newspapers with no events for this feature
+            fig, ax = plt.subplots(figsize=(8, 3))
+            ax.text(0.5, 0.5, "No events recorded for this newspaper",
+                    ha="center", va="center", fontsize=13, color="#aaaaaa",
+                    transform=ax.transAxes, style="italic")
+            ax.set_xlabel("Event count  (percentage of feature total annotated)")
+            ax.set_ylabel("Transformation (canonical value → headline value)")
+            ax.set_title(f"{label}\n{fid}: {local_name}\nTransformation Distribution",
+                         fontsize=11, fontweight="bold", color=color)
+            ax.set_xlim(0, 1); ax.set_xticks([]); ax.set_yticks([])
+            _save(trans_dir / f"feature_{fid}.png")
+            continue
 
         df = df.sort_values("count", ascending=False).head(15)
-        df["label"] = df["canonical_value"].apply(_short) + "→" + df["headline_value"].apply(_short)
-        cat = CAT.get(fid, "Other")
-        color = CAT_COLORS.get(cat, "#757575")
+        df["label"] = df["canonical_value"].apply(_absent) + "→" + df["headline_value"].apply(_absent)
 
         fig, ax = plt.subplots(figsize=(10, max(4, len(df)*0.45 + 1)))
         bars = ax.barh(df["label"][::-1], df["count"][::-1],
                        color=color, alpha=0.87, edgecolor="white")
         for bar, v in zip(bars, df["count"][::-1]):
-            pct = f"  {df.loc[df['count']==v,'percentage'].values[0]:.1f}%"
+            pct_vals = df.loc[df["count"] == v, "percentage"]
+            pct = f"  {pct_vals.values[0]:.1f}%" if not pct_vals.empty else ""
             ax.text(v + df["count"].max()*0.01, bar.get_y() + bar.get_height()/2,
                     f"{int(v):,}{pct}", va="center", fontsize=8)
         ax.set_xlabel("Event count  (percentage of feature total annotated)")
         ax.set_ylabel("Transformation (canonical value → headline value)")
-        ax.set_title(f"{label} — {fid}: {row.get('name', fid)}\nTransformation Distribution",
+        ax.set_title(f"{label}\n{fid}: {local_name}\nTransformation Distribution",
                      fontsize=11, fontweight="bold", color=color)
         _save(trans_dir / f"feature_{fid}.png")
 
@@ -1404,6 +1446,19 @@ def _build_config(task_dirs: dict):
 
 def main():
     # ── TASK 1 ────────────────────────────────────────────────────────────────
+    # Collect global feature union (across all newspapers) so per-feature figures
+    # are generated for EVERY newspaper regardless of whether it has events.
+    print("\n[Task-1] Collecting global feature union …")
+    global_features: dict[str, str] = {}   # {fid: feature_name}
+    for np_name in NEWSPAPERS:
+        df = _csv(T1 / "per-newspaper" / np_name / "feature_freq_global.csv")
+        if df is not None:
+            for _, row in df.iterrows():
+                fid = str(row["feature_id"])
+                if fid not in global_features:
+                    global_features[fid] = str(row.get("name", fid))
+    print(f"  {len(global_features)} distinct features across all newspapers")
+
     print("\n[Task-1] Per-newspaper figures …")
     for np_name in NEWSPAPERS:
         data = T1 / "per-newspaper" / np_name
@@ -1417,7 +1472,7 @@ def main():
         t1_transformation_diversity(data, lbl, vis)
         t1_parse_type_breakdown(data, lbl, vis)
         t1_top_value_pairs(data, lbl, vis)
-        t1_per_feature_analysis(data, lbl, vis)
+        t1_per_feature_analysis(data, lbl, vis, global_features=global_features)
         t1_statistical_overview(data, lbl, vis)
 
     print("\n[Task-1] Global cross-newspaper figures …")

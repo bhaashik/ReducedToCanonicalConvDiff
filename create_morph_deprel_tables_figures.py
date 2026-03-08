@@ -124,10 +124,10 @@ class MorphDepRelAnalyzer:
         self.newspapers = NEWSPAPERS  # ['Hindustan-Times', 'The-Hindu', 'Times-of-India']
         self.project_root = BASE_DIR
 
-        # Per-task output dirs
-        self.task1_dir = OUTPUT_DIR / 'comparative-study' / 'morph-deprel-analysis'
-        self.task2_dir = OUTPUT_DIR / 'transformation-study' / 'morph-deprel-analysis'
-        self.task3_dir = OUTPUT_DIR / 'complexity-similarity-study' / 'morph-deprel-analysis'
+        # Per-task output dirs (task-oriented structure post-reorganization)
+        self.task1_dir = OUTPUT_DIR / 'task-1-comparative-study' / 'morph-deprel-analysis'
+        self.task2_dir = OUTPUT_DIR / 'task-2-transformation-study' / 'morph-deprel-analysis'
+        self.task3_dir = OUTPUT_DIR / 'task-3-complexity-similarity-study' / 'morph-deprel-analysis'
 
         # Raw event data
         self.feat_events: List[Dict] = []
@@ -148,7 +148,7 @@ class MorphDepRelAnalyzer:
         print(f"{'='*80}\n")
 
         for newspaper in self.newspapers:
-            csv_path = OUTPUT_DIR / newspaper / 'events_global.csv'
+            csv_path = OUTPUT_DIR / 'task-1-comparative-study' / 'per-newspaper' / newspaper / 'events_global.csv'
             if not csv_path.exists():
                 print(f'  WARNING: missing {csv_path}')
                 continue
