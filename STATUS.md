@@ -1,6 +1,6 @@
 # Project Status
 
-All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.0).
+All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.50).
 
 ## Tasks
 
@@ -15,6 +15,13 @@ The pipeline is generic and documented for adaptation to any two-register, two-l
 ---
 
 ## Changelog
+
+### 2026-03-08 (tag `v10.50`)
+- **Figure labels**: Added `_absent()` helper in `generate_supplementary_visualizations.py` — replaces NaN/None/empty values with `"ABSENT"` in all canonical_value/headline_value labels; fixes `"nan→:"` labels in PUNCT-ADD, PUNCT-DEL, FW-ADD, FW-DEL and similar figures
+- **Per-feature consistency**: Rewrote `t1_per_feature_analysis` to use a global feature union (30 distinct features across all 3 newspapers); every newspaper now generates one figure per feature — newspapers with zero events for a feature receive a "No events recorded" placeholder instead of silently omitting the figure
+- **Per-newspaper titles**: Standardised all per-newspaper figure titles to put the newspaper name on its own first line (two-line `label\nDescription` format) for unambiguous cross-newspaper comparison
+- **morph-deprel analysis** (`create_morph_deprel_tables_figures.py`): First successful run after fixing stale pre-reorganization output paths and installing `jinja2` — produced 13 CSVs + 13 PNGs + 13 LaTeX `.tex` files covering FEAT-CHG and DEP-REL-CHG analysis across all three tasks; `.tex` files distributed to corresponding LaTeX deposit directories
+- **Config files**: Refreshed `output/figures_config.json` (321 entries) and `output/tables_config.json` (247 entries)
 
 ### 2026-03-06 (tag `v10.0`)
 - **Visualizations**: Added `generate_supplementary_visualizations.py` — config-driven script producing consistent, publication-quality figures across all three newspapers for all three tasks
