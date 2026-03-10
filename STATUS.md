@@ -1,6 +1,6 @@
 # Project Status
 
-All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.50).
+All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.55).
 
 ## Tasks
 
@@ -15,6 +15,11 @@ The pipeline is generic and documented for adaptation to any two-register, two-l
 ---
 
 ## Changelog
+
+### 2026-03-10 (tag `v10.55`)
+- **Minimal output pipeline** (`generate_minimal_output.py`): New script producing a compact, publication-oriented output set in `output-minimal/` — 4 subdirectories per task (`global/` + one per newspaper), grouped-bar figures (3 bars per item, one colour per newspaper), auto-split into `_part1`/`_part2` when figures exceed readability threshold; includes aggregate (all-NP), cross-NP, constituency, dependency, morphological (FEAT-CHG by attribute), POS, function-word, punctuation, content-word, and TED score distribution figures; excludes numeric count-change events (LENGTH-CHG, HEAD-CHG, etc.)
+- **LaTeX selected figures** (`LaTeX/final-selection/task1_selected_figures.tex`): Bare ACL ARR document containing only the 11 main-body and 17 appendix figures from `LaTeX/final-selection/`; `acl.sty` and `acl_natbib.bst` copied alongside
+- **Methodology diagrams** (`LaTeX/final-selection/methodology_diagrams.tex`): TikZ pipeline diagrams for all three tasks in ACL ARR format; Task 1 shows the core 5-stage pipeline (Canonical Conversion → Schema Design → Parse & Refinement → Annotation → Quantitative Analysis) with a dashed iterative-refinement arc; Task 2 shows bidirectional transformation with dual arrows; Task 3 shows 5-level accumulated analysis
 
 ### 2026-03-08 (tag `v10.50`)
 - **Figure labels**: Added `_absent()` helper in `generate_supplementary_visualizations.py` — replaces NaN/None/empty values with `"ABSENT"` in all canonical_value/headline_value labels; fixes `"nan→:"` labels in PUNCT-ADD, PUNCT-DEL, FW-ADD, FW-DEL and similar figures
