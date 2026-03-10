@@ -1,6 +1,6 @@
 # Project Status
 
-All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.60).
+All three research tasks are complete for all three newspapers (Times-of-India, Hindustan-Times, The-Hindu). The codebase, documentation, and output directory are in a clean, task-oriented state (v10.65).
 
 ## Tasks
 
@@ -15,6 +15,10 @@ The pipeline is generic and documented for adaptation to any two-register, two-l
 ---
 
 ## Changelog
+
+### 2026-03-11 (tag `v10.65`)
+- **Organised fair-comparison output** (`generate_fair_comparison_outputs.py`): New script producing stage-wise tables and figures for all three tasks under `output/{task}/fair-comparison/`; five subdirectories: `1-raw-counts/`, `2-normalized/`, `3-log/`, `4-weighted/`, `5-information-theoretic/`; per-newspaper + cross-newspaper tables (CSV) and figures (PNG) at each stage; Task 1 adds all-methods heatmap + 4-panel cross-NP panel; Task 2 adds rule-entropy weighting; Task 3 adds canonical/headline ratio + JSD/KL/Wasserstein from bidirectional metrics
+- **Output backup mechanism** (`backup_output.py`): New script backing up the git-ignored `output/` directory to a sibling local repo `../Reduced2CanonicalOutput/` with incrementing tags (`output-v1`, `output-v2`, ...); maintains `CHANGELOG.md` (append-only, one section per backup) and `MANIFEST.md` (current inventory with file counts and sizes); uses `rsync` when available; first backup (`output-v1`) archived 910 files / 118.5 MB
 
 ### 2026-03-10 (tag `v10.55`)
 - **Minimal output pipeline** (`generate_minimal_output.py`): New script producing a compact, publication-oriented output set in `output-minimal/` — 4 subdirectories per task (`global/` + one per newspaper), grouped-bar figures (3 bars per item, one colour per newspaper), auto-split into `_part1`/`_part2` when figures exceed readability threshold; includes aggregate (all-NP), cross-NP, constituency, dependency, morphological (FEAT-CHG by attribute), POS, function-word, punctuation, content-word, and TED score distribution figures; excludes numeric count-change events (LENGTH-CHG, HEAD-CHG, etc.)
