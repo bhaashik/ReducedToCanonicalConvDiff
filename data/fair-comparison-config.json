@@ -1,0 +1,525 @@
+{
+  "version": "1.0",
+  "description": "Fair comparison configuration for register feature analysis. Adds opportunity normalization, log2 transformation, and optional weighting as a new analysis layer on top of the existing raw-count pipeline. The original pipeline is untouched.",
+
+  "design_principles": {
+    "stage_order": "raw → opportunity_normalization → log2 → [optional weighting]",
+    "normalization_rationale": "Divide raw event count by the number of eligible sites (contexts where that feature could have differed). This gives a per-opportunity rate that is independent of corpus size and linguistic level granularity.",
+    "log2_rationale": "Apply log2 to the normalized rate (not raw counts) to compress Zipfian frequency distributions. log2 of a rate produces a value in bits; a difference of 1 bit = the feature occurs twice as often in one register. Must apply AFTER normalization, not before.",
+    "weighting_rationale": "After log2(normalized rate), cross-level gaps are already compressed. Weighting is an optional further emphasis step to surface fine-grained features (e.g., morphological) relative to coarse-level features (e.g., constituency). Avoid over-weighting.",
+    "cross_newspaper_comparability": "Eligible site counts scale with corpus size, so dividing by them inherently normalizes for corpus size differences across newspapers (1041 vs 1148 vs 1500 sentence pairs)."
+  },
+
+  "linguistic_levels": {
+    "description": "Ordered from finest (1) to coarsest (7). Level index is used for level-based weighting: weight = 1 / level_index^alpha.",
+    "levels": [
+      {
+        "index": 1,
+        "code": "morphological",
+        "label": "Morphological",
+        "description": "Sub-token inflectional and morphological properties (FEATS column, verb morphology)",
+        "default_weight": 1.0
+      },
+      {
+        "index": 2,
+        "code": "lexical",
+        "label": "Lexical / Token",
+        "description": "Word-level insertions, deletions, surface form changes, POS changes, word order",
+        "default_weight": 0.71
+      },
+      {
+        "index": 3,
+        "code": "punctuation",
+        "label": "Punctuation",
+        "description": "Surface punctuation changes (low linguistic cost)",
+        "default_weight": 0.58
+      },
+      {
+        "index": 4,
+        "code": "dependency",
+        "label": "Dependency / Syntactic",
+        "description": "Dependency relation and head changes (per-token syntactic role)",
+        "default_weight": 0.50
+      },
+      {
+        "index": 5,
+        "code": "constituency",
+        "label": "Constituency / Phrasal",
+        "description": "Phrase-level constituency operations and clause type changes",
+        "default_weight": 0.45
+      },
+      {
+        "index": 6,
+        "code": "typological",
+        "label": "Register / Typological",
+        "description": "Sentence-level headline typology and structural register markers",
+        "default_weight": 0.41
+      },
+      {
+        "index": 7,
+        "code": "structural",
+        "label": "Structural / TED",
+        "description": "Holistic tree edit distance measures (one value per sentence pair)",
+        "default_weight": 0.38
+      }
+    ]
+  },
+
+  "eligible_site_definitions": {
+    "description": "Named denominators used in opportunity normalization. All computed from corpus data per newspaper. Canonical side used as baseline throughout.",
+    "sites": {
+      "sentence_pairs": {
+        "description": "Total number of canonical–reduced sentence pairs",
+        "source": "events_global.csv: sentence_id.nunique()",
+        "data_requirement": "events CSV"
+      },
+      "tokens_canonical": {
+        "description": "Total token count in canonical sentences (integer IDs only, excludes multi-word tokens)",
+        "source": "CoNLL-U canonical file: count rows with numeric ID",
+        "data_requirement": "conllu"
+      },
+      "function_word_tokens_canonical": {
+        "description": "Tokens with UPOS in {DET, ADP, AUX, PART, CCONJ, SCONJ, PRON} in canonical",
+        "source": "CoNLL-U canonical file: filter by upos",
+        "data_requirement": "conllu"
+      },
+      "content_word_tokens_canonical": {
+        "description": "Tokens with UPOS in {NOUN, VERB, ADJ, ADV, PROPN} in canonical",
+        "source": "CoNLL-U canonical file: filter by upos",
+        "data_requirement": "conllu"
+      },
+      "verb_tokens_canonical": {
+        "description": "Tokens with UPOS in {VERB, AUX} in canonical",
+        "source": "CoNLL-U canonical file: filter by upos",
+        "data_requirement": "conllu"
+      },
+      "morph_feature_slots_canonical": {
+        "description": "Total number of annotated morphological feature instances across all canonical tokens (sum of FEATS slot counts; underscore/empty FEATS contributes 0)",
+        "source": "CoNLL-U canonical file: for each token, count pipe-separated FEATS entries",
+        "data_requirement": "conllu"
+      },
+      "aligned_token_pairs": {
+        "description": "Total count of canonical–reduced aligned token pairs across all sentence pairs. Approximated as sum of min(len_canonical_sentence, len_reduced_sentence) over all pairs; exact count available from aligner output if stored.",
+        "source": "Approximation from CoNLL-U token counts per sentence; or aligner output",
+        "data_requirement": "conllu"
+      },
+      "punct_tokens_canonical": {
+        "description": "Tokens with UPOS == PUNCT in canonical",
+        "source": "CoNLL-U canonical file: filter by upos == PUNCT",
+        "data_requirement": "conllu"
+      },
+      "constituency_nodes_canonical": {
+        "description": "Total count of all non-terminal nodes (excluding leaves) in canonical constituency parse trees",
+        "source": "Constituency parse file: traverse each tree, count internal nodes",
+        "data_requirement": "constituency"
+      },
+      "clause_nodes_canonical": {
+        "description": "Total count of S, SBAR, SINV, SQ nodes in canonical constituency parse trees",
+        "source": "Constituency parse file: traverse each tree, count S/SBAR/SINV/SQ nodes",
+        "data_requirement": "constituency"
+      }
+    }
+  },
+
+  "feature_taxonomy": {
+    "description": "Per-feature level assignment and eligible site denominator. Features in excluded_features are omitted.",
+    "features": {
+      "FEAT-CHG": {
+        "level": "morphological",
+        "level_index": 1,
+        "eligible_site": "morph_feature_slots_canonical",
+        "event_type": "count",
+        "notes": "Each event = one (token, morph-attribute) pair differs between registers. Fine-grained per-value normalization: eligible sites for e.g. Tense changes = tokens with Tense annotation in canonical.",
+        "fine_grained_eligible_site": "per_morph_attribute_tokens_canonical"
+      },
+      "VERB-FORM-CHG": {
+        "level": "morphological",
+        "level_index": 1,
+        "eligible_site": "verb_tokens_canonical",
+        "event_type": "count",
+        "notes": "Verb morphological form changes (VerbForm, Tense etc. on verbal tokens)"
+      },
+      "FW-DEL": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "function_word_tokens_canonical",
+        "event_type": "count",
+        "notes": "Function word deleted from canonical form"
+      },
+      "FW-ADD": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "function_word_tokens_canonical",
+        "event_type": "count",
+        "notes": "Function word added in reduced form (canonical lacks it). Using canonical FW count as baseline for consistency."
+      },
+      "C-DEL": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "content_word_tokens_canonical",
+        "event_type": "count"
+      },
+      "C-ADD": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "content_word_tokens_canonical",
+        "event_type": "count",
+        "notes": "Using canonical content word count as baseline"
+      },
+      "POS-CHG": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count"
+      },
+      "FORM-CHG": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count"
+      },
+      "LEMMA-CHG": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count"
+      },
+      "TOKEN-REORDER": {
+        "level": "lexical",
+        "level_index": 2,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count"
+      },
+      "PUNCT-DEL": {
+        "level": "punctuation",
+        "level_index": 3,
+        "eligible_site": "punct_tokens_canonical",
+        "event_type": "count"
+      },
+      "PUNCT-ADD": {
+        "level": "punctuation",
+        "level_index": 3,
+        "eligible_site": "punct_tokens_canonical",
+        "event_type": "count",
+        "notes": "Using canonical punct count as baseline"
+      },
+      "PUNCT-SUBST": {
+        "level": "punctuation",
+        "level_index": 3,
+        "eligible_site": "punct_tokens_canonical",
+        "event_type": "count"
+      },
+      "DEP-REL-CHG": {
+        "level": "dependency",
+        "level_index": 4,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count",
+        "notes": "Each aligned token pair has exactly one dependency relation that could differ"
+      },
+      "HEAD-CHG": {
+        "level": "dependency",
+        "level_index": 4,
+        "eligible_site": "aligned_token_pairs",
+        "event_type": "count"
+      },
+      "CONST-MOV": {
+        "level": "constituency",
+        "level_index": 5,
+        "eligible_site": "constituency_nodes_canonical",
+        "event_type": "count",
+        "notes": "Each constituency node in canonical is a potential movement candidate"
+      },
+      "CONST-REM": {
+        "level": "constituency",
+        "level_index": 5,
+        "eligible_site": "constituency_nodes_canonical",
+        "event_type": "count"
+      },
+      "CONST-ADD": {
+        "level": "constituency",
+        "level_index": 5,
+        "eligible_site": "constituency_nodes_canonical",
+        "event_type": "count",
+        "notes": "Using canonical node count as baseline"
+      },
+      "CLAUSE-TYPE-CHG": {
+        "level": "constituency",
+        "level_index": 5,
+        "eligible_site": "clause_nodes_canonical",
+        "event_type": "count",
+        "notes": "Denominator = clause nodes (S/SBAR/SINV/SQ) only, not all nodes"
+      },
+      "H-TYPE": {
+        "level": "typological",
+        "level_index": 6,
+        "eligible_site": "sentence_pairs",
+        "event_type": "count",
+        "notes": "One headline type label per sentence pair"
+      },
+      "H-STRUCT": {
+        "level": "typological",
+        "level_index": 6,
+        "eligible_site": "sentence_pairs",
+        "event_type": "count",
+        "notes": "One structural label per sentence pair"
+      },
+      "F-TYPE": {
+        "level": "typological",
+        "level_index": 6,
+        "eligible_site": "sentence_pairs",
+        "event_type": "count"
+      },
+      "TED-SIMPLE": {
+        "level": "structural",
+        "level_index": 7,
+        "eligible_site": "sentence_pairs",
+        "event_type": "score",
+        "notes": "TED score per sentence pair; canonical_value IS the numeric score. For score-based features, normalize by sentence_pairs to get mean score. Log2 applied to mean score. Do NOT use raw event count for TED."
+      },
+      "TED-ZHANG-SHASHA": {
+        "level": "structural",
+        "level_index": 7,
+        "eligible_site": "sentence_pairs",
+        "event_type": "score"
+      },
+      "TED-KLEIN": {
+        "level": "structural",
+        "level_index": 7,
+        "eligible_site": "sentence_pairs",
+        "event_type": "score"
+      },
+      "TED-RTED": {
+        "level": "structural",
+        "level_index": 7,
+        "eligible_site": "sentence_pairs",
+        "event_type": "score"
+      }
+    }
+  },
+
+  "excluded_features": {
+    "description": "Numeric/aggregate features that measure magnitude of change, not presence/absence of an event category. Excluded from normalization and weighting.",
+    "features": {
+      "LENGTH-CHG": "Sentence length difference (continuous numeric)",
+      "BRANCH-DIFF": "Branching factor difference (continuous numeric)",
+      "CONST-COUNT-DIFF": "Constituent count difference (continuous numeric)",
+      "TREE-DEPTH-DIFF": "Tree depth difference (continuous numeric)",
+      "DEP-DIST-DIFF": "Dependency distance difference (continuous numeric)",
+      "TOKEN-COUNT-DIFF": "Token count difference (continuous numeric)",
+      "CHAR-COUNT-DIFF": "Character count difference (continuous numeric)"
+    }
+  },
+
+  "pipeline_stages": {
+    "stage_1_raw": {
+      "label": "Raw counts",
+      "description": "Original event counts from events_global.csv. Existing pipeline output, unchanged.",
+      "output_column": "count_raw",
+      "produces": "events_global.csv (existing)"
+    },
+    "stage_2_opportunity_normalization": {
+      "label": "Opportunity-normalized rate",
+      "description": "Divide raw count by eligible site count for the feature's level. Result is a per-opportunity rate in [0, 1] (approximately). For score-based features (TED), divide sum of scores by sentence_pairs to get mean score.",
+      "formula": "rate = count_raw / eligible_site_count",
+      "formula_score": "rate = sum(scores) / sentence_pairs",
+      "output_column": "rate_norm",
+      "pseudocount": 0,
+      "zero_handling": "If count_raw == 0, rate_norm = 0.0 (genuine absence of the feature)",
+      "produces": "events_fair.csv (new)"
+    },
+    "stage_3_log2": {
+      "label": "Log₂ of normalized rate",
+      "description": "Apply log2 to the normalized rate. Compresses Zipfian distribution. A difference of 1 bit = feature occurs twice as often. Applied to rate_norm, not count_raw.",
+      "formula": "log2_norm = log2(rate_norm + epsilon) where epsilon = 1e-9 to avoid log(0)",
+      "output_column": "log2_norm",
+      "epsilon": 1e-9,
+      "note": "Values will be negative (since rate_norm < 1 in all practical cases); differences between features remain interpretable as bit differences.",
+      "produces": "events_fair.csv (new column)"
+    },
+    "stage_4_weighting": {
+      "label": "Weighted score (optional)",
+      "description": "Apply a weight to log2_norm. Each method is computed independently. Results are additive columns — all methods run and output simultaneously for comparison.",
+      "produces": "events_fair.csv (new columns, one per method)"
+    }
+  },
+
+  "weighting_methods": {
+    "level": {
+      "label": "Level-based weight",
+      "description": "Penalizes higher-level (coarser) features. Morphological features (level 1) get weight 1.0; constituency features (level 5) get weight 1/5^alpha.",
+      "formula": "weight_lvl = 1.0 / level_index ^ alpha",
+      "alpha": 1.0,
+      "alpha_note": "alpha=1 is linear; alpha=0.5 is gentler. Configurable. Default 1.0.",
+      "output_column": "score_lvl",
+      "score_formula": "score_lvl = log2_norm * weight_lvl",
+      "applies_to": "feature level (same weight for all values of a feature)"
+    },
+    "idf": {
+      "label": "IDF-analog weight",
+      "description": "Borrows TF-IDF intuition: features that are very frequent across the corpus get lower weight. Computed from the opportunity-normalized rates across all features.",
+      "formula": "weight_idf = log(N_features / (1 + count_features_with_higher_rate))",
+      "alternative_formula": "weight_idf = log(total_eligible_sites / raw_count)",
+      "preferred_formula": "log(1 / rate_norm) = -log(rate_norm) i.e. the negative log probability",
+      "output_column": "score_idf",
+      "score_formula": "score_idf = log2_norm * weight_idf",
+      "applies_to": "feature level; computed per newspaper"
+    },
+    "jsd": {
+      "label": "Jensen-Shannon Divergence weight",
+      "description": "Measures how much the feature's value distribution shifts between canonical and reduced registers. High JSD = feature is highly register-discriminating = upweighted. Requires value distribution per feature per register.",
+      "formula": "weight_jsd = JSD(P_canonical(f) || P_reduced(f)) where P(f) is the distribution over feature values",
+      "output_column": "score_jsd",
+      "score_formula": "score_jsd = log2_norm * weight_jsd",
+      "applies_to": "feature level; computed per newspaper",
+      "note": "JSD is in [0, log2(2)] = [0, 1] when using log2. Entirely data-driven."
+    },
+    "pmi": {
+      "label": "PMI-based discriminativity weight",
+      "description": "For each (feature, value) pair, computes Pointwise Mutual Information with the register label. High PMI = pair is register-specific. Aggregated to feature level by summing over values.",
+      "formula": "pmi(f,v) = log2( P(v|register=canonical) / P(v) ); weight_pmi = sum_v max(0, pmi(f,v))",
+      "output_column": "score_pmi",
+      "score_formula": "score_pmi = log2_norm * weight_pmi",
+      "applies_to": "feature-value pair level; aggregated to feature for summary"
+    }
+  },
+
+  "combined_score": {
+    "description": "Optional: combine normalization + weighting into a single score for ranking. Not applied by default — separate scores are more interpretable for publication.",
+    "formula": "score_combined = log2_norm * (weight_lvl * w1 + weight_idf * w2 + weight_jsd * w3) / (w1 + w2 + w3)",
+    "default_weights": {"w1": 0.4, "w2": 0.3, "w3": 0.3},
+    "note": "Recommended to first compare methods separately (ablation) before combining."
+  },
+
+  "task_applicability": {
+    "task1": {
+      "name": "Comparative Register Study",
+      "applies_stages": ["stage_2_opportunity_normalization", "stage_3_log2", "stage_4_weighting"],
+      "primary_weighting_methods": ["level", "idf"],
+      "secondary_weighting_methods": ["jsd", "pmi"],
+      "input": "output/task-1-comparative-study/per-newspaper/{NP}/events_global.csv",
+      "output": "output/task-1-comparative-study/per-newspaper/{NP}/events_fair.csv",
+      "global_output": "output/task-1-comparative-study/global/events_fair_global.csv",
+      "new_visualizations": [
+        "Opportunity-normalized feature frequency (bar chart, all features comparable)",
+        "Log2-normalized feature frequency (replaces raw count figures)",
+        "Level-weighted feature ranking (shows morphological features fairly)",
+        "IDF-weighted feature ranking",
+        "JSD-weighted feature ranking (most discriminating features)",
+        "Cross-newspaper comparison with normalized rates (fair across corpus sizes)"
+      ],
+      "note": "Primary analysis layer. All four weighting methods computed and output for comparison."
+    },
+    "task2": {
+      "name": "Transformation Study",
+      "applies_stages": ["stage_2_opportunity_normalization", "stage_3_log2"],
+      "primary_weighting_methods": ["level"],
+      "input": "output/task-1-comparative-study/per-newspaper/{NP}/events_global.csv (same events, rule coverage view)",
+      "output": "output/task-2-transformation-study/per-newspaper/{NP}/rule_coverage_fair.csv",
+      "new_visualizations": [
+        "Normalized rule coverage by feature level",
+        "Log2 rule frequency profile"
+      ],
+      "note": "Normalization applied to rule coverage rates. Weighting less central here since rules are already filtered by confidence. JSD/PMI weights carry over from Task 1 config."
+    },
+    "task3": {
+      "name": "Complexity and Similarity Study",
+      "applies_stages": ["stage_2_opportunity_normalization", "stage_3_log2", "stage_4_weighting"],
+      "primary_weighting_methods": ["jsd", "pmi"],
+      "secondary_weighting_methods": ["level"],
+      "input": "output/task-1-comparative-study/per-newspaper/{NP}/events_global.csv",
+      "output": "output/task-3-complexity-similarity-study/per-newspaper/{NP}/fair_feature_profiles.csv",
+      "new_visualizations": [
+        "Register profiles (log2-normalized feature vectors, one per register per newspaper)",
+        "JSD-weighted similarity between register profiles",
+        "Cross-level complexity contribution (normalized rates stacked by level)",
+        "Biber-style feature loading plot (PCA/factor analysis of normalized feature matrix)"
+      ],
+      "note": "Log2-normalized rates serve as the feature vectors for complexity and similarity analyses. JSD weighting is most appropriate here since it directly measures register discriminativity."
+    }
+  },
+
+  "implementation_modules": {
+    "description": "New Python modules to implement. All go under register_comparison/analysis/ (new subdirectory). Existing pipeline untouched.",
+    "modules": [
+      {
+        "file": "register_comparison/analysis/__init__.py",
+        "purpose": "Package init"
+      },
+      {
+        "file": "register_comparison/analysis/eligible_site_counter.py",
+        "class": "EligibleSiteCounter",
+        "key_methods": [
+          "count_from_conllu(newspaper) -> dict",
+          "count_from_constituency(newspaper) -> dict",
+          "get_all_site_counts(newspaper) -> dict"
+        ],
+        "depends_on": "paths_config.py, conllu library, nltk.Tree"
+      },
+      {
+        "file": "register_comparison/analysis/opportunity_normalizer.py",
+        "class": "OpportunityNormalizer",
+        "key_methods": [
+          "normalize(events_df, site_counts) -> DataFrame with rate_norm column",
+          "apply_log2(df) -> DataFrame with log2_norm column",
+          "run(events_df, site_counts) -> DataFrame with both columns"
+        ],
+        "depends_on": "fair-comparison-config.json, numpy"
+      },
+      {
+        "file": "register_comparison/analysis/feature_weighter.py",
+        "class": "FeatureWeighter",
+        "key_methods": [
+          "apply_level_weights(df, alpha) -> DataFrame with score_lvl column",
+          "apply_idf_weights(df) -> DataFrame with score_idf column",
+          "apply_jsd_weights(df) -> DataFrame with score_jsd column",
+          "apply_pmi_weights(df) -> DataFrame with score_pmi column",
+          "run_all(df) -> DataFrame with all weight columns"
+        ],
+        "depends_on": "scipy.spatial.distance (JSD), numpy"
+      },
+      {
+        "file": "register_comparison/analysis/fair_comparison_pipeline.py",
+        "class": "FairComparisonPipeline",
+        "key_methods": [
+          "run(newspaper) -> saves events_fair.csv",
+          "run_all_newspapers() -> runs for all 3"
+        ],
+        "depends_on": "EligibleSiteCounter, OpportunityNormalizer, FeatureWeighter"
+      },
+      {
+        "file": "register_comparison/analysis/fair_comparison_visualizer.py",
+        "class": "FairComparisonVisualizer",
+        "key_methods": [
+          "plot_normalized_feature_frequency(df, out_dir)",
+          "plot_log2_profile(df, out_dir)",
+          "plot_weighted_ranking(df, method, out_dir)",
+          "plot_cross_newspaper_normalized(dfs, out_dir)",
+          "plot_register_profiles(dfs, out_dir)"
+        ],
+        "depends_on": "matplotlib, seaborn, pandas"
+      },
+      {
+        "file": "run_fair_comparison.py",
+        "purpose": "Top-level runner. Loads config, runs pipeline for all 3 newspapers, saves CSVs and figures.",
+        "cli": "python run_fair_comparison.py [--newspapers ToI HT TH] [--methods level idf jsd pmi] [--no-plots]"
+      }
+    ]
+  },
+
+  "output_columns_reference": {
+    "count_raw": "Original event count (from events_global.csv)",
+    "eligible_site_count": "Denominator used for normalization (numeric, per feature per newspaper)",
+    "eligible_site_name": "Name of the eligible site (from eligible_site_definitions)",
+    "level_index": "Linguistic level index (1=morphological ... 7=structural)",
+    "rate_norm": "count_raw / eligible_site_count (opportunity-normalized rate)",
+    "log2_norm": "log2(rate_norm + epsilon) — log-scale normalized rate",
+    "weight_lvl": "Level-based weight = 1 / level_index^alpha",
+    "weight_idf": "IDF-analog weight = -log(rate_norm) or log(1/rate_norm)",
+    "weight_jsd": "JSD of value distribution between canonical and reduced registers",
+    "weight_pmi": "Aggregated PMI of feature-value pairs with register label",
+    "score_lvl": "log2_norm * weight_lvl",
+    "score_idf": "log2_norm * weight_idf",
+    "score_jsd": "log2_norm * weight_jsd",
+    "score_pmi": "log2_norm * weight_pmi"
+  }
+}
