@@ -42,12 +42,14 @@ sys.path.insert(0, os.path.dirname(__file__))
 from config import BASE_DIR
 
 # ── paths ─────────────────────────────────────────────────────────────────
-OUTPUT_SRC  = BASE_DIR / "output"
-BACKUP_ROOT = BASE_DIR.parent / "Reduced2CanonicalOutput"
-OUTPUT_DEST = BACKUP_ROOT / "output"
-CHANGELOG   = BACKUP_ROOT / "CHANGELOG.md"
-MANIFEST    = BACKUP_ROOT / "MANIFEST.md"
-README      = BACKUP_ROOT / "README.md"
+OUTPUT_SRC        = BASE_DIR / "output"
+OUTPUT_MINIMAL_SRC = BASE_DIR / "output-minimal"
+BACKUP_ROOT       = BASE_DIR.parent / "Reduced2CanonicalOutput"
+OUTPUT_DEST       = BACKUP_ROOT / "output"
+OUTPUT_MINIMAL_DEST = BACKUP_ROOT / "output-minimal"
+CHANGELOG         = BACKUP_ROOT / "CHANGELOG.md"
+MANIFEST          = BACKUP_ROOT / "MANIFEST.md"
+README            = BACKUP_ROOT / "README.md"
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -165,25 +167,31 @@ def _init_repo(dry_run: bool) -> None:
 # Sync
 # ══════════════════════════════════════════════════════════════════════════
 
-def _sync_output(dry_run: bool) -> None:
-    """Mirror output/ → backup repo's output/."""
-    if not OUTPUT_SRC.exists():
-        print(f"[ERROR] output/ not found at {OUTPUT_SRC}"); sys.exit(1)
+def _sync_one(src: Path, dest: Path, label: str, dry_run: bool) -> None:
+    """Mirror src/ → dest/ using rsync or shutil."""
+    if not src.exists():
+        return
     if dry_run:
-        print(f"  [dry-run] would rsync {OUTPUT_SRC} → {OUTPUT_DEST}"); return
-    # Try rsync first (fast, delta-only); fall back to shutil
+        print(f"  [dry-run] would rsync {src} → {dest}"); return
     rsync = shutil.which("rsync")
     if rsync:
         subprocess.run(
-            [rsync, "-a", "--delete",
-             str(OUTPUT_SRC) + "/", str(OUTPUT_DEST) + "/"],
+            [rsync, "-a", "--delete", str(src) + "/", str(dest) + "/"],
             check=True
         )
     else:
-        if OUTPUT_DEST.exists():
-            shutil.rmtree(OUTPUT_DEST)
-        shutil.copytree(OUTPUT_SRC, OUTPUT_DEST)
-    print(f"  Synced output/ → {OUTPUT_DEST.relative_to(BACKUP_ROOT.parent)}")
+        if dest.exists():
+            shutil.rmtree(dest)
+        shutil.copytree(src, dest)
+    print(f"  Synced {label} → {dest.relative_to(BACKUP_ROOT.parent)}")
+
+
+def _sync_output(dry_run: bool) -> None:
+    """Mirror output/ and output-minimal/ → backup repo."""
+    if not OUTPUT_SRC.exists():
+        print(f"[ERROR] output/ not found at {OUTPUT_SRC}"); sys.exit(1)
+    _sync_one(OUTPUT_SRC,         OUTPUT_DEST,         "output/",         dry_run)
+    _sync_one(OUTPUT_MINIMAL_SRC, OUTPUT_MINIMAL_DEST, "output-minimal/", dry_run)
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -208,36 +216,56 @@ def _dir_summary(path: Path) -> tuple[int, int]:
     return count, total
 
 
+def _manifest_section(root: Path, heading: str) -> tuple[list, int, int]:
+    """Return (lines, total_files, total_bytes) for one top-level directory."""
+    lines = [f"## {heading}\n",
+             "| Directory | Files | Size |",
+             "|-----------|------:|-----:|"]
+    total_files = total_bytes = 0
+    if not root.exists():
+        lines.append("*(not present)*")
+        lines.append("")
+        return lines, 0, 0
+    task_dirs = sorted(root.glob("task-*"))
+    for td in task_dirs:
+        n, b = _dir_summary(td)
+        lines.append(f"| `{td.name}/` | {n:,} | {_human_size(b)} |")
+        total_files += n; total_bytes += b
+    other = [d for d in root.iterdir()
+             if d.is_dir() and not d.name.startswith("task-")]
+    for od in sorted(other):
+        n, b = _dir_summary(od)
+        lines.append(f"| `{od.name}/` | {n:,} | {_human_size(b)} |")
+        total_files += n; total_bytes += b
+    for f in sorted(root.glob("*.json")):
+        b = f.stat().st_size
+        lines.append(f"| `{f.name}` | 1 | {_human_size(b)} |")
+        total_files += 1; total_bytes += b
+    lines.append("")
+    return lines, total_files, total_bytes
+
+
 def _generate_manifest(tag: str, timestamp: str) -> str:
     lines = [
         f"# Output Manifest\n",
         f"**Last updated**: {timestamp}  |  **Backup tag**: `{tag}`\n",
         "",
-        "## Task directories\n",
-        "| Directory | Files | Size |",
-        "|-----------|------:|-----:|",
     ]
-    task_dirs = sorted(OUTPUT_DEST.glob("task-*"))
-    total_files = total_bytes = 0
-    for td in task_dirs:
-        n, b = _dir_summary(td)
-        lines.append(f"| `{td.name}/` | {n:,} | {_human_size(b)} |")
-        total_files += n
-        total_bytes += b
-    # Also account for any other subdirs
-    other = [d for d in OUTPUT_DEST.iterdir()
-             if d.is_dir() and not d.name.startswith("task-")]
-    for od in sorted(other):
-        n, b = _dir_summary(od)
-        lines.append(f"| `{od.name}/` | {n:,} | {_human_size(b)} |")
-        total_files += n
-        total_bytes += b
+    grand_files = grand_bytes = 0
+    for dest, heading in [
+        (OUTPUT_DEST,         "`output/` — main pipeline outputs"),
+        (OUTPUT_MINIMAL_DEST, "`output-minimal/` — compact cross-newspaper outputs"),
+    ]:
+        sec, n, b = _manifest_section(dest, heading)
+        lines.extend(sec)
+        grand_files += n; grand_bytes += b
+
     lines += [
+        f"**Grand total**: {grand_files:,} files  /  {_human_size(grand_bytes)}",
         "",
-        f"**Total**: {total_files:,} files  /  {_human_size(total_bytes)}",
-        "",
-        "## Per-task breakdown\n",
+        "## Per-task breakdown (`output/`)\n",
     ]
+    task_dirs = sorted(OUTPUT_DEST.glob("task-*")) if OUTPUT_DEST.exists() else []
     for td in task_dirs:
         lines.append(f"### `{td.name}/`\n")
         lines.append("| Subdirectory | Files | Size |")
