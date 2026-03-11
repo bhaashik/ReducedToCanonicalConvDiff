@@ -318,17 +318,20 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
                 plot: bool,
                 extra_cols: list = None,
                 with_latex: bool = False,
-                color_col: str = "level") -> None:
+                color_col: str = "level",
+                stem: str = None) -> None:
     """
     Write per-newspaper, cross-newspaper and global outputs for one metric.
 
     ``stage_dir`` is a specific stage directory, e.g.
     ``task-1-comparative-study/fair-comparison/1-raw-counts/``.
 
+    ``stem`` overrides the filename stem (defaults to ``col``).
+
     Writes:
-      stage_dir/per-newspaper/{NP}/{col}.{png,csv}
-      stage_dir/cross-newspaper/{col}.{png,csv}  (+ .tex if with_latex)
-      stage_dir/global/{col}.{png,csv}           (+ .tex if with_latex)
+      stage_dir/per-newspaper/{NP}/{stem}.{png,csv}
+      stage_dir/cross-newspaper/{stem}.{png,csv}  (+ .tex if with_latex)
+      stage_dir/global/{stem}.{png,csv}           (+ .tex if with_latex)
 
     For cross-newspaper/: grouped bar chart (all NPs in one figure), wide CSV.
     For global/:          _hbar() with mean values, level-colored.
@@ -337,6 +340,7 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
     Long feature lists (> SPLIT_AT) are auto-split into _part1/_part2 figures.
     """
     extra_cols = extra_cols or []
+    fstem = stem or col  # filename stem
 
     # Rename label_col → "feature_id" in all dfs once, up-front
     dfs_fid = {}
@@ -356,7 +360,7 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
         if col in df.columns:
             keep_cols.append(col)
         tbl = df[list(dict.fromkeys(keep_cols))].copy()
-        _tbl(tbl, np_dir / f"{col}.csv")
+        _tbl(tbl, np_dir / f"{fstem}.csv")
 
         # figure
         if plot and col in df.columns:
@@ -365,7 +369,7 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
                 df = df.copy()
                 df["level"] = "morphological"
                 tmp_lc = "level"
-            _save_split(df, col, title, xlabel, np_dir, col,
+            _save_split(df, col, title, xlabel, np_dir, fstem,
                         use_abs=use_abs, newspaper=np_name,
                         color_col=tmp_lc)
 
@@ -376,17 +380,17 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
     cn_dir.mkdir(parents=True, exist_ok=True)
 
     wide = _wide_table(dfs_fid, col, "feature_id", extra_cols)
-    _tbl(wide, cn_dir / f"{col}.csv")
+    _tbl(wide, cn_dir / f"{fstem}.csv")
     if with_latex:
-        _tex(wide, cn_dir / f"{col}.tex",
+        _tex(wide, cn_dir / f"{fstem}.tex",
              caption=f"{title} — cross-newspaper comparison",
-             label=f"cn_{col}",
+             label=f"cn_{fstem}",
              id_col="feature_id",
              extra_cols=[c for c in extra_cols if c in wide.columns])
     if plot and len(dfs_fid) > 1:
         _save_split_cross(dfs_fid, col, "feature_id",
                           title + " — All Newspapers", xlabel,
-                          cn_dir, col, use_abs=use_abs)
+                          cn_dir, fstem, use_abs=use_abs)
 
     # ── global (mean across NPs) ──────────────────────────────────────────
     gl_dir = stage_dir / "global"
@@ -395,24 +399,50 @@ def _emit_stage(dfs: dict, label_col: str, col: str,
     agg = _aggregate_mean(dfs_fid, col, "feature_id", extra_cols)
     if agg.empty:
         return
-    _tbl(agg, gl_dir / f"{col}.csv")
+    _tbl(agg, gl_dir / f"{fstem}.csv")
     if with_latex:
-        _tex(agg, gl_dir / f"{col}.tex",
+        _tex(agg, gl_dir / f"{fstem}.tex",
              caption=f"{title} — global mean",
-             label=f"gl_{col}",
+             label=f"gl_{fstem}",
              id_col="feature_id",
              extra_cols=[c for c in extra_cols if c in agg.columns])
     if plot and color_col in agg.columns:
         _save_split(agg, col, title + " (mean · all newspapers)", xlabel,
-                    gl_dir, col, use_abs=use_abs, newspaper="",
+                    gl_dir, fstem, use_abs=use_abs, newspaper="",
                     color_col=color_col)
     elif plot:
         # fallback: assign a synthetic level for colour coding
         tmp = agg.copy()
         tmp["level"] = "morphological"
         _save_split(tmp, col, title + " (mean · all newspapers)", xlabel,
-                    gl_dir, col, use_abs=use_abs, newspaper="",
+                    gl_dir, fstem, use_abs=use_abs, newspaper="",
                     color_col="level")
+
+
+def _emit_per_level_figures(dfs: dict, col: str, title_prefix: str,
+                            xlabel: str, stage_dir: Path,
+                            use_abs: bool, plot: bool,
+                            with_latex: bool = False) -> None:
+    """
+    For each linguistic level, emit a focused figure/table containing only
+    the features at that level.  Outputs are written into the same
+    global/, cross-newspaper/, per-newspaper/ directories as the main
+    figures but with file stems like ``{col}_{level}``.
+    """
+    for lv in LEVEL_ORDER:
+        sub_dfs = {}
+        for np_name, df in dfs.items():
+            if "level" in df.columns:
+                filt = df[df["level"] == lv].copy()
+                if not filt.empty and col in filt.columns:
+                    sub_dfs[np_name] = filt
+        if not sub_dfs:
+            continue
+        _emit_stage(sub_dfs, "feature_id", col,
+                    f"{title_prefix}\n{lv.capitalize()} Features",
+                    xlabel, stage_dir, use_abs, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    stem=f"{col}_{lv}")
 
 
 def _save_split(df: pd.DataFrame, col: str, title: str, xlabel: str,
@@ -458,6 +488,247 @@ def _save_split_cross(dfs_fid: dict, col: str, label_col: str,
 # TASK 1 — Comparative Study
 # ═══════════════════════════════════════════════════════════════════════════
 
+# ── Value-level breakdown configuration ──────────────────────────────────
+VB_CONFIG = {
+    "FEAT-CHG":        {"label": "mnemonic",           "top_n": None, "color": "morphological"},
+    "DEP-REL-CHG":     {"label": "cv→hv",               "top_n": 25,   "color": "dependency"},
+    "POS-CHG":         {"label": "cv→hv",               "top_n": None, "color": "lexical"},
+    "FW-DEL":          {"label": "canonical_value",     "top_n": None, "color": "lexical"},
+    "FW-ADD":          {"label": "headline_value",      "top_n": None, "color": "lexical"},
+    "CLAUSE-TYPE-CHG": {"label": "cv→hv",               "top_n": 15,   "color": "constituency"},
+    "CONST-ADD":       {"label": "headline_value",      "top_n": None, "color": "constituency"},
+    "CONST-REM":       {"label": "canonical_value",     "top_n": None, "color": "constituency"},
+    "C-DEL":           {"label": "canonical_value",     "top_n": None, "color": "lexical"},
+    "C-ADD":           {"label": "headline_value",      "top_n": None, "color": "lexical"},
+    # Punctuation — canonical_value/headline_value carry the punct symbol
+    "PUNCT-DEL":       {"label": "canonical_value",     "top_n": None, "color": "punctuation"},
+    "PUNCT-ADD":       {"label": "headline_value",      "top_n": None, "color": "punctuation"},
+    "PUNCT-SUBST":     {"label": "cv→hv",               "top_n": None, "color": "punctuation"},
+}
+
+
+def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
+    """
+    Load events_global.csv + events_fair.csv for each newspaper, compute
+    value-level counts and all 5-stage normalizations for one feature_id.
+
+    Returns a dict {np_name: DataFrame} where each DataFrame has columns:
+      feature_id (the value label), level, count_raw, eligible_site_count,
+      rate_norm, log2_norm, weight_lvl, score_lvl, weight_idf, score_idf,
+      weight_jsd, score_jsd, weight_pmi, score_pmi, dist_entropy, score_entropy
+    """
+    label_mode = cfg["label"]
+    top_n      = cfg["top_n"]
+    level_str  = cfg["color"]
+
+    # First pass: collect per-NP counts to determine top_n filter
+    np_counts = {}
+    for np_name in newspapers:
+        events_p = (T1_DIR / "per-newspaper" / np_name / "events_global.csv")
+        fair_p   = (T1_DIR / "per-newspaper" / np_name / "events_fair.csv")
+        if not events_p.exists() or not fair_p.exists():
+            continue
+
+        events = pd.read_csv(events_p)
+        fair   = pd.read_csv(fair_p)
+
+        sub = events[events["feature_id"] == feature_id].copy()
+        if sub.empty:
+            np_counts[np_name] = pd.Series(dtype=int)
+            continue
+
+        # Compute label column
+        if label_mode == "mnemonic":
+            sub["_label"] = sub["mnemonic"].astype(str)
+        elif label_mode == "cv→hv":
+            sub["_label"] = (sub["canonical_value"].astype(str) + "→"
+                             + sub["headline_value"].astype(str))
+        elif label_mode == "canonical_value":
+            sub["_label"] = sub["canonical_value"].astype(str)
+        elif label_mode == "headline_value":
+            sub["_label"] = sub["headline_value"].astype(str)
+        else:
+            sub["_label"] = sub["canonical_value"].astype(str)
+
+        counts = sub["_label"].value_counts()
+        np_counts[np_name] = counts
+
+    if not np_counts:
+        return {}
+
+    # Determine top_n labels using sum across newspapers
+    all_labels = set()
+    for counts in np_counts.values():
+        all_labels.update(counts.index.tolist())
+
+    if top_n is not None and len(all_labels) > top_n:
+        sum_counts = {}
+        for lbl in all_labels:
+            total = sum(int(c.get(lbl, 0)) for c in np_counts.values())
+            sum_counts[lbl] = total
+        keep_labels = set(sorted(sum_counts, key=lambda l: sum_counts[l],
+                                 reverse=True)[:top_n])
+    else:
+        keep_labels = all_labels
+
+    # Second pass: build per-NP DataFrames with full normalizations
+    result = {}
+    for np_name in newspapers:
+        events_p = (T1_DIR / "per-newspaper" / np_name / "events_global.csv")
+        fair_p   = (T1_DIR / "per-newspaper" / np_name / "events_fair.csv")
+        if not events_p.exists() or not fair_p.exists():
+            continue
+
+        events = pd.read_csv(events_p)
+        fair   = pd.read_csv(fair_p)
+
+        # Get parent feature row from events_fair.csv
+        parent = fair[fair["feature_id"] == feature_id]
+        if parent.empty:
+            continue
+        parent = parent.iloc[0]
+        eligible_site_count = float(parent.get("eligible_site_count", 1) or 1)
+        weight_lvl = float(parent.get("weight_lvl", 1.0) or 1.0)
+        weight_idf = float(parent.get("weight_idf", 1.0) or 1.0)
+        weight_jsd = float(parent.get("weight_jsd", 0.0) or 0.0)
+        weight_pmi = float(parent.get("weight_pmi", 0.0) or 0.0)
+
+        sub = events[events["feature_id"] == feature_id].copy()
+        if sub.empty:
+            continue
+
+        # Compute label column
+        if label_mode == "mnemonic":
+            sub["_label"] = sub["mnemonic"].astype(str)
+        elif label_mode == "cv→hv":
+            sub["_label"] = (sub["canonical_value"].astype(str) + "→"
+                             + sub["headline_value"].astype(str))
+        elif label_mode == "canonical_value":
+            sub["_label"] = sub["canonical_value"].astype(str)
+        elif label_mode == "headline_value":
+            sub["_label"] = sub["headline_value"].astype(str)
+        else:
+            sub["_label"] = sub["canonical_value"].astype(str)
+
+        counts = sub["_label"].value_counts()
+        # Filter to keep_labels
+        counts = counts[counts.index.isin(keep_labels)]
+        if counts.empty:
+            continue
+
+        # Distribution entropy across value pairs for this feature
+        total_n = counts.sum()
+        probs   = counts.values / total_n if total_n > 0 else counts.values
+        dist_entropy = float(scipy_entropy(probs, base=2)) if total_n > 0 else 0.0
+
+        rows = []
+        for lbl, cnt in counts.items():
+            count_raw = int(cnt)
+            rate_norm = count_raw / eligible_site_count
+            log2_norm = np.log2(max(rate_norm, EPSILON))
+            score_lvl   = log2_norm * weight_lvl
+            score_idf   = log2_norm * weight_idf
+            score_jsd   = log2_norm * weight_jsd
+            score_pmi   = log2_norm * weight_pmi
+            score_entropy = log2_norm * dist_entropy
+            rows.append({
+                "feature_id":          lbl,
+                "level":               level_str,
+                "count_raw":           count_raw,
+                "eligible_site_count": eligible_site_count,
+                "rate_norm":           rate_norm,
+                "log2_norm":           log2_norm,
+                "weight_lvl":          weight_lvl,
+                "score_lvl":           score_lvl,
+                "weight_idf":          weight_idf,
+                "score_idf":           score_idf,
+                "weight_jsd":          weight_jsd,
+                "score_jsd":           score_jsd,
+                "weight_pmi":          weight_pmi,
+                "score_pmi":           score_pmi,
+                "dist_entropy":        dist_entropy,
+                "score_entropy":       score_entropy,
+            })
+
+        if rows:
+            result[np_name] = pd.DataFrame(rows)
+
+    return result
+
+
+def run_task1_value_level(newspapers: list, plot: bool,
+                          base_dir: Path,
+                          with_latex: bool = False) -> None:
+    """Add value-level fine-grained breakdowns for each feature in VB_CONFIG."""
+    print("  Value-level breakdowns ...")
+    for feature_id, cfg in VB_CONFIG.items():
+        dfs = _vb_build(newspapers, feature_id, cfg)
+        if not dfs:
+            print(f"    [skip] {feature_id}: no data")
+            continue
+
+        # Stage 1 — raw counts
+        stage_vl_dir = base_dir / STAGE_NAMES[1] / "value-level" / feature_id
+        _emit_stage(dfs, "feature_id", "count_raw",
+                    f"{feature_id} · Value Breakdown — Raw Counts",
+                    "count", stage_vl_dir, False, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 2 — normalized rates
+        stage_vl_dir = base_dir / STAGE_NAMES[2] / "value-level" / feature_id
+        _emit_stage(dfs, "feature_id", "rate_norm",
+                    f"{feature_id} · Value Breakdown — Normalized Rates",
+                    "rate", stage_vl_dir, False, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 3 — log₂
+        stage_vl_dir = base_dir / STAGE_NAMES[3] / "value-level" / feature_id
+        _emit_stage(dfs, "feature_id", "log2_norm",
+                    f"{feature_id} · Value Breakdown — Log₂ Normalized",
+                    "log₂(rate)", stage_vl_dir, True, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 4a — level-weighted
+        stage_vl_dir = base_dir / STAGE_NAMES[4] / "value-level" / feature_id
+        _emit_stage(dfs, "feature_id", "score_lvl",
+                    f"{feature_id} · Value Breakdown — Level-Weighted Score",
+                    "|score_lvl|", stage_vl_dir, True, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 4b — IDF-weighted
+        _emit_stage(dfs, "feature_id", "score_idf",
+                    f"{feature_id} · Value Breakdown — IDF-Weighted Score",
+                    "|score_idf|", stage_vl_dir, True, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 5a — JSD-weighted
+        stage_vl_dir = base_dir / STAGE_NAMES[5] / "value-level" / feature_id
+        _emit_stage(dfs, "feature_id", "score_jsd",
+                    f"{feature_id} · Value Breakdown — JSD-Weighted Score",
+                    "|score_jsd|", stage_vl_dir, True, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 5b — PMI-weighted
+        _emit_stage(dfs, "feature_id", "score_pmi",
+                    f"{feature_id} · Value Breakdown — PMI-Weighted Score",
+                    "|score_pmi|", stage_vl_dir, True, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+        # Stage 5c — entropy-weighted (use_abs=False, reflects direction)
+        _emit_stage(dfs, "feature_id", "score_entropy",
+                    f"{feature_id} · Value Breakdown — Entropy-Weighted Score",
+                    "score_entropy", stage_vl_dir, False, plot,
+                    extra_cols=["level"], with_latex=with_latex,
+                    color_col="level")
+
+
 def _t1_load(newspapers: list) -> dict:
     dfs = {}
     for np_name in newspapers:
@@ -486,6 +757,8 @@ def run_task1(newspapers: list, plot: bool,
     _emit_stage(dfs, "feature_id", "count_raw",
                 "Raw Event Counts  (uncorrected)", "count_raw  (events)",
                 d, False, plot, extra_cols=["level"], with_latex=with_latex)
+    _emit_per_level_figures(dfs, "count_raw", "Raw Event Counts",
+                            "count_raw  (events)", d, False, plot, with_latex)
 
     # Stage 2 — normalized rates
     print("  Stage 2 — normalized rates")
@@ -494,6 +767,8 @@ def run_task1(newspapers: list, plot: bool,
                 "Opportunity-Normalized Event Rates",
                 "rate_norm  (events / eligible sites)",
                 d, False, plot, extra_cols=["level"], with_latex=with_latex)
+    _emit_per_level_figures(dfs, "rate_norm", "Opportunity-Normalized Event Rates",
+                            "rate_norm", d, False, plot, with_latex)
 
     # Stage 3 — log₂
     print("  Stage 3 — log₂ normalized rates")
@@ -502,9 +777,13 @@ def run_task1(newspapers: list, plot: bool,
                 "Log₂ Normalized Rates  (|log₂(rate)|)",
                 "|log₂(rate_norm)|",
                 d, True, plot, extra_cols=["level"], with_latex=with_latex)
+    _emit_per_level_figures(dfs, "log2_norm", "Log₂ Normalized Rates",
+                            "|log₂(rate_norm)|", d, True, plot, with_latex)
     if plot:
         _save(_t1_level_contribution(dfs),
               d / "cross-newspaper" / "level_contribution.png")
+        _save(_t1_level_contribution(dfs),
+              d / "global" / "level_contribution.png")
 
     # Stage 4 — weighted (level + IDF)
     print("  Stage 4 — weighted (level + IDF)")
@@ -519,6 +798,8 @@ def run_task1(newspapers: list, plot: bool,
             continue
         _emit_stage(dfs, "feature_id", score_col, short_title, xl,
                     d, True, plot, extra_cols=["level"], with_latex=with_latex)
+        _emit_per_level_figures(dfs, score_col, short_title, xl,
+                                d, True, plot, with_latex)
     if plot and len(dfs) > 1:
         _save(_t1_method_comparison(dfs, ["score_lvl", "score_idf"],
                                     ["Level", "IDF"]),
@@ -538,6 +819,8 @@ def run_task1(newspapers: list, plot: bool,
             continue
         _emit_stage(dfs, "feature_id", score_col, short_title, xl,
                     d, True, plot, extra_cols=["level"], with_latex=with_latex)
+        _emit_per_level_figures(dfs, score_col, short_title, xl,
+                                d, True, plot, with_latex)
     if plot:
         for np_name, df in dfs.items():
             _save(_t1_all_methods_heatmap(df, np_name),
@@ -545,6 +828,10 @@ def run_task1(newspapers: list, plot: bool,
         if len(dfs) > 1:
             _save(_t1_all_methods_panel(dfs),
                   d / "cross-newspaper" / "all_methods_panel.png")
+
+    # Value-level fine-grained breakdowns
+    print("  Value-level breakdowns")
+    run_task1_value_level(newspapers, plot, base, with_latex=with_latex)
 
 
 def _t1_level_contribution(dfs: dict) -> plt.Figure:
