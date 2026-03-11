@@ -213,6 +213,66 @@ def _wide_table(dfs: dict, col: str, label_col: str,
     return pd.DataFrame(rows)
 
 
+# ── compact helpers (aggregated + side-by-side) ──────────────────────────────
+
+def _aggregate_mean(dfs: dict, col: str, label_col: str,
+                    extra_cols: list = None) -> pd.DataFrame:
+    """
+    Return a single DataFrame with the mean value of `col` across all
+    newspapers, one row per label.  Extra metadata columns (level, etc.)
+    are taken from the first newspaper that has the label.
+    """
+    extra_cols = extra_cols or []
+    all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
+    meta = {}
+    for df in dfs.values():
+        for _, row in df.iterrows():
+            lbl = row[label_col]
+            if lbl not in meta:
+                meta[lbl] = {ec: row.get(ec, "") for ec in extra_cols}
+    rows = []
+    for lbl in all_labels:
+        vals = []
+        for df in dfs.values():
+            sub = df[df[label_col] == lbl]
+            if not sub.empty and col in sub.columns and pd.notna(sub[col].iloc[0]):
+                vals.append(sub[col].iloc[0])
+        if vals:
+            rec = {label_col: lbl, col: float(np.nanmean(vals))}
+            rec.update(meta.get(lbl, {}))
+            rows.append(rec)
+    return pd.DataFrame(rows)
+
+
+def _compact_stage(dfs: dict, col: str, label_col: str,
+                   title: str, xlabel: str, stage_dir: Path,
+                   use_abs: bool = False,
+                   color_col: str = "level",
+                   extra_cols: list = None) -> None:
+    """
+    Write two compact figures to `stage_dir/compact/`:
+      aggregated.png       — single bar chart, mean across all newspapers
+      cross_newspaper.png  — grouped bars, one bar per newspaper (side-by-side)
+    """
+    if len(dfs) < 2:
+        return
+    extra_cols = extra_cols or [color_col] if color_col != label_col else []
+
+    # ── 1. Aggregated (mean across NPs) ────────────────────────────────────
+    agg = _aggregate_mean(dfs, col, label_col, extra_cols)
+    if not agg.empty and color_col in agg.columns:
+        fig = _hbar(agg.rename(columns={label_col: label_col}),
+                    col, title + "  (mean · all newspapers)", xlabel,
+                    color_col=color_col, use_abs=use_abs)
+        _save(fig, stage_dir / "compact" / "aggregated.png")
+
+    # ── 2. Side-by-side cross-newspaper ────────────────────────────────────
+    fig = _cross_np_grouped(dfs, col, label_col,
+                            title + "  (all newspapers)",
+                            xlabel, use_abs=use_abs)
+    _save(fig, stage_dir / "compact" / "cross_newspaper.png")
+
+
 # ═══════════════════════════════════════════════════════════════════════════
 # TASK 1 — Comparative Study
 # ═══════════════════════════════════════════════════════════════════════════
@@ -229,7 +289,7 @@ def _t1_load(newspapers: list) -> dict:
 
 
 def _t1_stage(dfs, stage, cols_per_np, wide_col, title, xlabel,
-              base_dir, use_abs, plot):
+              base_dir, use_abs, plot, compact: bool = False):
     for np_name, df in dfs.items():
         tbl = df[["feature_id", "level", "level_index"] + cols_per_np].copy()
         _tbl(tbl.sort_values("level_index"),
@@ -246,6 +306,9 @@ def _t1_stage(dfs, stage, cols_per_np, wide_col, title, xlabel,
             {k: v.rename(columns={"feature_id": "feature_id"}) for k, v in dfs.items()},
             wide_col, "feature_id", title + " — All Newspapers", xlabel, use_abs=use_abs)
         _save(fig, base_dir / "figures" / f"{wide_col}_cross_newspaper.png")
+    if plot and compact:
+        _compact_stage(dfs, wide_col, "feature_id", title, xlabel,
+                       base_dir, use_abs=use_abs, extra_cols=["level"])
 
 
 def run_task1(newspapers: list, plot: bool) -> None:
@@ -262,37 +325,37 @@ def run_task1(newspapers: list, plot: bool) -> None:
     d = base / STAGE_NAMES[1]
     _t1_stage(dfs, 1, ["eligible_site_name", "eligible_site_count", "count_raw"],
               "count_raw", "Raw Event Counts  (uncorrected)", "count_raw  (events)",
-              d, False, plot)
+              d, False, plot, compact=True)
 
     # Stage 2 — normalized rates
     print("  Stage 2 — normalized rates")
     d = base / STAGE_NAMES[2]
     _t1_stage(dfs, 2, ["eligible_site_name", "eligible_site_count", "rate_norm"],
               "rate_norm", "Opportunity-Normalized Event Rates",
-              "rate_norm  (events / eligible sites)", d, False, plot)
+              "rate_norm  (events / eligible sites)", d, False, plot, compact=True)
 
     # Stage 3 — log₂
     print("  Stage 3 — log₂ normalized rates")
     d = base / STAGE_NAMES[3]
     _t1_stage(dfs, 3, ["rate_norm", "log2_norm"],
               "log2_norm", "Log₂ Normalized Rates  (|log₂(rate)|)",
-              "|log₂(rate_norm)|", d, True, plot)
+              "|log₂(rate_norm)|", d, True, plot, compact=True)
     if plot:
-        # Level contribution stacked bar
         _save(_t1_level_contribution(dfs),
               d / "figures" / "level_contribution.png")
 
     # Stage 4 — weighted (level + IDF)
     print("  Stage 4 — weighted (level + IDF)")
     d = base / STAGE_NAMES[4]
-    for score_col, wt_col, short_title, xl in [
+    for i, (score_col, wt_col, short_title, xl) in enumerate([
         ("score_lvl", "weight_lvl", "Level-Weighted Score",
          "|score_lvl|  (|log₂(rate)·w_level|)"),
         ("score_idf", "weight_idf", "IDF-Weighted Score",
          "|score_idf|  (|log₂(rate)·w_IDF|)"),
-    ]:
+    ]):
         cols = ["rate_norm", "log2_norm", wt_col, score_col]
-        _t1_stage(dfs, 4, cols, score_col, short_title, xl, d, True, plot)
+        _t1_stage(dfs, 4, cols, score_col, short_title, xl, d, True, plot,
+                  compact=(i == 0))   # compact only for lead metric (score_lvl)
     if plot and len(dfs) > 1:
         _save(_t1_method_comparison(dfs, ["score_lvl", "score_idf"],
                                     ["Level", "IDF"]),
@@ -301,6 +364,7 @@ def run_task1(newspapers: list, plot: bool) -> None:
     # Stage 5 — information-theoretic (JSD + PMI)
     print("  Stage 5 — information-theoretic (JSD + PMI)")
     d = base / STAGE_NAMES[5]
+    first = True
     for score_col, wt_col, short_title, xl in [
         ("score_jsd", "weight_jsd", "JSD-Weighted Score",
          "|score_jsd|  (|log₂(rate)·JSD|)"),
@@ -310,7 +374,9 @@ def run_task1(newspapers: list, plot: bool) -> None:
         if score_col not in next(iter(dfs.values())).columns:
             continue
         cols = ["log2_norm", wt_col, score_col]
-        _t1_stage(dfs, 5, cols, score_col, short_title, xl, d, True, plot)
+        _t1_stage(dfs, 5, cols, score_col, short_title, xl, d, True, plot,
+                  compact=first)   # compact only for JSD (lead info-theoretic)
+        first = False
     if plot:
         for np_name, df in dfs.items():
             _save(_t1_all_methods_heatmap(df, np_name),
@@ -546,14 +612,14 @@ def run_task2(newspapers: list, plot: bool) -> None:
     agg_dfs  = {np_name: _t2_aggregate(df) for np_name, df in raw_dfs.items()}
     base     = T2_DIR / "fair-comparison"
 
-    def _stage(col, title, xl, stage_n, extra_cols, use_abs):
+    def _stage(col, title, xl, stage_n, extra_cols, use_abs, compact=False):
         d = base / STAGE_NAMES[stage_n]
         for np_name, df in agg_dfs.items():
             tbl = df[["feature"] + extra_cols].copy()
             _tbl(tbl.sort_values(col, ascending=False),
                  d / "tables" / f"{col}_{np_name}.csv")
             if plot:
-                tmp = df.copy().rename(columns={"feature": "feature"})
+                tmp = df.copy()
                 tmp["_lv"] = "morphological"
                 fig = _hbar(tmp.rename(columns={"feature": "feature_id",
                                                 "_lv": "level"}),
@@ -561,38 +627,42 @@ def run_task2(newspapers: list, plot: bool) -> None:
                             color_col="level", use_abs=use_abs,
                             newspaper=np_name)
                 _save(fig, d / "figures" / f"{col}_{np_name}.png")
-        wide = _wide_table(
-            {k: v.rename(columns={"feature": "feature_id"}) for k, v in agg_dfs.items()},
-            col, "feature_id", [])
+        tmp_dfs = {k: v.rename(columns={"feature": "feature_id"})
+                   for k, v in agg_dfs.items()}
+        wide = _wide_table(tmp_dfs, col, "feature_id", [])
         _tbl(wide, d / "tables" / f"{col}_cross_newspaper.csv")
         if plot and len(agg_dfs) > 1:
-            tmp_dfs = {k: v.rename(columns={"feature": "feature_id"})
-                       for k, v in agg_dfs.items()}
             fig = _cross_np_grouped(tmp_dfs, col, "feature_id",
                                     title + " — All Newspapers", xl, use_abs=use_abs)
             _save(fig, d / "figures" / f"{col}_cross_newspaper.png")
+        if plot and compact:
+            # For compact, add a synthetic "level" column for colour coding
+            tmp_dfs2 = {k: v.assign(level="morphological")
+                        for k, v in tmp_dfs.items()}
+            _compact_stage(tmp_dfs2, col, "feature_id", title, xl,
+                           d, use_abs=use_abs, extra_cols=["level"])
 
     print("  Stage 1 — raw rule frequencies")
     _stage("total_freq", "Morphological Rule Frequencies",
            "total_freq  (occurrences)", 1,
-           ["total_freq", "n_rules", "avg_confidence", "avg_coverage"], False)
+           ["total_freq", "n_rules", "avg_confidence", "avg_coverage"], False,
+           compact=True)
 
     print("  Stage 2 — normalized rates")
     _stage("rate_norm", "Normalised Rule Rates  (share of total morph events)",
            "rate_norm", 2,
-           ["total_freq", "rate_norm"], False)
+           ["total_freq", "rate_norm"], False, compact=True)
 
     print("  Stage 3 — log₂ rates")
     _stage("log2_norm", "Log₂ Normalised Rule Rates",
            "|log₂(rate_norm)|", 3,
-           ["rate_norm", "log2_norm"], True)
+           ["rate_norm", "log2_norm"], True, compact=True)
 
     print("  Stage 4 — confidence-weighted")
     _stage("score_conf",
            "Confidence-Weighted Log₂ Rate  (|log₂ × avg_confidence|)",
            "|score_conf|", 4,
-           ["log2_norm", "avg_confidence", "score_conf"], True)
-    # Also produce coverage-weighted in stage 4
+           ["log2_norm", "avg_confidence", "score_conf"], True, compact=True)
     _stage("score_cov",
            "Coverage-Weighted Log₂ Rate  (|log₂ × avg_coverage|)",
            "|score_cov|", 4,
@@ -602,7 +672,7 @@ def run_task2(newspapers: list, plot: bool) -> None:
     _stage("rule_entropy",
            "Rule Distribution Entropy  (within-feature diversity)",
            "entropy  (bits)", 5,
-           ["rule_entropy"], False)
+           ["rule_entropy"], False, compact=True)
     _stage("score_entropy",
            "Entropy-Weighted Log₂ Rate  (|log₂ × rule_entropy|)",
            "|score_entropy|", 5,
@@ -732,6 +802,12 @@ def run_task3(newspapers: list, plot: bool) -> None:
             "headline", "feature_id",
             "Headline Complexity — All Newspapers", "headline metric value"),
             d / "figures" / "raw_headline_cross_newspaper.png")
+        # compact: canonical as primary register
+        _compact_stage(
+            {k: v.rename(columns={"sublevel_id": "feature_id"}) for k, v in sums.items()},
+            "canonical", "feature_id",
+            "Raw Complexity Metrics  (canonical register)",
+            "metric value", d, extra_cols=["level"])
 
     # ── Stage 2: normalized ratio ─────────────────────────────────────────
     print("  Stage 2 — canonical / headline ratio")
@@ -754,6 +830,11 @@ def run_task3(newspapers: list, plot: bool) -> None:
             "rate_norm", "feature_id",
             "Complexity Ratio — All Newspapers", "canonical / headline"),
             d / "figures" / "ratio_cross_newspaper.png")
+        _compact_stage(
+            {k: v.rename(columns={"sublevel_id": "feature_id"}) for k, v in sums.items()},
+            "rate_norm", "feature_id",
+            "Complexity Ratio  (canonical / headline)",
+            "ratio", d, extra_cols=["level"])
 
     # ── Stage 3: log₂ ratio ───────────────────────────────────────────────
     print("  Stage 3 — log₂(canonical / headline) ratio")
@@ -777,6 +858,11 @@ def run_task3(newspapers: list, plot: bool) -> None:
             "Log₂ Complexity Ratio — All Newspapers",
             "log₂(canonical / headline)"),
             d / "figures" / "log2_ratio_cross_newspaper.png")
+        _compact_stage(
+            {k: v.rename(columns={"sublevel_id": "feature_id"}) for k, v in sums.items()},
+            "log2_norm", "feature_id",
+            "Log₂ Complexity Ratio  (bits advantage of canonical)",
+            "log₂(canonical / headline)  (bits)", d, extra_cols=["level"])
 
     # ── Stage 4: level-weighted ───────────────────────────────────────────
     print("  Stage 4 — level-weighted log₂ ratio")
@@ -799,6 +885,11 @@ def run_task3(newspapers: list, plot: bool) -> None:
             "score_lvl", "feature_id",
             "Level-Weighted Complexity Score — All Newspapers", "score_lvl"),
             d / "figures" / "level_weighted_cross_newspaper.png")
+        _compact_stage(
+            {k: v.rename(columns={"sublevel_id": "feature_id"}) for k, v in sums.items()},
+            "score_lvl", "feature_id",
+            "Level-Weighted Complexity Score",
+            "score_lvl", d, extra_cols=["level"])
 
     # ── Stage 5: information-theoretic (JSD) ─────────────────────────────
     print("  Stage 5 — information-theoretic (JSD, KL from bidirectional metrics)")
@@ -860,6 +951,11 @@ def run_task3(newspapers: list, plot: bool) -> None:
                     fig = _cross_np_grouped(sim_dfs, col, "feature_id",
                                             title, xl)
                     _save(fig, d / "figures" / f"{col}_cross_newspaper.png")
+            # compact: JSD as the lead info-theoretic metric
+            if "js_divergence" in next(iter(sim_dfs.values())).columns:
+                _compact_stage(sim_dfs, "js_divergence", "feature_id",
+                               "JSD between Registers",
+                               "JS divergence  (bits)", d, extra_cols=["level"])
 
 
 def _t3_grouped_reg_chart(df: pd.DataFrame,
