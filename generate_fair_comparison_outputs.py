@@ -102,13 +102,132 @@ NP_SHORT = {
 }
 REG_COLORS = {"canonical": "#1976D2", "headline": "#E65100"}
 
-BAR_H = 0.42
-FS    = 7
-FM    = 8.5
-FT    = 9.5
-DPI   = 150
-EPSILON = 1e-9
-SPLIT_AT = 18   # features per figure before auto-splitting
+BAR_H    = 0.42
+FS       = 7
+FM       = 8.5
+FT       = 9.5
+DPI      = 150
+EPSILON  = 1e-9
+SPLIT_AT = 18     # features per figure before auto-splitting
+VBAR_H   = 4.0    # fixed matplotlib height for vertical bar figures
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# ACL ARR figure-layout optimizer
+# ═══════════════════════════════════════════════════════════════════════════
+
+class ACLFigureOptimizer:
+    """
+    Recommends horizontal vs. vertical bar-chart orientation to minimise
+    the space a figure occupies in an ACL ARR two-column A4 paper.
+
+    ACL ARR A4 stylesheet geometry
+    ───────────────────────────────
+      \\columnwidth  = 3.33 in   (single-column figure)
+      \\textwidth    = 6.97 in   (double-column / \\figure* figure)
+      usable height ≈ 9.50 in per page
+
+    Matplotlib figures are generated at "design" canvas widths (HBAR_W,
+    CROSSH_W) and then \\includegraphics scales them to the paper column
+    or text width.  The optimizer converts matplotlib figsize → displayed
+    inches on the page to compare space in "column-inches"
+    (height_in × col_span).
+    """
+
+    # Paper geometry (inches)
+    COL_W  = 3.33
+    TEXT_W = 6.97
+
+    # Matplotlib "canvas" widths that match the generation functions
+    HBAR_W   = 9.0    # _hbar figsize width
+    CROSSH_W = 10.0   # _cross_np_grouped figsize width
+
+    # Vertical-bar sizing (matplotlib units)
+    VBAR_MPL_H  = VBAR_H      # fixed height for a vertical figure
+    BAR_W_GRP   = 0.55        # matplotlib width per bar (per n_np group)
+    VBAR_PAD_W  = 1.5         # left/right padding in a _vbar figure
+
+    # Readability threshold: minimum displayed bar width (paper inches).
+    # Computed as rendered_bar_mpl / canvas_mpl_w × display_w.
+    MIN_BAR_W_IN  = 0.14      # ~10pt on paper — narrow but readable with colour
+
+    @classmethod
+    def _horiz_space(cls, n: int, n_np: int) -> float:
+        """Estimated col-in for a horizontal figure (always single column)."""
+        if n_np == 1:
+            mpl_h = max(3.5, n * BAR_H + 1.5)
+            mpl_w = cls.HBAR_W
+        else:
+            grp_h = BAR_H * n_np + 0.15
+            mpl_h = max(4.0, n * grp_h + 1.5)
+            mpl_w = cls.CROSSH_W
+        return mpl_h / mpl_w * cls.COL_W   # single column → col_span=1
+
+    @classmethod
+    def _vert_space(cls, n: int, n_np: int) -> tuple:
+        """
+        Returns (col_in, col_span) for a vertical figure, or
+        (inf, 2) if bars would be too narrow to read.
+
+        Bar width is computed from the actual matplotlib canvas width that
+        _vbar / _cross_np_vbar will produce (adapts to n and n_np).
+        """
+        mpl_w = max(
+            cls.HBAR_W if n_np == 1 else cls.CROSSH_W,
+            n * cls.BAR_W_GRP * n_np + cls.VBAR_PAD_W,
+        )
+        mpl_h = cls.VBAR_MPL_H
+
+        # Actual bar width on paper = rendered_bar / canvas × display_width
+        rendered_bar_mpl = cls.BAR_W_GRP * 0.85
+        bar_w_single = rendered_bar_mpl / mpl_w * cls.COL_W
+        bar_w_double = rendered_bar_mpl / mpl_w * cls.TEXT_W
+
+        if bar_w_single >= cls.MIN_BAR_W_IN:
+            disp_h = mpl_h / mpl_w * cls.COL_W
+            return disp_h * 1, 1                    # single column
+        elif bar_w_double >= cls.MIN_BAR_W_IN and n <= 20:
+            disp_h = mpl_h / mpl_w * cls.TEXT_W
+            return disp_h * 2, 2                    # double column
+        else:
+            return float("inf"), 2                  # unreadable
+
+    @classmethod
+    def analyze(cls, n: int, max_label_len: int, n_np: int = 1) -> dict:
+        """
+        Return a recommendation dict.
+
+        Parameters
+        ----------
+        n             : number of bars / bar-groups
+        max_label_len : longest label in characters
+        n_np          : bars per group (1 = single NP, 3 = cross-NP)
+        """
+        horiz_col_in               = cls._horiz_space(n, n_np)
+        vert_col_in, vert_span     = cls._vert_space(n, n_np)
+        vert_readable              = vert_col_in < float("inf")
+
+        if vert_readable and vert_col_in < horiz_col_in:
+            rec     = "vertical"
+            rec_span = vert_span
+            saved   = (horiz_col_in - vert_col_in) / horiz_col_in * 100
+        else:
+            rec     = "horizontal"
+            rec_span = 1
+            saved   = 0.0
+
+        return {
+            "n_items":                 n,
+            "n_np":                    n_np,
+            "max_label_len":           max_label_len,
+            "horiz_col_in":            round(horiz_col_in, 2),
+            "vert_col_in":             round(vert_col_in, 2) if vert_readable else None,
+            "vert_col_span":           vert_span,
+            "vert_readable":           vert_readable,
+            "recommended_orientation": rec,
+            "recommended_col_span":    rec_span,
+            "space_saved_pct":         round(saved, 1),
+        }
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -250,6 +369,102 @@ def _cross_np_grouped(dfs: dict, col: str, label_col: str,
     ax.tick_params(axis="x", labelsize=FS)
     ax.spines[["top", "right"]].set_visible(False)
     ax.legend(fontsize=FS, loc="lower right", framealpha=0.7)
+    fig.tight_layout()
+    return fig
+
+
+def _vbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
+          color_col: str = "level", use_abs: bool = False,
+          newspaper: str = "") -> plt.Figure:
+    """
+    Level-coloured vertical bar chart.
+    Bars go upward; feature labels on X-axis (rotated 45°).
+    Figure width adapts to n_items; height is fixed (VBAR_H).
+    """
+    tmp = df.copy()
+    tmp["_v"] = tmp[col].abs() if use_abs else tmp[col]
+    tmp = tmp.dropna(subset=["_v"]).sort_values("_v", ascending=False)
+    labels = list(tmp.iloc[:, 0].astype(str))
+    values = list(tmp["_v"])
+    if color_col in tmp.columns:
+        colors = [LEVEL_COLORS.get(str(r), "#999") for r in tmp[color_col]]
+    else:
+        colors = ["#546E7A"] * len(labels)
+
+    n      = len(labels)
+    fig_w  = max(ACLFigureOptimizer.HBAR_W, n * ACLFigureOptimizer.BAR_W_GRP + ACLFigureOptimizer.VBAR_PAD_W)
+    fig, ax = plt.subplots(figsize=(fig_w, VBAR_H))
+    x    = np.arange(n)
+    bars = ax.bar(x, values, color=colors, width=0.6, edgecolor="white", linewidth=0.4)
+    for bar, v in zip(bars, values):
+        h = bar.get_height()
+        ax.text(bar.get_x() + bar.get_width() / 2,
+                h + max(abs(h) * 0.02, EPSILON),
+                f"{v:.4g}", ha="center", va="bottom", fontsize=FS)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=FS)
+    ax.set_ylabel(xlabel, fontsize=FM)
+    suffix = f"  —  {newspaper}" if newspaper else ""
+    ax.set_title(f"{title}{suffix}", fontsize=FT, pad=8)
+    ax.tick_params(axis="y", labelsize=FS)
+    ax.spines[["top", "right"]].set_visible(False)
+    if color_col in tmp.columns:
+        _level_legend(ax, tmp[color_col].unique().tolist())
+    fig.tight_layout()
+    return fig
+
+
+def _cross_np_vbar(dfs: dict, col: str, label_col: str,
+                   title: str, xlabel: str,
+                   use_abs: bool = False) -> plt.Figure:
+    """
+    Grouped vertical bar chart: one group per label, one bar per NP.
+    Wide and short — designed to minimise vertical space on the page.
+    """
+    newspapers = list(dfs.keys())
+    all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
+    mean_v = {}
+    for lbl in all_labels:
+        vals = []
+        for df in dfs.values():
+            row = df[df[label_col] == lbl]
+            if not row.empty and col in row.columns:
+                v = row[col].iloc[0]
+                if pd.notna(v):
+                    vals.append(abs(v) if use_abs else v)
+        mean_v[lbl] = np.nanmean(vals) if vals else 0.0
+    all_labels = sorted(all_labels, key=lambda l: mean_v[l], reverse=True)
+
+    n_lbl = len(all_labels)
+    n_np  = len(newspapers)
+    grp_w = ACLFigureOptimizer.BAR_W_GRP * n_np + 0.15
+    fig_w = max(ACLFigureOptimizer.CROSSH_W,
+                n_lbl * grp_w + ACLFigureOptimizer.VBAR_PAD_W)
+    fig, ax = plt.subplots(figsize=(fig_w, VBAR_H))
+    x   = np.arange(n_lbl)
+    off = np.linspace(-(n_np - 1) / 2, (n_np - 1) / 2, n_np) * ACLFigureOptimizer.BAR_W_GRP
+
+    for i, (np_name, df) in enumerate(dfs.items()):
+        vals = []
+        for lbl in all_labels:
+            row = df[df[label_col] == lbl]
+            if not row.empty and col in row.columns and pd.notna(row[col].iloc[0]):
+                v = row[col].iloc[0]
+                vals.append(abs(v) if use_abs else v)
+            else:
+                vals.append(0.0)
+        ax.bar(x + off[i], vals, width=ACLFigureOptimizer.BAR_W_GRP * 0.85,
+               color=NP_COLORS.get(np_name, "#888"),
+               label=NP_SHORT.get(np_name, np_name),
+               edgecolor="white", linewidth=0.3)
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(all_labels, rotation=45, ha="right", fontsize=FS)
+    ax.set_ylabel(xlabel, fontsize=FM)
+    ax.set_title(title, fontsize=FT, pad=8)
+    ax.tick_params(axis="y", labelsize=FS)
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.legend(fontsize=FS, loc="upper right", framealpha=0.7)
     fig.tight_layout()
     return fig
 
@@ -445,21 +660,54 @@ def _emit_per_level_figures(dfs: dict, col: str, title_prefix: str,
                     stem=f"{col}_{lv}")
 
 
+def _pick_fig(df: pd.DataFrame, col: str, title: str, xlabel: str,
+              color_col: str, use_abs: bool, newspaper: str) -> plt.Figure:
+    """
+    Choose horizontal or vertical orientation via ACLFigureOptimizer,
+    then render and return the figure.
+    """
+    labels  = df.iloc[:, 0].astype(str).tolist()
+    max_lbl = max(len(l) for l in labels) if labels else 5
+    rec     = ACLFigureOptimizer.analyze(len(labels), max_lbl, n_np=1)
+    if rec["recommended_orientation"] == "vertical":
+        return _vbar(df, col, title, xlabel, color_col, use_abs, newspaper)
+    return _hbar(df, col, title, xlabel, color_col, use_abs, newspaper)
+
+
+def _pick_fig_cross(dfs_fid: dict, col: str, label_col: str,
+                    title: str, xlabel: str, use_abs: bool) -> plt.Figure:
+    """
+    Choose horizontal or vertical orientation for a cross-NP figure via
+    ACLFigureOptimizer, then render and return the figure.
+    """
+    all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs_fid.values()]))
+    max_lbl    = max(len(str(l)) for l in all_labels) if all_labels else 5
+    n_np       = len(dfs_fid)
+    rec        = ACLFigureOptimizer.analyze(len(all_labels), max_lbl, n_np=n_np)
+    if rec["recommended_orientation"] == "vertical":
+        return _cross_np_vbar(dfs_fid, col, label_col, title, xlabel, use_abs)
+    return _cross_np_grouped(dfs_fid, col, label_col, title, xlabel, use_abs)
+
+
 def _save_split(df: pd.DataFrame, col: str, title: str, xlabel: str,
                 out_dir: Path, stem: str,
                 use_abs: bool = False, newspaper: str = "",
                 color_col: str = "level") -> None:
-    """Save _hbar figure, auto-splitting if > SPLIT_AT features."""
+    """
+    Save bar figure, auto-splitting if > SPLIT_AT features.
+    Orientation (horizontal vs vertical) is chosen per-part by
+    ACLFigureOptimizer to minimise paper space.
+    """
     n = len(df)
     if n <= SPLIT_AT:
-        parts, suffixes = [df], [""]
+        parts_data, suffixes = [df], [""]
     else:
         mid = (n + 1) // 2
-        parts = [df.iloc[:mid], df.iloc[mid:]]
-        suffixes = ["_part1", "_part2"]
-    for part, suf in zip(parts, suffixes):
-        fig = _hbar(part, col, title + suf.replace("_", " "), xlabel,
-                    color_col=color_col, use_abs=use_abs, newspaper=newspaper)
+        parts_data = [df.iloc[:mid], df.iloc[mid:]]
+        suffixes   = ["_part1", "_part2"]
+    for part, suf in zip(parts_data, suffixes):
+        fig = _pick_fig(part, col, title + suf.replace("_", " "), xlabel,
+                        color_col, use_abs, newspaper)
         _save(fig, out_dir / f"{stem}{suf}.png")
 
 
@@ -467,20 +715,22 @@ def _save_split_cross(dfs_fid: dict, col: str, label_col: str,
                       title: str, xlabel: str,
                       out_dir: Path, stem: str,
                       use_abs: bool = False) -> None:
-    """Save _cross_np_grouped figure, auto-splitting if > SPLIT_AT features."""
+    """
+    Save cross-NP bar figure, auto-splitting if > SPLIT_AT features.
+    Orientation chosen per-part by ACLFigureOptimizer.
+    """
     all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs_fid.values()]))
     n = len(all_labels)
     if n <= SPLIT_AT:
         parts, suffixes = [all_labels], [""]
     else:
         mid = (n + 1) // 2
-        parts = [all_labels[:mid], all_labels[mid:]]
+        parts    = [all_labels[:mid], all_labels[mid:]]
         suffixes = ["_part1", "_part2"]
     for lbls, suf in zip(parts, suffixes):
         sub_dfs = {k: df[df[label_col].isin(lbls)] for k, df in dfs_fid.items()}
-        fig = _cross_np_grouped(sub_dfs, col, label_col,
-                                title + suf.replace("_", " "), xlabel,
-                                use_abs=use_abs)
+        part_title = title + suf.replace("_", " ")
+        fig = _pick_fig_cross(sub_dfs, col, label_col, part_title, xlabel, use_abs)
         _save(fig, out_dir / f"{stem}{suf}.png")
 
 
