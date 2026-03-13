@@ -102,14 +102,23 @@ NP_SHORT = {
 }
 REG_COLORS = {"canonical": "#1976D2", "headline": "#E65100"}
 
-BAR_H    = 0.42
-FS       = 7
-FM       = 8.5
-FT       = 9.5
-DPI      = 150
+# Font sizes in actual paper points (figures use paper dimensions as figsize)
+FS  = 7
+FM  = 8.5
+FT  = 9.5
+DPI = 150
 EPSILON  = 1e-9
-SPLIT_AT = 18     # features per figure before auto-splitting
-VBAR_H   = 4.0    # fixed matplotlib height for vertical bar figures
+SPLIT_AT = 18
+
+# Actual ACL ARR A4 paper widths (inches) — used directly as matplotlib figsize
+COL_W_IN  = 3.33   # single-column figure width  (\columnwidth)
+TEXT_W_IN = 6.97   # double-column figure width  (\textwidth)
+
+# Bar sizing in actual paper inches (calibrated for COL_W_IN figures)
+BAR_H_IN     = 0.20   # horizontal bar height per item
+BAR_H_GRP_IN = 0.05   # extra gap per grouped bar
+MIN_BAR_W_IN = 0.18   # min bar width per NP in vertical bars
+BAR_H        = BAR_H_IN   # legacy alias used in T2/T3 helper functions
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -142,55 +151,43 @@ class ACLFigureOptimizer:
     HBAR_W   = 9.0    # _hbar figsize width
     CROSSH_W = 10.0   # _cross_np_grouped figsize width
 
-    # Vertical-bar sizing (matplotlib units)
-    VBAR_MPL_H  = VBAR_H      # fixed height for a vertical figure
+    # Vertical-bar sizing (matplotlib units) — legacy canvas-scale constants
     BAR_W_GRP   = 0.55        # matplotlib width per bar (per n_np group)
     VBAR_PAD_W  = 1.5         # left/right padding in a _vbar figure
 
     # Readability threshold: minimum displayed bar width (paper inches).
     # Computed as rendered_bar_mpl / canvas_mpl_w × display_w.
-    MIN_BAR_W_IN  = 0.14      # ~10pt on paper — narrow but readable with colour
+    MIN_BAR_W_IN  = MIN_BAR_W_IN  # module-level constant (0.18in per NP bar)
 
     @classmethod
     def _horiz_space(cls, n: int, n_np: int) -> float:
-        """Estimated col-in for a horizontal figure (always single column)."""
+        """Estimated col-in for a horizontal figure (always single column).
+        With actual paper dimensions, bar height is BAR_H_IN per item."""
         if n_np == 1:
-            mpl_h = max(3.5, n * BAR_H + 1.5)
-            mpl_w = cls.HBAR_W
+            fig_h = max(1.5, n * BAR_H_IN + 0.8)
         else:
-            grp_h = BAR_H * n_np + 0.15
-            mpl_h = max(4.0, n * grp_h + 1.5)
-            mpl_w = cls.CROSSH_W
-        return mpl_h / mpl_w * cls.COL_W   # single column → col_span=1
+            fig_h = max(1.5, n * (BAR_H_IN * n_np + BAR_H_GRP_IN) + 0.8)
+        return fig_h   # col_span=1; height IS the col-in
 
     @classmethod
     def _vert_space(cls, n: int, n_np: int) -> tuple:
         """
-        Returns (col_in, col_span) for a vertical figure, or
-        (inf, 2) if bars would be too narrow to read.
-
-        Bar width is computed from the actual matplotlib canvas width that
-        _vbar / _cross_np_vbar will produce (adapts to n and n_np).
+        Returns (col_in, col_span) for a vertical figure.
+        With actual paper dimensions, bar width = MIN_BAR_W_IN per NP.
         """
-        mpl_w = max(
-            cls.HBAR_W if n_np == 1 else cls.CROSSH_W,
-            n * cls.BAR_W_GRP * n_np + cls.VBAR_PAD_W,
-        )
-        mpl_h = cls.VBAR_MPL_H
+        max_label_chars = 12   # conservative estimate
+        label_h_in = max(0.35, max_label_chars * (FS / 72) * 0.7)
+        fig_h = 1.3 + label_h_in + 0.5   # fixed height for vertical figure
 
-        # Actual bar width on paper = rendered_bar / canvas × display_width
-        rendered_bar_mpl = cls.BAR_W_GRP * 0.85
-        bar_w_single = rendered_bar_mpl / mpl_w * cls.COL_W
-        bar_w_double = rendered_bar_mpl / mpl_w * cls.TEXT_W
+        # Required width for n groups of n_np bars at MIN_BAR_W_IN each
+        required_w = n * n_np * MIN_BAR_W_IN + 0.4
 
-        if bar_w_single >= cls.MIN_BAR_W_IN:
-            disp_h = mpl_h / mpl_w * cls.COL_W
-            return disp_h * 1, 1                    # single column
-        elif bar_w_double >= cls.MIN_BAR_W_IN and n <= 20:
-            disp_h = mpl_h / mpl_w * cls.TEXT_W
-            return disp_h * 2, 2                    # double column
+        if required_w <= cls.COL_W:
+            return fig_h * 1, 1
+        elif required_w <= cls.TEXT_W:
+            return fig_h * 2, 2
         else:
-            return float("inf"), 2                  # unreadable
+            return float("inf"), 2   # too wide even for double-column
 
     @classmethod
     def analyze(cls, n: int, max_label_len: int, n_np: int = 1) -> dict:
@@ -301,22 +298,23 @@ def _level_legend(ax, keys=None):
 def _hbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
           color_col: str = "level", use_abs: bool = False,
           newspaper: str = "") -> plt.Figure:
-    """Generic level-coloured horizontal bar chart."""
+    """Level-coloured horizontal bar chart sized for single ACL column."""
     tmp = df.copy()
     tmp["_v"] = tmp[col].abs() if use_abs else tmp[col]
     tmp = tmp.dropna(subset=["_v"]).sort_values("_v", ascending=True)
     n = len(tmp)
-    fig, ax = plt.subplots(figsize=(9, max(3.5, n * BAR_H + 1.5)))
+    fig_h = max(1.5, n * BAR_H_IN + 0.8)
+    fig, ax = plt.subplots(figsize=(COL_W_IN, fig_h))
     colors = [LEVEL_COLORS.get(str(r), "#999") for r in tmp[color_col]]
-    bars   = ax.barh(tmp.iloc[:, 0], tmp["_v"], color=colors,
-                     height=0.6, edgecolor="white", linewidth=0.4)
+    bars = ax.barh(tmp.iloc[:, 0], tmp["_v"], color=colors,
+                   height=BAR_H_IN * 0.75, edgecolor="white", linewidth=0.3)
     for bar, v in zip(bars, tmp["_v"]):
         w = bar.get_width()
-        ax.text(w + max(abs(w) * 0.02, 1e-9),
+        ax.text(w + max(abs(w) * 0.02, EPSILON),
                 bar.get_y() + bar.get_height() / 2,
-                f"{v:.4g}", va="center", ha="left", fontsize=FS)
+                f"{v:.4g}", va="center", ha="left", fontsize=FS - 1)
     suffix = f"  —  {newspaper}" if newspaper else ""
-    ax.set_title(f"{title}{suffix}", fontsize=FT, pad=8)
+    ax.set_title(f"{title}{suffix}", fontsize=FT, pad=4)
     ax.set_xlabel(xlabel, fontsize=FM)
     ax.tick_params(axis="y", labelsize=FS)
     ax.tick_params(axis="x", labelsize=FS)
@@ -329,9 +327,9 @@ def _hbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
 def _cross_np_grouped(dfs: dict, col: str, label_col: str,
                       title: str, xlabel: str,
                       use_abs: bool = False) -> plt.Figure:
-    """Grouped horizontal bar chart: one group per label, one bar per NP."""
-    newspapers   = list(dfs.keys())
-    all_labels   = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
+    """Grouped horizontal bar chart for cross-NP comparison (double-column)."""
+    newspapers = list(dfs.keys())
+    all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
     mean_v = {}
     for lbl in all_labels:
         vals = []
@@ -344,12 +342,13 @@ def _cross_np_grouped(dfs: dict, col: str, label_col: str,
         mean_v[lbl] = np.nanmean(vals) if vals else 0.0
     all_labels = sorted(all_labels, key=lambda l: mean_v[l])
 
-    n_lbl  = len(all_labels)
-    n_np   = len(newspapers)
-    grp_h  = BAR_H * n_np + 0.15
-    fig, ax = plt.subplots(figsize=(10, max(4.0, n_lbl * grp_h + 1.5)))
+    n_lbl = len(all_labels)
+    n_np  = len(newspapers)
+    bar_h = BAR_H_IN * n_np + BAR_H_GRP_IN
+    fig_h = max(1.5, n_lbl * bar_h + 0.8)
+    fig, ax = plt.subplots(figsize=(TEXT_W_IN, fig_h))
     y   = np.arange(n_lbl)
-    off = np.linspace(-(n_np - 1) / 2, (n_np - 1) / 2, n_np) * BAR_H
+    off = np.linspace(-(n_np - 1) / 2, (n_np - 1) / 2, n_np) * BAR_H_IN
     for i, (np_name, df) in enumerate(dfs.items()):
         vals = []
         for lbl in all_labels:
@@ -359,12 +358,13 @@ def _cross_np_grouped(dfs: dict, col: str, label_col: str,
                 vals.append(abs(v) if use_abs else v)
             else:
                 vals.append(0.0)
-        ax.barh(y + off[i], vals, height=BAR_H * 0.85,
+        ax.barh(y + off[i], vals, height=BAR_H_IN * 0.85,
                 color=NP_COLORS.get(np_name, "#888"),
-                label=np_name, edgecolor="white", linewidth=0.3)
+                label=NP_SHORT.get(np_name, np_name),
+                edgecolor="white", linewidth=0.3)
     ax.set_yticks(y)
     ax.set_yticklabels(all_labels, fontsize=FS)
-    ax.set_title(title, fontsize=FT, pad=8)
+    ax.set_title(title, fontsize=FT, pad=4)
     ax.set_xlabel(xlabel, fontsize=FM)
     ax.tick_params(axis="x", labelsize=FS)
     ax.spines[["top", "right"]].set_visible(False)
@@ -377,9 +377,8 @@ def _vbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
           color_col: str = "level", use_abs: bool = False,
           newspaper: str = "") -> plt.Figure:
     """
-    Level-coloured vertical bar chart.
-    Bars go upward; feature labels on X-axis (rotated 45°).
-    Figure width adapts to n_items; height is fixed (VBAR_H).
+    Vertical bar chart sized for ACL single-column (or wider if needed).
+    Bars go upward; feature labels on X-axis rotated 45°.
     """
     tmp = df.copy()
     tmp["_v"] = tmp[col].abs() if use_abs else tmp[col]
@@ -391,21 +390,30 @@ def _vbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
     else:
         colors = ["#546E7A"] * len(labels)
 
-    n      = len(labels)
-    fig_w  = max(ACLFigureOptimizer.HBAR_W, n * ACLFigureOptimizer.BAR_W_GRP + ACLFigureOptimizer.VBAR_PAD_W)
-    fig, ax = plt.subplots(figsize=(fig_w, VBAR_H))
+    n = len(labels)
+    max_label_chars = max(len(l) for l in labels) if labels else 5
+    # Rotated-label height: char_width × chars × sin(45°)
+    label_h_in = max(0.35, max_label_chars * (FS / 72) * 0.7)
+    bar_area_h = 1.3
+    fig_h = bar_area_h + label_h_in + 0.5   # bars + labels + title
+
+    # Width: need MIN_BAR_W_IN per bar; start with single column
+    required_w = n * MIN_BAR_W_IN + 0.4
+    fig_w = max(COL_W_IN, min(required_w, TEXT_W_IN))
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     x    = np.arange(n)
-    bars = ax.bar(x, values, color=colors, width=0.6, edgecolor="white", linewidth=0.4)
+    bars = ax.bar(x, values, color=colors, width=0.7, edgecolor="white", linewidth=0.3)
     for bar, v in zip(bars, values):
         h = bar.get_height()
         ax.text(bar.get_x() + bar.get_width() / 2,
                 h + max(abs(h) * 0.02, EPSILON),
-                f"{v:.4g}", ha="center", va="bottom", fontsize=FS)
+                f"{v:.4g}", ha="center", va="bottom", fontsize=FS - 1)
     ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=FS)
     ax.set_ylabel(xlabel, fontsize=FM)
     suffix = f"  —  {newspaper}" if newspaper else ""
-    ax.set_title(f"{title}{suffix}", fontsize=FT, pad=8)
+    ax.set_title(f"{title}{suffix}", fontsize=FT, pad=4)
     ax.tick_params(axis="y", labelsize=FS)
     ax.spines[["top", "right"]].set_visible(False)
     if color_col in tmp.columns:
@@ -418,8 +426,8 @@ def _cross_np_vbar(dfs: dict, col: str, label_col: str,
                    title: str, xlabel: str,
                    use_abs: bool = False) -> plt.Figure:
     """
-    Grouped vertical bar chart: one group per label, one bar per NP.
-    Wide and short — designed to minimise vertical space on the page.
+    Grouped vertical bar chart for cross-NP comparison (double-column).
+    One group per feature, one bar per newspaper; wide and short.
     """
     newspapers = list(dfs.keys())
     all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
@@ -437,12 +445,17 @@ def _cross_np_vbar(dfs: dict, col: str, label_col: str,
 
     n_lbl = len(all_labels)
     n_np  = len(newspapers)
-    grp_w = ACLFigureOptimizer.BAR_W_GRP * n_np + 0.15
-    fig_w = max(ACLFigureOptimizer.CROSSH_W,
-                n_lbl * grp_w + ACLFigureOptimizer.VBAR_PAD_W)
-    fig, ax = plt.subplots(figsize=(fig_w, VBAR_H))
+    max_label_chars = max(len(str(l)) for l in all_labels) if all_labels else 5
+    label_h_in = max(0.35, max_label_chars * (FS / 72) * 0.7)
+    fig_h = 1.3 + label_h_in + 0.5
+    # Width: ensure MIN_BAR_W_IN per NP per label group
+    required_w = n_lbl * n_np * MIN_BAR_W_IN + 0.4
+    fig_w = max(TEXT_W_IN, required_w)
+    bar_w = (fig_w - 0.4) / (n_lbl * n_np) * 0.85
+
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     x   = np.arange(n_lbl)
-    off = np.linspace(-(n_np - 1) / 2, (n_np - 1) / 2, n_np) * ACLFigureOptimizer.BAR_W_GRP
+    off = np.linspace(-(n_np - 1) / 2, (n_np - 1) / 2, n_np) * (bar_w + 0.005)
 
     for i, (np_name, df) in enumerate(dfs.items()):
         vals = []
@@ -453,7 +466,7 @@ def _cross_np_vbar(dfs: dict, col: str, label_col: str,
                 vals.append(abs(v) if use_abs else v)
             else:
                 vals.append(0.0)
-        ax.bar(x + off[i], vals, width=ACLFigureOptimizer.BAR_W_GRP * 0.85,
+        ax.bar(x + off[i], vals, width=bar_w,
                color=NP_COLORS.get(np_name, "#888"),
                label=NP_SHORT.get(np_name, np_name),
                edgecolor="white", linewidth=0.3)
@@ -461,10 +474,55 @@ def _cross_np_vbar(dfs: dict, col: str, label_col: str,
     ax.set_xticks(x)
     ax.set_xticklabels(all_labels, rotation=45, ha="right", fontsize=FS)
     ax.set_ylabel(xlabel, fontsize=FM)
-    ax.set_title(title, fontsize=FT, pad=8)
+    ax.set_title(title, fontsize=FT, pad=4)
     ax.tick_params(axis="y", labelsize=FS)
     ax.spines[["top", "right"]].set_visible(False)
     ax.legend(fontsize=FS, loc="upper right", framealpha=0.7)
+    fig.tight_layout()
+    return fig
+
+
+def _heatmap_cross_np(dfs: dict, col: str, label_col: str,
+                      title: str, use_abs: bool = False) -> plt.Figure:
+    """
+    Feature × newspaper heatmap for compact overview of large feature sets.
+    Double-column width; height proportional to n_features.
+    """
+    newspapers = list(dfs.keys())
+    all_labels = sorted(set.union(*[set(df[label_col]) for df in dfs.values()]))
+    mean_v = {}
+    for lbl in all_labels:
+        vals = []
+        for df in dfs.values():
+            row = df[df[label_col] == lbl]
+            if not row.empty and col in row.columns:
+                v = row[col].iloc[0]
+                if pd.notna(v):
+                    vals.append(abs(v) if use_abs else v)
+        mean_v[lbl] = np.nanmean(vals) if vals else 0.0
+    all_labels = sorted(all_labels, key=lambda l: mean_v[l], reverse=True)
+
+    n_feat = len(all_labels)
+    n_np   = len(newspapers)
+    matrix = np.zeros((n_feat, n_np))
+    for j, (np_name, df) in enumerate(dfs.items()):
+        for i, lbl in enumerate(all_labels):
+            row = df[df[label_col] == lbl]
+            if not row.empty and col in row.columns and pd.notna(row[col].iloc[0]):
+                v = row[col].iloc[0]
+                matrix[i, j] = abs(v) if use_abs else v
+
+    fig_h = max(1.5, n_feat * 0.15 + 0.8)
+    fig, ax = plt.subplots(figsize=(TEXT_W_IN, fig_h))
+    cmap = "Blues" if use_abs or np.all(matrix >= 0) else "RdBu_r"
+    im = ax.imshow(matrix, aspect="auto", cmap=cmap,
+                   interpolation="nearest")
+    ax.set_xticks(range(n_np))
+    ax.set_xticklabels([NP_SHORT.get(n, n) for n in newspapers], fontsize=FM)
+    ax.set_yticks(range(n_feat))
+    ax.set_yticklabels(all_labels, fontsize=FS)
+    plt.colorbar(im, ax=ax, shrink=0.8, pad=0.02)
+    ax.set_title(title + " — Heatmap", fontsize=FT, pad=4)
     fig.tight_layout()
     return fig
 
@@ -732,6 +790,10 @@ def _save_split_cross(dfs_fid: dict, col: str, label_col: str,
         part_title = title + suf.replace("_", " ")
         fig = _pick_fig_cross(sub_dfs, col, label_col, part_title, xlabel, use_abs)
         _save(fig, out_dir / f"{stem}{suf}.png")
+    # For large sets, also emit a compact heatmap overview (no splitting)
+    if n > SPLIT_AT and len(dfs_fid) > 1:
+        fig_hm = _heatmap_cross_np(dfs_fid, col, label_col, title, use_abs)
+        _save(fig_hm, out_dir / f"{stem}_heatmap.png")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -754,6 +816,12 @@ VB_CONFIG = {
     "PUNCT-DEL":       {"label": "canonical_value",     "top_n": None, "color": "punctuation"},
     "PUNCT-ADD":       {"label": "headline_value",      "top_n": None, "color": "punctuation"},
     "PUNCT-SUBST":     {"label": "cv→hv",               "top_n": None, "color": "punctuation"},
+    # Specific morphological value-pair changes (deeper than mnemonic grouping)
+    "FEAT-CHG-PAIRS": {"label": "mnemonic_pair",    "top_n": 25,  "color": "morphological"},
+    # Additional lexical features
+    "FORM-CHG":       {"label": "cv→hv",             "top_n": 20,  "color": "morphological"},
+    "VERB-FORM-CHG":  {"label": "cv→hv",             "top_n": None,"color": "morphological"},
+    "LEMMA-CHG":      {"label": "cv→hv",             "top_n": 15,  "color": "lexical"},
 }
 
 
@@ -797,6 +865,11 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
             sub["_label"] = sub["canonical_value"].astype(str)
         elif label_mode == "headline_value":
             sub["_label"] = sub["headline_value"].astype(str)
+        elif label_mode == "mnemonic_pair":
+            # "TENSE-CHG: Past→Pres" — strips "Feature=" prefix from values
+            cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
+            hv = sub["headline_value"].astype(str).str.split("=").str[-1]
+            sub["_label"] = sub["mnemonic"].astype(str) + ": " + cv + "→" + hv
         else:
             sub["_label"] = sub["canonical_value"].astype(str)
 
@@ -857,6 +930,11 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
             sub["_label"] = sub["canonical_value"].astype(str)
         elif label_mode == "headline_value":
             sub["_label"] = sub["headline_value"].astype(str)
+        elif label_mode == "mnemonic_pair":
+            # "TENSE-CHG: Past→Pres" — strips "Feature=" prefix from values
+            cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
+            hv = sub["headline_value"].astype(str).str.split("=").str[-1]
+            sub["_label"] = sub["mnemonic"].astype(str) + ": " + cv + "→" + hv
         else:
             sub["_label"] = sub["canonical_value"].astype(str)
 
