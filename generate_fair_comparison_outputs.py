@@ -106,7 +106,7 @@ REG_COLORS = {"canonical": "#1976D2", "headline": "#E65100"}
 FS  = 7
 FM  = 8.5
 FT  = 9.5
-DPI = 150
+DPI = 200
 EPSILON  = 1e-9
 SPLIT_AT = 18
 
@@ -308,11 +308,16 @@ def _hbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
     colors = [LEVEL_COLORS.get(str(r), "#999") for r in tmp[color_col]]
     bars = ax.barh(tmp.iloc[:, 0], tmp["_v"], color=colors,
                    height=BAR_H_IN * 0.75, edgecolor="white", linewidth=0.3)
+    # Annotate bars; use clip_on=False so labels are never clipped at right edge.
+    all_vals = [bar.get_width() for bar in bars]
+    val_range = max(abs(v) for v in all_vals) if all_vals else 1.0
     for bar, v in zip(bars, tmp["_v"]):
         w = bar.get_width()
-        ax.text(w + max(abs(w) * 0.02, EPSILON),
-                bar.get_y() + bar.get_height() / 2,
-                f"{v:.4g}", va="center", ha="left", fontsize=FS - 1)
+        cy = bar.get_y() + bar.get_height() / 2
+        ax.text(w + max(abs(w) * 0.02, val_range * 0.01),
+                cy,
+                f"{v:.4g}", va="center", ha="left", fontsize=FS - 1,
+                clip_on=False)
     suffix = f"  —  {newspaper}" if newspaper else ""
     ax.set_title(f"{title}{suffix}", fontsize=FT, pad=4)
     ax.set_xlabel(xlabel, fontsize=FM)
@@ -320,6 +325,8 @@ def _hbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
     ax.tick_params(axis="x", labelsize=FS)
     ax.spines[["top", "right"]].set_visible(False)
     _level_legend(ax, tmp[color_col].unique().tolist())
+    # Extra right-side margin so value annotations never get clipped
+    ax.margins(x=0.20)
     fig.tight_layout()
     return fig
 
@@ -404,11 +411,23 @@ def _vbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
     fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     x    = np.arange(n)
     bars = ax.bar(x, values, color=colors, width=0.7, edgecolor="white", linewidth=0.3)
+    val_range = max(abs(v) for v in values) if values else 1.0
+    # Suppress annotation only when two adjacent bars have values so close that
+    # their labels (≈ font_height in data coords) would literally overlap.
+    # Threshold: 1 font-point ≈ 1/72 in; bar area is bar_area_h in; so
+    # 1 font pt in data coords ≈ val_range / (bar_area_h * 72 / FS).
+    font_h_data = val_range / max((bar_area_h * 72 / (FS - 1)), 1)
+    prev_annot_h = float("inf")
     for bar, v in zip(bars, values):
         h = bar.get_height()
+        # Skip only if this bar's top is within 1 font-height of the last annotated bar
+        if abs(h - prev_annot_h) < font_h_data * 1.5:
+            continue
         ax.text(bar.get_x() + bar.get_width() / 2,
-                h + max(abs(h) * 0.02, EPSILON),
-                f"{v:.4g}", ha="center", va="bottom", fontsize=FS - 1)
+                h + max(abs(h) * 0.02, val_range * 0.01),
+                f"{v:.4g}", ha="center", va="bottom", fontsize=FS - 1,
+                clip_on=False)
+        prev_annot_h = h
     ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=45, ha="right", fontsize=FS)
     ax.set_ylabel(xlabel, fontsize=FM)
@@ -418,6 +437,8 @@ def _vbar(df: pd.DataFrame, col: str, title: str, xlabel: str,
     ax.spines[["top", "right"]].set_visible(False)
     if color_col in tmp.columns:
         _level_legend(ax, tmp[color_col].unique().tolist())
+    # Extra top margin so value annotations above bars are never clipped
+    ax.margins(y=0.15)
     fig.tight_layout()
     return fig
 
@@ -816,9 +837,23 @@ VB_CONFIG = {
     "PUNCT-DEL":       {"label": "canonical_value",     "top_n": None, "color": "punctuation"},
     "PUNCT-ADD":       {"label": "headline_value",      "top_n": None, "color": "punctuation"},
     "PUNCT-SUBST":     {"label": "cv→hv",               "top_n": None, "color": "punctuation"},
-    # Specific morphological value-pair changes (deeper than mnemonic grouping)
-    "FEAT-CHG-PAIRS": {"label": "mnemonic_pair",    "top_n": 25,  "color": "morphological"},
-    # Additional lexical features
+    # All FEAT-CHG value pairs in one figure: "TENSE-CHG: Past→Pres" style
+    "FEAT-CHG-ALL-PAIRS": {"label": "mnemonic_pair", "source_feature_id": "FEAT-CHG",
+                           "top_n": 30, "color": "morphological"},
+    # Per-feature-type value-pair breakdowns: "Past→Pres" style
+    "TENSE-CHG":  {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "TENSE-CHG",  "top_n": None, "color": "morphological"},
+    "NUM-CHG":    {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "NUM-CHG",    "top_n": None, "color": "morphological"},
+    "VFORM-CHG":  {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "VFORM-CHG",  "top_n": None, "color": "morphological"},
+    "MOOD-CHG":   {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "MOOD-CHG",   "top_n": None, "color": "morphological"},
+    "PERSON-CHG": {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "PERSON-CHG", "top_n": None, "color": "morphological"},
+    "DEG-CHG":    {"label": "stripped_pair", "source_feature_id": "FEAT-CHG",
+                   "mnemonic_filter": "DEG-CHG",    "top_n": None, "color": "morphological"},
+    # Lexical/morphological surface changes
     "FORM-CHG":       {"label": "cv→hv",             "top_n": 20,  "color": "morphological"},
     "VERB-FORM-CHG":  {"label": "cv→hv",             "top_n": None,"color": "morphological"},
     "LEMMA-CHG":      {"label": "cv→hv",             "top_n": 15,  "color": "lexical"},
@@ -835,9 +870,11 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
       rate_norm, log2_norm, weight_lvl, score_lvl, weight_idf, score_idf,
       weight_jsd, score_jsd, weight_pmi, score_pmi, dist_entropy, score_entropy
     """
-    label_mode = cfg["label"]
-    top_n      = cfg["top_n"]
-    level_str  = cfg["color"]
+    label_mode      = cfg["label"]
+    top_n           = cfg["top_n"]
+    level_str       = cfg["color"]
+    actual_fid      = cfg.get("source_feature_id", feature_id)  # real feature_id in data
+    mnemonic_filter = cfg.get("mnemonic_filter", None)           # filter to one subtype
 
     # First pass: collect per-NP counts to determine top_n filter
     np_counts = {}
@@ -850,7 +887,9 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
         events = pd.read_csv(events_p)
         fair   = pd.read_csv(fair_p)
 
-        sub = events[events["feature_id"] == feature_id].copy()
+        sub = events[events["feature_id"] == actual_fid].copy()
+        if mnemonic_filter:
+            sub = sub[sub["mnemonic"] == mnemonic_filter]
         if sub.empty:
             np_counts[np_name] = pd.Series(dtype=int)
             continue
@@ -870,6 +909,11 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
             cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
             hv = sub["headline_value"].astype(str).str.split("=").str[-1]
             sub["_label"] = sub["mnemonic"].astype(str) + ": " + cv + "→" + hv
+        elif label_mode == "stripped_pair":
+            # "Past→Pres" — strips "Feature=" prefix, no mnemonic prefix
+            cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
+            hv = sub["headline_value"].astype(str).str.split("=").str[-1]
+            sub["_label"] = cv + "→" + hv
         else:
             sub["_label"] = sub["canonical_value"].astype(str)
 
@@ -905,8 +949,8 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
         events = pd.read_csv(events_p)
         fair   = pd.read_csv(fair_p)
 
-        # Get parent feature row from events_fair.csv
-        parent = fair[fair["feature_id"] == feature_id]
+        # Get parent feature row from events_fair.csv (use actual_fid for weights)
+        parent = fair[fair["feature_id"] == actual_fid]
         if parent.empty:
             continue
         parent = parent.iloc[0]
@@ -916,7 +960,9 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
         weight_jsd = float(parent.get("weight_jsd", 0.0) or 0.0)
         weight_pmi = float(parent.get("weight_pmi", 0.0) or 0.0)
 
-        sub = events[events["feature_id"] == feature_id].copy()
+        sub = events[events["feature_id"] == actual_fid].copy()
+        if mnemonic_filter:
+            sub = sub[sub["mnemonic"] == mnemonic_filter]
         if sub.empty:
             continue
 
@@ -935,6 +981,11 @@ def _vb_build(newspapers: list, feature_id: str, cfg: dict) -> dict:
             cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
             hv = sub["headline_value"].astype(str).str.split("=").str[-1]
             sub["_label"] = sub["mnemonic"].astype(str) + ": " + cv + "→" + hv
+        elif label_mode == "stripped_pair":
+            # "Past→Pres" — strips "Feature=" prefix, no mnemonic prefix
+            cv = sub["canonical_value"].astype(str).str.split("=").str[-1]
+            hv = sub["headline_value"].astype(str).str.split("=").str[-1]
+            sub["_label"] = cv + "→" + hv
         else:
             sub["_label"] = sub["canonical_value"].astype(str)
 
@@ -1012,25 +1063,29 @@ def run_task1_value_level(newspapers: list, plot: bool,
                     color_col="level")
 
         # Stage 3 — log₂
+        # use_abs=False: log₂(rate) is always negative (rate < 1); taking abs()
+        # would invert the rank order (rarest → largest bar). Keep sign so bars
+        # sort from most-negative (rarest) at bottom to least-negative (most
+        # common) at top, matching the count/rate ordering in stages 1-2.
         stage_vl_dir = base_dir / STAGE_NAMES[3] / "value-level" / feature_id
         _emit_stage(dfs, "feature_id", "log2_norm",
                     f"{feature_id} · Value Breakdown — Log₂ Normalized",
-                    "log₂(rate)", stage_vl_dir, True, plot,
+                    "log₂(rate)", stage_vl_dir, False, plot,
                     extra_cols=["level"], with_latex=with_latex,
                     color_col="level")
 
-        # Stage 4a — level-weighted
+        # Stage 4a — level-weighted (use_abs=False for same sign-preservation)
         stage_vl_dir = base_dir / STAGE_NAMES[4] / "value-level" / feature_id
         _emit_stage(dfs, "feature_id", "score_lvl",
                     f"{feature_id} · Value Breakdown — Level-Weighted Score",
-                    "|score_lvl|", stage_vl_dir, True, plot,
+                    "score_lvl", stage_vl_dir, False, plot,
                     extra_cols=["level"], with_latex=with_latex,
                     color_col="level")
 
         # Stage 4b — IDF-weighted
         _emit_stage(dfs, "feature_id", "score_idf",
                     f"{feature_id} · Value Breakdown — IDF-Weighted Score",
-                    "|score_idf|", stage_vl_dir, True, plot,
+                    "score_idf", stage_vl_dir, False, plot,
                     extra_cols=["level"], with_latex=with_latex,
                     color_col="level")
 
@@ -1038,18 +1093,18 @@ def run_task1_value_level(newspapers: list, plot: bool,
         stage_vl_dir = base_dir / STAGE_NAMES[5] / "value-level" / feature_id
         _emit_stage(dfs, "feature_id", "score_jsd",
                     f"{feature_id} · Value Breakdown — JSD-Weighted Score",
-                    "|score_jsd|", stage_vl_dir, True, plot,
+                    "score_jsd", stage_vl_dir, False, plot,
                     extra_cols=["level"], with_latex=with_latex,
                     color_col="level")
 
         # Stage 5b — PMI-weighted
         _emit_stage(dfs, "feature_id", "score_pmi",
                     f"{feature_id} · Value Breakdown — PMI-Weighted Score",
-                    "|score_pmi|", stage_vl_dir, True, plot,
+                    "score_pmi", stage_vl_dir, False, plot,
                     extra_cols=["level"], with_latex=with_latex,
                     color_col="level")
 
-        # Stage 5c — entropy-weighted (use_abs=False, reflects direction)
+        # Stage 5c — entropy-weighted
         _emit_stage(dfs, "feature_id", "score_entropy",
                     f"{feature_id} · Value Breakdown — Entropy-Weighted Score",
                     "score_entropy", stage_vl_dir, False, plot,
